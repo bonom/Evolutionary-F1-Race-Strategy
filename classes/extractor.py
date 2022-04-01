@@ -3,11 +3,50 @@ import numpy as np
 from tqdm import tqdm
 
 def fixer(df:pd.DataFrame, frame:int, col:str, before):
+    """
+    Fixer function for the extractor, it returns the first compatible value in the dataframe.
+    """
     if len(df.loc[df['FrameIdentifier'] == frame, col].to_numpy()) != 1:
         return before
     return df.loc[df['FrameIdentifier'] == frame, col].to_numpy()[0]
 
 def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataFrame,motion:pd.DataFrame,session:pd.DataFrame,setup:pd.DataFrame,status:pd.DataFrame,telemetry:pd.DataFrame,max_frame:int,min_frame:int=0):
+    """
+    Unifies all dataframes into one dataframe. 
+    ATTENTION: This function is computationally heavy so use with care.
+
+    Parameters: 
+    - idx: int
+        index of the car
+    - damage: pd.DataFrame
+        damage dataframe
+    - history: pd.DataFrame
+        history dataframe
+    - lap: pd.DataFrame 
+        lap dataframe
+    - motion: pd.DataFrame
+        motion dataframe
+    - session: pd.DataFrame 
+        session dataframe
+    - setup: pd.DataFrame
+        setup dataframe
+    - status: pd.DataFrame
+        status dataframe
+    - telemetry: pd.DataFrame
+        telemetry dataframe
+    - max_frame: int    
+        maximum frame number
+    - min_frame: int
+        minimum frame number
+
+    Returns:
+    - pd.DataFrame, unified dataframe
+
+    Example:
+    -------
+    >>> unify_car_data(car_index,damage,history,lap,motion,session,setup,status,telemetry,max_frame,min_frame)
+    """
+    
     damage.drop('CarIndex', axis=1, inplace=True)
     history.drop('CarIndex', axis=1, inplace=True)
     lap.drop('CarIndex', axis=1, inplace=True)
@@ -87,9 +126,40 @@ def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataF
     df.set_index('FrameIdentifier', inplace=True)
     df.to_csv(f"Car_{idx}_DATA.csv", index=True)
 
-def extract_data(idx=19):
+def extract_data(idx:int=19):
     """
-    Extracts the very essentials data from the csv
+    Extracts the very essentials data from the csv, in particular:
+    - Damage    :   ['FrameIdentifier','CarIndex','TyresWearRL','TyresWearRR','TyresWearFL','TyresWearFR','TyresDamageRL','TyresDamageRR','TyresDamageFL','TyresDamageFR']
+    - History   :   ['FrameIdentifier','CarIndex','NumLaps','NumTyreStints','BestLapTimeLapNum','BestSector1LapNum','BestSector2LapNum','BestSector3LapNum','lapTimeInMS[i]','sector1TimeInMS[i]','sector2TimeInMS[i]','sector3TimeInMS[i]','lapValidBitFlags[i]','endLap[j]','tyreActualCompound[j]','tyreVisualCompound[j]'
+    - Lap       :   ['FrameIdentifier','CarIndex','LastLapTimeInMS','CurrentLapTimeInMS','Sector1TimeInMS','Sector2TimeInMS','LapDistance','TotalDistance','CurrentLapNum','Sector','PitStopShouldServePen']
+    - Motion    :   ['FrameIdentifier','CarIndex','WorldPositionX','WorldPositionY','WorldPositionZ']
+    - Session   :   ['FrameIdentifier','Weather','TrackTemperature','AirTemperature','TotalLaps','TrackLength','SessionType','TrackId','Formula','SessionTimeLeft','SessionDuration','NumMarshalZones','ZoneStart[i]','ZoneFlag[i]','ZoneFlag[16]','SafetyCarStatus','NumWeatherForecastSamples','ForecastAccuracy','PitStopWindowIdealLap','PitStopWindowLatestLap','PitStopRejoinPosition']
+    - Setup     :   ['FrameIdentifier','CarIndex','FrontWing','RearWing','OnThrottle','OffThrottle','FrontCamber','RearCamber','FrontToe','RearToe','FrontSuspension','RearSuspension','FrontAntiRollBar','RearAntiRollBar','FrontSuspensionHeight','RearSuspensionHeight','BrakePressure','BrakeBias','RearLeftTyrePressure','RearRightTyrePressure','FrontLeftTyrePressure','FrontRightTyrePressure','Ballast','FuelLoad'] 
+    - Status    :   ['FrameIdentifier','CarIndex','FuelInTank','FuelCapacity','FuelRemainingLaps','ActualTyreCompound','VisualTyreCompound','TyresAgeLaps','VehicleFIAFlags','ERSStoreEnergy','ERSDeployMode','ERSHarvestedThisLapMGUK','ERSHarvestedThisLapMGUH','ERSDeployedThisLap']
+    - Telemetry :   ['FrameIdentifier','CarIndex','RLBrakeTemperature','RRBrakeTemperature','FLBrakeTemperature','FRBrakeTemperature','RLTyreSurfaceTemperature','RRTyreSurfaceTemperature','FLTyreSurfaceTemperature','FRTyreSurfaceTemperature','RLTyreInnerTemperature','RRTyreInnerTemperature','FLTyreInnerTemperature','FRTyreInnerTemperature','EngineTemperature','RLTyrePressure','RRTyrePressure','FLTyrePressure','FRTyrePressure']
+    
+    Inputs:
+    - idx       :   int
+        Car index we wanto to extract (default=19 because 19 is the car we are driving)
+
+    Returns:
+    - damage    :   pd.DataFrame
+    - history   :   pd.DataFrame
+    - lap       :   pd.DataFrame
+    - motion    :   pd.DataFrame
+    - session   :   pd.DataFrame
+    - setup     :   pd.DataFrame
+    - status    :   pd.DataFrame
+    - telemetry :   pd.DataFrame
+    - min_frame :   int
+    - max_frame :   int
+    - lap_frames:   list 
+        List mapping lap number to frame number
+
+    Examples:
+    --------
+    >>> extract_data(car_number) # car_number in range [0,19] (or [0,21] if my team active)
+    
     """
     max_frame = max(pd.read_csv('Data/Header.csv').replace('-', np.nan)['FrameIdentifier'])
 
@@ -123,16 +193,12 @@ def extract_data(idx=19):
         if session[column].isnull().values.all():
             session.drop(column, axis=1, inplace=True)
 
-    # The commented .drop() is for when we will manage the complete setup of the car
-    # If uncommenting .drop() (row i^th) then uncomment the (i + 1)^th line and comment the next (i + 2)^th one
-
-    setup = pd.read_csv('Data/Setup.csv').replace('-', np.nan)#.drop('PacketFormat','GameMajorVersion','GameMinorVersion','PacketVersion','PacketId','SessionUID','SessionTime','PlayerCarIndex','SecondaryPlayerCarIndex',)
-    #setup = setup.loc[setup['CarIndex']==idx]
-    setup = setup.loc[setup['CarIndex']==idx, ['FrameIdentifier','CarIndex','RearLeftTyrePressure','RearRightTyrePressure','FrontLeftTyrePressure','FrontRightTyrePressure','FuelLoad']]
+    setup = pd.read_csv('Data/Setup.csv').replace('-', np.nan)
+    setup = setup.loc[setup['CarIndex']==idx].drop(['PacketFormat','GameMajorVersion','GameMinorVersion','PacketVersion','PacketId','SessionUID','SessionTime','PlayerCarIndex','SecondaryPlayerCarIndex'], axis=1)
     
     status = pd.read_csv('Data/Status.csv').replace('-', np.nan)
     status = status.loc[status['CarIndex'] == idx, ['FrameIdentifier','CarIndex','FuelInTank','FuelCapacity','FuelRemainingLaps','ActualTyreCompound','VisualTyreCompound','TyresAgeLaps','VehicleFIAFlags','ERSStoreEnergy','ERSDeployMode','ERSHarvestedThisLapMGUK','ERSHarvestedThisLapMGUH','ERSDeployedThisLap']]
-    
+
     telemetry = pd.read_csv('Data/Telemetry.csv').replace('-', np.nan)
     telemetry = telemetry.loc[telemetry['CarIndex'] == idx].drop(['PacketFormat','GameMajorVersion','GameMinorVersion','PacketVersion','PacketId','SessionUID','SessionTime','PlayerCarIndex','SecondaryPlayerCarIndex','Speed','Throttle','Steer','Brake','Clutch','Gear','EngineRPM','DRS','RevLightsPercent','RevLightsBitValue','RLSurfaceType','RRSurfaceType','FLSurfaceType','FRSurfaceType','MFD','MFDSecondaryPlayer','SuggestedGear'], axis=1, )
     
@@ -140,10 +206,8 @@ def extract_data(idx=19):
 
     return damage, history, lap, motion, session, setup, status, telemetry, min_frame, max_frame, lap_frames
         
-    
-    
 
 if __name__ == "__main__":
     damage, history, lap, motion, session, setup, status, telemetry, min_frame, max_frame, lap_frames = extract_data()
 
-    unify_car_data(19,damage, history, lap, motion, session, setup, status, telemetry, max_frame,min_frame)
+    #unify_car_data(19,damage, history, lap, motion, session, setup, status, telemetry, max_frame,min_frame)
