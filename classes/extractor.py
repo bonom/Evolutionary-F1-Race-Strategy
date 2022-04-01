@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 def fixer(df:pd.DataFrame, frame:int, col:str, before):
     """
-    Fixer function for the extractor, it returns the first compatible value in the dataframe.
+    Fixer function for the ``unify_car_data``  function, it returns the first compatible value in the dataframe.
     """
     if len(df.loc[df['FrameIdentifier'] == frame, col].to_numpy()) != 1:
         return before
