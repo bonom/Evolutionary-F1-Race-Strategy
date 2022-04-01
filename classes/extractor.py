@@ -54,7 +54,7 @@ def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataF
     
     
     add = {col:[] for col in columns}
-    for i in tqdm(range(min_frame,42)):#max_frame
+    for i in tqdm(range(min_frame,max_frame)):#max_frame
         for col in columns:
             if col in damage_cols:
                 add[col].append(fixer(damage, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
@@ -80,9 +80,8 @@ def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataF
             df[col] = add[col]
 
     df = df.reindex(sorted(df.columns), axis=1)
-    print(df.columns.to_list())
+    
     df.insert(0, 'FrameIdentifier', add['FrameIdentifier'])
-    print(df.columns.to_list())
     df.set_index('FrameIdentifier', inplace=True)
     df.to_csv(f"Car_{idx}_DATA.csv", index=True)
 
