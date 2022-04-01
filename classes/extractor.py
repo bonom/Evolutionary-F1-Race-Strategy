@@ -7,7 +7,7 @@ def fixer(df:pd.DataFrame, frame:int, col:str, before):
         return before
     return df.loc[df['FrameIdentifier'] == frame, col].to_numpy()[0]
 
-def unify_car_data(damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataFrame,motion:pd.DataFrame,session:pd.DataFrame,setup:pd.DataFrame,status:pd.DataFrame,telemetry:pd.DataFrame):
+def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataFrame,motion:pd.DataFrame,session:pd.DataFrame,setup:pd.DataFrame,status:pd.DataFrame,telemetry:pd.DataFrame,max_frame:int,min_frame:int=0):
     damage_cols = damage.columns.to_numpy()
     history_cols = history.columns.to_numpy()
     lap_cols = lap.columns.to_numpy()
@@ -45,26 +45,32 @@ def unify_car_data(damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataFrame,mot
     
     
     add = {col:[] for col in columns}
-    for i in tqdm(pHeader['FrameIdentifier'].to_numpy()):
+    for i in tqdm(range(min_frame,max_frame)):
         for col in columns:
-            if col in head_cols:
-                add[col].append(fixer(pHeader, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
-            elif col in participant_cols:
-                add[col].append(fixer(pParticipant, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
+            if col == "FrameIdentifier":
+                add[col].append(i)
+            if col in damage_cols:
+                add[col].append(fixer(damage, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
+            elif col in history_cols:
+                add[col].append(fixer(history, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
             elif col in lap_cols:   
-                add[col].append(fixer(pLap, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
-            elif col in telemetry_cols:
-                add[col].append(fixer(pTelemetry, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
-            elif col in status_cols:
-                add[col].append(fixer(pStatus, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
+                add[col].append(fixer(lap, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
+            elif col in motion_cols:
+                add[col].append(fixer(motion, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
+            elif col in session_cols:
+                add[col].append(fixer(session, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
             elif col in setup_cols:
-                add[col].append(fixer(pSetup, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
+                add[col].append(fixer(setup, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
+            elif col in status_cols:
+                add[col].append(fixer(status, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
+            elif col in telemetry_cols:
+                add[col].append(fixer(telemetry, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
      
     
     df = pd.DataFrame(columns=columns)
     for col in columns:
         df[col] = add[col]
-    df.to_csv(f"Car_{car_index}_DATA.csv")
+    df.to_csv(f"Car_{idx}_DATA.csv")
 
 def extract_data(idx=19):
     """
@@ -117,20 +123,12 @@ def extract_data(idx=19):
     
     min_frame = max(min(damage['FrameIdentifier']), min(history['FrameIdentifier']), min(lap['FrameIdentifier']), min(motion['FrameIdentifier']), min(session['FrameIdentifier']), min(setup['FrameIdentifier']), min(status['FrameIdentifier']), min(telemetry['FrameIdentifier']))
 
-    for frame in range(min_frame, max_frame+1):
-        tmp_damage = damage.loc[damage['FrameIdentifier']==frame]
-        tmp_history = history.loc[history['FrameIdentifier']==frame]
-        tmp_lap = lap.loc[lap['FrameIdentifier']==frame]
-        tmp_motion = motion.loc[motion['FrameIdentifier']==frame]
-        tmp_session = session.loc[session['FrameIdentifier']==frame]
-        tmp_setup = setup.loc[setup['FrameIdentifier']==frame]
-        tmp_status = status.loc[status['FrameIdentifier']==frame]
-        tmp_telemetry = telemetry.loc[telemetry['FrameIdentifier']==frame]
-
-        print(tmp_damage, tmp_history, tmp_lap, tmp_motion, tmp_session, tmp_setup, tmp_status, tmp_telemetry)
+    return damage, history, lap, motion, session, setup, status, telemetry, min_frame, max_frame, lap_frames
         
     
     
 
 if __name__ == "__main__":
-    extract_data()
+    damage, history, lap, motion, session, setup, status, telemetry, min_frame, max_frame, lap_frames = extract_data()
+
+    unify_car_data(19,damage, history, lap, motion, session, setup, status, telemetry, max_frame,min_frame)
