@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 def fixer(df:pd.DataFrame, frame:int, col:str, before):
     """
-    Fixer function for the extractor, it returns the first compatible value in the dataframe.
+    Fixer function for the ``unify_car_data``  function, it returns the first compatible value in the dataframe.
     """
     if len(df.loc[df['FrameIdentifier'] == frame, col].to_numpy()) != 1:
         return before
@@ -12,7 +12,7 @@ def fixer(df:pd.DataFrame, frame:int, col:str, before):
 
 def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataFrame,motion:pd.DataFrame,session:pd.DataFrame,setup:pd.DataFrame,status:pd.DataFrame,telemetry:pd.DataFrame,max_frame:int,min_frame:int=0):
     """
-    Unifies all dataframes into one dataframe. 
+    Unifies all dataframes into one dataframe. Dataframes must come after the ``extract_data`` function in order to work properly. 
     ATTENTION: This function is computationally heavy so use with care.
 
     Parameters: 
@@ -40,7 +40,8 @@ def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataF
         minimum frame number
 
     Returns:
-    - pd.DataFrame, unified dataframe
+    - df: pd.DataFrame
+        The unified dataframe
 
     Example:
     -------
@@ -125,6 +126,8 @@ def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataF
     df.insert(0, 'FrameIdentifier', frames)
     df.set_index('FrameIdentifier', inplace=True)
     df.to_csv(f"Car_{idx}_DATA.csv", index=True)
+
+    return df
 
 def extract_data(idx:int=19):
     """
