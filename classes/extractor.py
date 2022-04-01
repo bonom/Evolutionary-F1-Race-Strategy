@@ -12,7 +12,7 @@ def fixer(df:pd.DataFrame, frame:int, col:str, before):
 
 def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataFrame,motion:pd.DataFrame,session:pd.DataFrame,setup:pd.DataFrame,status:pd.DataFrame,telemetry:pd.DataFrame,max_frame:int,min_frame:int=0):
     """
-    Unifies all dataframes into one dataframe. 
+    Unifies all dataframes into one dataframe. Dataframes must come after the ``extract_data`` function in order to work properly. 
     ATTENTION: This function is computationally heavy so use with care.
 
     Parameters: 
