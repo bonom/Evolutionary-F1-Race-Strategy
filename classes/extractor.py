@@ -54,7 +54,10 @@ def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataF
     
     
     add = {col:[] for col in columns}
+    frames = list()
+    columns.remove('FrameIdentifier')
     for i in tqdm(range(min_frame,max_frame)):#max_frame
+        frames.append(i)
         for col in columns:
             if col in damage_cols:
                 add[col].append(fixer(damage, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
@@ -73,7 +76,6 @@ def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataF
             elif col in telemetry_cols:
                 add[col].append(fixer(telemetry, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
      
-    columns.remove('FrameIdentifier')
     df = pd.DataFrame(columns=columns)
     for col in columns:
         if col != "FrameIdentifier":
@@ -81,7 +83,7 @@ def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataF
 
     df = df.reindex(sorted(df.columns), axis=1)
     
-    df.insert(0, 'FrameIdentifier', add['FrameIdentifier'])
+    df.insert(0, 'FrameIdentifier', frames)
     df.set_index('FrameIdentifier', inplace=True)
     df.to_csv(f"Car_{idx}_DATA.csv", index=True)
 
