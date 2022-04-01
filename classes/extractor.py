@@ -40,7 +40,8 @@ def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataF
         minimum frame number
 
     Returns:
-    - pd.DataFrame, unified dataframe
+    - df: pd.DataFrame
+        The unified dataframe
 
     Example:
     -------
@@ -125,6 +126,8 @@ def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataF
     df.insert(0, 'FrameIdentifier', frames)
     df.set_index('FrameIdentifier', inplace=True)
     df.to_csv(f"Car_{idx}_DATA.csv", index=True)
+
+    return df
 
 def extract_data(idx:int=19):
     """
