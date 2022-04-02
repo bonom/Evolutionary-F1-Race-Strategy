@@ -16,3 +16,11 @@ or pip:
 python -m venv <environment_name> 
 pip install -U pandas numpy tqdm
 ```
+
+Or you can use the requirements files:
+```python
+conda env create -f requirements.yml
+```
+```python
+pip install -r requirements.txt
+```
