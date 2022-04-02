@@ -1,6 +1,8 @@
 # Bio-F1
 Genetic Algorithms applied to F1 race strategy.
 
+# Attention to run extractory.py !!!
+
 # Requirements
 - tqdm
 - numpy
