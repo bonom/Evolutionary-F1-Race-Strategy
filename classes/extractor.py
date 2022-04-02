@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from tqdm import tqdm
 
-def fixer(df:pd.DataFrame, frame:int, col:str, before):
+def fixer(df:pd.DataFrame, frame:int, col:str, before) -> pd.DataFrame:
     """
     Fixer function for the ``unify_car_data``  function, it returns the first compatible value in the dataframe.
     """
@@ -10,7 +10,7 @@ def fixer(df:pd.DataFrame, frame:int, col:str, before):
         return before
     return df.loc[df['FrameIdentifier'] == frame, col].to_numpy()[0]
 
-def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataFrame,motion:pd.DataFrame,session:pd.DataFrame,setup:pd.DataFrame,status:pd.DataFrame,telemetry:pd.DataFrame,max_frame:int,min_frame:int=0):
+def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataFrame,motion:pd.DataFrame,session:pd.DataFrame,setup:pd.DataFrame,status:pd.DataFrame,telemetry:pd.DataFrame,max_frame:int,min_frame:int=0) -> pd.DataFrame:
     """
     Unifies all dataframes into one dataframe. Dataframes must come after the ``extract_data`` function in order to work properly. 
     ATTENTION: This function is computationally heavy so use with care.
@@ -129,17 +129,17 @@ def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataF
 
     return df
 
-def extract_data(idx:int=19):
+def extract_data(idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, int, int, dict]:
     """
     Extracts the very essentials data from the csv, in particular:
-    - Damage    :   ['FrameIdentifier','CarIndex','TyresWearRL','TyresWearRR','TyresWearFL','TyresWearFR','TyresDamageRL','TyresDamageRR','TyresDamageFL','TyresDamageFR']
-    - History   :   ['FrameIdentifier','CarIndex','NumLaps','NumTyreStints','BestLapTimeLapNum','BestSector1LapNum','BestSector2LapNum','BestSector3LapNum','lapTimeInMS[i]','sector1TimeInMS[i]','sector2TimeInMS[i]','sector3TimeInMS[i]','lapValidBitFlags[i]','endLap[j]','tyreActualCompound[j]','tyreVisualCompound[j]'
-    - Lap       :   ['FrameIdentifier','CarIndex','LastLapTimeInMS','CurrentLapTimeInMS','Sector1TimeInMS','Sector2TimeInMS','LapDistance','TotalDistance','CurrentLapNum','Sector','PitStopShouldServePen']
-    - Motion    :   ['FrameIdentifier','CarIndex','WorldPositionX','WorldPositionY','WorldPositionZ']
-    - Session   :   ['FrameIdentifier','Weather','TrackTemperature','AirTemperature','TotalLaps','TrackLength','SessionType','TrackId','Formula','SessionTimeLeft','SessionDuration','NumMarshalZones','ZoneStart[i]','ZoneFlag[i]','ZoneFlag[16]','SafetyCarStatus','NumWeatherForecastSamples','ForecastAccuracy','PitStopWindowIdealLap','PitStopWindowLatestLap','PitStopRejoinPosition']
-    - Setup     :   ['FrameIdentifier','CarIndex','FrontWing','RearWing','OnThrottle','OffThrottle','FrontCamber','RearCamber','FrontToe','RearToe','FrontSuspension','RearSuspension','FrontAntiRollBar','RearAntiRollBar','FrontSuspensionHeight','RearSuspensionHeight','BrakePressure','BrakeBias','RearLeftTyrePressure','RearRightTyrePressure','FrontLeftTyrePressure','FrontRightTyrePressure','Ballast','FuelLoad'] 
-    - Status    :   ['FrameIdentifier','CarIndex','FuelInTank','FuelCapacity','FuelRemainingLaps','ActualTyreCompound','VisualTyreCompound','TyresAgeLaps','VehicleFIAFlags','ERSStoreEnergy','ERSDeployMode','ERSHarvestedThisLapMGUK','ERSHarvestedThisLapMGUH','ERSDeployedThisLap']
-    - Telemetry :   ['FrameIdentifier','CarIndex','RLBrakeTemperature','RRBrakeTemperature','FLBrakeTemperature','FRBrakeTemperature','RLTyreSurfaceTemperature','RRTyreSurfaceTemperature','FLTyreSurfaceTemperature','FRTyreSurfaceTemperature','RLTyreInnerTemperature','RRTyreInnerTemperature','FLTyreInnerTemperature','FRTyreInnerTemperature','EngineTemperature','RLTyrePressure','RRTyrePressure','FLTyrePressure','FRTyrePressure']
+    - Damage    :   ['FrameIdentifier', 'CarIndex', 'TyresWearRL', 'TyresWearRR', 'TyresWearFL', 'TyresWearFR', 'TyresDamageRL', 'TyresDamageRR', 'TyresDamageFL', 'TyresDamageFR']
+    - History   :   ['FrameIdentifier', 'CarIndex', 'NumLaps', 'NumTyreStints', 'BestLapTimeLapNum', 'BestSector1LapNum', 'BestSector2LapNum', 'BestSector3LapNum', 'lapTimeInMS[i]', 'sector1TimeInMS[i]', 'sector2TimeInMS[i]', 'sector3TimeInMS[i]', 'lapValidBitFlags[i]', 'endLap[j]', 'tyreActualCompound[j]', 'tyreVisualCompound[j]'
+    - Lap       :   ['FrameIdentifier', 'CarIndex', 'LastLapTimeInMS', 'CurrentLapTimeInMS', 'Sector1TimeInMS', 'Sector2TimeInMS', 'LapDistance', 'TotalDistance', 'CurrentLapNum', 'Sector', 'PitStopShouldServePen']
+    - Motion    :   ['FrameIdentifier', 'CarIndex', 'WorldPositionX', 'WorldPositionY', 'WorldPositionZ']
+    - Session   :   ['FrameIdentifier', 'Weather', 'TrackTemperature', 'AirTemperature', 'TotalLaps', 'TrackLength', 'SessionType', 'TrackId', 'Formula', 'SessionTimeLeft', 'SessionDuration', 'NumMarshalZones', 'ZoneStart[i]', 'ZoneFlag[i]', 'ZoneFlag[16]', 'SafetyCarStatus', 'NumWeatherForecastSamples', 'ForecastAccuracy', 'PitStopWindowIdealLap', 'PitStopWindowLatestLap', 'PitStopRejoinPosition']
+    - Setup     :   ['FrameIdentifier', 'CarIndex', 'FrontWing', 'RearWing', 'OnThrottle', 'OffThrottle', 'FrontCamber', 'RearCamber', 'FrontToe', 'RearToe', 'FrontSuspension', 'RearSuspension', 'FrontAntiRollBar', 'RearAntiRollBar', 'FrontSuspensionHeight', 'RearSuspensionHeight', 'BrakePressure', 'BrakeBias', 'RearLeftTyrePressure', 'RearRightTyrePressure', 'FrontLeftTyrePressure', 'FrontRightTyrePressure', 'Ballast', 'FuelLoad'] 
+    - Status    :   ['FrameIdentifier', 'CarIndex', 'FuelInTank', 'FuelCapacity', 'FuelRemainingLaps', 'ActualTyreCompound', 'VisualTyreCompound', 'TyresAgeLaps', 'VehicleFIAFlags', 'ERSStoreEnergy', 'ERSDeployMode', 'ERSHarvestedThisLapMGUK', 'ERSHarvestedThisLapMGUH', 'ERSDeployedThisLap']
+    - Telemetry :   ['FrameIdentifier', 'CarIndex', 'RLBrakeTemperature', 'RRBrakeTemperature', 'FLBrakeTemperature', 'FRBrakeTemperature', 'RLTyreSurfaceTemperature', 'RRTyreSurfaceTemperature', 'FLTyreSurfaceTemperature', 'FRTyreSurfaceTemperature', 'RLTyreInnerTemperature', 'RRTyreInnerTemperature', 'FLTyreInnerTemperature', 'FRTyreInnerTemperature', 'EngineTemperature', 'RLTyrePressure', 'RRTyrePressure', 'FLTyrePressure', 'FRTyrePressure']
     
     Inputs:
     - idx       :   int
@@ -207,10 +207,10 @@ def extract_data(idx:int=19):
     
     min_frame = max(min(damage['FrameIdentifier']), min(history['FrameIdentifier']), min(lap['FrameIdentifier']), min(motion['FrameIdentifier']), min(session['FrameIdentifier']), min(setup['FrameIdentifier']), min(status['FrameIdentifier']), min(telemetry['FrameIdentifier']))
 
-    return damage, history, lap, motion, session, setup, status, telemetry, min_frame, max_frame, lap_frames
+    return damage, history, lap, motion, session, setup, status, telemetry, int(min_frame), int(max_frame), lap_frames
         
 
 if __name__ == "__main__":
     damage, history, lap, motion, session, setup, status, telemetry, min_frame, max_frame, lap_frames = extract_data()
 
-    #unify_car_data(19,damage, history, lap, motion, session, setup, status, telemetry, max_frame,min_frame)
+    unify_car_data(19,damage, history, lap, motion, session, setup, status, telemetry, max_frame,min_frame)
