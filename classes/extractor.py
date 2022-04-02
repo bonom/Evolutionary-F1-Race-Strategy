@@ -97,7 +97,7 @@ def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataF
     frames = list()
     columns.remove('FrameIdentifier')
     for i in tqdm(range(min_frame,max_frame)):#max_frame
-        frames.append(i-min_frame)
+        frames.append(i-min_frame) #(i)
         for col in columns:
             if col in damage_cols:
                 add[col].append(fixer(damage, i, col, add[col][-1] if len(add[col]) != 0 else np.nan))
