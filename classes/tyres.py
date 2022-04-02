@@ -183,7 +183,7 @@ class Tyres:
             self.lap_frames.pop(0)
         #for key, values in self.lap_frames.items():
         #    print(key, values[:5])
-        print(df["TyresWearFL"].values)
+        self.tyres_wear(display=True)
 
     def __str__(self) -> str:
         return str(self.FL_tyre) +"\n" + str(self.FR_tyre) +"\n" + str(self.RL_tyre) +"\n" + str(self.RR_tyre)
@@ -192,8 +192,10 @@ class Tyres:
         return {'FLTyre':self.FL_tyre[idx], 'FRTyre':self.FR_tyre[idx], 'RLTyre':self.RL_tyre[idx], 'RRTyre':self.RR_tyre[idx]}
 
     def tyres_wear(self, display:bool=False):
-        tyre_wear = pd.concat([self.FL_tyre.tyre_wear(display=False),self.FR_tyre.tyre_wear(display=False),self.RL_tyre.tyre_wear(display=False),self.RR_tyre.tyre_wear(display=False)], axis=1)
-        print(tyre_wear.head())
+        self.FL_tyre.tyre_wear(display)
+        self.FR_tyre.tyre_wear(display)
+        self.RL_tyre.tyre_wear(display)
+        self.RR_tyre.tyre_wear(display)
 
         return 0
 
@@ -229,6 +231,8 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
 
         data = df.loc[(df['FrameIdentifier'] >= frame) & (df['FrameIdentifier'] < tyres_used[idx+1][1] if idx != len(tyres_used)-1 else 1),tyre_columns]
         tyres_data.add((idx,Tyres(data)))
+        exit() #Aggiunto perché altrimenti continua a plottare tutte le gomme che ho usato, invece ne voglio solo 4 inizialmente
+        
         #print("\n\n")
 
     return tyres_data
