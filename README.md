@@ -7,16 +7,17 @@ Genetic Algorithms applied to F1 race strategy.
 - tqdm
 - numpy
 - pandas
+- plotly
 - Python >=3.8.12
 
 To create the environment use conda (better):
 ```python
-conda create -n=<environment_name> python=3.9.7 pandas numpy tqdm
+conda create -n=<environment_name> python=3.9.7 pandas numpy tqdm plotly
 ```
 or pip:
 ```python
 python -m venv <environment_name> 
-pip install -U pandas numpy tqdm
+pip install -U pandas numpy tqdm plotly
 ```
 
 Or you can use the requirements files:
