@@ -62,9 +62,6 @@ class RangeDictionary:
                 keys_list.append(keys[0])
                 values_list.append(values)
 
-        #for key, value in zip(keys_list, values_list):
-        #    print(key, value)
-        #exit()
         return zip(keys_list, values_list)
 
     
@@ -87,4 +84,21 @@ class RangeDictionary:
             return self.dataset.pop(index)
         
         raise KeyError
-        
+    
+    def keys(self):
+        keys_list = list()
+        for keys in self.dataset.keys():
+            if isinstance(keys, int):
+                keys_list.append(keys)
+            elif isinstance(keys, tuple):
+                keys_list.append(keys[0])
+
+        return keys_list
+
+    def values(self):
+        return self.dataset.values()
+
+if __name__ == '__main__':
+    tmp = RangeDictionary([0.1,0.2,0.2,0.25,0.3,0.4,0.4])
+    for key, value in tmp:
+        print(key, value)

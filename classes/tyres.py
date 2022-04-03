@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 from typing import Union
+from RangeDictionary import RangeDictionary
 
 ACTUAL_COMPOUNDS: dict = {
     0:"N/A",
@@ -98,14 +99,14 @@ class Tyre:
 
     def __init__(self, position:str, wear:Union[np.array,list]=[0.0], damage:Union[np.array,list]=[0.0], visual_compound:int=0, actual_compound:int=0, age:Union[np.array,list]=[0], pressure:Union[np.array,list]=[0.0], inner_temperature:Union[np.array,list]=[0.0], outer_temperature:Union[np.array,list]=[0.0]) -> None:
         self.position = position
-        self.wear = np.array(wear)
+        self.wear = RangeDictionary(np.array(wear))
         self.visual_compound = visual_compound
         self.actual_compound = actual_compound
-        self.age = np.array(age)
-        self.pressure = np.array(pressure)
-        self.inner_temperature = np.array(inner_temperature)
-        self.outer_temperature = np.array(outer_temperature)
-        self.damage = np.array(damage)
+        self.age = RangeDictionary(np.array(age))
+        self.pressure = RangeDictionary(np.array(pressure))
+        self.inner_temperature = RangeDictionary(np.array(inner_temperature))
+        self.outer_temperature = RangeDictionary(np.array(outer_temperature))
+        self.damage = RangeDictionary(np.array(damage))
 
     def __str__(self) -> str:
         to_ret = f"Tyre position: {self.position}\nTyre actual compound: {self.cast_actual_compound(self.actual_compound)}\nTyre visual compound: {self.cast_visual_compound(self.visual_compound)}\nTyre wear: ["
@@ -139,10 +140,11 @@ class Tyre:
     def cast_tyre_position(self, position) -> str:
         return TYRE_POSITION[position]
 
-    def tyre_wear(self, display:bool=True):
-        df = pd.DataFrame({'Wear':self.wear, 'Frame':[i for i in range(len(self.wear))]})
+    def tyre_wear(self, display:bool=False):
+        df = pd.DataFrame({'Wear':[value for value in self.wear.values()], 'Frame':[key for key in self.wear.keys()]})
         if display:
             fig = px.line(df, x='Frame',y='Wear', title=self.cast_tyre_position(self.position)+' Tyre Wear')
+            fig.update(layout_yaxis_range = [0,100])
             fig.show()
         return df
 
@@ -166,7 +168,10 @@ class Tyres:
         actual_tyre_compound = df[df.filter(like='tyreActualCompound').columns.item()].unique()
 
         visual_tyre_compound = np.array([int(x) for x in visual_tyre_compound if int(x) > 0])
-        actual_tyre_compound = np.array([int(x) for x in actual_tyre_compound if int(x) > 0])
+        actual_tyre_compound = np.array([int(x) for x in actual_tyre_compound if int(x) > 0]) 
+
+        if len(visual_tyre_compound) > 1 or len(actual_tyre_compound) > 1:
+            raise ValueError("The dataframe contains more than one tyre compound:\nVisualTyreCompound contains {}\nActualTyreCompound contains {}".format(visual_tyre_compound, actual_tyre_compound))
 
         self.FL_tyre = Tyre("FL") if df is None else Tyre("FL", df["TyresWearFL"].values,df['TyresDamageFL'].values,visual_tyre_compound.item(),actual_tyre_compound.item(),df['TyresAgeLaps'].values,df['FLTyrePressure'].values,df['FLTyreInnerTemperature'].values,df['FLTyreSurfaceTemperature'].values)
         self.FR_tyre = Tyre("FR") if df is None else Tyre("FR", df["TyresWearFR"].values,df['TyresDamageFR'].values,visual_tyre_compound.item(),actual_tyre_compound.item(),df['TyresAgeLaps'].values,df['FRTyrePressure'].values,df['FRTyreInnerTemperature'].values,df['FRTyreSurfaceTemperature'].values)
@@ -230,8 +235,9 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
         tyre_columns = columns + ['endLap['+str(idx)+']','tyreActualCompound['+str(idx)+']','tyreVisualCompound['+str(idx)+']']+['lapTimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector1TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector2TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector3TimeInMS['+str(lap)+']' for lap in range(start,end)]
 
         data = df.loc[(df['FrameIdentifier'] >= frame) & (df['FrameIdentifier'] < tyres_used[idx+1][1] if idx != len(tyres_used)-1 else 1),tyre_columns]
-        tyres_data.add((idx,Tyres(data)))
-        exit() #Aggiunto perché altrimenti continua a plottare tutte le gomme che ho usato, invece ne voglio solo 4 inizialmente
+        if idx > 0:
+            tyres_data.add((idx,Tyres(data)))
+            exit() #Aggiunto perché altrimenti continua a plottare tutte le gomme che ho usato, invece ne voglio solo 4 inizialmente
         
         #print("\n\n")
 
