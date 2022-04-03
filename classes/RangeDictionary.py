@@ -9,19 +9,18 @@ class RangeDictionary:
         for value in array:
             if value != tmp:
                 self.dataset[key] = value
-                key += 1
                 tmp = value
             else:
                 tmp_key = list(self.dataset.keys())[-1]
                 self.dataset.pop(tmp_key)
                 if isinstance(tmp_key, int):
                     self.dataset[(tmp_key,key)] = tmp
-                    key += 1
                 elif isinstance(tmp_key,tuple):
                     self.dataset[(tmp_key[0],key)] = tmp
-                    key += 1
+                
+            key += 1
 
-        self.len = key
+        self.len = len(self.dataset.values())
 
     def __getitem__(self, key:int) -> Union[int,float,list]:
         try:
@@ -35,6 +34,43 @@ class RangeDictionary:
 
     def __len__(self) -> int:
         return self.len
+
+    def __repr__(self) -> str:
+        to_ret = ''
+        for key, value in self.dataset.items():
+            if isinstance(key, int):
+                to_ret += f"{key} : {value}"
+            elif isinstance(key, tuple):
+                to_ret += f"{key[0]} - {key[1]} : {value}"
+            to_ret += '\n'
+        return to_ret
+
+    def __str__(self) -> str:
+        return self.__repr__()
+
+    def __call__(self, array:Union[np.ndarray, list]) -> None:
+        return self.__init__(array)
+
+    def __iter__(self) -> dict:
+        keys_list = list()
+        values_list = list()
+        for keys,values in self.dataset.items():
+            if isinstance(keys, int):
+                keys_list.append(keys)
+                values_list.append(values)
+            elif isinstance(keys, tuple):
+                keys_list.append(keys[0])
+                values_list.append(values)
+
+        #for key, value in zip(keys_list, values_list):
+        #    print(key, value)
+        #exit()
+        return zip(keys_list, values_list)
+
+    
+    def clear(self) -> None:
+        self.dataset.clear()
+        self.len = 0    
 
     def pop(self, index:Union[int,tuple] = None) -> Union[int,float,list]:
         if index is None:
@@ -51,21 +87,4 @@ class RangeDictionary:
             return self.dataset.pop(index)
         
         raise KeyError
-
-    def __repr__(self) -> str:
-        to_ret = ''
-        for key, value in self.dataset.items():
-            if isinstance(key, int):
-                to_ret += f"{key} : {value}"
-            elif isinstance(key, tuple):
-                to_ret += f"{key[0]} - {key[1]} : {value}"
-            to_ret += '\n'
-        return to_ret
-
-    def __str__(self) -> str:
-        return self.__repr__()
-    
-    def clear(self) -> None:
-        self.dataset.clear()
-        self.len = 0
         
