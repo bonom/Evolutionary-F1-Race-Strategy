@@ -145,10 +145,10 @@ class Tyre:
         df = pd.DataFrame({'Frame':[int(key) for key in self.wear.keys()],'Wear_'+str(self.position):[value for value in self.wear.values()]})
         df.set_index('Frame', inplace=True)
         if display:
-            #plt.scatter(df.index, df['Wear_'+str(self.position)])
             fig = px.line(df, x='Frame',y='Wear', title=self.cast_tyre_position(self.position)+' Tyre Wear')
             fig.update(layout_yaxis_range = [0,max(df['Wear_'+str(self.position)])])
-            plotly.offline.plot(fig, filename='Tyre'+str(self.position)+' Wear.html')
+            #plotly.offline.plot(fig, filename='Tyre'+str(self.position)+' Wear.html')
+            fig.show()
         return df
 
 class Tyres:
@@ -210,7 +210,8 @@ class Tyres:
         if display:
             fig = px.line(df, x='Frame',y=['Wear_FL', 'Wear_FR', 'Wear_RL', 'Wear_RR'], title='Tyre Wear',markers=True)
             fig.update(layout_yaxis_range = [0,max(max(df['Wear_FL']),max(df['Wear_FR']),max(df['Wear_RL']),max(df['Wear_RR']))])
-            plotly.offline.plot(fig, filename='Tyres Wear.html')
+            #plotly.offline.plot(fig, filename='Tyres Wear.html')
+            fig.show()
         return df
 
 def get_tyres_data(df:pd.DataFrame) -> Tyres:
