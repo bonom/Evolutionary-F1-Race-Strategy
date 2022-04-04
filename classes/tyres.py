@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import matplotlib.pyplot as plt
 from typing import Union
 from RangeDictionary import RangeDictionary
 
@@ -141,8 +142,10 @@ class Tyre:
         return TYRE_POSITION[position]
 
     def tyre_wear(self, display:bool=False):
-        df = pd.DataFrame({'Wear':[value for value in self.wear.values()], 'Frame':[key for key in self.wear.keys()]})
+        df = pd.DataFrame({'Frame':[int(key) for key in self.wear.keys()],'Wear_'+str(self.position):[value for value in self.wear.values()]})
+        df.set_index('Frame', inplace=True)
         if display:
+            #plt.scatter(df.index, df['Wear_'+str(self.position)])
             fig = px.line(df, x='Frame',y='Wear', title=self.cast_tyre_position(self.position)+' Tyre Wear')
             fig.update(layout_yaxis_range = [0,100])
             fig.show()
@@ -155,7 +158,7 @@ class Tyres:
     Parameters:
     ----------
     df : pd.Dataframe
-        The dataframe containing the data of the tyres. Columns involved are: []
+        The dataframe containing the data of the tyres. 
     
     TODO:
     ----------
@@ -197,12 +200,26 @@ class Tyres:
         return {'FLTyre':self.FL_tyre[idx], 'FRTyre':self.FR_tyre[idx], 'RLTyre':self.RL_tyre[idx], 'RRTyre':self.RR_tyre[idx]}
 
     def tyres_wear(self, display:bool=False):
-        self.FL_tyre.tyre_wear(display)
-        self.FR_tyre.tyre_wear(display)
-        self.RL_tyre.tyre_wear(display)
-        self.RR_tyre.tyre_wear(display)
+        FL_Tyre_wear = self.FL_tyre.tyre_wear(display=False)
+        FR_Tyre_wear = self.FR_tyre.tyre_wear(display=False)
+        RL_Tyre_wear = self.RL_tyre.tyre_wear(display=False)
+        RR_Tyre_wear = self.RR_tyre.tyre_wear(display=False)
 
-        return 0
+        df = pd.concat([FL_Tyre_wear, FR_Tyre_wear, RL_Tyre_wear, RR_Tyre_wear], axis=1).reset_index()
+        
+        if display:
+            fig, axs = plt.subplots(2,2)
+            fig.suptitle('Tyres Wear')
+            axs[0,0].plot(df['Frame'], df['Wear_FL'],marker="o", label='FL_Wear')
+            axs[0,1].plot(df['Frame'], df['Wear_FR'],marker="o", label='FR_Wear')
+            axs[1,0].plot(df['Frame'], df['Wear_RL'],marker="o", label='RL_Wear')
+            axs[1,1].plot(df['Frame'], df['Wear_RR'],marker="o", label='RR_Wear')
+            #plt.scatter(df['Frame'], df['Wear_FL'], label='Tyre')
+            plt.show()
+            #fig = px.line(df, x='Frame',y=['Wear_FL', 'Wear_FR', 'Wear_RL', 'Wear_RR'], title='Tyre Wear',markers=True)
+            #fig.update(layout_yaxis_range = [0,100])
+            #fig.show(renderer='png')
+        return df
 
 def get_tyres_data(df:pd.DataFrame) -> Tyres:
     """
@@ -235,9 +252,9 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
         tyre_columns = columns + ['endLap['+str(idx)+']','tyreActualCompound['+str(idx)+']','tyreVisualCompound['+str(idx)+']']+['lapTimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector1TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector2TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector3TimeInMS['+str(lap)+']' for lap in range(start,end)]
 
         data = df.loc[(df['FrameIdentifier'] >= frame) & (df['FrameIdentifier'] < tyres_used[idx+1][1] if idx != len(tyres_used)-1 else 1),tyre_columns]
-        if idx > 0:
-            tyres_data.add((idx,Tyres(data)))
-            exit() #Aggiunto perché altrimenti continua a plottare tutte le gomme che ho usato, invece ne voglio solo 4 inizialmente
+        #if idx > 0:
+        tyres_data.add((idx,Tyres(data)))
+        exit() #Aggiunto perché altrimenti continua a plottare tutte le gomme che ho usato, invece ne voglio solo 4 inizialmente
         
         #print("\n\n")
 

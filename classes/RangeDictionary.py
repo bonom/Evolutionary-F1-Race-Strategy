@@ -98,7 +98,9 @@ class RangeDictionary:
     def values(self):
         return self.dataset.values()
 
+    def items(self):
+        return zip(self.keys(), self.values())
+
 if __name__ == '__main__':
     tmp = RangeDictionary([0.1,0.2,0.2,0.25,0.3,0.4,0.4])
-    for key, value in tmp:
-        print(key, value)
+    print(tmp)
