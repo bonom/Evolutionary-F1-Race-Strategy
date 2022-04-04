@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import plotly.express as px
-import matplotlib.pyplot as plt
+import plotly
 from typing import Union
 from RangeDictionary import RangeDictionary
 
@@ -147,8 +147,8 @@ class Tyre:
         if display:
             #plt.scatter(df.index, df['Wear_'+str(self.position)])
             fig = px.line(df, x='Frame',y='Wear', title=self.cast_tyre_position(self.position)+' Tyre Wear')
-            fig.update(layout_yaxis_range = [0,100])
-            fig.show()
+            fig.update(layout_yaxis_range = [0,max(df['Wear_'+str(self.position)])])
+            plotly.offline.plot(fig, filename='Tyre'+str(self.position)+' Wear.html')
         return df
 
 class Tyres:
@@ -206,19 +206,11 @@ class Tyres:
         RR_Tyre_wear = self.RR_tyre.tyre_wear(display=False)
 
         df = pd.concat([FL_Tyre_wear, FR_Tyre_wear, RL_Tyre_wear, RR_Tyre_wear], axis=1).reset_index()
-        
+        df = df[(df['Wear_FL'].notna()) & (df['Wear_FR'].notna()) & (df['Wear_RL'].notna()) & (df['Wear_RR'].notna())]
         if display:
-            fig, axs = plt.subplots(2,2)
-            fig.suptitle('Tyres Wear')
-            axs[0,0].plot(df['Frame'], df['Wear_FL'],marker="o", label='FL_Wear')
-            axs[0,1].plot(df['Frame'], df['Wear_FR'],marker="o", label='FR_Wear')
-            axs[1,0].plot(df['Frame'], df['Wear_RL'],marker="o", label='RL_Wear')
-            axs[1,1].plot(df['Frame'], df['Wear_RR'],marker="o", label='RR_Wear')
-            #plt.scatter(df['Frame'], df['Wear_FL'], label='Tyre')
-            plt.show()
-            #fig = px.line(df, x='Frame',y=['Wear_FL', 'Wear_FR', 'Wear_RL', 'Wear_RR'], title='Tyre Wear',markers=True)
-            #fig.update(layout_yaxis_range = [0,100])
-            #fig.show(renderer='png')
+            fig = px.line(df, x='Frame',y=['Wear_FL', 'Wear_FR', 'Wear_RL', 'Wear_RR'], title='Tyre Wear',markers=True)
+            fig.update(layout_yaxis_range = [0,max(max(df['Wear_FL']),max(df['Wear_FR']),max(df['Wear_RL']),max(df['Wear_RR']))])
+            plotly.offline.plot(fig, filename='Tyres Wear.html')
         return df
 
 def get_tyres_data(df:pd.DataFrame) -> Tyres:
