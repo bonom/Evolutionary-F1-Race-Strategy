@@ -181,7 +181,7 @@ class Tyres:
         self.RL_tyre = Tyre("RL") if df is None else Tyre("RL", df["TyresWearRL"].values,df['TyresDamageRL'].values,visual_tyre_compound.item(),actual_tyre_compound.item(),df['TyresAgeLaps'].values,df['RLTyrePressure'].values,df['RLTyreInnerTemperature'].values,df['RLTyreSurfaceTemperature'].values)
         self.RR_tyre = Tyre("RR") if df is None else Tyre("RR", df["TyresWearRR"].values,df['TyresDamageRR'].values,visual_tyre_compound.item(),actual_tyre_compound.item(),df['TyresAgeLaps'].values,df['RRTyrePressure'].values,df['RRTyreInnerTemperature'].values,df['RRTyreSurfaceTemperature'].values)
 
-        self.tyres_wear(display=True)
+        #self.tyres_wear(display=True)
 
         indexes = list()
         for lap in df['NumLaps'].unique():
@@ -233,12 +233,12 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
     columns = ['FrameIdentifier','NumLaps','TyresAgeLaps','FLTyreInnerTemperature','FLTyrePressure','FLTyreSurfaceTemperature','FRTyreInnerTemperature','FRTyrePressure','FRTyreSurfaceTemperature','RLTyreInnerTemperature','RLTyrePressure','RLTyreSurfaceTemperature','RRTyreInnerTemperature','RRTyrePressure','RRTyreSurfaceTemperature','TyresDamageFL','TyresDamageFR','TyresDamageRL','TyresDamageRR','TyresWearFL','TyresWearFR','TyresWearRL','TyresWearRR','VisualTyreCompound','ActualTyreCompound']
     tyres_data = set()
     
-    tyres_used = list()
-    tyre_columns = df.filter(like='tyreVisualCompound').columns
-    for idx, col in enumerate(tyre_columns):
-        tyres_used.append((int(df.loc[df[col] > 0,col].unique().item()), df.loc[df[col].first_valid_index(),'FrameIdentifier']))
-    
-    print(tyres_used)
+    #tyres_used = list()
+    #tyre_columns = df.filter(like='tyreVisualCompound').columns
+    #for idx, col in enumerate(tyre_columns):
+    #    tyres_used.append((int(df.loc[df[col] > 0,col].unique().item()), df.loc[df[col].first_valid_index(),'FrameIdentifier']))
+    #
+    #print(tyres_used)
 
     tyres_used = list()
     tyres_compounds = [int(compound) for compound in df['VisualTyreCompound'].unique() if int(compound) != 0]
@@ -246,7 +246,7 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
     for idx, compound in enumerate(tyres_compounds):
         tyres_used.append((compound, df.loc[df['VisualTyreCompound'] == compound,'FrameIdentifier'].values[0]))
     
-    print(tyres_used)
+    #print(tyres_used)
     for idx,(compound,frame) in enumerate(tyres_used):    
         numLaps = np.array(df.loc[frame: tyres_used[idx+1][1]-1 if idx < len(tyres_used)-1 else len(df),'NumLaps'].unique())
         start = numLaps[0]
@@ -255,9 +255,9 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
         tyre_columns = columns + ['endLap['+str(idx)+']','tyreActualCompound['+str(idx)+']','tyreVisualCompound['+str(idx)+']']+['lapTimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector1TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector2TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector3TimeInMS['+str(lap)+']' for lap in range(start,end)]
 
         data = df.loc[(df['FrameIdentifier'] >= frame) & (df['FrameIdentifier'] < tyres_used[idx+1][1] if idx != len(tyres_used)-1 else 1),tyre_columns]
-        #if idx > 0:
+        
         tyres_data.add((idx,Tyres(data)))
-        exit() #Aggiunto perché altrimenti continua a plottare tutte le gomme che ho usato, invece ne voglio solo 4 inizialmente
+        #exit() #Aggiunto perché altrimenti continua a plottare tutte le gomme che ho usato, invece ne voglio solo 4 inizialmente
         
         #print("\n\n")
 
@@ -266,7 +266,10 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
     
 
 if __name__ == "__main__":
-    get_tyres_data(pd.read_csv('Car_19_Data.csv'))
+    tyres_data = get_tyres_data(pd.read_csv('Car_19_Data.csv'))
+    for idx, tyres in tyres_data:
+        print(idx)
+        tyres.tyres_wear(display=True)
 
     
 
