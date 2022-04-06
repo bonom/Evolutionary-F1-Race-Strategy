@@ -1,7 +1,10 @@
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
-#import plotly.express as px
+from classes.Utils import get_basic_logger
+import sys
+
+log = get_basic_logger('EXTRACTOR')
 
 def fixer(df:pd.DataFrame, frame:int, col:str, before) -> pd.DataFrame:
     """
@@ -179,15 +182,17 @@ def extract_data(idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     lap = pd.read_csv('Data/Lap.csv').replace('-', np.nan)
     lap = lap.loc[lap['CarIndex']==idx,['FrameIdentifier','CarIndex','LastLapTimeInMS','CurrentLapTimeInMS','Sector1TimeInMS','Sector2TimeInMS','LapDistance','TotalDistance','CurrentLapNum','Sector','PitStopShouldServePen']]
 
-    lap_frames = dict()
-    num_laps = lap['CurrentLapNum'].iloc[-1]
-    for i in range(1,num_laps):
-        frame_range = lap.loc[lap['CurrentLapNum']==i,'FrameIdentifier']
-        if len(frame_range) > 0:
-            last_frame = frame_range.iloc[-1]
-            lap_frames[i] = last_frame
-        else:
-            lap_frames[i] = 0
+    # For now not used
+
+    #lap_frames = dict()
+    #num_laps = lap['CurrentLapNum'].iloc[-1]
+    #for i in range(1,num_laps):
+    #    frame_range = lap.loc[lap['CurrentLapNum']==i,'FrameIdentifier']
+    #    if len(frame_range) > 0:
+    #        last_frame = frame_range.iloc[-1]
+    #        lap_frames[i] = last_frame
+    #    else:
+    #        lap_frames[i] = 0
 
     motion = pd.read_csv('Data/Motion.csv').replace('-', np.nan)
     motion = motion.loc[motion['CarIndex']==idx, ['FrameIdentifier','CarIndex','WorldPositionX','WorldPositionY','WorldPositionZ']]
@@ -208,16 +213,10 @@ def extract_data(idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     
     min_frame = max(min(damage['FrameIdentifier']), min(history['FrameIdentifier']), min(lap['FrameIdentifier']), min(motion['FrameIdentifier']), min(session['FrameIdentifier']), min(setup['FrameIdentifier']), min(status['FrameIdentifier']), min(telemetry['FrameIdentifier']))
 
-    return damage, history, lap, motion, session, setup, status, telemetry, int(min_frame), int(max_frame), lap_frames
+    return damage, history, lap, motion, session, setup, status, telemetry, int(min_frame), int(max_frame)#, lap_frames
         
 
 if __name__ == "__main__":
-    damage, history, lap, motion, session, setup, status, telemetry, min_frame, max_frame, lap_frames = extract_data()
-
-    #fig = px.line(damage, x='FrameIdentifier',y=['TyresWearFL', 'TyresWearFR', 'TyresWearRL', 'TyresWearRR'], title='Tyre Wear',markers=True)
-    #fig.update(layout_yaxis_range = [0,max(max(df['Wear_FL']),max(df['Wear_FR']),max(df['Wear_RL']),max(df['Wear_RR']))])
-    #fig.update(layout_yaxis_range = [0,100])
-    #plotly.offline.plot(fig, filename='Tyres Wear.html')
-    #fig.show()
-
-    unify_car_data(19,damage, history, lap, motion, session, setup, status, telemetry, max_frame,min_frame)
+    log.warning("This module is not intended to be used as a standalone script. Run 'python main.py' instead.")
+    sys.exit(1)
+    

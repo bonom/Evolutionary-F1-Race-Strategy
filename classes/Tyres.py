@@ -3,62 +3,12 @@ import numpy as np
 import plotly.express as px
 import plotly
 from typing import Union
-from RangeDictionary import RangeDictionary
+from classes.RangeDictionary import RangeDictionary
+from classes.Utils import ACTUAL_COMPOUNDS, VISUAL_COMPOUNDS, TYRE_POSITION, get_basic_logger
+import sys
 
-ACTUAL_COMPOUNDS: dict = {
-    0:"N/A",
-    1:"N/A",
-    2:"N/A",
-    3:"N/A",
-    4:"N/A",
-    5:"N/A",
-    6:"N/A",
-    7:"Inter",
-    8:"Wet",
-    9:"Dry",
-    10:"Wet",
-    11:"Super Soft",
-    12:"Soft",
-    13:"Medium",
-    14:"Hard",
-    15:"Wet",
-    16:"C5",
-    17:"C4",
-    18:"C3",
-    19:"C2",
-    20:"C1",
-}
+log = get_basic_logger("TYRES")
 
-VISUAL_COMPOUNDS: dict = {
-    0:"N/A",
-    1:"N/A",
-    2:"N/A",
-    3:"N/A",
-    4:"N/A",
-    5:"N/A",
-    6:"N/A",
-    7:"Inter",
-    8:"Wet",
-    9:"Dry",
-    10:"Wet",
-    11:"Super Soft",
-    12:"Soft",
-    13:"Medium",
-    14:"Hard",
-    15:"Wet",
-    16:"Soft",
-    17:"Medium",
-    18:"Hard",
-    19:"C2",
-    20:"C1",
-}
-
-TYRE_POSITION: dict ={
-    'FL':'Front Left',
-    'FR':'Front Right',
-    'RL':'Rear Left',
-    'RR':'Rear Right',
-}
 class Tyre:
     """
     Class for a single tyre.
@@ -198,7 +148,7 @@ class Tyres:
         actual_tyre_compound = np.array([int(x) for x in actual_tyre_compound if int(x) > 0]) 
 
         if len(visual_tyre_compound) > 1 or len(actual_tyre_compound) > 1:
-            raise ValueError("The dataframe contains more than one tyre compound:\nVisualTyreCompound contains {}\nActualTyreCompound contains {}".format(visual_tyre_compound, actual_tyre_compound))
+            log.critical("The dataframe contains more than one tyre compound:\nVisualTyreCompound contains {}\nActualTyreCompound contains {}".format(visual_tyre_compound, actual_tyre_compound))
 
         indexes = list()
         for lap in df['NumLaps'].unique():
@@ -307,18 +257,15 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
         if len(tyres)!= 0:
             tyres_data.add((idx,tyres))
         else:
-            print(f"Insufficient data for compound '{VISUAL_COMPOUNDS[compound]}'.")
+            log.warning(f"Insufficient data for compound '{VISUAL_COMPOUNDS[compound]}'. Data are below 3 laps.")
 
     return tyres_data
         
     
 
 if __name__ == "__main__":
-    #print(pd.read_csv('Car_19_Data.csv').filter(like="Age").columns)
-    #exit()
-    tyres_data = get_tyres_data(pd.read_csv('Car_19_Data.csv'))
-    for idx, tyres in tyres_data:
-        print(tyres.tyres_wear(display=True))
+    log.warning("This module is not intended to be used as a standalone script. Run 'python main.py' instead.")
+    sys.exit(1)
 
     
 
