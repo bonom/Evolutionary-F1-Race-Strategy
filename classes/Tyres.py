@@ -6,6 +6,7 @@ from typing import Union
 from classes.RangeDictionary import RangeDictionary
 from classes.Utils import ACTUAL_COMPOUNDS, VISUAL_COMPOUNDS, TYRE_POSITION, get_basic_logger
 import sys
+from datetime import datetime
 
 log = get_basic_logger("TYRES")
 
@@ -48,11 +49,9 @@ class Tyre:
         returns the wear function of the tyre. 
     """
 
-    def __init__(self, position:str, wear:Union[np.array,list]=[0.0], damage:Union[np.array,list]=[0.0], visual_compound:int=0, actual_compound:int=0, pressure:Union[np.array,list]=[0.0], inner_temperature:Union[np.array,list]=[0.0], outer_temperature:Union[np.array,list]=[0.0], laps_data:dict={0:0}) -> None:
+    def __init__(self, position:str, wear:Union[np.array,list]=[0.0], damage:Union[np.array,list]=[0.0], pressure:Union[np.array,list]=[0.0], inner_temperature:Union[np.array,list]=[0.0], outer_temperature:Union[np.array,list]=[0.0], laps_data:dict={0:0}) -> None:
         self.position = position
         self.wear = RangeDictionary(np.array(wear))
-        self.visual_compound = visual_compound
-        self.actual_compound = actual_compound
         self.pressure = RangeDictionary(np.array(pressure))
         self.inner_temperature = RangeDictionary(np.array(inner_temperature))
         self.outer_temperature = RangeDictionary(np.array(outer_temperature))
@@ -60,7 +59,7 @@ class Tyre:
         self.lap_frames = laps_data
 
     def __str__(self) -> str:
-        to_ret = f"Tyre position: {self.position}\nTyre actual compound: {self.cast_actual_compound(self.actual_compound)}\nTyre visual compound: {self.cast_visual_compound(self.visual_compound)}\nTyre wear: ["
+        to_ret = f"Tyre position: {self.position}\nTyre wear: ["
         for wear in self.wear:
             to_ret += f"{wear}%, "
         to_ret += f"]\nTyre damage: ["
@@ -76,11 +75,12 @@ class Tyre:
         
         return to_ret
     
-    def __index__(self,idx):
-        return {'TyrePosition':self.position, 'TyreWear':self.wear[idx], 'TyreDamage':self.damage[idx], 'TyrePressure':self.pressure[idx], 'TyreInnerTemperature':self.inner_temperature[idx], 'TyreOuterTemperature':self.outer_temperature[idx], 'LapNum':self.get_lap[idx]}
+    def __getitem__(self,idx):
+        if idx == -1:
+            idx = self.__len__() 
+        return {'TyrePosition':self.position, 'TyreWear':self.wear[idx], 'TyreDamage':self.damage[idx], 'TyrePressure':self.pressure[idx], 'TyreInnerTemperature':self.inner_temperature[idx], 'TyreOuterTemperature':self.outer_temperature[idx]}
     
     def get_lap(self,frame:int, get_float:bool=False):
-        first_lap = list(self.lap_frames.keys())[0]
         first_value = list(self.lap_frames.values())[0][0]
         if get_float:
             for key, value in self.lap_frames.items():
@@ -90,20 +90,14 @@ class Tyre:
                     except Exception as e:
                         idx = 0
                     if idx == 0:
-                        return key-first_lap
-                    return float(key-first_lap)+(idx/len(value))
+                        return key
+                    return float(key)+(idx/len(value))
 
         for key, value in self.lap_frames.items():
             if frame+first_value in value:
-                return key-first_lap
+                return key
         
         return 0
-
-    def cast_actual_compound(self, compound) -> str:
-        return ACTUAL_COMPOUNDS[compound]
-    
-    def cast_visual_compound(self, compound) -> str:
-        return VISUAL_COMPOUNDS[compound]
 
     def cast_tyre_position(self, position) -> str:
         return TYRE_POSITION[position]
@@ -147,6 +141,9 @@ class Tyres:
         visual_tyre_compound = np.array([int(x) for x in visual_tyre_compound if int(x) > 0])
         actual_tyre_compound = np.array([int(x) for x in actual_tyre_compound if int(x) > 0]) 
 
+        self.visual_tyre_compound = visual_tyre_compound.item()
+        self.actual_tyre_compound = actual_tyre_compound.item()
+
         if len(visual_tyre_compound) > 1 or len(actual_tyre_compound) > 1:
             log.critical("The dataframe contains more than one tyre compound:\nVisualTyreCompound contains {}\nActualTyreCompound contains {}".format(visual_tyre_compound, actual_tyre_compound))
 
@@ -156,22 +153,96 @@ class Tyres:
 
         if len(indexes) < 3:
             df = None
-        
-        self.lap_frames = {lap-1:[i for i in range(indexes[idx],indexes[idx+1] if idx < len(df['NumLaps'].unique()) -1 else df['FrameIdentifier'].iloc[-1])] for idx, lap in enumerate(df['NumLaps'].unique())} if df is not None else {0:[0]}
 
-        self.FL_tyre = Tyre("FL") if df is None else Tyre("FL", df["TyresWearFL"].values,df['TyresDamageFL'].values,visual_tyre_compound.item(),actual_tyre_compound.item(),df['FLTyrePressure'].values,df['FLTyreInnerTemperature'].values,df['FLTyreSurfaceTemperature'].values,self.lap_frames)
-        self.FR_tyre = Tyre("FR") if df is None else Tyre("FR", df["TyresWearFR"].values,df['TyresDamageFR'].values,visual_tyre_compound.item(),actual_tyre_compound.item(),df['FRTyrePressure'].values,df['FRTyreInnerTemperature'].values,df['FRTyreSurfaceTemperature'].values,self.lap_frames)
-        self.RL_tyre = Tyre("RL") if df is None else Tyre("RL", df["TyresWearRL"].values,df['TyresDamageRL'].values,visual_tyre_compound.item(),actual_tyre_compound.item(),df['RLTyrePressure'].values,df['RLTyreInnerTemperature'].values,df['RLTyreSurfaceTemperature'].values,self.lap_frames)
-        self.RR_tyre = Tyre("RR") if df is None else Tyre("RR", df["TyresWearRR"].values,df['TyresDamageRR'].values,visual_tyre_compound.item(),actual_tyre_compound.item(),df['RRTyrePressure'].values,df['RRTyreInnerTemperature'].values,df['RRTyreSurfaceTemperature'].values,self.lap_frames)
+        self.lap_frames = dict()
+        if df is not None:
+            max_lap_len = len(df.filter(like="lapTimeInMS").columns.to_list())
+            #for idx,lap in enumerate(df['NumLaps'].unique()):
+            for idx in range(max_lap_len):
+                if idx < max_lap_len-1:
+                    self.lap_frames[idx] = [i for i in range(indexes[idx],indexes[idx+1])]
+                else:
+                    self.lap_frames[idx] = [i for i in range(indexes[idx],df['FrameIdentifier'].iloc[-1])]
+        
+        self.FL_tyre = Tyre("FL") if df is None else Tyre("FL", df["TyresWearFL"].values,df['TyresDamageFL'].values,df['FLTyrePressure'].values,df['FLTyreInnerTemperature'].values,df['FLTyreSurfaceTemperature'].values,self.lap_frames)
+        self.FR_tyre = Tyre("FR") if df is None else Tyre("FR", df["TyresWearFR"].values,df['TyresDamageFR'].values,df['FRTyrePressure'].values,df['FRTyreInnerTemperature'].values,df['FRTyreSurfaceTemperature'].values,self.lap_frames)
+        self.RL_tyre = Tyre("RL") if df is None else Tyre("RL", df["TyresWearRL"].values,df['TyresDamageRL'].values,df['RLTyrePressure'].values,df['RLTyreInnerTemperature'].values,df['RLTyreSurfaceTemperature'].values,self.lap_frames)
+        self.RR_tyre = Tyre("RR") if df is None else Tyre("RR", df["TyresWearRR"].values,df['TyresDamageRR'].values,df['RRTyrePressure'].values,df['RRTyreInnerTemperature'].values,df['RRTyreSurfaceTemperature'].values,self.lap_frames)
+
+        self.lap_times = [0]
+        if df is not None:
+            self.lap_times = list()
+            for col in df.filter(like="lapTimeInMS").columns.to_list():
+                self.lap_times.append(df[col].iloc[-1])
+        
+        self.lap_times = np.array(self.lap_times)
+        
+        self.Sector1InMS = [0]
+        if df is not None:
+            self.Sector1InMS = list()
+            for col in df.filter(like="sector1TimeInMS").columns.to_list():
+                self.Sector1InMS.append(df[col].iloc[-1])
+        
+        self.Sector1InMS = np.array(self.Sector1InMS)
+
+        self.Sector2InMS = [0]
+        if df is not None:
+            self.Sector2InMS = list()
+            for col in df.filter(like="sector2TimeInMS").columns.to_list():
+                self.Sector2InMS.append(df[col].iloc[-1])
+        
+        self.Sector2InMS = np.array(self.Sector2InMS)
+
+        self.Sector3InMS = [0]
+        if df is not None:
+            self.Sector3InMS = list()
+            for col in df.filter(like="sector3TimeInMS").columns.to_list():
+                self.Sector3InMS.append(df[col].iloc[-1])
+        
+        self.Sector3InMS = np.array(self.Sector3InMS)    
+
 
     def __str__(self) -> str:
-        return str(self.FL_tyre) +"\n" + str(self.FR_tyre) +"\n" + str(self.RL_tyre) +"\n" + str(self.RR_tyre)
-    
-    def __index__(self,idx) -> dict:
-        return {'FLTyre':self.FL_tyre[idx], 'FRTyre':self.FR_tyre[idx], 'RLTyre':self.RL_tyre[idx], 'RRTyre':self.RR_tyre[idx]}
+        return str(self.FL_tyre) +"\n" + str(self.FR_tyre) +"\n" + str(self.RL_tyre) +"\n" + str(self.RR_tyre)+"\n"+str(self.lap_times)+"\n"+str(self.Sector1InMS)+"\n"+str(self.Sector2InMS)+"\n"+str(self.Sector3InMS)
+
+    def __getitem__(self,idx) -> dict:
+        if idx == -1:
+            idx = self.__len__() 
+        return {'Lap':self.get_lap(idx)+1,'FLTyre':self.FL_tyre[idx], 'FRTyre':self.FR_tyre[idx], 'RLTyre':self.RL_tyre[idx], 'RRTyre':self.RR_tyre[idx], 'LapTimeInMS':self.lap_times[self.get_lap(idx)], 'Sector1InMS':self.Sector1InMS[self.get_lap(idx)], 'Sector2InMS':self.Sector2InMS[self.get_lap(idx)], 'Sector3InMS':self.Sector3InMS[self.get_lap(idx)]}
     
     def __len__(self) -> int:
-        return list(self.lap_frames.keys())[-1]
+        if len(self.lap_frames) == 0:
+            return 0
+        return list(self.lap_frames[list(self.lap_frames.keys())[-1]])[-1]
+
+    
+    def cast_actual_compound(self, compound) -> str:
+        return ACTUAL_COMPOUNDS[compound]
+    
+    def cast_visual_compound(self, compound) -> str:
+        return VISUAL_COMPOUNDS[compound]
+
+    def tyres_timing(self, display:bool=False) -> dict:
+        timing = {'Lap':[],'LapTime':[],'LapTimeInMS':[]}
+        for lap in self.lap_frames.keys():
+            timing['Lap'].append(lap+1)
+            if self.lap_times[lap] != 0:
+                times = datetime.fromtimestamp(self.lap_times[lap]/1000.0).strftime('%M:%S:%f')
+                #print(times)
+                timing['LapTime'].append(times)
+                timing['LapTimeInMS'].append(self.lap_times[lap])
+            else:
+                timing['LapTime'].append(np.nan)
+                timing['LapTimeInMS'].append(np.nan)
+        
+        if display:
+            df = pd.DataFrame(timing)
+            fig = px.line(df, x='Lap',y='LapTimeInMS', title='Lap Times on '+self.cast_visual_compound(self.visual_tyre_compound)+" compound",markers=True)
+            fig.update(layout_yaxis_range = [min(timing['LapTimeInMS'])-1000,max(timing['LapTimeInMS'])+1000])
+            #plotly.offline.plot(fig, filename='Tyres Timing.html')
+            fig.show()
+            
+        return timing
 
     def tyres_wear(self, display:bool=False) -> dict:
         FL_Tyre_wear = self.FL_tyre.tyre_wear(display=False)
@@ -186,9 +257,10 @@ class Tyres:
 
         df = pd.concat([df_FL,df_FR,df_RL,df_RR], axis=1).reset_index()
         df = df[(df['Wear_FL'].notna()) & (df['Wear_FR'].notna()) & (df['Wear_RL'].notna()) & (df['Wear_RR'].notna())]
+        
         for row in df.index:
             df.loc[row,'Lap'] = self.get_lap(df.loc[row,'Frame'],True)
-
+            
         if display:
             fig = px.line(df, x='Lap',y=['Wear_FL', 'Wear_FR', 'Wear_RL', 'Wear_RR'], title='Tyre Wear',markers=True)
             fig.update(layout_yaxis_range = [0,100])
@@ -197,12 +269,12 @@ class Tyres:
             fig.show()
         return df.to_dict()
 
-    def get_tyres_age(self,frame:int=0) -> int:
+    def get_tyres_age(self,frame:int=0) -> set:
         return self.get_lap(frame)      
 
     def get_lap(self,frame:int, get_float:bool=False) -> Union[int,float]:
-        first_lap = list(self.lap_frames.keys())[0]
         first_value = list(self.lap_frames.values())[0][0]
+        
         if get_float:
             for key, value in self.lap_frames.items():
                 if frame+first_value in value:
@@ -211,12 +283,13 @@ class Tyres:
                     except Exception as e:
                         idx = 0
                     if idx == 0:
-                        return key-first_lap
-                    return float(key-first_lap)+(idx/len(value))
+                        return key
+        
+                    return float(key)+(idx/len(value))
 
         for key, value in self.lap_frames.items():
             if frame+first_value in value:
-                return key-first_lap
+                return key
         
         return 0
 
@@ -254,6 +327,7 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
         data = df.loc[(df['FrameIdentifier'] >= frame) & (df['FrameIdentifier'] < tyres_used[idx+1][1] if idx != len(tyres_used)-1 else 1),tyre_columns]
         
         tyres = Tyres(data)
+        
         if len(tyres)!= 0:
             tyres_data.add((idx,tyres))
         else:

@@ -19,6 +19,7 @@ def main(car_id:int=19):
 
     for idx, data in tyres_data:
         data.tyres_wear(display=True)
+        data.tyres_timing(display=True)
 
 if __name__ == "__main__":
     main()
