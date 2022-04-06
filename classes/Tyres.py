@@ -146,7 +146,8 @@ class Tyre:
         df.set_index('Frame', inplace=True)
         if display:
             fig = px.line(df, x='Frame',y='Wear', title=self.cast_tyre_position(self.position)+' Tyre Wear')
-            fig.update(layout_yaxis_range = [0,max(df['Wear_'+str(self.position)])])
+            #fig.update(layout_yaxis_range = [0,max(df['Wear_'+str(self.position)])])
+            fig.update(layout_yaxis_range = [0,100])
             #plotly.offline.plot(fig, filename='Tyre'+str(self.position)+' Wear.html')
             fig.show()
         return df
@@ -181,18 +182,15 @@ class Tyres:
         self.RL_tyre = Tyre("RL") if df is None else Tyre("RL", df["TyresWearRL"].values,df['TyresDamageRL'].values,visual_tyre_compound.item(),actual_tyre_compound.item(),df['TyresAgeLaps'].values,df['RLTyrePressure'].values,df['RLTyreInnerTemperature'].values,df['RLTyreSurfaceTemperature'].values)
         self.RR_tyre = Tyre("RR") if df is None else Tyre("RR", df["TyresWearRR"].values,df['TyresDamageRR'].values,visual_tyre_compound.item(),actual_tyre_compound.item(),df['TyresAgeLaps'].values,df['RRTyrePressure'].values,df['RRTyreInnerTemperature'].values,df['RRTyreSurfaceTemperature'].values)
 
-        #self.tyres_wear(display=True)
-
         indexes = list()
         for lap in df['NumLaps'].unique():
             indexes.append(df.loc[df['NumLaps'] == lap].index.values[0])
-
-        #print(f"{indexes} {df['FrameIdentifier'].iloc[-1]}")
+        
+        print(indexes)
         self.lap_frames = {lap-1:[i for i in range(indexes[idx],indexes[idx+1] if idx < len(df['NumLaps'].unique()) -1 else df['FrameIdentifier'].iloc[-1])] for idx, lap in enumerate(df['NumLaps'].unique())}
-        if 0 in self.lap_frames.keys():
-            self.lap_frames.pop(0)
-        #for key, values in self.lap_frames.items():
-        #    print(key, values[:5])
+        
+        for key, values in self.lap_frames.items():
+            print(key,values[:2],values[-2:])
         
 
     def __str__(self) -> str:
@@ -211,7 +209,8 @@ class Tyres:
         df = df[(df['Wear_FL'].notna()) & (df['Wear_FR'].notna()) & (df['Wear_RL'].notna()) & (df['Wear_RR'].notna())]
         if display:
             fig = px.line(df, x='Frame',y=['Wear_FL', 'Wear_FR', 'Wear_RL', 'Wear_RR'], title='Tyre Wear',markers=True)
-            fig.update(layout_yaxis_range = [0,max(max(df['Wear_FL']),max(df['Wear_FR']),max(df['Wear_RL']),max(df['Wear_RR']))])
+            #fig.update(layout_yaxis_range = [0,max(max(df['Wear_FL']),max(df['Wear_FR']),max(df['Wear_RL']),max(df['Wear_RR']))])
+            fig.update(layout_yaxis_range = [0,100])
             #plotly.offline.plot(fig, filename='Tyres Wear.html')
             fig.show()
         return df
@@ -259,7 +258,6 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
         tyres_data.add((idx,Tyres(data)))
         #exit() #Aggiunto perché altrimenti continua a plottare tutte le gomme che ho usato, invece ne voglio solo 4 inizialmente
         
-        #print("\n\n")
 
     return tyres_data
         
@@ -267,9 +265,9 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
 
 if __name__ == "__main__":
     tyres_data = get_tyres_data(pd.read_csv('Car_19_Data.csv'))
-    for idx, tyres in tyres_data:
-        print(idx)
-        tyres.tyres_wear(display=True)
+    #for idx, tyres in tyres_data:
+    #    print(idx)
+    #    tyres.tyres_wear(display=True)
 
     
 

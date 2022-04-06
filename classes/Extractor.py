@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
+#import plotly.express as px
 
 def fixer(df:pd.DataFrame, frame:int, col:str, before) -> pd.DataFrame:
     """
@@ -212,5 +213,11 @@ def extract_data(idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
 
 if __name__ == "__main__":
     damage, history, lap, motion, session, setup, status, telemetry, min_frame, max_frame, lap_frames = extract_data()
+
+    #fig = px.line(damage, x='FrameIdentifier',y=['TyresWearFL', 'TyresWearFR', 'TyresWearRL', 'TyresWearRR'], title='Tyre Wear',markers=True)
+    #fig.update(layout_yaxis_range = [0,max(max(df['Wear_FL']),max(df['Wear_FR']),max(df['Wear_RL']),max(df['Wear_RR']))])
+    #fig.update(layout_yaxis_range = [0,100])
+    #plotly.offline.plot(fig, filename='Tyres Wear.html')
+    #fig.show()
 
     unify_car_data(19,damage, history, lap, motion, session, setup, status, telemetry, max_frame,min_frame)
