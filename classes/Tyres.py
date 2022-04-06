@@ -247,8 +247,8 @@ class Tyres:
             fig.show()
         return df.to_dict()
 
-    def get_tyres_age(self):
-        return 0        
+    def get_tyres_age(self,frame:int=0) -> int:
+        return self.get_lap(frame)      
 
     def get_lap(self,frame:int, get_float:bool=False) -> Union[int,float]:
         first_lap = list(self.lap_frames.keys())[0]
