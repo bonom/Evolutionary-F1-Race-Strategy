@@ -1,12 +1,12 @@
+import sys
+from datetime import datetime
+from typing import Union
 import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly
-from typing import Union
 from classes.RangeDictionary import RangeDictionary
 from classes.Utils import ACTUAL_COMPOUNDS, VISUAL_COMPOUNDS, TYRE_POSITION, get_basic_logger
-import sys
-from datetime import datetime
 
 log = get_basic_logger("TYRES")
 
