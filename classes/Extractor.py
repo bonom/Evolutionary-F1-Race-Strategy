@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
-from classes.Utils import get_basic_logger
+#from classes.Utils import get_basic_logger
+from Utils import get_basic_logger
 import sys
 
 log = get_basic_logger('EXTRACTOR')
@@ -217,6 +218,9 @@ def extract_data(idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
         
 
 if __name__ == "__main__":
+    damage, history, lap, motion, session, setup, status, telemetry, min_frame, max_frame = extract_data(19)
+    unify_car_data(19,damage, history, lap, motion, session, setup, status, telemetry, max_frame, min_frame)
+
     log.warning("This module is not intended to be used as a standalone script. Run 'python main.py' instead.")
     sys.exit(1)
     
