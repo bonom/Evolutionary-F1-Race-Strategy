@@ -70,16 +70,22 @@ def get_basic_logger(logger_name="default"):
 def separate_data(df:pd.DataFrame):
     separator = dict()
     count = 0
-    last_is_zero = False
-   
-    for i in tqdm(range(df['FrameIdentifier'].values[0],df['FrameIdentifier'].values[-1]+1)):
-        values = df.loc[df['FrameIdentifier'] == i, 'DriverStatus'].values
-        if len(values) > 0 and values.item() != 0:
-            last_is_zero = False
-            separator[count].append(i)
-        elif len(values) > 0 and values.item() == 0 and not last_is_zero:
+
+    df = df[df['DriverStatus'] != 0]
+    start = df['FrameIdentifier'].values[0]
+    for it in tqdm(range(start+1, len(df))):
+        before = df['FrameIdentifier'].values[it-1]
+        if before+1 == df['FrameIdentifier'].values[it]:
+            try:
+                separator[count].append(before+1)
+            except KeyError:
+                separator[count] = [before+1]
+        else:
             count += 1
-            separator[count] = list()
-            last_is_zero = True
+
+    #for key, values in separator.items():
+    #    print(key, values[0], values[1], values[-1])
+    #
+    #exit()
 
     return separator
