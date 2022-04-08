@@ -139,11 +139,11 @@ def extract_data(idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     - Damage    :   ['FrameIdentifier', 'CarIndex', 'TyresWearRL', 'TyresWearRR', 'TyresWearFL', 'TyresWearFR', 'TyresDamageRL', 'TyresDamageRR', 'TyresDamageFL', 'TyresDamageFR']
     - History   :   ['FrameIdentifier', 'CarIndex', 'NumLaps', 'NumTyreStints', 'BestLapTimeLapNum', 'BestSector1LapNum', 'BestSector2LapNum', 'BestSector3LapNum', 'lapTimeInMS[i]', 'sector1TimeInMS[i]', 'sector2TimeInMS[i]', 'sector3TimeInMS[i]', 'lapValidBitFlags[i]', 'endLap[j]', 'tyreActualCompound[j]', 'tyreVisualCompound[j]'
     - Lap       :   ['FrameIdentifier', 'CarIndex', 'LastLapTimeInMS', 'CurrentLapTimeInMS', 'Sector1TimeInMS', 'Sector2TimeInMS', 'LapDistance', 'TotalDistance', 'CurrentLapNum', 'Sector', 'PitStopShouldServePen']
-    - Motion    :   ['FrameIdentifier', 'CarIndex', 'WorldPositionX', 'WorldPositionY', 'WorldPositionZ']
+    - Motion    :   ['FrameIdentifier', 'CarIndex', 'WorldPositionX', 'WorldPositionY', 'WorldPositionZ', 'RLWheelSlip', 'RRWheelSlip', 'FLWheelSlip', 'FRWheelSlip']
     - Session   :   ['FrameIdentifier', 'Weather', 'TrackTemperature', 'AirTemperature', 'TotalLaps', 'TrackLength', 'SessionType', 'TrackId', 'Formula', 'SessionTimeLeft', 'SessionDuration', 'NumMarshalZones', 'ZoneStart[i]', 'ZoneFlag[i]', 'ZoneFlag[16]', 'SafetyCarStatus', 'NumWeatherForecastSamples', 'ForecastAccuracy', 'PitStopWindowIdealLap', 'PitStopWindowLatestLap', 'PitStopRejoinPosition']
     - Setup     :   ['FrameIdentifier', 'CarIndex', 'FrontWing', 'RearWing', 'OnThrottle', 'OffThrottle', 'FrontCamber', 'RearCamber', 'FrontToe', 'RearToe', 'FrontSuspension', 'RearSuspension', 'FrontAntiRollBar', 'RearAntiRollBar', 'FrontSuspensionHeight', 'RearSuspensionHeight', 'BrakePressure', 'BrakeBias', 'RearLeftTyrePressure', 'RearRightTyrePressure', 'FrontLeftTyrePressure', 'FrontRightTyrePressure', 'Ballast', 'FuelLoad'] 
     - Status    :   ['FrameIdentifier', 'CarIndex', 'FuelInTank', 'FuelCapacity', 'FuelRemainingLaps', 'ActualTyreCompound', 'VisualTyreCompound', 'TyresAgeLaps', 'VehicleFIAFlags', 'ERSStoreEnergy', 'ERSDeployMode', 'ERSHarvestedThisLapMGUK', 'ERSHarvestedThisLapMGUH', 'ERSDeployedThisLap']
-    - Telemetry :   ['FrameIdentifier', 'CarIndex', 'RLBrakeTemperature', 'RRBrakeTemperature', 'FLBrakeTemperature', 'FRBrakeTemperature', 'RLTyreSurfaceTemperature', 'RRTyreSurfaceTemperature', 'FLTyreSurfaceTemperature', 'FRTyreSurfaceTemperature', 'RLTyreInnerTemperature', 'RRTyreInnerTemperature', 'FLTyreInnerTemperature', 'FRTyreInnerTemperature', 'EngineTemperature', 'RLTyrePressure', 'RRTyrePressure', 'FLTyrePressure', 'FRTyrePressure']
+    - Telemetry :   ['FrameIdentifier', 'CarIndex', 'RLBrakeTemperature', 'RRBrakeTemperature', 'FLBrakeTemperature', 'FRBrakeTemperature', 'RLTyreSurfaceTemperature', 'RRTyreSurfaceTemperature', 'FLTyreSurfaceTemperature', 'FRTyreSurfaceTemperature', 'RLTyreInnerTemperature', 'RRTyreInnerTemperature', 'FLTyreInnerTemperature', 'FRTyreInnerTemperature', 'EngineTemperature', 'RLTyrePressure', 'RRTyrePressure', 'FLTyrePressure', 'FRTyrePressure', 'Speed', 'Throttle', 'Brake', 'Gear', 'EngineRPM', 'DRS']
     
     Inputs:
     - idx       :   int
@@ -180,7 +180,7 @@ def extract_data(idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
             history.drop(column, axis=1, inplace=True)
 
     lap = pd.read_csv('Data/Lap.csv').replace('-', np.nan)
-    lap = lap.loc[lap['CarIndex']==idx,['FrameIdentifier','CarIndex','LastLapTimeInMS','CurrentLapTimeInMS','Sector1TimeInMS','Sector2TimeInMS','LapDistance','TotalDistance','CurrentLapNum','Sector','PitStopShouldServePen']]
+    lap = lap.loc[lap['CarIndex']==idx,['FrameIdentifier','CarIndex','LastLapTimeInMS','CurrentLapTimeInMS','Sector1TimeInMS','Sector2TimeInMS','LapDistance','TotalDistance','CurrentLapNum','Sector','PitStopShouldServePen','DriverStatus']]
 
     # For now not used
 
@@ -195,7 +195,7 @@ def extract_data(idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     #        lap_frames[i] = 0
 
     motion = pd.read_csv('Data/Motion.csv').replace('-', np.nan)
-    motion = motion.loc[motion['CarIndex']==idx, ['FrameIdentifier','CarIndex','WorldPositionX','WorldPositionY','WorldPositionZ']]
+    motion = motion.loc[motion['CarIndex']==idx, ['FrameIdentifier','CarIndex','WorldPositionX','WorldPositionY','WorldPositionZ','RLWheelSlip','RRWheelSlip','FLWheelSlip','FRWheelSlip','Pitch','Roll']]
 
     session = pd.read_csv('Data/Session.csv').replace('-', np.nan).drop(['PacketFormat','GameMajorVersion','GameMinorVersion','PacketVersion','PacketId','SessionUID','SessionTime','PlayerCarIndex','SecondaryPlayerCarIndex','PitSpeedLimit','GamePaused','IsSpectating','SpectatorCarIndex','SliProNativeSupport','NetworkGame','AIDifficulty','SeasonLinkIdentifier','WeekendLinkIdentifier','SessionLinkIdentifier','SteeringAssist','BrakingAssist','GearboxAssist','PitAssist','PitReleaseAssist','ERSAssist','DRSAssist','DynamicRacingLine','DynamicRacingLineType'], axis=1)
     for column in list(session.columns):
@@ -209,7 +209,7 @@ def extract_data(idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     status = status.loc[status['CarIndex'] == idx, ['FrameIdentifier','CarIndex','FuelInTank','FuelCapacity','FuelRemainingLaps','ActualTyreCompound','VisualTyreCompound','TyresAgeLaps','VehicleFIAFlags','ERSStoreEnergy','ERSDeployMode','ERSHarvestedThisLapMGUK','ERSHarvestedThisLapMGUH','ERSDeployedThisLap']]
 
     telemetry = pd.read_csv('Data/Telemetry.csv').replace('-', np.nan)
-    telemetry = telemetry.loc[telemetry['CarIndex'] == idx].drop(['PacketFormat','GameMajorVersion','GameMinorVersion','PacketVersion','PacketId','SessionUID','SessionTime','PlayerCarIndex','SecondaryPlayerCarIndex','Speed','Throttle','Steer','Brake','Clutch','Gear','EngineRPM','DRS','RevLightsPercent','RevLightsBitValue','RLSurfaceType','RRSurfaceType','FLSurfaceType','FRSurfaceType','MFD','MFDSecondaryPlayer','SuggestedGear'], axis=1, )
+    telemetry = telemetry.loc[telemetry['CarIndex'] == idx].drop(['PacketFormat','GameMajorVersion','GameMinorVersion','PacketVersion','PacketId','SessionUID','SessionTime','PlayerCarIndex','SecondaryPlayerCarIndex','Steer','Clutch','RevLightsPercent','RevLightsBitValue','RLSurfaceType','RRSurfaceType','FLSurfaceType','FRSurfaceType','MFD','MFDSecondaryPlayer','SuggestedGear'], axis=1, )
     
     min_frame = max(min(damage['FrameIdentifier']), min(history['FrameIdentifier']), min(lap['FrameIdentifier']), min(motion['FrameIdentifier']), min(session['FrameIdentifier']), min(setup['FrameIdentifier']), min(status['FrameIdentifier']), min(telemetry['FrameIdentifier']))
 

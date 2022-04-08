@@ -1,4 +1,6 @@
 import logging
+import pandas as pd
+from tqdm import tqdm
 
 ACTUAL_COMPOUNDS: dict = {
     0:"N/A",
@@ -64,3 +66,20 @@ def get_basic_logger(logger_name="default"):
     ch.setFormatter(formatter)
     logger.addHandler(ch)
     return logger
+
+def separate_data(df:pd.DataFrame):
+    separator = dict()
+    count = 0
+    last_is_zero = False
+   
+    for i in tqdm(range(df['FrameIdentifier'].values[0],df['FrameIdentifier'].values[-1]+1)):
+        values = df.loc[df['FrameIdentifier'] == i, 'DriverStatus'].values
+        if len(values) > 0 and values.item() != 0:
+            last_is_zero = False
+            separator[count].append(i)
+        elif len(values) > 0 and values.item() == 0 and not last_is_zero:
+            count += 1
+            separator[count] = list()
+            last_is_zero = True
+
+    return separator
