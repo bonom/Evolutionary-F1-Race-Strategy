@@ -1,6 +1,7 @@
 import logging
 import pandas as pd
 from tqdm import tqdm
+import math
 
 ACTUAL_COMPOUNDS: dict = {
     0:"N/A",
@@ -67,24 +68,39 @@ def get_basic_logger(logger_name="default"):
     logger.addHandler(ch)
     return logger
 
-def separate_data(df:pd.DataFrame):
+def separate_data(df:pd.DataFrame) -> dict:
     separator = dict()
-    count = 0
+    tmp_df = df.copy()
 
-    df = df[df['DriverStatus'] != 0]
-    start = df['FrameIdentifier'].values[0]
-    for it in tqdm(range(start+1, len(df))):
-        before = df['FrameIdentifier'].values[it-1]
-        if before+1 == df['FrameIdentifier'].values[it]:
-            try:
-                separator[count].append(before+1)
-            except KeyError:
-                separator[count] = [before+1]
+    start = int(tmp_df.index[0])
+    count = 0    
+
+    for it in tqdm(range(start+1, len(tmp_df))):
+        value = tmp_df.loc[it,'DriverStatus']
+        before = tmp_df.loc[it-1,'DriverStatus']
+
+        if not math.isnan(value):
+            if value > 0:
+                if before == 0:
+                    separator[count] = int(tmp_df.loc[it,'FrameIdentifier'])
+            elif value == 0:
+                if before > 0:
+                    sframe = separator[count] 
+                    separator[count] = (sframe, int(tmp_df.loc[it,'FrameIdentifier']))
+                    count += 1
         else:
-            count += 1
+            tmp_df.at[it, 'DriverStatus'] = tmp_df.loc[it-1,'DriverStatus']
 
+    try:
+        separator[count]
+        if isinstance(separator[count], int):
+            sframe = separator[count] 
+            separator[count] = (sframe, int(tmp_df.loc[it,'FrameIdentifier']))
+    except KeyError:
+        pass
+    
     #for key, values in separator.items():
-    #    print(key, values[0], values[1], values[-1])
+    #    print(key, values)
     #
     #exit()
 

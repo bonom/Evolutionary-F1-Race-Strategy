@@ -1,32 +1,82 @@
+import math
+import sys
+import pandas as pd
+import os
+from tqdm import tqdm
 from classes.Tyres import get_tyres_data
 from classes.Extractor import extract_data,unify_car_data
 from classes.Utils import get_basic_logger
-import pandas as pd
-import os
+
+import plotly.express as px
 
 log = get_basic_logger('MAIN')
 
-def main(car_id:int=19):
-    if os.path.exists('Car_{}_data.csv'.format(car_id)):
-        log.info('Car_{}_data.csv already exists, using it.'.format(car_id))
-        df = pd.read_csv('Car_{}_data.csv'.format(car_id))        
-    else:
-        log.info('Car_{}_data.csv not found, building it.'.format(car_id))
-        damage, history, lap, motion, session, setup, status, telemetry, min_frame, max_frame = extract_data()
-        df = unify_car_data(car_id,damage, history, lap, motion, session, setup, status, telemetry, max_frame,min_frame)
+def remove_duplicates(directory:str):
+    files = os.listdir(directory)
+    files = [f for f in os.listdir(directory) if f.endswith('.csv')]
+    for file in tqdm(files):
+        df = pd.read_csv(os.path.join(directory,file))
+        try:
+            df.drop_duplicates(['FrameIdentifier','CarIndex'],inplace=True)
+            df.sort_values(by=['FrameIdentifier','CarIndex'],inplace=True)
+        except KeyError:
+            df.drop_duplicates(['FrameIdentifier'],inplace=True)
+            df.sort_values(by=['FrameIdentifier'],inplace=True)
+        
+        df.to_csv(os.path.join(directory,file),index=False)
     
+
+
+def list_data(directory:str='Data'):
+    folders = list(os.walk(directory))[0][1]
+    print(f"Select the folder data to use:")
+    for idx,folder in enumerate(folders):
+        print(f" {idx} for {folder}")
+    
+    folder_id = int(input("Enter the folder id: "))
+    while folder_id < 0 or folder_id >= len(folders):
+        folder_id = int(input("Invalid input. Enter a valid folder id: "))
+    
+    folder = folders[folder_id]
+
+    return "Data/{}".format(folder)
+    
+
+def main(folder:str='',car_id:int=19):
+    log.info(f"Getting data for car '{car_id}'...")
+    if folder == '':
+        folder = list_data()
+    
+    damage, history, lap, motion, session, setup, status, telemetry, min_frame, max_frame = extract_data(path=folder)
+
+    damage.set_index('FrameIdentifier',inplace=True)
+    history.set_index('FrameIdentifier',inplace=True)
+    lap.set_index('FrameIdentifier',inplace=True)
+    motion.set_index('FrameIdentifier',inplace=True)
+    session.set_index('FrameIdentifier',inplace=True)
+    setup.set_index('FrameIdentifier',inplace=True)
+    status.set_index('FrameIdentifier',inplace=True)
+    telemetry.set_index('FrameIdentifier',inplace=True)
+
+    df = pd.concat([damage, history, lap, motion, session, setup, status, telemetry], axis=1)
+    df.sort_index(inplace=True)
+    df.reset_index(inplace=True)
+
+    log.info(f"Complete unification of data for car '{car_id}'")
+
     tyres_data = get_tyres_data(df)
 
-    for idx, data in tyres_data:
-        data.tyres_slip(display=False)
-        data.tyres_wear(display=False)
-        data.tyres_timing(display=False)
+    #for idx, data in tyres_data:
+    #    data.tyres_slip(display=False)
+    #    data.tyres_wear(display=False)
+    #    data.tyres_timing(display=False)
     
 
 if __name__ == "__main__":
-    main()
-
-
+    if len(sys.argv) > 1:
+        main(sys.argv[1])
+    else:
+        main()
 
     
     """

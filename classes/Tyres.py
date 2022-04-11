@@ -2,6 +2,7 @@ import sys
 from typing import Union
 import pandas as pd
 import numpy as np
+import math
 import plotly.express as px
 import plotly
 from classes.RangeDictionary import RangeDictionary
@@ -104,8 +105,7 @@ class Tyre:
             for row in df.index:
                 df.loc[row,'Lap'] = self.get_lap(df.loc[row,'Frame'],True)
 
-            fig = px.line(df, x='Lap',y='Wear_'+str(self.position), title=self.cast_tyre_position(self.position)+' Tyre Wear')
-            fig.update(layout_yaxis_range = [0,100])
+            fig = px.line(df, x='Lap',y='Wear_'+str(self.position), title=self.cast_tyre_position(self.position)+' Tyre Wear', range_y=[0,100])
             #fig.update(layout_yaxis_range = [0,max(df['Wear_'+str(self.position)])])
             #plotly.offline.plot(fig, filename='Tyre'+str(self.position)+' Wear.html')
             fig.show()
@@ -155,8 +155,8 @@ class Tyres:
         visual_tyre_compound = df[df.filter(like='tyreVisualCompound').columns.item()].unique()
         actual_tyre_compound = df[df.filter(like='tyreActualCompound').columns.item()].unique()
 
-        visual_tyre_compound = np.array([int(x) for x in visual_tyre_compound if int(x) > 0])
-        actual_tyre_compound = np.array([int(x) for x in actual_tyre_compound if int(x) > 0]) 
+        visual_tyre_compound = np.array([int(x) for x in visual_tyre_compound if not math.isnan(x) and x > 0])
+        actual_tyre_compound = np.array([int(x) for x in actual_tyre_compound if not math.isnan(x) and x > 0]) 
 
         self.visual_tyre_compound = visual_tyre_compound.item()
         self.actual_tyre_compound = actual_tyre_compound.item()
@@ -166,7 +166,8 @@ class Tyres:
 
         indexes = list()
         for lap in df['NumLaps'].unique():
-            indexes.append(df.loc[df['NumLaps'] == lap].index.values[0])
+            if not math.isnan(lap):
+                indexes.append(df.loc[df['NumLaps'] == lap].notna().index.values[0])
 
         if len(indexes) < 3:
             df = None
@@ -343,14 +344,18 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
     tyres_data : set(Tyres)
         The set of the tyres data based on the compound.
     """
-    log.info("Separating compounds data.")
+    log.info("Separating compounds data (It may take a while)...")
     separators = separate_data(df)
     
+    log.info(f"Separation complete, getting all the tyres used ({len(separators.keys())})...")
     columns = ['FrameIdentifier','NumLaps','TyresAgeLaps','FLTyreInnerTemperature','FLTyrePressure','FLTyreSurfaceTemperature','FRTyreInnerTemperature','FRTyrePressure','FRTyreSurfaceTemperature','RLTyreInnerTemperature','RLTyrePressure','RLTyreSurfaceTemperature','RRTyreInnerTemperature','RRTyrePressure','RRTyreSurfaceTemperature','TyresDamageFL','TyresDamageFR','TyresDamageRL','TyresDamageRR','TyresWearFL','TyresWearFR','TyresWearRL','TyresWearRR','VisualTyreCompound','ActualTyreCompound','RLWheelSlip', 'RRWheelSlip', 'FLWheelSlip', 'FRWheelSlip']
     tyres_data = set()
 
     for key, values in separators.items():
-        numLaps = np.array(df.loc[values[0]: values[-1],'NumLaps'].unique())
+        sep_start, sep_end = values
+        
+        numLaps = np.array(df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),'NumLaps'].unique())
+        numLaps = [int(x) for x in numLaps if not math.isnan(x)]
 
         if len(numLaps) > 3:
             start = numLaps[0]
@@ -358,12 +363,14 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
 
             tyre_columns = columns + ['tyreActualCompound['+str(key)+']','tyreVisualCompound['+str(key)+']']+['lapTimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector1TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector2TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector3TimeInMS['+str(lap)+']' for lap in range(start,end)]
 
-            data = df.loc[(df['FrameIdentifier'] >= values[0]) & (df['FrameIdentifier'] <= values[-1]),tyre_columns]
+            data = df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),tyre_columns]
             
             tyres = Tyres(data)
             tyres_data.add((key,tyres))
         else:
-            compound = VISUAL_COMPOUNDS[df.loc[df['FrameIdentifier'] == values[0],'VisualTyreCompound'].unique().item()]
+            compound = df.loc[df['FrameIdentifier'] > sep_start,'VisualTyreCompound'].unique()
+            compound = [int(x) for x in compound if not math.isnan(x)]
+            compound = VISUAL_COMPOUNDS[compound[0]]
             log.warning(f"Insufficient data for the compound '{compound}'. Data are below 3 laps.")
 
     return tyres_data

@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
@@ -133,7 +134,7 @@ def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataF
 
     return df
 
-def extract_data(idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, int, int, dict]:
+def extract_data(path:str='Data',idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, int, int, dict]:
     """
     Extracts the very essentials data from the csv, in particular:
     - Damage    :   ['FrameIdentifier', 'CarIndex', 'TyresWearRL', 'TyresWearRR', 'TyresWearFL', 'TyresWearFR', 'TyresDamageRL', 'TyresDamageRR', 'TyresDamageFL', 'TyresDamageFR']
@@ -168,18 +169,19 @@ def extract_data(idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     >>> extract_data(car_number) # car_number in range [0,19] (or [0,21] if my team active)
     
     """
-    max_frame = max(pd.read_csv('Data/Header.csv').replace('-', np.nan)['FrameIdentifier'])
+    
+    max_frame = max(pd.read_csv(os.path.join(path, 'Header.csv')).replace('-', np.nan).drop_duplicates(subset=['FrameIdentifier','PacketId'], keep='last')['FrameIdentifier'])
 
-    damage = pd.read_csv('Data/Damage.csv').replace('-', np.nan)
+    damage = pd.read_csv(os.path.join(path, 'Damage.csv')).replace('-', np.nan).drop_duplicates(subset=['FrameIdentifier','CarIndex'], keep='last')
     damage = damage.loc[damage['CarIndex']==idx,['FrameIdentifier','CarIndex','TyresWearRL','TyresWearRR','TyresWearFL','TyresWearFR','TyresDamageRL','TyresDamageRR','TyresDamageFL','TyresDamageFR']]
     
-    history = pd.read_csv('Data/History.csv').replace('-', np.nan)
+    history = pd.read_csv(os.path.join(path, 'History.csv'), low_memory=False).replace('-', np.nan).drop_duplicates(subset=['FrameIdentifier','CarIndex'], keep='last')
     history = history.loc[history['CarIndex']==idx].drop(['PacketFormat','GameMajorVersion','GameMinorVersion','PacketVersion','PacketId','SessionUID','SessionTime','PlayerCarIndex','SecondaryPlayerCarIndex'], axis=1)
     for column in list(history.columns):
         if history[column].isnull().values.all():
             history.drop(column, axis=1, inplace=True)
 
-    lap = pd.read_csv('Data/Lap.csv').replace('-', np.nan)
+    lap = pd.read_csv(os.path.join(path, 'Lap.csv')).replace('-', np.nan).drop_duplicates(subset=['FrameIdentifier','CarIndex'], keep='last')
     lap = lap.loc[lap['CarIndex']==idx,['FrameIdentifier','CarIndex','LastLapTimeInMS','CurrentLapTimeInMS','Sector1TimeInMS','Sector2TimeInMS','LapDistance','TotalDistance','CurrentLapNum','Sector','PitStopShouldServePen','DriverStatus']]
 
     # For now not used
@@ -194,21 +196,21 @@ def extract_data(idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     #    else:
     #        lap_frames[i] = 0
 
-    motion = pd.read_csv('Data/Motion.csv').replace('-', np.nan)
+    motion = pd.read_csv(os.path.join(path, 'Motion.csv')).replace('-', np.nan).drop_duplicates(subset=['FrameIdentifier','CarIndex'], keep='last')
     motion = motion.loc[motion['CarIndex']==idx, ['FrameIdentifier','CarIndex','WorldPositionX','WorldPositionY','WorldPositionZ','RLWheelSlip','RRWheelSlip','FLWheelSlip','FRWheelSlip','Pitch','Roll']]
 
-    session = pd.read_csv('Data/Session.csv').replace('-', np.nan).drop(['PacketFormat','GameMajorVersion','GameMinorVersion','PacketVersion','PacketId','SessionUID','SessionTime','PlayerCarIndex','SecondaryPlayerCarIndex','PitSpeedLimit','GamePaused','IsSpectating','SpectatorCarIndex','SliProNativeSupport','NetworkGame','AIDifficulty','SeasonLinkIdentifier','WeekendLinkIdentifier','SessionLinkIdentifier','SteeringAssist','BrakingAssist','GearboxAssist','PitAssist','PitReleaseAssist','ERSAssist','DRSAssist','DynamicRacingLine','DynamicRacingLineType'], axis=1)
+    session = pd.read_csv(os.path.join(path, 'Session.csv')).replace('-', np.nan).drop_duplicates(subset=['FrameIdentifier'], keep='last').drop(['PacketFormat','GameMajorVersion','GameMinorVersion','PacketVersion','PacketId','SessionUID','SessionTime','PlayerCarIndex','SecondaryPlayerCarIndex','PitSpeedLimit','GamePaused','IsSpectating','SpectatorCarIndex','SliProNativeSupport','NetworkGame','AIDifficulty','SeasonLinkIdentifier','WeekendLinkIdentifier','SessionLinkIdentifier','SteeringAssist','BrakingAssist','GearboxAssist','PitAssist','PitReleaseAssist','ERSAssist','DRSAssist','DynamicRacingLine','DynamicRacingLineType'], axis=1)
     for column in list(session.columns):
         if session[column].isnull().values.all():
             session.drop(column, axis=1, inplace=True)
 
-    setup = pd.read_csv('Data/Setup.csv').replace('-', np.nan)
+    setup = pd.read_csv(os.path.join(path, 'Setup.csv')).replace('-', np.nan).drop_duplicates(subset=['FrameIdentifier','CarIndex'], keep='last')
     setup = setup.loc[setup['CarIndex']==idx].drop(['PacketFormat','GameMajorVersion','GameMinorVersion','PacketVersion','PacketId','SessionUID','SessionTime','PlayerCarIndex','SecondaryPlayerCarIndex'], axis=1)
     
-    status = pd.read_csv('Data/Status.csv').replace('-', np.nan)
+    status = pd.read_csv(os.path.join(path, 'Status.csv')).replace('-', np.nan).drop_duplicates(subset=['FrameIdentifier','CarIndex'], keep='last')
     status = status.loc[status['CarIndex'] == idx, ['FrameIdentifier','CarIndex','FuelInTank','FuelCapacity','FuelRemainingLaps','ActualTyreCompound','VisualTyreCompound','TyresAgeLaps','VehicleFIAFlags','ERSStoreEnergy','ERSDeployMode','ERSHarvestedThisLapMGUK','ERSHarvestedThisLapMGUH','ERSDeployedThisLap']]
 
-    telemetry = pd.read_csv('Data/Telemetry.csv').replace('-', np.nan)
+    telemetry = pd.read_csv(os.path.join(path, 'Telemetry.csv')).replace('-', np.nan).drop_duplicates(subset=['FrameIdentifier','CarIndex'], keep='last')
     telemetry = telemetry.loc[telemetry['CarIndex'] == idx].drop(['PacketFormat','GameMajorVersion','GameMinorVersion','PacketVersion','PacketId','SessionUID','SessionTime','PlayerCarIndex','SecondaryPlayerCarIndex','Steer','Clutch','RevLightsPercent','RevLightsBitValue','RLSurfaceType','RRSurfaceType','FLSurfaceType','FRSurfaceType','MFD','MFDSecondaryPlayer','SuggestedGear'], axis=1, )
     
     min_frame = max(min(damage['FrameIdentifier']), min(history['FrameIdentifier']), min(lap['FrameIdentifier']), min(motion['FrameIdentifier']), min(session['FrameIdentifier']), min(setup['FrameIdentifier']), min(status['FrameIdentifier']), min(telemetry['FrameIdentifier']))
