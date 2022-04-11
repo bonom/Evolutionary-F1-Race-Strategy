@@ -134,6 +134,24 @@ def unify_car_data(idx:int,damage:pd.DataFrame,history:pd.DataFrame,lap:pd.DataF
 
     return df
 
+def remove_duplicates(directory:str):
+    """
+    Function that explores the directory and removes the duplicates row cycling over all *.csv files.
+    """
+    files = os.listdir(directory)
+    files = [f for f in os.listdir(directory) if f.endswith('.csv')]
+    for file in tqdm(files):
+        df = pd.read_csv(os.path.join(directory,file))
+        try:
+            df.drop_duplicates(['FrameIdentifier','CarIndex'],inplace=True)
+            df.sort_values(by=['FrameIdentifier','CarIndex'],inplace=True)
+        except KeyError:
+            df.drop_duplicates(['FrameIdentifier'],inplace=True)
+            df.sort_values(by=['FrameIdentifier'],inplace=True)
+        
+        df.to_csv(os.path.join(directory,file),index=False)
+    
+
 def extract_data(path:str='Data',idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, int, int, dict]:
     """
     Extracts the very essentials data from the csv, in particular:

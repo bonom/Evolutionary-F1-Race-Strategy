@@ -2,6 +2,7 @@ import logging
 import pandas as pd
 from tqdm import tqdm
 import math
+import os
 
 ACTUAL_COMPOUNDS: dict = {
     0:"N/A",
@@ -58,7 +59,27 @@ TYRE_POSITION: dict ={
     'RR':'Rear Right',
 }
 
+def list_data(directory:str='Data'):
+    """
+    Function that takes a directory and returns the list of subfolders in that folder.
+    """
+    folders = os.listdir(directory)
+    print(f"Select the folder data to use:")
+    for idx,folder in enumerate(folders):
+        print(f" {idx} for {folder}")
+    
+    folder_id = int(input("Enter the folder id: "))
+    while folder_id < 0 or folder_id >= len(folders):
+        folder_id = int(input("Invalid input. Enter a valid folder id: "))
+    
+    folder = folders[folder_id]
+
+    return "Data/{}".format(folder)
+
 def get_basic_logger(logger_name="default"):
+    """
+    Returns a basic logger with the given name.
+    """
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.DEBUG)
     ch = logging.StreamHandler()
@@ -69,6 +90,15 @@ def get_basic_logger(logger_name="default"):
     return logger
 
 def separate_data(df:pd.DataFrame) -> dict:
+    """
+    Separates the dataframe into different dataframes based on the column 'DriverStatus'. This column
+    indicates the status of the driver (0 is in pit, >=1 on track). The idea is that every time we are 
+    in pit we change tyres. With this information we take the frame where we exit the pit and the frame 
+    we enter the pit and we use it as range for the laps we have done.
+
+    (It can be not cleaer => I will explain better)
+    """
+
     separator = dict()
     tmp_df = df.copy()
 

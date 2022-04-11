@@ -1,54 +1,27 @@
-import math
 import sys
 import pandas as pd
-import os
-from tqdm import tqdm
 from classes.Tyres import get_tyres_data
-from classes.Extractor import extract_data,unify_car_data
-from classes.Utils import get_basic_logger
+from classes.Extractor import extract_data, remove_duplicates
+from classes.Utils import get_basic_logger, list_data
 
 import plotly.express as px
 
 log = get_basic_logger('MAIN')
 
-def remove_duplicates(directory:str):
-    files = os.listdir(directory)
-    files = [f for f in os.listdir(directory) if f.endswith('.csv')]
-    for file in tqdm(files):
-        df = pd.read_csv(os.path.join(directory,file))
-        try:
-            df.drop_duplicates(['FrameIdentifier','CarIndex'],inplace=True)
-            df.sort_values(by=['FrameIdentifier','CarIndex'],inplace=True)
-        except KeyError:
-            df.drop_duplicates(['FrameIdentifier'],inplace=True)
-            df.sort_values(by=['FrameIdentifier'],inplace=True)
-        
-        df.to_csv(os.path.join(directory,file),index=False)
-    
-
-
-def list_data(directory:str='Data'):
-    folders = list(os.walk(directory))[0][1]
-    print(f"Select the folder data to use:")
-    for idx,folder in enumerate(folders):
-        print(f" {idx} for {folder}")
-    
-    folder_id = int(input("Enter the folder id: "))
-    while folder_id < 0 or folder_id >= len(folders):
-        folder_id = int(input("Invalid input. Enter a valid folder id: "))
-    
-    folder = folders[folder_id]
-
-    return "Data/{}".format(folder)
-    
 
 def main(folder:str='',car_id:int=19):
+    """
+    Main wrapper, takes the folder where the csv's are stores and car id as input and runs the whole process.
+    """
+    ### Getting data from the Data/'folder' path
     log.info(f"Getting data for car '{car_id}'...")
     if folder == '':
         folder = list_data()
     
     damage, history, lap, motion, session, setup, status, telemetry, min_frame, max_frame = extract_data(path=folder)
 
+    ### Creating a single dataframe with all the data
+    ### In order to concatenate all data in a single dataframe (which is more easier to deal with) we need to set the FrameIdentifier (which is unique) as index
     damage.set_index('FrameIdentifier',inplace=True)
     history.set_index('FrameIdentifier',inplace=True)
     lap.set_index('FrameIdentifier',inplace=True)
@@ -64,11 +37,12 @@ def main(folder:str='',car_id:int=19):
 
     log.info(f"Complete unification of data for car '{car_id}'")
 
+    ### Getting the tyres data
     tyres_data = get_tyres_data(df)
 
-    #for idx, data in tyres_data:
+    for idx, data in tyres_data:
     #    data.tyres_slip(display=False)
-    #    data.tyres_wear(display=False)
+        data.tyres_wear(display=False)
     #    data.tyres_timing(display=False)
     
 

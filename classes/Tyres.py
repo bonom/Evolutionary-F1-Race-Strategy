@@ -19,28 +19,30 @@ class Tyre:
     position : str 
         The position of the tyre: 'FL' = Front Left, 'FR' = Right Front, 'RL' = Rear Left, 'RR' = Rear Right.
     wear : np.array or list
-        It is a list of the wear percentages of the tyre every 5 ms (which corresponds to a Frame).
+        It is a list of the wear percentages of the tyre every Frame.
     damage : np.array or list
-        It is a list of the damage percentages of the tyre every 5 ms (every Frame).
+        It is a list of the damage percentages of the tyre every Frame.
     pressure : np.array or list
-        It is a list of the pressure of the tyre every 5 ms (every Frame).
+        It is a list of the pressure of the tyre every Frame.
     inner_temperature : np.array or list
-        It is a list of the inner temperature of the tyre every 5 ms (every Frame).
+        It is a list of the inner temperature of the tyre every Frame.
     outer_temperature : np.array or list
-        It is a list of the outer temperature of the tyre every 5 ms (every Frame).
+        It is a list of the outer temperature of the tyre every Frame.
     
     Functions:
     ----------
-    cast_visual_compound(self,visual_compound:int) : str 
-        cast the integer id of the visual compound to the string one.
-
-    cast_actual_compound(self,actual_compound:int) : str 
-        cast the integer id of the actual compound to the string one.
-
-    TODO:
-    ----------
     tyre_wear(self, display:bool=False) : 
-        returns the wear function of the tyre. 
+        Returns the wear function of the tyre. If display is True, it will plot the graph of the tyre wear.
+    
+    cast_tyre_position(self, position) :
+        Returns the position of the tyre in a string format.
+    
+    get_lap(self, frame, get_float) :
+        Returns the lap of the tyre at the given frame. If get_float is true then it will cast the lap to a float (if we have two frames in the same lap this will return different float lap values).
+
+    tyre_slip(self, display:bool=False) :
+        Returns the slip of the tyre (notice that a slip = 1 means that the tyre rotate with no velocity while slip = -1 means the tyre does not rotate with a certain velocity). 
+            If display is True, it will plot the graph of the tyre slip.
     """
 
     def __init__(self, position:str, wear:Union[np.array,list]=[0.0], damage:Union[np.array,list]=[0.0], pressure:Union[np.array,list]=[0.0], inner_temperature:Union[np.array,list]=[0.0], outer_temperature:Union[np.array,list]=[0.0], laps_data:dict={0:0}, slip:Union[np.array,list]=[0.0]) -> None:
@@ -71,11 +73,17 @@ class Tyre:
         return to_ret
     
     def __getitem__(self,idx):
+        """
+        Returns a dict of data at the given index (must be a frame index).
+        """
         if idx == -1:
             idx = self.__len__() 
         return {'TyrePosition':self.position, 'TyreWear':self.wear[idx], 'TyreDamage':self.damage[idx], 'TyrePressure':self.pressure[idx], 'TyreInnerTemperature':self.inner_temperature[idx], 'TyreOuterTemperature':self.outer_temperature[idx]}
     
     def get_lap(self,frame:int, get_float:bool=False):
+        """
+        Returns the lap based on the frame. If get_float is True it returns a float lap
+        """
         first_value = list(self.lap_frames.values())[0][0]
         if get_float:
             for key, value in self.lap_frames.items():
@@ -98,6 +106,9 @@ class Tyre:
         return TYRE_POSITION[position]
 
     def tyre_wear(self, display:bool=False) -> dict:
+        """
+        Function that returns the wear of the tyre. If display is True, it will plot the graph of the tyre wear.
+        """
         dict_items = {'Frame':[int(key) for key in self.wear.keys()],'Wear_'+str(self.position):[value for value in self.wear.values()]}
         
         if display:
@@ -114,6 +125,9 @@ class Tyre:
         return dict_items
     
     def tyre_slip(self, display:bool=False) -> dict:
+        """
+        Function that returns the slip of the tyre (notice that a slip = 1 means that the tyre rotate with no velocity while slip = -1 means the tyre does not rotate with a certain velocity).
+        """
         dict_items = {'Frame':[int(key) for key in self.slip.keys()],'Slip_'+str(self.position):[value for value in self.slip.values()]}
         
         if display:
@@ -140,15 +154,23 @@ class Tyres:
     Functions:
     ----------
     cast_visual_compound(self,visual_compound:int) : str 
-        cast the integer id of the visual compound to the string one.
+        Cast the integer id of the visual compound to the string one.
 
     cast_actual_compound(self,actual_compound:int) : str 
-        cast the integer id of the actual compound to the string one.
+        Cast the integer id of the actual compound to the string one.
     
-    TODO:
-    ----------
     tyres_wear(self, display:bool=False) : 
-        returns the wear function of the tyres.
+        Returns the wear function of the tyres.
+
+    tyres_timing(self, display:bool=False) :
+        Returns the lap times of the used tyres.
+    
+    tyres_slip(self, display:bool=False) :
+        Returns the slip of the tyres.
+    
+    get_lap(self,frame:int, get_float:bool=False) :
+        Returns the lap based on the frame. If get_float is True it returns a float lap
+
     """
 
     def __init__(self, df:pd.DataFrame=None) -> None:
@@ -332,7 +354,7 @@ class Tyres:
 
 def get_tyres_data(df:pd.DataFrame) -> Tyres:
     """
-    Function to get the data of the tyres.
+    Function (wrapper) to get the data of the tyres.
 
     Parameters:
     ----------
@@ -348,12 +370,15 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
     separators = separate_data(df)
     
     log.info(f"Separation complete, getting all the tyres used ({len(separators.keys())})...")
+    
+    ### Initialize the columns of the dataframe we are interested in (only the ones that are common to all compounds)
     columns = ['FrameIdentifier','NumLaps','TyresAgeLaps','FLTyreInnerTemperature','FLTyrePressure','FLTyreSurfaceTemperature','FRTyreInnerTemperature','FRTyrePressure','FRTyreSurfaceTemperature','RLTyreInnerTemperature','RLTyrePressure','RLTyreSurfaceTemperature','RRTyreInnerTemperature','RRTyrePressure','RRTyreSurfaceTemperature','TyresDamageFL','TyresDamageFR','TyresDamageRL','TyresDamageRR','TyresWearFL','TyresWearFR','TyresWearRL','TyresWearRR','VisualTyreCompound','ActualTyreCompound','RLWheelSlip', 'RRWheelSlip', 'FLWheelSlip', 'FRWheelSlip']
     tyres_data = set()
 
     for key, values in separators.items():
         sep_start, sep_end = values
         
+        ### Get the numLap data of the compound we are considering
         numLaps = np.array(df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),'NumLaps'].unique())
         numLaps = [int(x) for x in numLaps if not math.isnan(x)]
 
@@ -361,57 +386,23 @@ def get_tyres_data(df:pd.DataFrame) -> Tyres:
             start = numLaps[0]
             end = numLaps[-1]
 
+            ### Get the columns data of the compound we are considering (these are particular, not common to all)
             tyre_columns = columns + ['tyreActualCompound['+str(key)+']','tyreVisualCompound['+str(key)+']']+['lapTimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector1TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector2TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector3TimeInMS['+str(lap)+']' for lap in range(start,end)]
 
             data = df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),tyre_columns]
             
+            ### Initialize the tyres data and add it to the set
             tyres = Tyres(data)
             tyres_data.add((key,tyres))
         else:
+            ### In case the compound is used less than three laps we cannot deduce anything (we could only use it for the qualification purpose (...))
             compound = df.loc[df['FrameIdentifier'] > sep_start,'VisualTyreCompound'].unique()
             compound = [int(x) for x in compound if not math.isnan(x)]
             compound = VISUAL_COMPOUNDS[compound[0]]
             log.warning(f"Insufficient data for the compound '{compound}'. Data are below 3 laps.")
 
-    return tyres_data
+    return tyres_data 
 
-"""
-    #############################################################################################################################
-    # 
-    #                                       OLD ONE - Working well but very inefficient
-    #
-    #############################################################################################################################
-def get_tyres_data(df:pd.DataFrame) -> Tyres:
-
-    columns = ['FrameIdentifier','NumLaps','TyresAgeLaps','FLTyreInnerTemperature','FLTyrePressure','FLTyreSurfaceTemperature','FRTyreInnerTemperature','FRTyrePressure','FRTyreSurfaceTemperature','RLTyreInnerTemperature','RLTyrePressure','RLTyreSurfaceTemperature','RRTyreInnerTemperature','RRTyrePressure','RRTyreSurfaceTemperature','TyresDamageFL','TyresDamageFR','TyresDamageRL','TyresDamageRR','TyresWearFL','TyresWearFR','TyresWearRL','TyresWearRR','VisualTyreCompound','ActualTyreCompound','RLWheelSlip', 'RRWheelSlip', 'FLWheelSlip', 'FRWheelSlip']
-    tyres_data = set()
-
-    tyres_used = list()
-    tyres_compounds = [int(compound) for compound in df['VisualTyreCompound'].unique() if int(compound) != 0]
-    
-    for idx, compound in enumerate(tyres_compounds):
-        tyres_used.append((compound, df.loc[df['VisualTyreCompound'] == compound,'FrameIdentifier'].values[0]))
-    
-    for idx,(compound,frame) in enumerate(tyres_used):    
-        numLaps = np.array(df.loc[frame: tyres_used[idx+1][1]-1 if idx < len(tyres_used)-1 else len(df),'NumLaps'].unique())
-        start = numLaps[0]
-        end = numLaps[-1]
-
-        tyre_columns = columns + ['endLap['+str(idx)+']','tyreActualCompound['+str(idx)+']','tyreVisualCompound['+str(idx)+']']+['lapTimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector1TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector2TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector3TimeInMS['+str(lap)+']' for lap in range(start,end)]
-
-        data = df.loc[(df['FrameIdentifier'] >= frame) & (df['FrameIdentifier'] < tyres_used[idx+1][1] if idx != len(tyres_used)-1 else 1),tyre_columns]
-        
-        tyres = Tyres(data)
-        
-        if len(tyres)!= 0:
-            tyres_data.add((idx,tyres))
-        else:
-            log.warning(f"Insufficient data for compound '{VISUAL_COMPOUNDS[compound]}'. Data are below 3 laps.")
-    
-    return tyres_data
-    """
-        
-    
 
 if __name__ == "__main__":
     log.warning("This module is not intended to be used as a standalone script. Run 'python main.py' instead.")
