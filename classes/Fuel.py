@@ -50,9 +50,16 @@ class Fuel:
             self.FuelInTank = RangeDictionary(df['FuelInTank'].values)
             self.FuelCapacity = RangeDictionary(df['FuelCapacity'].values)
             self.FuelRemainingLaps = RangeDictionary(df['FuelRemainingLaps'].values)
-
-        if df is None and load_path is not None:
-            self = self.load(load_path)
+        elif load_path is not None:
+            data = self.load(load_path)
+            self.lap_frames = data.lap_frames
+            self.lap_times = data.lap_times
+            self.Sector1InMS = data.Sector1InMS
+            self.Sector2InMS = data.Sector2InMS
+            self.Sector3InMS = data.Sector3InMS
+            self.FuelInTank = data.FuelInTank
+            self.FuelCapacity = data.FuelCapacity
+            self.FuelRemainingLaps = data.FuelRemainingLaps
 
 
     def __getitem__(self, idx) -> dict:
@@ -81,7 +88,7 @@ class Fuel:
         
         return 0
 
-    def fuel_consumption(self, display:bool=False) -> dict:
+    def consumption(self, display:bool=False) -> dict:
         
         fuel_consume = {'Frame':[int(value) for value in self.FuelRemainingLaps.keys()],'Fuel':[value for value in self.FuelRemainingLaps.values()]}
 
@@ -98,7 +105,7 @@ class Fuel:
 
         return fuel_consume
 
-    def fuel_timing(self, display:bool=False) -> dict:
+    def timing(self, display:bool=False) -> dict:
         timing = {'Lap':[],'LapTimeInMS':[]}
         for lap in self.lap_frames.keys():
             value = self.lap_times[lap]
@@ -116,7 +123,7 @@ class Fuel:
     
     def save(self, path:str=''):
         numlaps = len(self.lap_frames.keys())
-        path = os.path.join(path,'Fuel_'+str(numlaps)+'laps.json')
+        path = os.path.join(path,'Fuel_'+str(numlaps)+'_laps.json')
         with open(path, 'wb') as f:
             pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
     
@@ -128,6 +135,7 @@ def get_fuel_data(df:pd.DataFrame, separators:dict) -> set:
     """
     Get the fuel data from the dataframe
     """
+    ### Initialize the set and the common columns
     fuel_data = set()
     columns = ['FrameIdentifier', 'NumLaps', 'FuelInTank', 'FuelCapacity','FuelRemainingLaps']
 
@@ -140,13 +148,15 @@ def get_fuel_data(df:pd.DataFrame, separators:dict) -> set:
             start = numLaps[0]
             end = numLaps[-1]
 
+            ### Get the columns data of the fuel range frames we are considering (these are particular, not common to all)
             fuel_columns = columns + ['lapTimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector1TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector2TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector3TimeInMS['+str(lap)+']' for lap in range(start,end)]
 
             ### Get the fuel data of the laps we are considering
             data = df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),fuel_columns]
 
             ### Add them to the set
-            fuel_data.add((key,Fuel(df=data)))
+            fuel = Fuel(df=data)
+            fuel_data.add((key,fuel))
             
 
     return fuel_data

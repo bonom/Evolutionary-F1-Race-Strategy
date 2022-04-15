@@ -177,9 +177,6 @@ def extract_data(path:str='Data',idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame
     - setup     :   pd.DataFrame
     - status    :   pd.DataFrame
     - telemetry :   pd.DataFrame
-    - min_frame :   int
-    - max_frame :   int
-    - lap_frames:   list 
         List mapping lap number to frame number
 
     Examples:
@@ -188,8 +185,6 @@ def extract_data(path:str='Data',idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame
     
     """
     
-    max_frame = max(pd.read_csv(os.path.join(path, 'Header.csv')).replace('-', np.nan).drop_duplicates(subset=['FrameIdentifier','PacketId'], keep='last')['FrameIdentifier'])
-
     damage = pd.read_csv(os.path.join(path, 'Damage.csv')).replace('-', np.nan).drop_duplicates(subset=['FrameIdentifier','CarIndex'], keep='last')
     damage = damage.loc[damage['CarIndex']==idx,['FrameIdentifier','CarIndex','TyresWearRL','TyresWearRR','TyresWearFL','TyresWearFR','TyresDamageRL','TyresDamageRR','TyresDamageFL','TyresDamageFR']]
     
@@ -231,15 +226,10 @@ def extract_data(path:str='Data',idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame
     telemetry = pd.read_csv(os.path.join(path, 'Telemetry.csv')).replace('-', np.nan).drop_duplicates(subset=['FrameIdentifier','CarIndex'], keep='last')
     telemetry = telemetry.loc[telemetry['CarIndex'] == idx].drop(['PacketFormat','GameMajorVersion','GameMinorVersion','PacketVersion','PacketId','SessionUID','SessionTime','PlayerCarIndex','SecondaryPlayerCarIndex','Steer','Clutch','RevLightsPercent','RevLightsBitValue','RLSurfaceType','RRSurfaceType','FLSurfaceType','FRSurfaceType','MFD','MFDSecondaryPlayer','SuggestedGear'], axis=1, )
     
-    min_frame = max(min(damage['FrameIdentifier']), min(history['FrameIdentifier']), min(lap['FrameIdentifier']), min(motion['FrameIdentifier']), min(session['FrameIdentifier']), min(setup['FrameIdentifier']), min(status['FrameIdentifier']), min(telemetry['FrameIdentifier']))
-
-    return damage, history, lap, motion, session, setup, status, telemetry, int(min_frame), int(max_frame)#, lap_frames
+    return damage, history, lap, motion, session, setup, status, telemetry#, int(min_frame), int(max_frame), lap_frames
         
 
 if __name__ == "__main__":
-    #damage, history, lap, motion, session, setup, status, telemetry, min_frame, max_frame = extract_data(19)
-    #unify_car_data(19,damage, history, lap, motion, session, setup, status, telemetry, max_frame, min_frame)
-
     log.warning("This module is not intended to be used as a standalone script. Run 'python main.py' instead.")
     sys.exit(1)
     

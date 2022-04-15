@@ -174,8 +174,8 @@ class Tyres:
 
     """
 
-    def __init__(self, df:pd.DataFrame=None, path:str=None) -> None:
-        if path is None and df is not None:
+    def __init__(self, df:pd.DataFrame=None, load_path:str=None) -> None:
+        if df is not None:
             visual_tyre_compound = df[df.filter(like='tyreVisualCompound').columns.item()].unique()
             actual_tyre_compound = df[df.filter(like='tyreActualCompound').columns.item()].unique()
 
@@ -229,8 +229,20 @@ class Tyres:
                 self.Sector3InMS.append(max([int(value) for value in df[col].dropna().values]))
 
             self.Sector3InMS = np.array(self.Sector3InMS)   
-        else:
-            self = self.load(path) 
+
+        elif load_path is not None:
+            data = self.load(load_path)
+            self.FL_tyre = data.FL_tyre
+            self.FR_tyre = data.FR_tyre
+            self.RL_tyre = data.RL_tyre
+            self.RR_tyre = data.RR_tyre
+            self.visual_tyre_compound = data.visual_tyre_compound
+            self.actual_tyre_compound = data.actual_tyre_compound
+            self.lap_frames = data.lap_frames
+            self.lap_times = data.lap_times
+            self.Sector1InMS = data.Sector1InMS
+            self.Sector2InMS = data.Sector2InMS
+            self.Sector3InMS = data.Sector3InMS
 
 
     def __str__(self) -> str:
@@ -244,16 +256,15 @@ class Tyres:
     def __len__(self) -> int:
         if len(self.lap_frames) == 0:
             return 0
-        return list(self.lap_frames[list(self.lap_frames.keys())[-1]])[-1]
-
-    
+        return len(self.lap_frames.keys())
+        
     def cast_actual_compound(self, compound) -> str:
         return ACTUAL_COMPOUNDS[compound]
     
     def cast_visual_compound(self, compound) -> str:
         return VISUAL_COMPOUNDS[compound]
 
-    def tyres_timing(self, display:bool=False) -> dict:
+    def timing(self, display:bool=False) -> dict:
         timing = {'Lap':[],'LapTimeInMS':[]}
         for lap in self.lap_frames.keys():
             timing['Lap'].append(lap+1)
@@ -270,7 +281,7 @@ class Tyres:
             
         return timing
 
-    def tyres_wear(self, display:bool=False) -> dict:
+    def wear(self, display:bool=False) -> dict:
         FL_Tyre_wear = self.FL_tyre.tyre_wear(display=False)
         FR_Tyre_wear = self.FR_tyre.tyre_wear(display=False)
         RL_Tyre_wear = self.RL_tyre.tyre_wear(display=False)
@@ -295,7 +306,7 @@ class Tyres:
 
         return df.to_dict()
     
-    def tyres_slip(self, display:bool=False)->dict:
+    def slip(self, display:bool=False) -> dict:
         FL_Tyre_slip = self.FL_tyre.tyre_slip(display=False)
         FR_Tyre_slip = self.FR_tyre.tyre_slip(display=False)
         RL_Tyre_slip = self.RL_tyre.tyre_slip(display=False)
@@ -320,7 +331,7 @@ class Tyres:
         return df.to_dict()
 
 
-    def get_tyres_age(self,frame:int=0) -> set:
+    def get_age(self,frame:int=0) -> set:
         return self.get_lap(frame)      
 
     def get_lap(self,frame:int, get_float:bool=False) -> Union[int,float]:
@@ -344,15 +355,15 @@ class Tyres:
         
         return 0
 
-    def save(self, path:str=''):
+    def save(self, path:str='') -> None:
         numlaps = len(self.lap_frames.keys())
         compound = self.cast_visual_compound(self.visual_tyre_compound)
 
-        path = os.path.join(path,compound+'_'+str(numlaps)+'laps.json')
+        path = os.path.join(path,compound+'_'+str(numlaps)+'_laps.json')
         with open(path, 'wb') as f:
             pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
     
-    def load(self, path:str=''):
+    def load(self, path:str='') -> dict:
         with open(path, 'rb') as f:
             return pickle.load(f)
 
@@ -393,7 +404,7 @@ def get_tyres_data(df:pd.DataFrame, separators:dict) -> Tyres:
             data = df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),tyre_columns]
             
             ### Initialize the tyres data and add it to the set
-            tyres = Tyres(data)
+            tyres = Tyres(data) 
             tyres_data.add((key,tyres))
         else:
             ### In case the compound is used less than three laps we cannot deduce anything (we could only use it for the qualification purpose (...))

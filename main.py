@@ -28,7 +28,7 @@ def main(folder:str='',car_id:int=19):
         ### To use only at first data collection, otherwise always skip this function because useless
         #remove_duplicates(folder) 
 
-        damage, history, lap, motion, session, setup, setup, telemetry, min_frame, max_frame = extract_data(path=folder)
+        damage, history, lap, motion, session, setup, setup, telemetry = extract_data(path=folder)
 
         ### Creating a single dataframe with all the data
         ### In order to concatenate all data in a single dataframe (which is more easier to deal with) we need to set the FrameIdentifier (which is unique) as index
@@ -41,6 +41,7 @@ def main(folder:str='',car_id:int=19):
         telemetry.set_index('FrameIdentifier',inplace=True)
 
         df = pd.concat([damage, history, lap, motion, session, setup, setup, telemetry], axis=1)
+        df.drop(columns=['CarIndex'],inplace=True) # CarIndex is not needed anymore because it is in the file name
         df = df.loc[:,~df.columns.duplicated()] #Remove duplicated columns  
         df.sort_index(inplace=True) #Sort the dataframe by the index (in this case FrameIdentifier)
         df.reset_index(inplace=True) #Reset the index to 0,1,2,3... instead of FrameIdentifier
@@ -64,10 +65,10 @@ def main(folder:str='',car_id:int=19):
 
     ### Plotting the data
     for idx, tyre in tyres_data:
-        tyre.tyres_wear(True)
+        tyre.wear(True)
 
     for idx, fuel in fuel_data:
-        fuel.fuel_consumption(True)
+        fuel.consumption(True)
     
 if __name__ == "__main__":
     if len(sys.argv) > 1:
