@@ -143,11 +143,11 @@ def remove_duplicates(directory:str):
     for file in tqdm(files):
         df = pd.read_csv(os.path.join(directory,file))
         try:
-            df.drop_duplicates(['FrameIdentifier','CarIndex'],inplace=True)
-            df.sort_values(by=['FrameIdentifier','CarIndex'],inplace=True)
+            df.drop_duplicates(['PacketId','FrameIdentifier','CarIndex'],inplace=True)
+            df.sort_values(by=['PacketId','FrameIdentifier','CarIndex'],inplace=True)
         except KeyError:
-            df.drop_duplicates(['FrameIdentifier'],inplace=True)
-            df.sort_values(by=['FrameIdentifier'],inplace=True)
+            df.drop_duplicates(['PacketId','FrameIdentifier'],inplace=True)
+            df.sort_values(by=['PacketId','FrameIdentifier'],inplace=True)
         
         df.to_csv(os.path.join(directory,file),index=False)
     

@@ -64,6 +64,7 @@ def list_data(directory:str='Data'):
     Function that takes a directory and returns the list of subfolders in that folder.
     """
     folders = os.listdir(directory)
+    folders.remove('.DS_Store')
     print(f"Select the folder data to use:")
     for idx,folder in enumerate(folders):
         print(f" {idx} for {folder}")

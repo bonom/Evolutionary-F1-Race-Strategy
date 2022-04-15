@@ -1,5 +1,6 @@
 from typing import Union
 import numpy as np
+import math
 
 class RangeDictionary:
     def __init__(self, array:Union[np.ndarray, list]=[]):
@@ -7,7 +8,7 @@ class RangeDictionary:
         tmp = np.nan
         key = 0
         for value in array:
-            if value != tmp:
+            if value != tmp and not math.isnan(value):
                 self.dataset[key] = value
                 tmp = value
             else:
