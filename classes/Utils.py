@@ -68,7 +68,7 @@ def list_circuits(path:str='Data') -> str:
     if '.DS_Store' in folders:
         folders.remove('.DS_Store')
     if len(folders) == 1:
-        log.info(f"Only one folder found in {path}. Using it.")
+        log.info(f"Only one folder ({folders[0]}) found in {path}. Using it.")
         return os.path.join(path,folders[0])
 
     print(f"Select the folder (circuit) to use:")
@@ -88,9 +88,14 @@ def list_data(directory:str) -> str:
     """
     Function that takes a directory and returns the list of subfolders in that folder.
     """
+    log = get_basic_logger('MAIN')
     folders = os.listdir(directory)
     if '.DS_Store' in folders:
         folders.remove('.DS_Store')
+    if len(folders) == 1:
+        log.info(f"Only one folder ({folders[0]}) found in {directory}. Using it.")
+        return os.path.join(directory,folders[0])
+
     print(f"Select the folder data to use:")
     for idx,folder in enumerate(folders):
         print(f" {idx} for {folder}")
