@@ -1,8 +1,10 @@
+from ctypes import Union
 import os
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
 from classes.Utils import get_basic_logger
+from typing import Union
 import sys
 
 log = get_basic_logger('EXTRACTOR')
@@ -152,7 +154,7 @@ def remove_duplicates(directory:str):
         df.to_csv(os.path.join(directory,file),index=False)
     
 
-def extract_data(path:str='Data',idx:int=19) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, int, int, dict]:
+def extract_data(path:str='Data',idx:int=19) -> Union[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
     Extracts the very essentials data from the csv, in particular:
     - Damage    :   ['FrameIdentifier', 'CarIndex', 'TyresWearRL', 'TyresWearRR', 'TyresWearFL', 'TyresWearFR', 'TyresDamageRL', 'TyresDamageRR', 'TyresDamageFL', 'TyresDamageFR']
