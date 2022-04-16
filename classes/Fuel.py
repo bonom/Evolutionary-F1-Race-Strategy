@@ -5,6 +5,7 @@ import pickle
 import sys, os
 from classes.RangeDictionary import RangeDictionary
 import plotly.express as px
+import plotly
 
 from classes.Utils import get_basic_logger
 
