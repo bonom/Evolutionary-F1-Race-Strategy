@@ -161,6 +161,7 @@ def separate_data(df:pd.DataFrame) -> dict:
     except KeyError:
         pass
     
+    ### Left here for debugging purposes
     #for key, values in separator.items():
     #    print(key, values)
     #
