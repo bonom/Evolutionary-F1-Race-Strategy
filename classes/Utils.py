@@ -59,23 +59,49 @@ TYRE_POSITION: dict ={
     'RR':'Rear Right',
 }
 
-def list_data(directory:str='Data'):
+def list_circuits(path:str='Data') -> str:
+    """
+    Function that takes a path and returns the list of circuits data in that folder.
+    """
+    log = get_basic_logger('MAIN')
+    folders = os.listdir(path)
+    if '.DS_Store' in folders:
+        folders.remove('.DS_Store')
+    if len(folders) == 1:
+        log.info(f"Only one folder found in {path}. Using it.")
+        return os.path.join(path,folders[0])
+
+    print(f"Select the folder (circuit) to use:")
+    for idx,folder in enumerate(folders):
+        print(f" {idx} for {folder}")
+    
+    folder_id = int(input("Enter the folder id: "))
+    while folder_id < 0 or folder_id >= len(folders):
+        folder_id = int(input("Invalid input. Folder selected must be between 0 and {} Enter a valid folder id: ".format(len(folders)-1)))
+    
+    folder = folders[folder_id]
+    log.info('Using "{}".'.format(folder))
+
+    return os.path.join(path,folder)
+
+def list_data(directory:str) -> str:
     """
     Function that takes a directory and returns the list of subfolders in that folder.
     """
     folders = os.listdir(directory)
-    folders.remove('.DS_Store')
+    if '.DS_Store' in folders:
+        folders.remove('.DS_Store')
     print(f"Select the folder data to use:")
     for idx,folder in enumerate(folders):
         print(f" {idx} for {folder}")
     
     folder_id = int(input("Enter the folder id: "))
     while folder_id < 0 or folder_id >= len(folders):
-        folder_id = int(input("Invalid input. Enter a valid folder id: "))
+        folder_id = int(input("Invalid input. Folder selected must be between 0 and {} Enter a valid folder id: ".format(len(folders)-1)))
     
     folder = folders[folder_id]
 
-    return "Data/{}".format(folder)
+    return os.path.join(directory,folder)
 
 def get_basic_logger(logger_name="default"):
     """

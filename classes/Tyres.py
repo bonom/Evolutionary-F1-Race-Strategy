@@ -81,27 +81,16 @@ class Tyre:
             idx = self.__len__() 
         return {'TyrePosition':self.position, 'TyreWear':self.wear[idx], 'TyreDamage':self.damage[idx], 'TyrePressure':self.pressure[idx], 'TyreInnerTemperature':self.inner_temperature[idx], 'TyreOuterTemperature':self.outer_temperature[idx]}
     
-    def get_lap(self,frame:int, get_float:bool=False):
-        """
-        Returns the lap based on the frame. If get_float is True it returns a float lap
-        """
+    def get_lap(self, frame, get_float:bool=False) -> int:
         first_value = list(self.lap_frames.values())[0][0]
-        if get_float:
-            for key, value in self.lap_frames.items():
-                if frame+first_value in value:
-                    try:
-                        idx = value.index(frame+first_value)
-                    except Exception as e:
-                        idx = 0
-                    if idx == 0:
-                        return key
-                    return float(key)+(idx/len(value))
 
-        for key, value in self.lap_frames.items():
-            if frame+first_value in value:
-                return key
+        lap, values = next((key, value) for key, value in self.lap_frames.items() if frame+first_value in value)
+
+        if get_float:
+            lap = float(lap)
+            lap += values.index(frame+first_value)/len(values)
         
-        return 0
+        return lap
 
     def cast_tyre_position(self, position) -> str:
         return TYRE_POSITION[position]
@@ -334,32 +323,19 @@ class Tyres:
     def get_age(self,frame:int=0) -> set:
         return self.get_lap(frame)      
 
-    def get_lap(self,frame:int, get_float:bool=False) -> Union[int,float]:
+    def get_lap(self, frame, get_float:bool=False) -> int:
         first_value = list(self.lap_frames.values())[0][0]
-        
+
+        lap, values = next((key, value) for key, value in self.lap_frames.items() if frame+first_value in value)
+
         if get_float:
-            for key, value in self.lap_frames.items():
-                if frame+first_value in value:
-                    try:
-                        idx = value.index(frame+first_value)
-                    except Exception as e:
-                        idx = 0
-                    if idx == 0:
-                        return key
+            lap = float(lap)
+            lap += values.index(frame+first_value)/len(values)
         
-                    return float(key)+(idx/len(value))
+        return lap
 
-        for key, value in self.lap_frames.items():
-            if frame+first_value in value:
-                return key
-        
-        return 0
-
-    def save(self, path:str='') -> None:
-        numlaps = len(self.lap_frames.keys())
-        compound = self.cast_visual_compound(self.visual_tyre_compound)
-
-        path = os.path.join(path,compound+'_'+str(numlaps)+'_laps.json')
+    def save(self, path:str='', id:int=0) -> None:
+        path = os.path.join(path,'Tyres_'+str(id)+'.json')
         with open(path, 'wb') as f:
             pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
     
@@ -369,7 +345,7 @@ class Tyres:
 
     
 
-def get_tyres_data(df:pd.DataFrame, separators:dict) -> Tyres:
+def get_tyres_data(df:pd.DataFrame, separators:dict, path:str=None) -> Tyres:
     """
     Function (wrapper) to get the data of the tyres.
 
@@ -383,9 +359,33 @@ def get_tyres_data(df:pd.DataFrame, separators:dict) -> Tyres:
     tyres_data : set(Tyres)
         The set of the tyres data based on the compound.
     """
+    ### Initialize the set 
+    tyres_data = set()
+    
+    if path is not None:
+        log.info('Specified load path, trying to find Tyres_*.json files...')
+        files = [f for f in os.listdir(path) if f.endswith('.json') and f.startswith('Tyres_')]
+        if len(files) > 0:
+            log.info('Specified load path with files inside. Loading tyres data from file.')
+            for file in files:
+                tyres = Tyres(load_path=os.path.join(path,file))
+                idx = int(file.replace('Tyres_','').replace('.json',''))
+                tyres_data.add((idx,tyres))
+
+            log.info('Completed.')
+            return tyres_data
+                
+    
+    if path is not None:
+        log.info(f'No Tyres_*.json files found in "{path}". Loading tyres data from dataframe.')
+    else:
+        log.info('No load path specified. Loading tyres data from dataframe.')
+
+    
+    
     ### Initialize the columns of the dataframe we are interested in (only the ones that are common to all compounds)
     columns = ['FrameIdentifier','NumLaps','TyresAgeLaps','FLTyreInnerTemperature','FLTyrePressure','FLTyreSurfaceTemperature','FRTyreInnerTemperature','FRTyrePressure','FRTyreSurfaceTemperature','RLTyreInnerTemperature','RLTyrePressure','RLTyreSurfaceTemperature','RRTyreInnerTemperature','RRTyrePressure','RRTyreSurfaceTemperature','TyresDamageFL','TyresDamageFR','TyresDamageRL','TyresDamageRR','TyresWearFL','TyresWearFR','TyresWearRL','TyresWearRR','VisualTyreCompound','ActualTyreCompound','RLWheelSlip', 'RRWheelSlip', 'FLWheelSlip', 'FRWheelSlip']
-    tyres_data = set()
+    
 
     for key, (sep_start,sep_end) in separators.items():
         #sep_start, sep_end = values
@@ -405,6 +405,7 @@ def get_tyres_data(df:pd.DataFrame, separators:dict) -> Tyres:
             
             ### Initialize the tyres data and add it to the set
             tyres = Tyres(data) 
+            tyres.save(path,id=key)
             tyres_data.add((key,tyres))
         else:
             ### In case the compound is used less than three laps we cannot deduce anything (we could only use it for the qualification purpose (...))
@@ -413,6 +414,7 @@ def get_tyres_data(df:pd.DataFrame, separators:dict) -> Tyres:
             compound = VISUAL_COMPOUNDS[compound[0]]
             log.warning(f"Insufficient data for the compound '{compound}'. Data are below 3 laps.")
 
+    log.info('Completed.')
     return tyres_data 
 
 

@@ -7,8 +7,8 @@ class RangeDictionary:
         self.dataset = {}
         tmp = np.nan
         key = 0
-        for value in array:
-            if value != tmp and not math.isnan(value):
+        for idx, value in enumerate(array):
+            if (value != tmp and not math.isnan(value)) or (idx == 0):
                 self.dataset[key] = value
                 tmp = value
             else:

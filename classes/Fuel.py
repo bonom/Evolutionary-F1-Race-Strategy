@@ -6,6 +6,9 @@ import os
 from classes.RangeDictionary import RangeDictionary
 import plotly.express as px
 
+from classes.Utils import get_basic_logger
+
+log = get_basic_logger('FUEL')
 
 class Fuel:
     def __init__(self, df:pd.DataFrame=None, load_path:str=None) -> None:
@@ -69,24 +72,13 @@ class Fuel:
     def get_lap(self, frame, get_float:bool=False) -> int:
         first_value = list(self.lap_frames.values())[0][0]
 
-        if get_float:
-            for key, value in self.lap_frames.items():
-                if frame+first_value in value:
-                    try:
-                        idx = value.index(frame+first_value)
-                    except Exception as e:
-                        input(e)
-                        idx = 0
-                    if idx == 0:
-                        return key
-                    return float(key)+(idx/len(value))
+        lap, values = next((key, value) for key, value in self.lap_frames.items() if frame+first_value in value)
 
-        else:
-            for key, values in self.lap_frames.items():
-                if idx in values:
-                    return key
+        if get_float:
+            lap = float(lap)
+            lap += values.index(frame+first_value)/len(values)
         
-        return 0
+        return lap
 
     def consumption(self, display:bool=False) -> dict:
         
@@ -121,9 +113,8 @@ class Fuel:
             
         return timing
     
-    def save(self, path:str=''):
-        numlaps = len(self.lap_frames.keys())
-        path = os.path.join(path,'Fuel_'+str(numlaps)+'_laps.json')
+    def save(self, path:str='', id:int=0) -> None:
+        path = os.path.join(path,'Fuel_'+str(id)+'.json')
         with open(path, 'wb') as f:
             pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
     
@@ -131,12 +122,33 @@ class Fuel:
         with open(path, 'rb') as f:
             return pickle.load(f)
 
-def get_fuel_data(df:pd.DataFrame, separators:dict) -> set:
+def get_fuel_data(df:pd.DataFrame, separators:dict, path:str=None) -> set:
     """
     Get the fuel data from the dataframe
     """
-    ### Initialize the set and the common columns
+    ### Initialize the set 
     fuel_data = set()
+
+    if path is not None:
+        log.info('Specified load path, trying to find Fuel_*.json files...')
+        files = [f for f in os.listdir(path) if f.endswith('.json') and f.startswith('Fuel_')]
+        if len(files) > 0:
+            log.info('Specified load path with files inside. Loading fuel data from file.')
+            for file in files:
+                fuel = Fuel(load_path=os.path.join(path,file))
+                idx = int(file.replace('Fuel_','').replace('.json',''))
+                fuel_data.add((idx,fuel))
+                
+            log.info('Completed.')
+            return fuel_data
+                
+    
+    if path is not None:
+        log.info(f'No Fuel_*.json files found in "{path}". Loading fuel data from dataframe.')
+    else:
+        log.info('No load path specified. Loading fuel data from dataframe.')
+
+    ### Initialize the common columns
     columns = ['FrameIdentifier', 'NumLaps', 'FuelInTank', 'FuelCapacity','FuelRemainingLaps']
 
     for key, (sep_start,sep_end) in separators.items():
@@ -156,7 +168,10 @@ def get_fuel_data(df:pd.DataFrame, separators:dict) -> set:
 
             ### Add them to the set
             fuel = Fuel(df=data)
+            fuel.save(path,id=key)
             fuel_data.add((key,fuel))
+        else:
+            log.warning(f"Insufficient data (below 3 laps). Skipping {key}/{len(separators.keys())}.")
             
 
     return fuel_data
