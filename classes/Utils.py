@@ -2,7 +2,7 @@ import logging
 import pandas as pd
 from tqdm import tqdm
 import math
-import os
+import sys, os
 
 ACTUAL_COMPOUNDS: dict = {
     0:"N/A",
@@ -162,3 +162,8 @@ def separate_data(df:pd.DataFrame) -> dict:
     #exit()
 
     return separator
+
+if __name__ == "__main__":
+    log = get_basic_logger('UTILS')
+    log.warning("This module is not intended to be used as a standalone script. Run 'python main.py' instead.")
+    sys.exit(1)

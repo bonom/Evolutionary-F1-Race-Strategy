@@ -1,20 +1,18 @@
-autopep8 @ file:///opt/conda/conda-bld/autopep8_1639166893812/work
-Bottleneck @ file:///opt/concourse/worker/volumes/live/220f0b56-5355-4122-6705-41fcd18e285c/volume/bottleneck_1648028927947/work
+Bottleneck @ file:///C:/ci/bottleneck_1648010904582/work
 certifi==2021.10.8
 colorama @ file:///tmp/build/80754af9/colorama_1607707115595/work
 mkl-fft==1.3.1
-mkl-random @ file:///opt/concourse/worker/volumes/live/0cda23d8-7460-44b2-7e5d-3c76a8a0ca7e/volume/mkl_random_1626186083266/work
+mkl-random @ file:///C:/ci/mkl_random_1626186184308/work
 mkl-service==2.4.0
-numexpr @ file:///opt/concourse/worker/volumes/live/87ac54fe-281a-440d-4d94-26ac99bdabdc/volume/numexpr_1640704258458/work
-numpy @ file:///opt/concourse/worker/volumes/live/21fb9bb9-9731-4901-4403-2bc27cc2cc33/volume/numpy_and_numpy_base_1634106739792/work
+numexpr @ file:///C:/ci/numexpr_1640704337920/work
+numpy==1.22.3
 packaging @ file:///tmp/build/80754af9/packaging_1637314298585/work
-pandas==1.4.1
+pandas @ file:///C:/ci/pandas_1647936849302/work
 plotly @ file:///opt/conda/conda-bld/plotly_1646671701182/work
-pycodestyle @ file:///tmp/build/80754af9/pycodestyle_1636635402688/work
 pyparsing @ file:///tmp/build/80754af9/pyparsing_1635766073266/work
 python-dateutil @ file:///tmp/build/80754af9/python-dateutil_1626374649649/work
-pytz==2021.3
+pytz==2022.1
 six @ file:///tmp/build/80754af9/six_1644875935023/work
-tenacity @ file:///opt/concourse/worker/volumes/live/c1132be6-ec8e-40b3-71ba-5221ee5cb84c/volume/tenacity_1626248300498/work
-toml @ file:///tmp/build/80754af9/toml_1616166611790/work
+tenacity @ file:///C:/ci/tenacity_1626248381338/work
 tqdm @ file:///opt/conda/conda-bld/tqdm_1647339053476/work
+wincertstore==0.2

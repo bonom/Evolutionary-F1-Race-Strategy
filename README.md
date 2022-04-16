@@ -6,7 +6,7 @@ Genetic Algorithms applied to F1 race strategy.
 - numpy
 - pandas
 - plotly
-- Python >=3.8.12
+- Python 
 
 To create the environment use conda (better):
 ```python
@@ -36,3 +36,5 @@ Contains some utility functions that can be useful for other classes. Moreover i
 ## Tyres
 The class is intended to extract and analyze data about a stint (set) of tyre. There are two main classes: *Tyre* and *Tyres*, the first is used for a single tyre that can be FrontLeft, FrontRight, RearLeft or RearRight while the second is used to take the all four tyres in one single class.
 
+## Fuel
+The class is intended to extract and analyze data about fuel usage (it is based on the different stints approach). There is one main classes: *Fuel*.

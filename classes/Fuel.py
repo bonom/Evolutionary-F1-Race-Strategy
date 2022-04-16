@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import math
 import pickle
-import os
+import sys, os
 from classes.RangeDictionary import RangeDictionary
 import plotly.express as px
 
@@ -175,3 +175,7 @@ def get_fuel_data(df:pd.DataFrame, separators:dict, path:str=None) -> set:
             
 
     return fuel_data
+
+if __name__ == "__main__":
+    log.warning("This module is not intended to be used as a standalone script. Run 'python main.py' instead.")
+    sys.exit(1)

@@ -1,6 +1,11 @@
 from typing import Union
 import numpy as np
 import math
+import sys
+
+from classes.Utils import get_basic_logger
+
+log = get_basic_logger('RangeDictionary')
 
 class RangeDictionary:
     def __init__(self, array:Union[np.ndarray, list]=[]):
@@ -102,6 +107,6 @@ class RangeDictionary:
     def items(self):
         return zip(self.keys(), self.values())
 
-if __name__ == '__main__':
-    tmp = RangeDictionary([0.1,0.2,0.2,0.25,0.3,0.4,0.4])
-    print(tmp)
+if __name__ == "__main__":
+    log.warning("This module is not intended to be used as a standalone script. Run 'python main.py' instead.")
+    sys.exit(1)
