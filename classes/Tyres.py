@@ -305,7 +305,7 @@ class Tyres:
             
         return timing
 
-    def wear(self, display:bool=False) -> dict:
+    def wear(self, display:bool=False) -> pd.DataFrame:
         FL_Tyre_wear = self.FL_tyre.tyre_wear(display=False)
         FR_Tyre_wear = self.FR_tyre.tyre_wear(display=False)
         RL_Tyre_wear = self.RL_tyre.tyre_wear(display=False)
@@ -336,12 +336,12 @@ class Tyres:
         RL_Tyre_model = self.RL_tyre.predict_wear(x_predict)
         RR_Tyre_model = self.RR_tyre.predict_wear(x_predict)
 
-        df = dict({'FL' : FL_Tyre_model, 'FR' : FR_Tyre_model,'RL' : RL_Tyre_model, 'RR' : RR_Tyre_model})
-        log.info(f"Tyres Wear predictions at lap {self.get_lap(x_predict, True)} (frame {x_predict}):\n\t\t\t\t\tFrontLeft Wear: {df['FL']} %,\n\t\t\t\t\tFrontRight Wear: {df['FR']} %,\n\t\t\t\t\tRearLeft Wear: {df['RL']} %,\n\t\t\t\t\tRearRight Wear: {df['RR']} %.")
+        predictions = dict({'FL' : FL_Tyre_model, 'FR' : FR_Tyre_model,'RL' : RL_Tyre_model, 'RR' : RR_Tyre_model})
+        log.info(f"Tyres Wear predictions at lap {self.get_lap(x_predict, True)} (frame {x_predict}):\n\t\t\t\t\tFrontLeft Wear: {predictions['FL']} %,\n\t\t\t\t\tFrontRight Wear: {predictions['FR']} %,\n\t\t\t\t\tRearLeft Wear: {predictions['RL']} %,\n\t\t\t\t\tRearRight Wear: {predictions['RR']} %.")
 
-        return df
+        return predictions
 
-    def slip(self, display:bool=False) -> dict:
+    def slip(self, display:bool=False) -> pd.DataFrame:
         FL_Tyre_slip = self.FL_tyre.tyre_slip(display=False)
         FR_Tyre_slip = self.FR_tyre.tyre_slip(display=False)
         RL_Tyre_slip = self.RL_tyre.tyre_slip(display=False)
