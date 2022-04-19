@@ -332,8 +332,8 @@ class Tyres:
         RL_Tyre_model = self.RL_tyre.tyre_model(x_predict)
         RR_Tyre_model = self.RR_tyre.tyre_model(x_predict)
 
-        df = dict({'1' : FL_Tyre_model, '2' : FR_Tyre_model,'3' : RL_Tyre_model, '4' : RR_Tyre_model})
-        log.info(df)
+        df = dict({'FL' : FL_Tyre_model, 'FR' : FR_Tyre_model,'RL' : RL_Tyre_model, 'RR' : RR_Tyre_model})
+        log.info(f"Tyres Wear predictions at lap {self.get_lap(x_predict, True)} (frame {x_predict}):\n\t\t\t\t\tFrontLeft Wear: {df['FL']} %,\n\t\t\t\t\tFrontRight Wear: {df['FR']} %,\n\t\t\t\t\tRearLeft Wear: {df['RL']} %,\n\t\t\t\t\tRearRight Wear: {df['RR']} %.")
 
         return df
 
