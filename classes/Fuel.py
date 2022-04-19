@@ -6,6 +6,7 @@ import sys, os
 from classes.RangeDictionary import RangeDictionary
 import plotly.express as px
 import plotly
+from sklearn.linear_model import LinearRegression
 
 from classes.Utils import get_basic_logger
 
@@ -83,7 +84,7 @@ class Fuel:
 
     def consumption(self, display:bool=False) -> dict:
         
-        fuel_consume = {'Frame':[int(value) for value in self.FuelRemainingLaps.keys()],'Fuel':[value for value in self.FuelRemainingLaps.values()]}
+        fuel_consume = {'Frame':[int(value) for value in self.FuelInTank.keys()],'Fuel':[value for value in self.FuelInTank.values()]}
 
         if display:
             df = pd.DataFrame(fuel_consume)
@@ -114,6 +115,34 @@ class Fuel:
             
         return timing
     
+    def fuel_model(self, x_predict:int) -> float:
+        """
+        Return the 2 coefficient beta_0 and beta_1 for the linear model that fits the data : Time/Fuel
+        """
+        x = np.array([int(key) for key in self.FuelInTank.keys()]).reshape((-1,1))
+        y = np.array(list(self.FuelInTank.values()))
+        if math.isnan(y[0]):
+            y[0] = 0
+
+        #print(x)
+        print(y)
+
+        model = LinearRegression().fit(x,y)
+
+        r_sq = model.score(x,y)
+        #print('Coefficient of determination: ', r_sq)
+
+        intercept = model.intercept_
+        slope = model.coef_
+        #print('Intercept : ', intercept)
+        #print('Slope : ', slope)
+
+        x_predict = np.array(x_predict).reshape(-1,1)
+        y_predict = model.predict(x_predict)
+        #print(y_predict)
+        log.info(y_predict)
+        return y_predict
+
     def save(self, path:str='', id:int=0) -> None:
         path = os.path.join(path,'Fuel_'+str(id)+'.json')
         with open(path, 'wb') as f:
@@ -122,6 +151,8 @@ class Fuel:
     def load(self, path:str=''):
         with open(path, 'rb') as f:
             return pickle.load(f)
+
+    
 
 def get_fuel_data(df:pd.DataFrame, separators:dict, path:str=None) -> set:
     """

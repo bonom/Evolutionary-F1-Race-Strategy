@@ -2,7 +2,6 @@ import sys, os
 from typing import Union
 import pandas as pd
 import numpy as np
-import sklearn 
 from sklearn.linear_model import LinearRegression
 import math
 import pickle

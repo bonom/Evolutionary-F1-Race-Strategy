@@ -81,12 +81,11 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
     ### Plotting the data
     for idx, tyres in tyres_data:
         tyres.wear(True)
-        #print(tyres.get_lap(6000, True))
-        #print("Finito wear, inizio model")
         tyres.model(6000)
 
     for idx, fuel in fuel_data:
         fuel.consumption(True)
+        fuel.fuel_model(6000)
     
 if __name__ == "__main__":
     main(args.i,args.d,args.c,args.f)
