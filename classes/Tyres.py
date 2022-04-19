@@ -82,16 +82,12 @@ class Tyre:
             idx = self.__len__() 
         return {'TyrePosition':self.position, 'TyreWear':self.wear[idx], 'TyreDamage':self.damage[idx], 'TyrePressure':self.pressure[idx], 'TyreInnerTemperature':self.inner_temperature[idx], 'TyreOuterTemperature':self.outer_temperature[idx]}
     
-    def get_lap(self, frame, get_float:bool=False) -> int:
-        first_value = list(self.lap_frames.values())[0][0]
-
-        lap, values = next((key, value) for key, value in self.lap_frames.items() if frame+first_value in value)
-
+    def get_lap(self, frame, get_float:bool=False) -> Union[int,float]:
+        first_value = list(self.lap_frames.keys())[0]
         if get_float:
-            lap = float(lap)
-            lap += values.index(frame+first_value)/len(values)
+            return self.lap_frames[frame+first_value]
         
-        return lap
+        return int(self.lap_frames[frame+first_value])
 
     def cast_tyre_position(self, position) -> str:
         return TYRE_POSITION[position]
@@ -133,7 +129,7 @@ class Tyre:
 
         return dict_items
     
-    def tyre_model(self, x_predict:int) -> float:
+    def predict_wear(self, x_predict:int) -> float:
         """
         Return the 2 coefficient beta_0 and beta_1 for the linear model that fits the data : Time/Fuel
         """
@@ -217,9 +213,16 @@ class Tyres:
             max_lap_len = len(df.filter(like="lapTimeInMS").columns.to_list())
             for idx in range(max_lap_len):
                 if idx < max_lap_len-1:
-                    self.lap_frames[idx] = [i for i in range(indexes[idx],indexes[idx+1])]
+                    #self.lap_frames[idx] = [i for i in range(indexes[idx],indexes[idx+1])]
+                    start = indexes[idx]
+                    end = indexes[idx+1]
                 else:
-                    self.lap_frames[idx] = [i for i in range(indexes[idx],df['FrameIdentifier'].iloc[-1])]
+                    #self.lap_frames[idx] = [i for i in range(indexes[idx],df['FrameIdentifier'].iloc[-1])]
+                    start = indexes[idx]
+                    end = df['FrameIdentifier'].iloc[-1]
+                
+                for i in range(start,end):
+                    self.lap_frames[i] = idx + round(((i - start)/(end - start)),2)
 
             self.FL_tyre = Tyre("FL", df["TyresWearFL"].values,df['TyresDamageFL'].values,df['FLTyrePressure'].values,df['FLTyreInnerTemperature'].values,df['FLTyreSurfaceTemperature'].values,self.lap_frames,df['FLWheelSlip'].values)
             self.FR_tyre = Tyre("FR", df["TyresWearFR"].values,df['TyresDamageFR'].values,df['FRTyrePressure'].values,df['FRTyreInnerTemperature'].values,df['FRTyreSurfaceTemperature'].values,self.lap_frames,df['FRWheelSlip'].values)
@@ -327,11 +330,11 @@ class Tyres:
 
         return df.to_dict()
     
-    def model(self, x_predict:int) -> dict:
-        FL_Tyre_model = self.FL_tyre.tyre_model(x_predict)
-        FR_Tyre_model = self.FR_tyre.tyre_model(x_predict)
-        RL_Tyre_model = self.RL_tyre.tyre_model(x_predict)
-        RR_Tyre_model = self.RR_tyre.tyre_model(x_predict)
+    def predict_wears(self, x_predict:int) -> dict:
+        FL_Tyre_model = self.FL_tyre.predict_wear(x_predict)
+        FR_Tyre_model = self.FR_tyre.predict_wear(x_predict)
+        RL_Tyre_model = self.RL_tyre.predict_wear(x_predict)
+        RR_Tyre_model = self.RR_tyre.predict_wear(x_predict)
 
         df = dict({'FL' : FL_Tyre_model, 'FR' : FR_Tyre_model,'RL' : RL_Tyre_model, 'RR' : RR_Tyre_model})
         log.info(f"Tyres Wear predictions at lap {self.get_lap(x_predict, True)} (frame {x_predict}):\n\t\t\t\t\tFrontLeft Wear: {df['FL']} %,\n\t\t\t\t\tFrontRight Wear: {df['FR']} %,\n\t\t\t\t\tRearLeft Wear: {df['RL']} %,\n\t\t\t\t\tRearRight Wear: {df['RR']} %.")
@@ -357,25 +360,21 @@ class Tyres:
             
         if display:
             fig = px.line(df, x='Lap',y=['Slip_FL', 'Slip_FR', 'Slip_RL', 'Slip_RR'], title='Tyre Slip on '+self.cast_visual_compound(self.visual_tyre_compound)+" compound",markers=True,range_y=[-1.1,1.1])
-            plotly.offline.plot(fig, filename='Tyres.html')
-            #fig.show()
+            #plotly.offline.plot(fig, filename='Tyres.html')
+            fig.show()
     
-        return df.to_dict()
+        return df#.to_dict()
 
 
-    def get_age(self,frame:int=0) -> set:
+    def get_age(self,frame:int=0) -> Union[int,float]:
         return self.get_lap(frame)      
 
-    def get_lap(self, frame, get_float:bool=False) -> int:
-        first_value = list(self.lap_frames.values())[0][0]
-
-        lap, values = next((key, value) for key, value in self.lap_frames.items() if frame+first_value in value)
-
+    def get_lap(self, frame, get_float:bool=False) -> Union[int,float]:
+        first_value = list(self.lap_frames.keys())[0]
         if get_float:
-            lap = float(lap)
-            lap += values.index(frame+first_value)/len(values)
+            return self.lap_frames[frame+first_value]
         
-        return lap
+        return int(self.lap_frames[frame+first_value])
 
     def save(self, path:str='', id:int=0) -> None:
         path = os.path.join(path,'Tyres_'+str(id)+'.json')

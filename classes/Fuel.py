@@ -1,3 +1,4 @@
+from typing import Union
 import pandas as pd
 import numpy as np
 import math
@@ -24,9 +25,16 @@ class Fuel:
             max_lap_len = len(df.filter(like="lapTimeInMS").columns.to_list())
             for idx in range(max_lap_len):
                 if idx < max_lap_len-1:
-                    self.lap_frames[idx] = [i for i in range(indexes[idx],indexes[idx+1])]
+                    #self.lap_frames[idx] = [i for i in range(indexes[idx],indexes[idx+1])]
+                    start = indexes[idx]
+                    end = indexes[idx+1]
                 else:
-                    self.lap_frames[idx] = [i for i in range(indexes[idx],df['FrameIdentifier'].iloc[-1])]
+                    #self.lap_frames[idx] = [i for i in range(indexes[idx],df['FrameIdentifier'].iloc[-1])]
+                    start = indexes[idx]
+                    end = df['FrameIdentifier'].iloc[-1]
+                
+                for i in range(start,end):
+                    self.lap_frames[i] = idx + round(((i - start)/(end - start)),2)
             
             self.lap_times = list()
             for col in df.filter(like="lapTimeInMS").columns.to_list():
@@ -71,28 +79,24 @@ class Fuel:
         lap = self.get_lap(idx)
         return {'NumLap': lap, 'LapTimeInMS': self.lap_times[lap], 'Sector1InMS': self.Sector1InMS[lap], 'Sector2InMS': self.Sector2InMS[lap], 'Sector3InMS': self.Sector3InMS[lap], 'FuelInTank': self.FuelInTank[idx], 'FuelCapacity': self.FuelCapacity[idx], 'FuelRemaining': self.FuelRemaining[idx]}
 
-    def get_lap(self, frame, get_float:bool=False) -> int:
-        first_value = list(self.lap_frames.values())[0][0]
-
-        lap, values = next((key, value) for key, value in self.lap_frames.items() if frame+first_value in value)
-
+    def get_lap(self, frame, get_float:bool=False) -> Union[int,float]:
+        first_value = list(self.lap_frames.keys())[0]
         if get_float:
-            lap = float(lap)
-            lap += values.index(frame+first_value)/len(values)
+            return self.lap_frames[frame+first_value]
         
-        return lap
+        return int(self.lap_frames[frame+first_value])
 
     def consumption(self, display:bool=False) -> dict:
         
         fuel_consume = {'Frame':[int(value) for value in self.FuelInTank.keys()],'Fuel':[value for value in self.FuelInTank.values()]}
 
-        if display:
-            df = pd.DataFrame(fuel_consume)
-            for row in df.index:
-                df.loc[row,'Lap'] = self.get_lap(df.loc[row,'Frame'],True)
+        fuel_consume = pd.DataFrame(fuel_consume)
 
-            fig = px.line(df, x='Lap',y='Fuel', title='Fuel Consumption', range_y=[0,100]) #Need to check what is the maximum value of the fuel load
-            
+        for row in fuel_consume.index:
+            fuel_consume.at[row,'Lap'] = self.get_lap(fuel_consume.at[row,'Frame'],True)
+
+        if display:
+            fig = px.line(fuel_consume, x='Lap',y='Fuel', title='Fuel Consumption', range_y=[0,100]) #Need to check what is the maximum value of the fuel load
             #plotly.offline.plot(fig, filename='Fuel consumption.html')
             fig.show()
 
@@ -115,7 +119,7 @@ class Fuel:
             
         return timing
     
-    def fuel_model(self, x_predict:int) -> float:
+    def predict_fuelload(self, x_predict:int) -> float:
         """
         Return the 2 coefficient beta_0 and beta_1 for the linear model that fits the data : Time/Fuel
         """
@@ -140,8 +144,10 @@ class Fuel:
         x_predict = np.array(x_predict).reshape(-1,1)
         y_predict = model.predict(x_predict)
         #print(y_predict)
+        
         y_predict = round(y_predict[0],2)
-        log.info(f"Predicted fuel consumption for lap {self.get_lap(int(x_predict))} (frame {int(x_predict)}) is {y_predict}")
+        log.info(f"Predicted fuel consumption for lap {self.get_lap(int(x_predict))} (frame {int(x_predict)}) is {y_predict} %")
+        
         return y_predict
 
     def save(self, path:str='', id:int=0) -> None:
