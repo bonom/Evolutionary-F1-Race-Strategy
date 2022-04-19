@@ -172,13 +172,13 @@ def get_fuel_data(df:pd.DataFrame, separators:dict, path:str=None) -> set:
         log.info('Specified load path, trying to find Fuel_*.json files...')
         files = [f for f in os.listdir(path) if f.endswith('.json') and f.startswith('Fuel_')]
         if len(files) > 0:
-            log.info('Specified load path with files inside. Loading fuel data from file.')
+            log.info('Specified load path with files inside. Loading fuel data from file...')
             for file in files:
                 fuel = Fuel(load_path=os.path.join(path,file))
                 idx = int(file.replace('Fuel_','').replace('.json',''))
                 fuel_data.add((idx,fuel))
                 
-            log.info('Completed.')
+            log.info('Loading completed.')
             return fuel_data
                 
     

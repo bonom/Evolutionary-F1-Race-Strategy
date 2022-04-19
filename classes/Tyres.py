@@ -408,13 +408,13 @@ def get_tyres_data(df:pd.DataFrame, separators:dict, path:str=None) -> Tyres:
         log.info('Specified load path, trying to find Tyres_*.json files...')
         files = [f for f in os.listdir(path) if f.endswith('.json') and f.startswith('Tyres_')]
         if len(files) > 0:
-            log.info('Specified load path with files inside. Loading tyres data from file.')
+            log.info('Specified load path with files inside. Loading tyres data from file...')
             for file in files:
                 tyres = Tyres(load_path=os.path.join(path,file))
                 idx = int(file.replace('Tyres_','').replace('.json',''))
                 tyres_data.add((idx,tyres))
 
-            log.info('Completed.')
+            log.info('Loading completed.')
             return tyres_data
                 
     
