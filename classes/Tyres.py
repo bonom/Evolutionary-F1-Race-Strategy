@@ -159,6 +159,7 @@ class Tyre:
         y_predict = model.predict(x_predict)
         #print(y_predict)
 
+        y_predict = round(y_predict[0],2)
         return y_predict
 
 

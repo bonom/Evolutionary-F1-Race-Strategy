@@ -125,7 +125,7 @@ class Fuel:
             y[0] = 0
 
         #print(x)
-        print(y)
+        #print(y)
 
         model = LinearRegression().fit(x,y)
 
@@ -140,7 +140,8 @@ class Fuel:
         x_predict = np.array(x_predict).reshape(-1,1)
         y_predict = model.predict(x_predict)
         #print(y_predict)
-        log.info(y_predict)
+        y_predict = round(y_predict[0],2)
+        log.info(f"Predicted fuel consumption for lap {self.get_lap(int(x_predict))} (frame {int(x_predict)}) is {y_predict}")
         return y_predict
 
     def save(self, path:str='', id:int=0) -> None:
