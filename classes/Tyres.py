@@ -2,6 +2,8 @@ import sys, os
 from typing import Union
 import pandas as pd
 import numpy as np
+import sklearn 
+from sklearn.linear_model import LinearRegression
 import math
 import pickle
 import plotly.express as px
@@ -131,6 +133,35 @@ class Tyre:
             fig.show()
 
         return dict_items
+    
+    def tyre_model(self, x_predict:int) -> float:
+        """
+        Return the 2 coefficient beta_0 and beta_1 for the linear model that fits the data : Time/Fuel
+        """
+        x = np.array([int(key) for key in self.wear.keys()]).reshape((-1,1))
+        y = np.array(list(self.wear.values()))
+        if math.isnan(y[0]):
+            y[0] = 0
+
+        #print(x)
+        #print(y)
+
+        model = LinearRegression().fit(x,y)
+
+        r_sq = model.score(x,y)
+        #print('Coefficient of determination: ', r_sq)
+
+        intercept = model.intercept_
+        slope = model.coef_
+        #print('Intercept : ', intercept)
+        #print('Slope : ', slope)
+
+        x_predict = np.array(x_predict).reshape(-1,1)
+        y_predict = model.predict(x_predict)
+        #print(y_predict)
+
+        return y_predict
+
 
 class Tyres:
     """
@@ -265,6 +296,7 @@ class Tyres:
         if display:
             df = pd.DataFrame(timing)
             fig = px.line(df, x='Lap',y='LapTimeInMS', title='Lap Times on '+self.cast_visual_compound(self.visual_tyre_compound)+" compound",markers=True,range_y=[min(timing['LapTimeInMS'])-1000,max(timing['LapTimeInMS'])+1000])
+            
             #plotly.offline.plot(fig, filename='Tyres Timing.html')
             fig.show()
             
@@ -295,6 +327,17 @@ class Tyres:
 
         return df.to_dict()
     
+    def model(self, x_predict:int) -> dict:
+        FL_Tyre_model = self.FL_tyre.tyre_model(x_predict)
+        FR_Tyre_model = self.FR_tyre.tyre_model(x_predict)
+        RL_Tyre_model = self.RL_tyre.tyre_model(x_predict)
+        RR_Tyre_model = self.RR_tyre.tyre_model(x_predict)
+
+        df = dict({'1' : FL_Tyre_model, '2' : FR_Tyre_model,'3' : RL_Tyre_model, '4' : RR_Tyre_model})
+        log.info(df)
+
+        return df
+
     def slip(self, display:bool=False) -> dict:
         FL_Tyre_slip = self.FL_tyre.tyre_slip(display=False)
         FR_Tyre_slip = self.FR_tyre.tyre_slip(display=False)
@@ -314,8 +357,8 @@ class Tyres:
             
         if display:
             fig = px.line(df, x='Lap',y=['Slip_FL', 'Slip_FR', 'Slip_RL', 'Slip_RR'], title='Tyre Slip on '+self.cast_visual_compound(self.visual_tyre_compound)+" compound",markers=True,range_y=[-1.1,1.1])
-            #plotly.offline.plot(fig, filename='Tyres.html')
-            fig.show()
+            plotly.offline.plot(fig, filename='Tyres.html')
+            #fig.show()
     
         return df.to_dict()
 

@@ -79,8 +79,11 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
     log.info(f"Complete getting the data for the fuel consumption.")
 
     ### Plotting the data
-    for idx, tyre in tyres_data:
-        tyre.wear(True)
+    for idx, tyres in tyres_data:
+        tyres.wear(True)
+        #print(tyres.get_lap(6000, True))
+        #print("Finito wear, inizio model")
+        tyres.model(6000)
 
     for idx, fuel in fuel_data:
         fuel.consumption(True)
