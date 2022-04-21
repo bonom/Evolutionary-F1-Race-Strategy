@@ -170,18 +170,18 @@ if __name__ == "__main__":
                 traces = []
                 for trace in range(len(tmp_fig["data"])):
                     traces.append(tmp_fig["data"][trace])
-                
+
                 for t in traces:
                     fig.append_trace(t, 3, idx+1)
-    
+
             path = args.f.split('\\')
-            path = os.path.join('Plots',path[-2])
+            path = os.path.join('Plots',path[2],path[3])
             if not os.path.exists(path):
-                os.mkdir(path)
-                
+                os.makedirs(path)
+
             fig.update_layout(title_text=f"Car {i} -> {get_car_name(i,path=args.f)}")
             plotly.offline.plot(fig, filename=f'{path}/Car{i}.html')
-            
+
         
 
         #input(f"Ended {i}... Press ENTER to continue with {i+1}")
