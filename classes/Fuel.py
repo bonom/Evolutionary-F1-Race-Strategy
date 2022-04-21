@@ -213,7 +213,7 @@ def get_fuel_data(df:pd.DataFrame, separators:dict, path:str=None) -> set:
 
             ### Add them to the set
             fuel = Fuel(df=data)
-            #fuel.save(path,id=key)
+            fuel.save(path,id=key)
             fuel_data.add((key,fuel))
         else:
             log.warning(f"Insufficient data (below 3 laps). Skipping {key}/{len(separators.keys())}.")

@@ -480,9 +480,8 @@ def get_tyres_data(df:pd.DataFrame, separators:dict, path:str=None) -> Tyres:
 
             ### Initialize the tyres data and add it to the set
             tyres = Tyres(data) 
-            if tyres is not None:
-                #tyres.save(path,id=key)
-                tyres_data.add((key,tyres))
+            tyres.save(path,id=key)
+            tyres_data.add((key,tyres))
         else:
             ### In case the compound is used less than three laps we cannot deduce anything (we could only use it for the qualification purpose (...))
             compound = df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),'VisualTyreCompound'].unique()
