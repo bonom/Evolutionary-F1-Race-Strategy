@@ -31,11 +31,11 @@ class Timing:
                 for i in range(start,end):
                     self.lap_frames[i] = idx + round(((i - start)/(end - start)),2)
             
-            self.lap_times = list()
+            self.LapTimes = list()
             for col in df.filter(like="lapTimeInMS").columns.to_list():
-                self.lap_times.append(max([int(value) for value in df[col].dropna().values]))
+                self.LapTimes.append(max([int(value) for value in df[col].dropna().values]))
 
-            self.lap_times = np.array(self.lap_times)
+            self.LapTimes = np.array(self.LapTimes)
 
             self.Sector1InMS = list()
             for col in df.filter(like="sector1TimeInMS").columns.to_list():
@@ -64,14 +64,14 @@ class Timing:
             self.Sector3InMS = data.Sector3InMS
     
     def __repr__(self):
-        return f"LapTimes: {self.lap_times}\nSector1InMS: {self.Sector1InMS}\nSector2InMS: {self.Sector2InMS}\nSector3InMS: {self.Sector3InMS}"
+        return f"LapTimes: {self.LapTimes}\nSector1InMS: {self.Sector1InMS}\nSector2InMS: {self.Sector2InMS}\nSector3InMS: {self.Sector3InMS}"
     
     def __str__(self):
         return self.__repr__(self)
     
     def __getitem__(self, key:int) -> dict:
         lap = self.get_lap(key)
-        return {'Lap':lap,'LapTimeInMS':self.lap_times[lap], 'Sector1InMS':self.Sector1InMS[lap], 'Sector2InMS':self.Sector2InMS[lap], 'Sector3InMS':self.Sector3InMS[lap]}
+        return {'Lap':lap,'LapTimeInMS':self.LapTimes[lap], 'Sector1InMS':self.Sector1InMS[lap], 'Sector2InMS':self.Sector2InMS[lap], 'Sector3InMS':self.Sector3InMS[lap]}
 
     def __len__(self) -> int:
         return len(self.lap_frames.keys())
@@ -86,18 +86,18 @@ class Timing:
 
     def plot(self, display:bool=False) -> dict:
         timing = {'Lap':[],'LapTimeInMS':[]}
-        for lap, lap_time in enumerate(self.lap_times):
+        for lap, lap_time in enumerate(self.LapTimes):
             if lap_time != 0:
                 timing['Lap'].append(lap+1)
                 timing['LapTimeInMS'].append(lap_time)
-            elif lap != len(self.lap_times)-1:
+            elif lap != len(self.LapTimes)-1:
                 log.critical("Lap {} has no time and it is not the last one!".format(lap+1))
         
         if display:
             df = pd.DataFrame(timing)
             fig = px.line(df, x='Lap',y='LapTimeInMS', title='Lap Times',markers=True,range_x=[-0.1,max(timing['Lap'])+1], range_y=[min(timing['LapTimeInMS'])-1000,max(timing['LapTimeInMS'])+1000])
             
-            if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
+            if os.environ['COMPUTERNAME'] == 'DESKTOP-KICFR1D':
                 plotly.offline.plot(fig, filename='Plots/Timing.html')
             else:
                 fig.show()
@@ -107,15 +107,15 @@ class Timing:
     def save(self, save_path:str, id:int=0) -> None:
         save_path = os.path.join(save_path,'Timing_'+str(id)+'.json')
         with open(save_path, 'wb') as f:
-            pickle.dump(self, f)
+            pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
     
-    def load(self, load_path:str):
+    def load(self, load_path:str) -> dict:
         with open(load_path, 'rb') as f:
             return pickle.load(f)
 
 def get_timing_data(df:pd.DataFrame, separators:dict, path:str=None) -> Timing:
     ### Initialize the set 
-    timing_data = set()
+    timing_data = dict()
     
     if path is not None:
         log.info('Specified load path, trying to find Timing_*.json files...')
@@ -125,7 +125,7 @@ def get_timing_data(df:pd.DataFrame, separators:dict, path:str=None) -> Timing:
             for file in files:
                 timing = Timing(load_path=os.path.join(path,file))
                 idx = int(file.replace('Timing_','').replace('.json',''))
-                timing_data.add((idx,timing))
+                timing_data[idx] = timing
 
             log.info('Loading completed.')
             return timing_data
@@ -158,8 +158,8 @@ def get_timing_data(df:pd.DataFrame, separators:dict, path:str=None) -> Timing:
             ### Initialize the timing data and add it to the set
             timing = Timing(data) 
             timing.save(path,id=key)
-            timing_data.add((key,timing))
+            timing_data[key] = timing
         else:
-            log.warning(f"Insufficient data (below 3 laps). Skipping {key}/{len(separators.keys())}.")
+            log.warning(f"Insufficient data (below 3 laps). Skipping {key+1}/{len(separators.keys())}.")
 
     return timing_data

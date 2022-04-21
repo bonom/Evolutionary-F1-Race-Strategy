@@ -68,13 +68,12 @@ class CustomFormatter(logging.Formatter):
     red = "\x1b[31;20m"
     bold_red = "\x1b[31;1m"
     reset = "\x1b[0m"
-    format = datetime.now().strftime("%H:%M:%S")+" - %(name)s - %(levelname)s - %(message)s --> (%(filename)s:%(lineno)d)"
-    format_no_line = datetime.now().strftime("%H:%M:%S")+" - %(name)s - %(levelname)s - %(message)s"
+    format = datetime.now().strftime("%H:%M:%S")+" - %(name)s - %(levelname)s - %(message)s"
 
     FORMATS = {
         logging.DEBUG: grey + format + reset,
-        logging.INFO: grey + format_no_line + reset,
-        logging.WARNING: yellow + format_no_line + reset,
+        logging.INFO: grey + format + reset,
+        logging.WARNING: yellow + format + reset,
         logging.ERROR: red + format + reset,
         logging.CRITICAL: bold_red + format + reset
     }
@@ -84,6 +83,11 @@ class CustomFormatter(logging.Formatter):
         formatter = logging.Formatter(log_fmt)
         return formatter.format(record)
 
+def get_car_name(id:int=19, path:str=None) -> str:
+    data = pd.read_csv(os.path.join(path,'Acquired_data/Participant.csv')).loc[:,['CarIndex','Name']]
+    data.drop_duplicates(subset=['CarIndex'], inplace=True)
+    
+    return data.loc[data['CarIndex']==id,'Name'].values.item()
 
 def list_circuits(path:str='Data') -> str:
     """

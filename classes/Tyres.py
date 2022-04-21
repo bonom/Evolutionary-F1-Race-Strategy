@@ -119,7 +119,7 @@ class Tyre:
 
             fig = px.line(df, x='Lap',y='Wear_'+str(self.position), title=self.cast_tyre_position(self.position)+' Tyre Wear', range_y=[0,100])
             
-            if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
+            if os.environ['COMPUTERNAME'] == 'DESKTOP-KICFR1D':
                 plotly.offline.plot(fig, filename='Plots/Tyre'+str(self.position)+' Wear.html')
             else:
                 fig.show()
@@ -141,7 +141,7 @@ class Tyre:
             fig = px.line(df, x='Lap',y='Slip_'+str(self.position), title=self.cast_tyre_position(self.position)+' Tyre Slip')
             fig.update(layout_yaxis_range = [-1.1,1.1])
             
-            if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
+            if os.environ['COMPUTERNAME'] == 'DESKTOP-KICFR1D':
                 plotly.offline.plot(fig, filename='Plots/Tyre'+str(self.position)+' Slip.html')
             else:
                 fig.show()
@@ -195,8 +195,26 @@ class Tyres:
             visual_tyre_compound = np.array([int(x) for x in df['VisualTyreCompound'].unique() if not math.isnan(float(x)) and float(x) > 0])
             actual_tyre_compound = np.array([int(x) for x in df['ActualTyreCompound'].unique() if not math.isnan(float(x)) and float(x) > 0])
 
-            if len(visual_tyre_compound) > 1 or len(actual_tyre_compound) > 1:
-                log.critical("The dataframe contains more than one tyre compound:\nVisualTyreCompound contains {}\nActualTyreCompound contains {}".format(visual_tyre_compound, actual_tyre_compound))
+            if len(visual_tyre_compound) != 1 or len(actual_tyre_compound) != 1:
+                log.warning(f"The visual and actual tyre compound have more compounds.\n\t\t\t\t\tVisual Tyre Compound: {visual_tyre_compound}\n\t\t\t\t\tActual Tyre Compound: {actual_tyre_compound}\n\t\t\t\t\tTrying to fix it...")
+                col_visual = df.filter(like="tyreVisualCompound[").columns.to_list()
+                col_actual = df.filter(like="tyreActualCompound[").columns.to_list()
+                
+                if len(col_visual) == 1 and len(col_actual) == 1:
+                    col_visual = col_visual[0]
+                    col_actual = col_actual[0]
+                
+                    visual_tyre_compound = np.array([int(x) for x in df[col_visual].unique() if not math.isnan(float(x)) and float(x) > 0])
+                    actual_tyre_compound = np.array([int(x) for x in df[col_actual].unique() if not math.isnan(float(x)) and float(x) > 0])
+                
+                else:
+                    log.critical("The dataframe contains more than one tyre compound and unable to fix it!")
+                    visual_tyre_compound = visual_tyre_compound[-1:] if len(visual_tyre_compound) == 2 else visual_tyre_compound[-2:-1]
+                    actual_tyre_compound = actual_tyre_compound[-1:] if len(actual_tyre_compound) == 2 else actual_tyre_compound[-2:-1]
+
+                if len(visual_tyre_compound) > 1 or len(actual_tyre_compound) > 1:
+                    log.critical("The dataframe contains more than one tyre compound!")
+                    raise ValueError("VisualTyreCompound contains {}\nActualTyreCompound contains {}".format(visual_tyre_compound, actual_tyre_compound))
 
             self.visual_tyre_compound = visual_tyre_compound.item() if len(visual_tyre_compound) == 1 else 0
             self.actual_tyre_compound = actual_tyre_compound.item() if len(actual_tyre_compound) == 1 else 0
@@ -219,29 +237,7 @@ class Tyres:
                     end = df['FrameIdentifier'].iloc[-1]
                 
                 for i in range(start,end):
-                    self.lap_frames[i] = idx + round(((i - start)/(end - start)),2)
-            """
-            for lap in df['NumLaps'].unique():
-                if not math.isnan(lap):
-                    values = df.loc[df['NumLaps'] == lap].notna().index.values
-                    indexes.append((min(values),max(values)))
-
-            max_lap_len = len(indexes)
-            
-            self.lap_frames = dict()
-
-            for idx in range(max_lap_len):
-                if idx < max_lap_len-1:
-                    start,_ = indexes[idx]
-                    end,_ = indexes[idx+1]
-                else:
-                    #self.lap_frames[idx] = [i for i in range(indexes[idx],df['FrameIdentifier'].iloc[-1])]
-                    start,end = indexes[idx]
-                
-                for i in range(start,end):
-                    self.lap_frames[i] = idx + round(((i - start)/(end - start)),2)
-            """
-            
+                    self.lap_frames[i] = idx + round(((i - start)/(end - start)),2)          
 
             self.FL_tyre = Tyre("FL", df["TyresWearFL"].values,df['TyresDamageFL'].values,df['FLTyrePressure'].values,df['FLTyreInnerTemperature'].values,df['FLTyreSurfaceTemperature'].values,self.lap_frames,df['FLWheelSlip'].values)
             self.FR_tyre = Tyre("FR", df["TyresWearFR"].values,df['TyresDamageFR'].values,df['FRTyrePressure'].values,df['FRTyreInnerTemperature'].values,df['FRTyreSurfaceTemperature'].values,self.lap_frames,df['FRWheelSlip'].values)
@@ -301,7 +297,7 @@ class Tyres:
             
         if display:
             fig = px.line(df, x='Lap',y=['Wear_FL', 'Wear_FR', 'Wear_RL', 'Wear_RR'], title='Tyre Wear on '+self.get_visual_compound()+" compound",range_y=[0,100],range_x=[-0.1,max(df['Lap'])+1])
-            if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
+            if os.environ['COMPUTERNAME'] == 'DESKTOP-KICFR1D':
                 plotly.offline.plot(fig, filename='Plots/Tyres Wear.html')
             else:
                 fig.show()
@@ -343,7 +339,7 @@ class Tyres:
         if display:
             fig = px.line(df, x='Lap',y=['Slip_FL', 'Slip_FR', 'Slip_RL', 'Slip_RR'], title='Tyre Slip on '+self.get_visual_compound()+" compound",markers=True,range_y=[-1.1,1.1], range_x=[-0.1,max(df['Lap'])+1])
             
-            if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
+            if os.environ['COMPUTERNAME'] == 'DESKTOP-KICFR1D':
                 plotly.offline.plot(fig, filename='Plots/Tyres Slip.html')
             else:
                 fig.show()
@@ -388,7 +384,7 @@ def get_tyres_data(df:pd.DataFrame, separators:dict, path:str=None) -> Tyres:
         The set of the tyres data based on the compound.
     """
     ### Initialize the set 
-    tyres_data = set()
+    tyres_data = dict()
     
     if path is not None:
         log.info('Specified load path, trying to find Tyres_*.json files...')
@@ -398,7 +394,7 @@ def get_tyres_data(df:pd.DataFrame, separators:dict, path:str=None) -> Tyres:
             for file in files:
                 tyres = Tyres(load_path=os.path.join(path,file))
                 idx = int(file.replace('Tyres_','').replace('.json',''))
-                tyres_data.add((idx,tyres))
+                tyres_data[idx] = tyres
 
             log.info('Loading completed.')
             return tyres_data
@@ -421,19 +417,35 @@ def get_tyres_data(df:pd.DataFrame, separators:dict, path:str=None) -> Tyres:
         numLaps = [int(x) for x in numLaps if not math.isnan(x)]
         
         if len(numLaps) > 3:
-            ## Get the data from the specified columns
-            data = df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),tyre_columns]
+            temp_cols = list()
+
+            actual_cols = df[df.filter(like='tyreActualCompound').columns].notna().columns.to_list()
+            visual_cols = df[df.filter(like='tyreVisualCompound').columns].notna().columns.to_list()
+
+            for col in actual_cols:
+                if str(key) in actual_cols:
+                    temp_cols.append(col)
+            
+            for col in visual_cols:
+                if str(key) in visual_cols:
+                    temp_cols.append(col)
+
+            ## Get the data from the specified columns            
+            if len(temp_cols) > 0:
+                data = df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),tyre_columns+temp_cols]
+            else:
+                data = df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),tyre_columns]
 
             ### Initialize the tyres data and add it to the set
             tyres = Tyres(data) 
             tyres.save(path,id=key)
-            tyres_data.add((key,tyres))
+            tyres_data[key] = tyres
         else:
             ### In case the compound is used less than three laps we cannot deduce anything (we could only use it for the qualification purpose (...))
             compound = df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),'VisualTyreCompound'].unique()
             compound = [int(x) for x in compound if not math.isnan(x) and x > 0]
             compound = VISUAL_COMPOUNDS[compound[0] if len(compound) == 1 else 0]
-            log.warning(f"Insufficient data (below 3 laps). Skipping {key}/{len(separators.keys())}. Compound -> {compound}.")
+            log.warning(f"Insufficient data (below 3 laps). Skipping {key+1}/{len(separators.keys())}. Compound -> {compound}.")
 
     return tyres_data 
 

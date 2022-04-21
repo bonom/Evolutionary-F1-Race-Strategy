@@ -86,7 +86,7 @@ class Fuel:
         if display:
             fig = px.line(fuel_consume, x='Lap',y='Fuel', title='Fuel Consumption', range_y=[0,100], range_x=[-0.1,max(fuel_consume['Lap'])+1]) #Need to check what is the maximum value of the fuel load
             
-            if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
+            if os.environ['COMPUTERNAME'] == 'DESKTOP-KICFR1D':
                 plotly.offline.plot(fig, filename='Plots/Fuel consumption.html')
             else:
                 fig.show()
@@ -122,7 +122,7 @@ def get_fuel_data(df:pd.DataFrame, separators:dict, path:str=None) -> set:
     Get the fuel data from the dataframe
     """
     ### Initialize the set 
-    fuel_data = set()
+    fuel_data = dict()
 
     if path is not None:
         log.info('Specified load path, trying to find Fuel_*.json files...')
@@ -132,7 +132,7 @@ def get_fuel_data(df:pd.DataFrame, separators:dict, path:str=None) -> set:
             for file in files:
                 fuel = Fuel(load_path=os.path.join(path,file))
                 idx = int(file.replace('Fuel_','').replace('.json',''))
-                fuel_data.add((idx,fuel))
+                fuel_data[idx] = fuel
                 
             log.info('Loading completed.')
             return fuel_data
@@ -159,9 +159,9 @@ def get_fuel_data(df:pd.DataFrame, separators:dict, path:str=None) -> set:
             ### Add them to the set
             fuel = Fuel(df=data)
             fuel.save(path,id=key)
-            fuel_data.add((key,fuel))
+            fuel_data[key] = fuel
         else:
-            log.warning(f"Insufficient data (below 3 laps). Skipping {key}/{len(separators.keys())}.")
+            log.warning(f"Insufficient data (below 3 laps). Skipping {key+1}/{len(separators.keys())}.")
             
     return fuel_data
 

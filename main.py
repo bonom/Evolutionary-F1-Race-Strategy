@@ -1,15 +1,19 @@
 import sys, os
 import pandas as pd
-from classes.Timing import get_timing_data
-from classes.Tyres import get_tyres_data
-from classes.Fuel import get_fuel_data
+from classes.Timing import get_timing_data, Timing
+from classes.Tyres import get_tyres_data, Tyres
+from classes.Fuel import get_fuel_data, Fuel
 from classes.Extractor import extract_data, remove_duplicates
-from classes.Utils import get_basic_logger, list_data, separate_data, list_circuits
+from classes.Utils import get_basic_logger, get_car_name, list_data, separate_data, list_circuits
+
+import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly
 
 import argparse
 
 parser = argparse.ArgumentParser(description='Process F1 Data.')
-parser.add_argument('--i', type=int, default=19, help='Car ID')
+parser.add_argument('--i', type=int, default=None, help='Car ID')
 parser.add_argument('--d', type=str, default='Data', help='Data folder')
 parser.add_argument('--c', type=str, help='Circuit path')
 parser.add_argument('--f', type=str, help='Exact data folder')
@@ -90,18 +94,92 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
     fuel_data = get_fuel_data(df, separators=separators,path=saves)
     log.info(f"Complete getting the data for the fuel consumption.")
 
-
     ### Plotting the data
-    for idx, times in timing_data:
-        times.plot(True)
+    #fig = list()
+    #fig_traces = {}
+    #for idx, times in timing_data.items():
+    #    times.plot(True)
+    #
+    #plotly.offline.plot(fig, filename='Plots/Timing.html')
 
-    for idx, tyres in tyres_data:
-        tyres.wear(True)
+    #for idx, tyres in tyres_data.items():
+    #    tyres.wear(True)
 
-    for idx, fuel in fuel_data:
-        fuel.consumption(True)
+    #for idx, fuel in fuel_data.items():
+    #    fuel.consumption(True)
+
+    ### Return data
+    to_ret = {'Times':timing_data,'Tyres':tyres_data,'Fuel':fuel_data}
+
+    return to_ret
     
 if __name__ == "__main__":
-    main(args.i,args.d,args.c,args.f)
+    if os.environ['COMPUTERNAME'] == 'DESKTOP-KICFR1D' and not os.path.exists('Plots'):
+        os.mkdir('Plots')
+
+    if args.i is not None:
+        main(args.i,args.d,args.c,args.f)
+        sys.exit(0)
+
+    for i in range(0,20):
+        if not os.path.exists('Plots'):
+            os.mkdir('Plots')
+        data = main(i,args.d,args.c,args.f)
+        max_value = max([len(data['Times'].keys()),len(data['Tyres'].keys()),len(data['Fuel'].keys())])
+        if max_value == 0:
+            open(f'Plots/Car{i}_NODATA.html', mode='a').close()
+        else:
+            title = []
+            times_title = []
+            tyres_title = []
+            fuel_title = []
+
+            for key in data['Tyres'].keys():
+                compound = data['Tyres'][key].get_visual_compound()
+                times_title += [f'Times id {key}']
+                tyres_title += [f'{compound} Compound Wear #{key}']
+                fuel_title += [f'FuelInTank #{key}']
+
+            fig = make_subplots(rows=3, cols=max_value, subplot_titles=times_title + tyres_title + fuel_title)
+            for idx,(key, value) in enumerate(data['Times'].items()):
+                times = value.plot(False)
+                times = pd.DataFrame(times)
+                tmp_fig = px.line(times, x='Lap', y='LapTimeInMS', title=f"#{key} - Time for car {idx}")
+                traces = []
+                for trace in range(len(tmp_fig["data"])):
+                    traces.append(tmp_fig["data"][trace])
+
+                for t in traces:
+                    fig.append_trace(t, 1, idx+1)
+
+            for idx,(key, value) in enumerate(data['Tyres'].items()):
+                tyres = value.wear(False)
+                tmp_fig = px.line(tyres, x='Lap', y=['Wear_FL', 'Wear_FR', 'Wear_RL', 'Wear_RR'], title=f"#{key} - Tyres wear for car {idx} on {value.get_visual_compound()}")
+                traces = []
+                for trace in range(len(tmp_fig["data"])):
+                    traces.append(tmp_fig["data"][trace])
+
+                for t in traces:
+                    fig.append_trace(t, 2, idx+1)
+
+
+        for idx,(key, value) in enumerate(data['Fuel'].items()):
+            fuel = value.consumption(False)
+            fuel = pd.DataFrame(fuel)
+            tmp_fig = px.line(fuel, x='Lap', y='Fuel', title=f"#{key} - Fuel consumption for car {idx}")
+            traces = []
+            for trace in range(len(tmp_fig["data"])):
+                traces.append(tmp_fig["data"][trace])
+            
+            for t in traces:
+                fig.append_trace(t, 3, idx+1)
+
+        fig.update_layout(title_text=f"Car {i} -> {get_car_name(i,path=args.f)}")
+        plotly.offline.plot(fig, filename=f'Plots/Car{i}.html')
+
+        #input(f"Ended {i}... Press ENTER to continue with {i+1}")
+
+        
+
     sys.exit(0)
     
