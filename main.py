@@ -48,7 +48,7 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         log.info(f"No existing concatenated data found. Concatenating data for car '{car_id}'...")
         
         ### This function removes duplicates of the dataframe and returns the dataframe with the unique rows (based on 'FrameIdentifier')
-        remove_duplicates(acquired_data_folder) 
+        #remove_duplicates(acquired_data_folder) 
 
         damage, history, lap, motion, session, setup, setup, telemetry = extract_data(path=acquired_data_folder, idx=car_id)
 
@@ -127,7 +127,11 @@ if __name__ == "__main__":
         data = main(i,args.d,args.c,args.f)
         max_value = max([len(data['Times'].keys()),len(data['Tyres'].keys()),len(data['Fuel'].keys())])
         if max_value == 0:
-            open(f'Plots/Car{i}_NODATA.html', mode='a').close()
+            path = args.f.split('\\')
+            path = os.path.join('Plots',path[2],path[3])
+            if not os.path.exists(path):
+                os.makedirs(path)
+            open(f'{path}/Car{i}.html', mode='a').close()
         else:
             title = []
             times_title = []
@@ -183,11 +187,6 @@ if __name__ == "__main__":
             fig.update_layout(title_text=f"Car {i} -> ")
             plotly.offline.plot(fig, filename=f'{path}/Car{i}.html')
 
-        
-
-        #input(f"Ended {i}... Press ENTER to continue with {i+1}")
-
-        
 
     sys.exit(0)
     
