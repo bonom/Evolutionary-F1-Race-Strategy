@@ -22,7 +22,7 @@ class Fuel:
                     indexes.append(min(df.loc[df['NumLaps'] == lap].notna().index.values))
 
             self.lap_frames = dict()
-            max_lap_len = len(df.filter(like="lapTimeInMS").columns.to_list())
+            max_lap_len = len(indexes)
             for idx in range(max_lap_len):
                 if idx < max_lap_len-1:
                     #self.lap_frames[idx] = [i for i in range(indexes[idx],indexes[idx+1])]
@@ -94,28 +94,39 @@ class Fuel:
 
         for row in fuel_consume.index:
             fuel_consume.at[row,'Lap'] = self.get_lap(fuel_consume.at[row,'Frame'],True)
+        
+        max_lap = int(max(fuel_consume['Lap']))
+        fuel_consume = fuel_consume[fuel_consume['Lap'] <= max_lap]
+        fuel_consume.drop_duplicates(subset=['Lap'], keep='first', inplace=True)
 
         if display:
-            fig = px.line(fuel_consume, x='Lap',y='Fuel', title='Fuel Consumption', range_y=[0,100]) #Need to check what is the maximum value of the fuel load
-            #plotly.offline.plot(fig, filename='Fuel consumption.html')
-            fig.show()
+            fig = px.line(fuel_consume, x='Lap',y='Fuel', title='Fuel Consumption', range_y=[0,100], range_x=[-0.1,max(fuel_consume['Lap'])+1]) #Need to check what is the maximum value of the fuel load
+            
+            if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
+                plotly.offline.plot(fig, filename='Fuel consumption.html')
+            else:
+                fig.show()
 
 
         return fuel_consume
 
     def timing(self, display:bool=False) -> dict:
         timing = {'Lap':[],'LapTimeInMS':[]}
-        for lap in self.lap_frames.keys():
-            value = self.lap_times[lap]
-            if value != 0 and not math.isnan(value):
+        for lap, lap_time in enumerate(self.lap_times):
+            if lap_time != 0:
                 timing['Lap'].append(lap+1)
-                timing['LapTimeInMS'].append(value)
+                timing['LapTimeInMS'].append(lap_time)
+            elif lap != len(self.lap_times)-1:
+                log.critical("Lap {} has no time and it is not the last one!".format(lap+1))
         
         if display:
             df = pd.DataFrame(timing)
-            fig = px.line(df, x='Lap',y='LapTimeInMS', title='Lap Times',range_y=[min(timing['LapTimeInMS'])-1000,max(timing['LapTimeInMS'])+1000])
-            #plotly.offline.plot(fig, filename='Fuel Timing.html')
-            fig.show()
+            fig = px.line(df, x='Lap',y='LapTimeInMS', title='Lap Times',markers=True,range_y=[min(timing['LapTimeInMS'])-1000,max(timing['LapTimeInMS'])+1000],range_x=[-0.1,max(timing['Lap'])+1])
+            
+            if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
+                plotly.offline.plot(fig, filename='Fuel Timing.html')
+            else:
+                fig.show()
             
         return timing
     
@@ -207,7 +218,7 @@ def get_fuel_data(df:pd.DataFrame, separators:dict, path:str=None) -> set:
 
             ### Add them to the set
             fuel = Fuel(df=data)
-            fuel.save(path,id=key)
+            #fuel.save(path,id=key)
             fuel_data.add((key,fuel))
         else:
             log.warning(f"Insufficient data (below 3 laps). Skipping {key}/{len(separators.keys())}.")

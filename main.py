@@ -32,9 +32,13 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         
         folder = list_data(circuit) # Returns the path to the data folder
     
-    if os.path.isfile(f'{folder}/ConcatData_Car{car_id}.csv'):
-        log.info(f"Found concatenated data for car '{car_id}' in '{folder}'")
-        df = pd.read_csv(f'{folder}/ConcatData_Car{car_id}.csv')
+    concat_path = os.path.join(folder,'ConcatData')
+    if not os.path.exists(concat_path):
+        os.makedirs(concat_path)
+    
+    if os.path.isfile(os.path.join(concat_path,'CarId_{}.csv'.format(car_id))):
+        log.info(f"Found concatenated data for car '{car_id}' in '{concat_path}'")
+        df = pd.read_csv(os.path.join(concat_path,'CarId_{}.csv'.format(car_id)))
     else:
         acquired_data_folder = os.path.join(folder,'Acquired_data')
         log.info(f"No existing concatenated data found. Concatenating data for car '{car_id}'...")
@@ -42,7 +46,7 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         ### This function removes duplicates of the dataframe and returns the dataframe with the unique rows (based on 'FrameIdentifier')
         remove_duplicates(acquired_data_folder) 
 
-        damage, history, lap, motion, session, setup, setup, telemetry = extract_data(path=acquired_data_folder)
+        damage, history, lap, motion, session, setup, setup, telemetry = extract_data(path=acquired_data_folder, idx=car_id)
 
         ### Creating a single dataframe with all the data
         ### In order to concatenate all data in a single dataframe (which is more easier to deal with) we need to set the FrameIdentifier (which is unique) as index
@@ -59,11 +63,13 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         df = df.loc[:,~df.columns.duplicated()] #Remove duplicated columns  
         df.sort_index(inplace=True) #Sort the dataframe by the index (in this case FrameIdentifier)
         df.reset_index(inplace=True) #Reset the index to 0,1,2,3... instead of FrameIdentifier
-        df.to_csv(f'{folder}/ConcatData_Car{car_id}.csv',index=False) #Save the dataframe as a csv file in order to have it for future use
+        df.to_csv(os.path.join(concat_path,'CarId_{}.csv'.format(car_id)),index=False) #Save the dataframe as a csv file in order to have it for future use
 
         log.info(f"Complete unification of data for car '{car_id}' and saved it as 'ConcatData_Car{car_id}.csv'.")
     
-    saves = os.path.join(folder,'Saves')
+    saves = os.path.join(folder,f'Saves\{car_id}')
+    if not os.path.exists(saves):
+        os.makedirs(saves)
     ### Separating the dataframe into different dataframes
     log.info(f"Separating data for car '{car_id}'...")
     separators = separate_data(df)
@@ -80,14 +86,17 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
 
     ### Plotting the data
     for idx, tyres in tyres_data:
-        tyres.wear(True)
+        tyres.wear(False)
+        tyres.timing(False)
+        tyres.slip(False)
     
-    tyres.predict_wears(6000)
+    #tyres.predict_wears(6000)
 
     for idx, fuel in fuel_data:
-        fuel.consumption(True)
-    
-    fuel.predict_fuelload(6000)
+        fuel.consumption(False)
+        fuel.timing(False)
+    #
+    #fuel.predict_fuelload(6000)
     
 if __name__ == "__main__":
     main(args.i,args.d,args.c,args.f)

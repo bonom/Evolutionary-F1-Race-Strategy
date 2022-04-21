@@ -1,4 +1,4 @@
-from ctypes import Union
+from typing import Union
 import os
 import pandas as pd
 import numpy as np
@@ -143,7 +143,7 @@ def remove_duplicates(directory:str):
     files = os.listdir(directory)
     files = [f for f in os.listdir(directory) if f.endswith('.csv')]
     for file in tqdm(files):
-        df = pd.read_csv(os.path.join(directory,file))
+        df = pd.read_csv(os.path.join(directory,file), low_memory=False)
         try:
             df.drop_duplicates(['PacketId','FrameIdentifier','CarIndex'],inplace=True)
             df.sort_values(by=['PacketId','FrameIdentifier','CarIndex'],inplace=True)

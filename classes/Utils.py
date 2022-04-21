@@ -3,6 +3,7 @@ import pandas as pd
 from tqdm import tqdm
 import math
 import sys, os
+from datetime import datetime
 
 ACTUAL_COMPOUNDS: dict = {
     0:"N/A",
@@ -59,6 +60,31 @@ TYRE_POSITION: dict ={
     'RR':'Rear Right',
 }
 
+
+class CustomFormatter(logging.Formatter):
+
+    grey = "\x1b[38;20m"
+    yellow = "\x1b[33;20m"
+    red = "\x1b[31;20m"
+    bold_red = "\x1b[31;1m"
+    reset = "\x1b[0m"
+    format = datetime.now().strftime("%H:%M:%S")+" - %(name)s - %(levelname)s - %(message)s --> (%(filename)s:%(lineno)d)"
+    format_no_line = datetime.now().strftime("%H:%M:%S")+" - %(name)s - %(levelname)s - %(message)s"
+
+    FORMATS = {
+        logging.DEBUG: grey + format + reset,
+        logging.INFO: grey + format_no_line + reset,
+        logging.WARNING: yellow + format_no_line + reset,
+        logging.ERROR: red + format + reset,
+        logging.CRITICAL: bold_red + format + reset
+    }
+
+    def format(self, record):
+        log_fmt = self.FORMATS.get(record.levelno)
+        formatter = logging.Formatter(log_fmt)
+        return formatter.format(record)
+
+
 def list_circuits(path:str='Data') -> str:
     """
     Function that takes a path and returns the list of circuits data in that folder.
@@ -108,17 +134,19 @@ def list_data(directory:str) -> str:
 
     return os.path.join(directory,folder)
 
-def get_basic_logger(logger_name="default"):
+def get_basic_logger(logger_name="MAIN"):
     """
     Returns a basic logger with the given name.
     """
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.DEBUG)
+
     ch = logging.StreamHandler()
     ch.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    ch.setFormatter(formatter)
+
+    ch.setFormatter(CustomFormatter())
     logger.addHandler(ch)
+
     return logger
 
 def separate_data(df:pd.DataFrame) -> dict:
@@ -173,3 +201,4 @@ if __name__ == "__main__":
     log = get_basic_logger('UTILS')
     log.warning("This module is not intended to be used as a standalone script. Run 'python main.py' instead.")
     sys.exit(1)
+

@@ -8,10 +8,10 @@ from classes.Utils import get_basic_logger
 log = get_basic_logger('RangeDictionary')
 
 class RangeDictionary:
-    def __init__(self, array:Union[np.ndarray, list]=[]):
+    def __init__(self, array:Union[np.ndarray, list]=[],start:int=0) -> None:
         self.dataset = {}
         tmp = np.nan
-        key = 0
+        key = start
         for idx, value in enumerate(array):
             if (value != tmp and not math.isnan(value)) or (idx == 0):
                 self.dataset[key] = value
