@@ -131,7 +131,7 @@ if __name__ == "__main__":
             path = os.path.join('Plots',path[2],path[3])
             if not os.path.exists(path):
                 os.makedirs(path)
-            open(f'{path}/Car{i}.html', mode='a').close()
+            open(f'{path}/Car{i}_NoData.html', mode='a').close()
         else:
             title = []
             times_title = []
