@@ -179,7 +179,8 @@ if __name__ == "__main__":
             if not os.path.exists(path):
                 os.makedirs(path)
 
-            fig.update_layout(title_text=f"Car {i} -> {get_car_name(i,path=args.f)}")
+            #fig.update_layout(title_text=f"Car {i} -> {get_car_name(i,path=args.f)}")
+            fig.update_layout(title_text=f"Car {i} -> ")
             plotly.offline.plot(fig, filename=f'{path}/Car{i}.html')
 
         
