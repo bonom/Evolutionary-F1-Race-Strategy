@@ -63,6 +63,19 @@ class Fuel:
             self.FuelInTank = RangeDictionary(df['FuelInTank'].values)
             self.FuelCapacity = RangeDictionary(df['FuelCapacity'].values)
             self.FuelRemainingLaps = RangeDictionary(df['FuelRemainingLaps'].values)
+
+            ### MODEL ###
+            x = np.array([int(key) for key in self.FuelInTank.keys()]).reshape((-1,1))
+            y = np.array(list(self.FuelInTank.values()))
+            if math.isnan(y[0]):
+                y[0] = 0
+
+            self.model = LinearRegression().fit(x,y)
+
+            #r_sq = self.model.score(x,y)
+            #intercept = self.model.intercept_
+            #slope = self.model.coef_
+            
         elif load_path is not None:
             data = self.load(load_path)
             self.lap_frames = data.lap_frames
@@ -73,6 +86,7 @@ class Fuel:
             self.FuelInTank = data.FuelInTank
             self.FuelCapacity = data.FuelCapacity
             self.FuelRemainingLaps = data.FuelRemainingLaps
+            self.model = data.model
 
 
     def __getitem__(self, idx) -> dict:
@@ -134,27 +148,8 @@ class Fuel:
         """
         Return the 2 coefficient beta_0 and beta_1 for the linear model that fits the data : Time/Fuel
         """
-        x = np.array([int(key) for key in self.FuelInTank.keys()]).reshape((-1,1))
-        y = np.array(list(self.FuelInTank.values()))
-        if math.isnan(y[0]):
-            y[0] = 0
-
-        #print(x)
-        #print(y)
-
-        model = LinearRegression().fit(x,y)
-
-        r_sq = model.score(x,y)
-        #print('Coefficient of determination: ', r_sq)
-
-        intercept = model.intercept_
-        slope = model.coef_
-        #print('Intercept : ', intercept)
-        #print('Slope : ', slope)
-
         x_predict = np.array(x_predict).reshape(-1,1)
-        y_predict = model.predict(x_predict)
-        #print(y_predict)
+        y_predict = self.model.predict(x_predict)
         
         y_predict = round(y_predict[0],2)
         log.info(f"Predicted fuel consumption for lap {self.get_lap(int(x_predict))} (frame {int(x_predict)}) is {y_predict} %")

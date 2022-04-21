@@ -66,9 +66,9 @@ class Tyre:
         
         self.model = LinearRegression().fit(x,y)
 
-        #r_sq = model.score(x,y)
-        #intercept = model.intercept_
-        #slope = model.coef_
+        #r_sq = self.model.score(x,y)
+        #intercept = self.model.intercept_
+        #slope = self.model.coef_
 
     def __str__(self) -> str:
         to_ret = f"Tyre position: {self.position}\nTyre wear: ["
