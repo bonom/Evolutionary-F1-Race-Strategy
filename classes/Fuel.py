@@ -35,30 +35,6 @@ class Fuel:
                 
                 for i in range(start,end):
                     self.lap_frames[i] = idx + round(((i - start)/(end - start)),2)
-            
-            self.lap_times = list()
-            for col in df.filter(like="lapTimeInMS").columns.to_list():
-                self.lap_times.append(max([int(value) for value in df[col].dropna().values]))
-
-            self.lap_times = np.array(self.lap_times)
-
-            self.Sector1InMS = list()
-            for col in df.filter(like="sector1TimeInMS").columns.to_list():
-                self.Sector1InMS.append(max([int(value) for value in df[col].dropna().values]))
-
-            self.Sector1InMS = np.array(self.Sector1InMS)
-
-            self.Sector2InMS = list()
-            for col in df.filter(like="sector2TimeInMS").columns.to_list():
-                self.Sector2InMS.append(max([int(value) for value in df[col].dropna().values]))
-
-            self.Sector2InMS = np.array(self.Sector2InMS)
-
-            self.Sector3InMS = list()
-            for col in df.filter(like="sector3TimeInMS").columns.to_list():
-                self.Sector3InMS.append(max([int(value) for value in df[col].dropna().values]))
-
-            self.Sector3InMS = np.array(self.Sector3InMS)   
 
             self.FuelInTank = RangeDictionary(df['FuelInTank'].values)
             self.FuelCapacity = RangeDictionary(df['FuelCapacity'].values)
@@ -79,10 +55,6 @@ class Fuel:
         elif load_path is not None:
             data = self.load(load_path)
             self.lap_frames = data.lap_frames
-            self.lap_times = data.lap_times
-            self.Sector1InMS = data.Sector1InMS
-            self.Sector2InMS = data.Sector2InMS
-            self.Sector3InMS = data.Sector3InMS
             self.FuelInTank = data.FuelInTank
             self.FuelCapacity = data.FuelCapacity
             self.FuelRemainingLaps = data.FuelRemainingLaps
@@ -91,7 +63,7 @@ class Fuel:
 
     def __getitem__(self, idx) -> dict:
         lap = self.get_lap(idx)
-        return {'NumLap': lap, 'LapTimeInMS': self.lap_times[lap], 'Sector1InMS': self.Sector1InMS[lap], 'Sector2InMS': self.Sector2InMS[lap], 'Sector3InMS': self.Sector3InMS[lap], 'FuelInTank': self.FuelInTank[idx], 'FuelCapacity': self.FuelCapacity[idx], 'FuelRemaining': self.FuelRemaining[idx]}
+        return {'NumLap': lap, 'FuelInTank': self.FuelInTank[idx], 'FuelCapacity': self.FuelCapacity[idx], 'FuelRemaining': self.FuelRemainingLaps[idx]}
 
     def get_lap(self, frame, get_float:bool=False) -> Union[int,float]:
         first_value = list(self.lap_frames.keys())[0]
@@ -123,26 +95,6 @@ class Fuel:
 
 
         return fuel_consume
-
-    def timing(self, display:bool=False) -> dict:
-        timing = {'Lap':[],'LapTimeInMS':[]}
-        for lap, lap_time in enumerate(self.lap_times):
-            if lap_time != 0:
-                timing['Lap'].append(lap+1)
-                timing['LapTimeInMS'].append(lap_time)
-            elif lap != len(self.lap_times)-1:
-                log.critical("Lap {} has no time and it is not the last one!".format(lap+1))
-        
-        if display:
-            df = pd.DataFrame(timing)
-            fig = px.line(df, x='Lap',y='LapTimeInMS', title='Lap Times',markers=True,range_y=[min(timing['LapTimeInMS'])-1000,max(timing['LapTimeInMS'])+1000],range_x=[-0.1,max(timing['Lap'])+1])
-            
-            if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
-                plotly.offline.plot(fig, filename='Fuel Timing.html')
-            else:
-                fig.show()
-            
-        return timing
     
     def predict_fuelload(self, x_predict:int) -> float:
         """
@@ -156,9 +108,9 @@ class Fuel:
         
         return y_predict
 
-    def save(self, path:str='', id:int=0) -> None:
-        path = os.path.join(path,'Fuel_'+str(id)+'.json')
-        with open(path, 'wb') as f:
+    def save(self, save_path:str='', id:int=0) -> None:
+        save_path = os.path.join(save_path,'Fuel_'+str(id)+'.json')
+        with open(save_path, 'wb') as f:
             pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
     
     def load(self, path:str=''):
@@ -193,21 +145,16 @@ def get_fuel_data(df:pd.DataFrame, separators:dict, path:str=None) -> set:
     else:
         log.info('No load path specified. Loading fuel data from dataframe.')
 
-    ### Initialize the common columns
-    columns = ['FrameIdentifier', 'NumLaps', 'FuelInTank', 'FuelCapacity','FuelRemainingLaps']
+    ### Initialize the columns of interest
+    fuel_columns = ['FrameIdentifier', 'NumLaps', 'FuelInTank', 'FuelCapacity','FuelRemainingLaps']
 
+    ### Cycle over all the times we box
     for key, (sep_start,sep_end) in separators.items():
         ### Get the numLap data of the laps we are considering
         numLaps = np.array(df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),'NumLaps'].unique())
         numLaps = [int(x) for x in numLaps if not math.isnan(x)]
 
         if len(numLaps) > 3:
-            start = numLaps[0]
-            end = numLaps[-1]
-
-            ### Get the columns data of the fuel range frames we are considering (these are particular, not common to all)
-            fuel_columns = columns + ['lapTimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector1TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector2TimeInMS['+str(lap)+']' for lap in range(start,end)]+['sector3TimeInMS['+str(lap)+']' for lap in range(start,end)]
-
             ### Get the fuel data of the laps we are considering
             data = df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),fuel_columns]
 
@@ -218,7 +165,6 @@ def get_fuel_data(df:pd.DataFrame, separators:dict, path:str=None) -> set:
         else:
             log.warning(f"Insufficient data (below 3 laps). Skipping {key}/{len(separators.keys())}.")
             
-
     return fuel_data
 
 if __name__ == "__main__":
