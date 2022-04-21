@@ -163,19 +163,26 @@ if __name__ == "__main__":
                     fig.append_trace(t, 2, idx+1)
 
 
-        for idx,(key, value) in enumerate(data['Fuel'].items()):
-            fuel = value.consumption(False)
-            fuel = pd.DataFrame(fuel)
-            tmp_fig = px.line(fuel, x='Lap', y='Fuel', title=f"#{key} - Fuel consumption for car {idx}")
-            traces = []
-            for trace in range(len(tmp_fig["data"])):
-                traces.append(tmp_fig["data"][trace])
+            for idx,(key, value) in enumerate(data['Fuel'].items()):
+                fuel = value.consumption(False)
+                fuel = pd.DataFrame(fuel)
+                tmp_fig = px.line(fuel, x='Lap', y='Fuel', title=f"#{key} - Fuel consumption for car {idx}")
+                traces = []
+                for trace in range(len(tmp_fig["data"])):
+                    traces.append(tmp_fig["data"][trace])
+                
+                for t in traces:
+                    fig.append_trace(t, 3, idx+1)
+    
+            path = args.f.split('\\')
+            path = os.path.join('Plots',path[-2])
+            if not os.path.exists(path):
+                os.mkdir(path)
+                
+            fig.update_layout(title_text=f"Car {i} -> {get_car_name(i,path=args.f)}")
+            plotly.offline.plot(fig, filename=f'{path}/Car{i}.html')
             
-            for t in traces:
-                fig.append_trace(t, 3, idx+1)
-
-        fig.update_layout(title_text=f"Car {i} -> {get_car_name(i,path=args.f)}")
-        plotly.offline.plot(fig, filename=f'Plots/Car{i}.html')
+        
 
         #input(f"Ended {i}... Press ENTER to continue with {i+1}")
 
