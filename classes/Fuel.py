@@ -25,11 +25,9 @@ class Fuel:
             max_lap_len = len(indexes)
             for idx in range(max_lap_len):
                 if idx < max_lap_len-1:
-                    #self.lap_frames[idx] = [i for i in range(indexes[idx],indexes[idx+1])]
                     start = indexes[idx]
                     end = indexes[idx+1]
                 else:
-                    #self.lap_frames[idx] = [i for i in range(indexes[idx],df['FrameIdentifier'].iloc[-1])]
                     start = indexes[idx]
                     end = df['FrameIdentifier'].iloc[-1]
                 
@@ -89,7 +87,7 @@ class Fuel:
             fig = px.line(fuel_consume, x='Lap',y='Fuel', title='Fuel Consumption', range_y=[0,100], range_x=[-0.1,max(fuel_consume['Lap'])+1]) #Need to check what is the maximum value of the fuel load
             
             if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
-                plotly.offline.plot(fig, filename='Fuel consumption.html')
+                plotly.offline.plot(fig, filename='Plots/Fuel consumption.html')
             else:
                 fig.show()
 

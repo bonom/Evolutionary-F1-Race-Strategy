@@ -120,7 +120,7 @@ class Tyre:
             fig = px.line(df, x='Lap',y='Wear_'+str(self.position), title=self.cast_tyre_position(self.position)+' Tyre Wear', range_y=[0,100])
             
             if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
-                plotly.offline.plot(fig, filename='Tyre'+str(self.position)+' Wear.html')
+                plotly.offline.plot(fig, filename='Plots/Tyre'+str(self.position)+' Wear.html')
             else:
                 fig.show()
 
@@ -142,7 +142,7 @@ class Tyre:
             fig.update(layout_yaxis_range = [-1.1,1.1])
             
             if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
-                plotly.offline.plot(fig, filename='Tyre'+str(self.position)+' Slip.html')
+                plotly.offline.plot(fig, filename='Plots/Tyre'+str(self.position)+' Slip.html')
             else:
                 fig.show()
 
@@ -302,7 +302,7 @@ class Tyres:
         if display:
             fig = px.line(df, x='Lap',y=['Wear_FL', 'Wear_FR', 'Wear_RL', 'Wear_RR'], title='Tyre Wear on '+self.get_visual_compound()+" compound",range_y=[0,100],range_x=[-0.1,max(df['Lap'])+1])
             if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
-                plotly.offline.plot(fig, filename='Tyres Wear.html')
+                plotly.offline.plot(fig, filename='Plots/Tyres Wear.html')
             else:
                 fig.show()
 
@@ -344,7 +344,7 @@ class Tyres:
             fig = px.line(df, x='Lap',y=['Slip_FL', 'Slip_FR', 'Slip_RL', 'Slip_RR'], title='Tyre Slip on '+self.get_visual_compound()+" compound",markers=True,range_y=[-1.1,1.1], range_x=[-0.1,max(df['Lap'])+1])
             
             if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
-                plotly.offline.plot(fig, filename='Tyres.html')
+                plotly.offline.plot(fig, filename='Plots/Tyres Slip.html')
             else:
                 fig.show()
     
@@ -418,7 +418,7 @@ def get_tyres_data(df:pd.DataFrame, separators:dict, path:str=None) -> Tyres:
     for key, (sep_start,sep_end) in separators.items():
         ### Get the numLap data of the compound we are considering
         numLaps = np.array(df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),'NumLaps'].unique())
-        numLaps = [int(x) for x in numLaps if not math.isnan(x) and x > 0]
+        numLaps = [int(x) for x in numLaps if not math.isnan(x)]
         
         if len(numLaps) > 3:
             ## Get the data from the specified columns

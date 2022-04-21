@@ -22,11 +22,9 @@ class Timing:
             max_lap_len = len(indexes)
             for idx in range(max_lap_len):
                 if idx < max_lap_len-1:
-                    #self.lap_frames[idx] = [i for i in range(indexes[idx],indexes[idx+1])]
                     start = indexes[idx]
                     end = indexes[idx+1]
                 else:
-                    #self.lap_frames[idx] = [i for i in range(indexes[idx],df['FrameIdentifier'].iloc[-1])]
                     start = indexes[idx]
                     end = df['FrameIdentifier'].iloc[-1]
                 
@@ -100,7 +98,7 @@ class Timing:
             fig = px.line(df, x='Lap',y='LapTimeInMS', title='Lap Times',markers=True,range_x=[-0.1,max(timing['Lap'])+1], range_y=[min(timing['LapTimeInMS'])-1000,max(timing['LapTimeInMS'])+1000])
             
             if os.environ['COMPUTERNAME'] == 'PC-EVELYN':
-                plotly.offline.plot(fig, filename='timing Timing.html')
+                plotly.offline.plot(fig, filename='Plots/Timing.html')
             else:
                 fig.show()
             
@@ -145,7 +143,7 @@ def get_timing_data(df:pd.DataFrame, separators:dict, path:str=None) -> Timing:
     for key, (sep_start,sep_end) in separators.items():
         ### Get the numLap data of the separator we are considering
         numLaps = np.array(df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),'NumLaps'].unique())
-        numLaps = [int(x) for x in numLaps if not math.isnan(x) and x > 0]
+        numLaps = [int(x) for x in numLaps if not math.isnan(x)]
         
         if len(numLaps) > 3:
             start = numLaps[0]
