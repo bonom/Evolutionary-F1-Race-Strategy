@@ -1,9 +1,12 @@
 import logging
+from typing import Union
 import pandas as pd
 from tqdm import tqdm
 import math
 import sys, os
 from datetime import datetime
+import numpy as np
+from plotly.subplots import make_subplots
 
 ACTUAL_COMPOUNDS: dict = {
     0:"N/A",
@@ -83,11 +86,60 @@ class CustomFormatter(logging.Formatter):
         formatter = logging.Formatter(log_fmt)
         return formatter.format(record)
 
-def get_car_name(id:int=19, path:str=None) -> str:
-    data = pd.read_csv(os.path.join(path,'Acquired_data/Participant.csv')).loc[:,['CarIndex','Name']]
-    data.drop_duplicates(subset=['CarIndex'], inplace=True)
+class MultiPlot:
+    def __init__(self, rows:int=1,cols:int=1, titles:Union[np.array,list]=[]):
+        self.x = rows
+        self.y = cols
+        self.count = 0
+        self.fig = make_subplots(rows=rows, cols=cols,subplot_titles=titles)
+        
+    def add_trace(self, fig=None, row:int=1, col:int=1, traces=None):
+        if trace is None:
+            traces = []
+            for trace in range(len(fig["data"])):
+                traces.append(fig["data"][trace])
+
+        for trace in traces:
+            self.fig.add_trace(trace, row=row, col=col)
+        
+        self.count += 1
     
-    return data.loc[data['CarIndex']==id,'Name'].values.item()
+    def show(self):
+        return self.fig.show()
+    
+    def save(self, filename:str):
+        self.fig.write_html(filename)
+
+    def reset(self, rows:int = 1, cols:int = 1):
+        backup = set()
+        for data in self.fig.data:
+            backup.add(data)
+
+        self.x = rows
+        self.y = cols
+        self.fig = make_subplots(rows=self.x, cols=self.y)
+        self.count = 0  
+
+        for data in backup:
+            self.add_trace(traces=data)  
+
+        
+
+
+def get_car_name(id:int=19, path:str=None) -> str:
+    data_path = os.path.join(path,'ConcatData/Names.csv')
+    if os.path.exists(data_path):
+        df = pd.read_csv(data_path)
+        return df.loc[df['CarIndex']==id,'Name'].values.item()
+
+    data_path = os.path.join(path,'Acquired_data/Participant.csv')
+    if os.path.exists(data_path):
+        df = pd.read_csv(data_path).loc[:,['CarIndex','Name']]
+        df.drop_duplicates(subset=['CarIndex'], inplace=True)
+        df.to_csv(os.path.join(path,'ConcatData/Names.csv'), index=False)
+        return df.loc[df['CarIndex']==id,'Name'].values.item()
+    
+    return 'N/A'
 
 def list_circuits(path:str='Data') -> str:
     """

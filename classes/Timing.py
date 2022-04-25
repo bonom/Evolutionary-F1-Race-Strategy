@@ -37,11 +37,23 @@ class Timing:
 
             self.LapTimes = np.array(self.LapTimes)
 
+            self.BestLapTime = min(self.LapTimes)
+            self.BestLap = self.LapTimes.argmin() + 1
+
+            self.Deltas = []
+            for i in range(len(self.LapTimes)):
+                self.Deltas.append(self.LapTimes[i]-self.BestLapTime)
+            
+            self.Deltas = np.array(self.Deltas)
+
             self.Sector1InMS = list()
             for col in df.filter(like="sector1TimeInMS").columns.to_list():
                 self.Sector1InMS.append(max([int(value) for value in df[col].dropna().values]))
 
             self.Sector1InMS = np.array(self.Sector1InMS)
+
+            self.BestSector1Time = min(self.Sector1InMS)
+            self.BestSector1 = self.Sector1InMS.argmin() + 1
 
             self.Sector2InMS = list()
             for col in df.filter(like="sector2TimeInMS").columns.to_list():
@@ -49,19 +61,34 @@ class Timing:
 
             self.Sector2InMS = np.array(self.Sector2InMS)
 
+            self.BestSector2Time = min(self.Sector2InMS)
+            self.BestSector2 = self.Sector2InMS.argmin() + 1
+
             self.Sector3InMS = list()
             for col in df.filter(like="sector3TimeInMS").columns.to_list():
                 self.Sector3InMS.append(max([int(value) for value in df[col].dropna().values]))
 
             self.Sector3InMS = np.array(self.Sector3InMS)   
+
+            self.BestSector3Time = min(self.Sector3InMS)
+            self.BestSector3 = self.Sector3InMS.argmin() + 1
             
         elif load_path is not None:
             data = self.load(load_path)
             self.lap_frames = data.lap_frames
             self.LapTimes = data.LapTimes
+            #self.BestLapTime = data.BestLapTime
+            #self.BestLap = data.BestLap
+            #self.Deltas = data.Deltas
             self.Sector1InMS = data.Sector1InMS
+            #self.BestSector1Time = data.BestSector1Time
+            #self.BestSector1 = data.BestSector1
             self.Sector2InMS = data.Sector2InMS
+            #self.BestSector2Time = data.BestSector2Time
+            #self.BestSector2 = data.BestSector2
             self.Sector3InMS = data.Sector3InMS
+            #self.BestSector3Time = data.BestSector3Time
+            #self.BestSector3 = data.BestSector3
     
     def __repr__(self):
         return f"LapTimes: {self.LapTimes}\nSector1InMS: {self.Sector1InMS}\nSector2InMS: {self.Sector2InMS}\nSector3InMS: {self.Sector3InMS}"
@@ -70,6 +97,10 @@ class Timing:
         return self.__repr__(self)
     
     def __getitem__(self, key:int) -> dict:
+        if key == -1:
+            key = self.__len__() - 1
+
+        #key -= list(self.lap_frames.keys())[0]
         lap = self.get_lap(key)
         return {'Lap':lap,'LapTimeInMS':self.LapTimes[lap], 'Sector1InMS':self.Sector1InMS[lap], 'Sector2InMS':self.Sector2InMS[lap], 'Sector3InMS':self.Sector3InMS[lap]}
 
@@ -83,7 +114,14 @@ class Timing:
             return self.lap_frames[frame+first_value]
         
         return int(self.lap_frames[frame+first_value])
-
+    
+    def get_frame(self, lap_num:Union[int,float]) -> int:
+        for frame, lap in self.lap_frames.items():
+            if lap == lap_num:
+                return frame
+        
+        return -1
+        
     def plot(self, display:bool=False) -> dict:
         timing = {'Lap':[],'LapTimeInMS':[]}
         for lap, lap_time in enumerate(self.LapTimes):

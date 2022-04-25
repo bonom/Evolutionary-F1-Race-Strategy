@@ -70,6 +70,11 @@ class Tyre:
         #intercept = self.model.intercept_
         #slope = self.model.coef_
 
+    def __len__(self) -> int:
+        if len(self.lap_frames) == 0:
+            return 0
+        return len(self.lap_frames.keys())
+
     def __str__(self) -> str:
         to_ret = f"Tyre position: {self.position}\nTyre wear: ["
         for wear in self.wear:
@@ -93,6 +98,8 @@ class Tyre:
         """
         if idx == -1:
             idx = self.__len__() 
+        
+        #idx -= list(self.lap_frames.keys())[0]
         return {'TyrePosition':self.position, 'TyreWear':self.wear[idx], 'TyreDamage':self.damage[idx], 'TyrePressure':self.pressure[idx], 'TyreInnerTemperature':self.inner_temperature[idx], 'TyreOuterTemperature':self.outer_temperature[idx]}
     
     def get_lap(self, frame, get_float:bool=False) -> Union[int,float]:
@@ -260,7 +267,8 @@ class Tyres:
 
     def __getitem__(self,idx) -> dict:
         if idx == -1:
-            idx = self.__len__() 
+            idx = self.__len__() - 1
+        idx -= list(self.lap_frames.keys())[0]
         return {'Lap':self.get_lap(idx)+1,'FLTyre':self.FL_tyre[idx], 'FRTyre':self.FR_tyre[idx], 'RLTyre':self.RL_tyre[idx], 'RRTyre':self.RR_tyre[idx]}
     
     def __len__(self) -> int:
@@ -357,6 +365,13 @@ class Tyres:
             return self.lap_frames[frame+first_value]
         
         return int(self.lap_frames[frame+first_value])
+
+    def get_frame(self, lap_num:Union[int,float]) -> int:
+        for frame, lap in self.lap_frames.items():
+            if lap == lap_num:
+                return frame
+        
+        return -1
 
     def save(self, path:str='', id:int=0) -> None:
         path = os.path.join(path,'Tyres_'+str(id)+'.json')

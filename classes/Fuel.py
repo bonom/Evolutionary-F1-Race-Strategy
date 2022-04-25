@@ -60,6 +60,10 @@ class Fuel:
 
 
     def __getitem__(self, idx) -> dict:
+        if idx == -1:
+            idx = self.__len__() - 1
+        
+        idx -= list(self.lap_frames.keys())[0]
         lap = self.get_lap(idx)
         return {'NumLap': lap, 'FuelInTank': self.FuelInTank[idx], 'FuelCapacity': self.FuelCapacity[idx], 'FuelRemaining': self.FuelRemainingLaps[idx]}
 
@@ -69,6 +73,13 @@ class Fuel:
             return self.lap_frames[frame+first_value]
         
         return int(self.lap_frames[frame+first_value])
+
+    def get_frame(self, lap_num:Union[int,float]) -> int:
+        for frame, lap in self.lap_frames.items():
+            if lap == lap_num:
+                return frame
+        
+        return -1
 
     def consumption(self, display:bool=False) -> dict:
         

@@ -1,10 +1,11 @@
 import sys, os
 import pandas as pd
+import numpy as np
 from classes.Timing import get_timing_data, Timing
 from classes.Tyres import get_tyres_data, Tyres
 from classes.Fuel import get_fuel_data, Fuel
 from classes.Extractor import extract_data, remove_duplicates
-from classes.Utils import get_basic_logger, get_car_name, list_data, separate_data, list_circuits
+from classes.Utils import MultiPlot, get_basic_logger, get_car_name, list_data, separate_data, list_circuits
 
 import plotly.express as px
 from plotly.subplots import make_subplots
@@ -73,7 +74,7 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
 
         log.info(f"Complete unification of data for car '{car_id}' and saved it as 'ConcatData_Car{car_id}.csv'.")
     
-    saves = os.path.join(folder,f'Saves\{car_id}')
+    saves = os.path.join(folder,f'Saves/{car_id}')
     if not os.path.exists(saves):
         os.makedirs(saves)
     ### Separating the dataframe into different dataframes
@@ -111,10 +112,81 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
     ### Return data
     to_ret = {'Times':timing_data,'Tyres':tyres_data,'Fuel':fuel_data}
 
+    tmp = pd.DataFrame(columns=['Lap','Delta','Wear_FL','Wear_FR','Wear_RL','Wear_RR','Fuel'])
+
+    for key,value in timing_data.items():
+        best = min([x for x in value.LapTimes if x > 0])
+        for idx, delta in enumerate(value.LapTimes): #Deltas
+            delta = delta - best
+            
+            ### Get Frame to use indexing (__getitem__)
+            frame = value.get_frame(idx+1)
+            
+            ### Tyres
+            tyres_wear = {'FL':0, 'FR':0, 'RL':0, 'RR':0}
+            for tyre in ['FL', 'FR', 'RL', 'RR']:
+                wear = tyres_data[key][frame][tyre+'Tyre']['TyreWear']
+                tyres_wear[tyre] = wear
+            
+            fuel_consume = fuel_data[key][frame]['FuelInTank']
+            
+            tmp.loc[idx] = [idx,delta,tyres_wear['FL'],tyres_wear['FR'],tyres_wear['RL'],tyres_wear['RR'],fuel_consume]
+
+            #log.debug(f"Lap: {idx}, Delta: {delta}, Wear: {tyres_wear}, Fuel: {fuel_consume}")
+        
+        if tmp.at[len(tmp)-1,'Delta'] < 0:
+            tmp = tmp[:-1]
+
+        x = tmp['Lap'].values
+        y = tmp['Delta'].values
+        #y = [np.log(y) if y > 0 else 0 for y in tmp['Delta'].values]
+
+        coefficients = np.polyfit(x, y, 1)
+        #coefficients = np.polyfit(x,y,2)
+        #coefficients = np.polyfit(x,y,3)
+        #coefficients = np.polyfit(x,y,4)
+        poly = np.poly1d(coefficients)
+
+        new_x = np.linspace(x[0], x[-1])
+        new_y = poly(new_x)
+
+        fig = make_subplots(rows=4, cols=2)
+        fig = MultiPlot(4,2)
+        
+
+        fig1 = px.line(tmp, x='Lap', y='Delta', title='Delta')
+        fig2 = px.line(pd.DataFrame({'Lap':new_x, 'Delta':new_y}), x='Lap', y='Delta', title='Delta')
+        fig3 = px.line(tmp, x='Lap', y=['Wear_FL','Wear_FR','Wear_RL','Wear_RR'], title='Tyres Wear')
+        fig4 = px.line(tmp, x='Lap', y='Fuel', title='Fuel Consumption')
+
+        tmp = tmp.sort_values(by='Delta')
+        fig5 = px.line(tmp,x='Delta',y=['Wear_FL','Wear_FR','Wear_RL','Wear_RR'])
+        fig6 = px.line(tmp,x='Delta',y='Fuel')
+
+        x = tmp['Delta'].values
+        y = tmp['Fuel'].values
+
+        coefficients = np.polyfit(x, y, 1)
+        poly = np.poly1d(coefficients)
+
+        new_x = np.linspace(x[0], x[-1])
+        new_y = poly(new_x)
+
+        fig7 = px.line(pd.DataFrame({'Delta':new_x, 'Fuel':new_y}), x='Delta', y='Fuel', title='Fuel Consumption')
+
+        fig.add_trace(fig1, row=1, col=1)
+        fig.add_trace(fig2, row=1, col=2)
+        fig.add_trace(fig3, row=2, col=1)
+        fig.add_trace(fig4, row=2, col=2)
+        fig.add_trace(fig5, row=3, col=1)
+        fig.add_trace(fig6, row=3, col=2)
+        fig.add_trace(fig7, row=4, col=1)
+        fig.show()
+        
     return to_ret
     
 if __name__ == "__main__":
-    if os.environ['COMPUTERNAME'] == 'DESKTOP-KICFR1D' and not os.path.exists('Plots'):
+    if not os.path.exists('Plots'):
         os.mkdir('Plots')
 
     if args.i is not None:
@@ -183,8 +255,7 @@ if __name__ == "__main__":
             if not os.path.exists(path):
                 os.makedirs(path)
 
-            #fig.update_layout(title_text=f"Car {i} -> {get_car_name(i,path=args.f)}")
-            fig.update_layout(title_text=f"Car {i} -> ")
+            fig.update_layout(title_text=f"Car {i} -> {get_car_name(i,path=args.f)}")
             plotly.offline.plot(fig, filename=f'{path}/Car{i}.html')
 
 
