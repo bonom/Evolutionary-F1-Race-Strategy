@@ -187,9 +187,10 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         else:
             path = folder.split('\\')[1:]
         plots_path = os.path.join('Plots/',path[0],path[1])
+        log.debug(path)
         fig.set_title(f"Car_{car_id}")
         fig.save(os.path.join(plots_path,f'{car_id}.html'))
-        fig.show()
+        fig.show(filename=os.path.join(plots_path,f'{car_id}.html'))
         
     return to_ret
     
@@ -202,9 +203,8 @@ if __name__ == "__main__":
         sys.exit(0)
 
     for i in range(0,20):
-        if not os.path.exists('Plots'):
-            os.mkdir('Plots')
         data = main(i,args.d,args.c,args.f)
+        
     """
         max_value = max([len(data['Times'].keys()),len(data['Tyres'].keys()),len(data['Fuel'].keys())])
         if max_value == 0:

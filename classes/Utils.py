@@ -7,6 +7,7 @@ import sys, os
 from datetime import datetime
 import numpy as np
 from plotly.subplots import make_subplots
+import plotly
 
 ACTUAL_COMPOUNDS: dict = {
     0:"N/A",
@@ -104,7 +105,9 @@ class MultiPlot:
         
         self.count += 1
     
-    def show(self):
+    def show(self, filename:str=None):
+        if os.environ['COMPUTERNAME'] == 'DESKTOP-KICFR1D':
+            plotly.offline.plot(self.fig, filename=filename)
         return self.fig.show()
     
     def save(self, filename:str):
@@ -133,8 +136,6 @@ def ms_to_m(ms:int) -> str:
     ms = ms % 1000
 
     return f"{int(minutes)}:{int(seconds)}:{int(ms)}"
- 
-
 
 def get_car_name(id:int=19, path:str=None) -> str:
     data_path = os.path.join(path,'ConcatData/Names.csv')
