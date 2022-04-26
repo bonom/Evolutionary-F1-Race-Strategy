@@ -127,7 +127,8 @@ class MultiPlot:
 def ms_to_m(ms:int) -> str:
     seconds=(ms/1000)%60
     minutes=(ms/(1000*60))%60
-    
+    ms = ms % 1000
+
     return f"{int(minutes)}:{int(seconds)}:{int(ms)}"
  
 

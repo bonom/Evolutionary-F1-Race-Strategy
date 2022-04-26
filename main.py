@@ -186,7 +186,8 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
 
         path = folder.split('/')[1:]
         plots_path = os.path.join('Plots/',path[0],path[1])
-        fig.save(os.path.join(plots_path,f'{key}.html'))
+        fig.save(os.path.join(plots_path,f'{car_id}.html'))
+        #fig.show()
         
     return to_ret
     
