@@ -5,11 +5,13 @@ from classes.Timing import get_timing_data, Timing
 from classes.Tyres import get_tyres_data, Tyres
 from classes.Fuel import get_fuel_data, Fuel
 from classes.Extractor import extract_data, remove_duplicates
-from classes.Utils import MultiPlot, get_basic_logger, get_car_name, list_data, separate_data, list_circuits
+from classes.Utils import MultiPlot, get_basic_logger, get_car_name, list_data, ms_to_m, separate_data, list_circuits
 
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly
+
+from datetime import datetime 
 
 import argparse
 
@@ -17,7 +19,7 @@ parser = argparse.ArgumentParser(description='Process F1 Data.')
 parser.add_argument('--i', type=int, default=None, help='Car ID')
 parser.add_argument('--d', type=str, default='Data', help='Data folder')
 parser.add_argument('--c', type=str, help='Circuit path')
-parser.add_argument('--f', type=str, help='Exact data folder')
+parser.add_argument('--f', type=str, required=True, help='Exact data folder')
 args = parser.parse_args()
 
 log = get_basic_logger('MAIN')
@@ -151,7 +153,7 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         new_y = poly(new_x)
 
         #fig = make_subplots(rows=4, cols=2)
-        fig = MultiPlot(4,2)
+        fig = MultiPlot(4,2,titles=['TimeDelta w.r.t '+ms_to_m(best), 'LapDeltaPolyFit', 'TyresWear', 'Fuel Consumption', 'Delta/Wear', 'Delta/Fuel', 'FuelPolyFit'])
         
 
         fig1 = px.line(tmp, x='Lap', y='Delta', title='Delta')
