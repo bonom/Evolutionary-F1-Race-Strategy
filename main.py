@@ -19,7 +19,7 @@ parser = argparse.ArgumentParser(description='Process F1 Data.')
 parser.add_argument('--i', type=int, default=None, help='Car ID')
 parser.add_argument('--d', type=str, default='Data', help='Data folder')
 parser.add_argument('--c', type=str, help='Circuit path')
-parser.add_argument('--f', type=str, required=True, help='Exact data folder')
+parser.add_argument('--f', type=str, help='Exact data folder')
 args = parser.parse_args()
 
 log = get_basic_logger('MAIN')
