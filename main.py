@@ -1,6 +1,7 @@
 import sys, os
 import pandas as pd
 import numpy as np
+from classes.Car import Car
 from classes.Timing import get_timing_data
 from classes.Tyres import get_tyres_data
 from classes.Fuel import get_fuel_data
@@ -103,9 +104,8 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
     ### Return data
     to_ret = {'Times':timing_data,'Tyres':tyres_data,'Fuel':fuel_data}
 
-    df = pd.DataFrame(columns=['Lap','Delta','Wear_FL','Wear_FR','Wear_RL','Wear_RR','Fuel'])
-
     for key,value in timing_data.items():
+        df = pd.DataFrame(columns=['Frame','Lap','Delta','Wear_FL','Wear_FR','Wear_RL','Wear_RR','Fuel'])
         best = min([x for x in value.LapTimes if x > 0])
         for idx, delta in enumerate(value.LapTimes): #Deltas
             delta = delta - best
@@ -121,23 +121,27 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
             
             fuel_consume = fuel_data[key][frame]['FuelInTank']
             
-            df.loc[idx] = [idx,delta,tyres_wear['FL'],tyres_wear['FR'],tyres_wear['RL'],tyres_wear['RR'],fuel_consume]
+            df.loc[idx] = [int(frame),idx,delta,tyres_wear['FL'],tyres_wear['FR'],tyres_wear['RL'],tyres_wear['RR'],fuel_consume]
 
             #log.debug(f"Lap: {idx}, Delta: {delta}, Wear: {tyres_wear}, Fuel: {fuel_consume}")
         
         df.sort_values(by=['Lap'],inplace=True)
-        df = df.loc[df['Delta'] > 0]
+        df = df.loc[df['Delta'] >= 0]
 
         x = df['Lap'].values
         y = df['Delta'].values
         y = [np.log(y) if y > 0 else 0 for y in df['Delta'].values]
 
-        coefficients = np.polyfit(x,y,1)
-        
-        poly = np.poly1d(coefficients)
+        try:
+            coefficients = np.polyfit(x,y,1)
 
-        new_x = np.linspace(x[0], x[-1])
-        new_y = poly(new_x)
+            poly = np.poly1d(coefficients)
+
+            new_x = np.linspace(x[0], x[-1])
+            new_y = poly(new_x)
+        except:
+            new_x = 0
+            new_y = 0
 
         #fig = make_subplots(rows=4, cols=2)
         fig = MultiPlot(4,2,titles=['TimeDelta w.r.t '+ms_to_m(best), 'LapDeltaPolyFit', 'TyresWear on '+tyres_data[key].get_visual_compound(), 'Fuel Consumption', 'Delta/Wear', 'Delta/Fuel', 'FuelPolyFit'])
@@ -176,7 +180,7 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         else:
             path = folder.split('\\')[2:]
         plots_path = os.path.join('Plots',path[0],path[1])
-        fig.set_title(f"Car {i} -> {get_car_name(i,path=folder)} (DATA {key})")
+        fig.set_title(f"Car {car_id} -> {get_car_name(car_id,path=folder)} (DATA {key})")
         if get_host() == 'DESKTOP-KICFR1D':
             fig.show(filename=os.path.join(plots_path,f'Car{car_id}.html'))
         else:

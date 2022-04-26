@@ -6,6 +6,7 @@ import math
 import sys, os
 from datetime import datetime
 import numpy as np
+import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly
 import socket
@@ -250,7 +251,7 @@ def separate_data(df:pd.DataFrame) -> dict:
             elif value == 0:
                 if before > 0:
                     sframe = separator[count] 
-                    separator[count] = (sframe, int(tmp_df.loc[it,'FrameIdentifier']))
+                    separator[count] = (sframe, int(tmp_df.loc[it-1,'FrameIdentifier']))
                     count += 1
         else:
             tmp_df.at[it, 'DriverStatus'] = tmp_df.loc[it-1,'DriverStatus']
@@ -266,8 +267,8 @@ def separate_data(df:pd.DataFrame) -> dict:
     ### Left here for debugging purposes
     #for key, values in separator.items():
     #    print(key, values)
-    #
-    #exit()
+
+    #(px.line(tmp_df, x='FrameIdentifier', y='DriverStatus', title='Driver Status',)).show()
 
     return separator
 
