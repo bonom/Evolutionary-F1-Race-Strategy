@@ -143,10 +143,8 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         y = tmp['Delta'].values
         #y = [np.log(y) if y > 0 else 0 for y in tmp['Delta'].values]
 
-        coefficients = np.polyfit(x, y, 1)
-        #coefficients = np.polyfit(x,y,2)
-        #coefficients = np.polyfit(x,y,3)
-        #coefficients = np.polyfit(x,y,4)
+        coefficients = np.polyfit(x,y,3)
+        
         poly = np.poly1d(coefficients)
 
         new_x = np.linspace(x[0], x[-1])
@@ -184,10 +182,14 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         fig.add_trace(fig6, row=3, col=2)
         fig.add_trace(fig7, row=4, col=1)
 
-        path = folder.split('/')[1:]
+        if os.name == 'posix':
+            path = folder.split('/')[1:]
+        else:
+            path = folder.split('\\')[1:]
         plots_path = os.path.join('Plots/',path[0],path[1])
+        fig.set_title(f"Car_{car_id}")
         fig.save(os.path.join(plots_path,f'{car_id}.html'))
-        #fig.show()
+        fig.show()
         
     return to_ret
     
@@ -257,14 +259,17 @@ if __name__ == "__main__":
                 for t in traces:
                     fig.append_trace(t, 3, idx+1)
 
-            path = args.f.split('/')
+            if os.name == 'posix':
+                path = folder.split('/')[1:]
+            else:
+                path = folder.split('\\')[1:]
             path = os.path.join('Plots',path[2],path[3])
             if not os.path.exists(path):
                 os.makedirs(path)
 
             fig.update_layout(title_text=f"Car {i} -> {get_car_name(i,path=args.f)}")
             plotly.offline.plot(fig, filename=f'{path}/Car{i}.html')
-
-    """    
+"""
+        
     sys.exit(0)
     
