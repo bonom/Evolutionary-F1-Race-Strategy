@@ -180,7 +180,7 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         if get_host() == 'DESKTOP-KICFR1D':
             fig.show(filename=os.path.join(plots_path,f'Car{car_id}.html'))
         else:
-            fig.save(os.path.join(plots_path,f'{car_id}.html'))
+            fig.save(os.path.join(plots_path,f'Car{car_id}.html'))
             fig.show()
         
     return to_ret
