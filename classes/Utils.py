@@ -107,7 +107,7 @@ class MultiPlot:
     
     def show(self, filename:str=None):
         if os.environ['COMPUTERNAME'] == 'DESKTOP-KICFR1D':
-            plotly.offline.plot(self.fig, filename=filename)
+            return plotly.offline.plot(self.fig, filename=filename)
         return self.fig.show()
     
     def save(self, filename:str):
