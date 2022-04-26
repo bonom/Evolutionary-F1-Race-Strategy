@@ -185,9 +185,8 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         if os.name == 'posix':
             path = folder.split('/')[1:]
         else:
-            path = folder.split('\\')[1:]
-        plots_path = os.path.join('Plots/',path[0],path[1])
-        log.debug(path)
+            path = folder.split('\\')[2:]
+        plots_path = os.path.join('Plots',path[0],path[1])
         fig.set_title(f"Car_{car_id}")
         fig.save(os.path.join(plots_path,f'{car_id}.html'))
         fig.show(filename=os.path.join(plots_path,f'{car_id}.html'))
