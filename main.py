@@ -181,7 +181,10 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         fig.add_trace(fig5, row=3, col=1)
         fig.add_trace(fig6, row=3, col=2)
         fig.add_trace(fig7, row=4, col=1)
-        fig.show()
+
+        path = folder.split('/')[1:]
+        plots_path = os.path.join('Plots/',path[0],path[1])
+        fig.save(os.path.join(plots_path,f'{key}.html'))
         
     return to_ret
     
@@ -197,6 +200,7 @@ if __name__ == "__main__":
         if not os.path.exists('Plots'):
             os.mkdir('Plots')
         data = main(i,args.d,args.c,args.f)
+    """
         max_value = max([len(data['Times'].keys()),len(data['Tyres'].keys()),len(data['Fuel'].keys())])
         if max_value == 0:
             path = args.f.split('/')
@@ -258,6 +262,6 @@ if __name__ == "__main__":
             fig.update_layout(title_text=f"Car {i} -> {get_car_name(i,path=args.f)}")
             plotly.offline.plot(fig, filename=f'{path}/Car{i}.html')
 
-
+    """    
     sys.exit(0)
     
