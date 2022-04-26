@@ -94,7 +94,7 @@ class MultiPlot:
         self.fig = make_subplots(rows=rows, cols=cols,subplot_titles=titles)
         
     def add_trace(self, fig=None, row:int=1, col:int=1, traces=None):
-        if trace is None:
+        if traces is None:
             traces = []
             for trace in range(len(fig["data"])):
                 traces.append(fig["data"][trace])

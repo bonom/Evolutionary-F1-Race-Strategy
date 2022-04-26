@@ -150,7 +150,7 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         new_x = np.linspace(x[0], x[-1])
         new_y = poly(new_x)
 
-        fig = make_subplots(rows=4, cols=2)
+        #fig = make_subplots(rows=4, cols=2)
         fig = MultiPlot(4,2)
         
 
@@ -199,7 +199,7 @@ if __name__ == "__main__":
         data = main(i,args.d,args.c,args.f)
         max_value = max([len(data['Times'].keys()),len(data['Tyres'].keys()),len(data['Fuel'].keys())])
         if max_value == 0:
-            path = args.f.split('\\')
+            path = args.f.split('/')
             path = os.path.join('Plots',path[2],path[3])
             if not os.path.exists(path):
                 os.makedirs(path)
@@ -250,7 +250,7 @@ if __name__ == "__main__":
                 for t in traces:
                     fig.append_trace(t, 3, idx+1)
 
-            path = args.f.split('\\')
+            path = args.f.split('/')
             path = os.path.join('Plots',path[2],path[3])
             if not os.path.exists(path):
                 os.makedirs(path)
