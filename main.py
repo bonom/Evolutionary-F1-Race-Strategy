@@ -105,10 +105,8 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
 
     for key,value in timing_data.items():
         df = pd.DataFrame(columns=['Frame','Lap','Delta','Wear_FL','Wear_FR','Wear_RL','Wear_RR','Fuel'])
-        best = min([x for x in value.LapTimes if x > 0])
-        for idx, delta in enumerate(value.LapTimes): #Deltas
-            delta = delta - best
-            
+        #best = min([x for x in value.LapTimes if x > 0])
+        for idx, delta in enumerate(value.Deltas): #Deltas
             ### Get Frame to use indexing (__getitem__)
             frame = value.get_frame(idx+1)
             
@@ -143,7 +141,7 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
             new_y = 0
 
         #fig = make_subplots(rows=4, cols=2)
-        fig = MultiPlot(4,2,titles=['TimeDelta w.r.t '+ms_to_m(best), 'LapDeltaPolyFit', 'TyresWear on '+tyres_data[key].get_visual_compound(), 'Fuel Consumption', 'Delta/Wear', 'Delta/Fuel', 'FuelPolyFit'])
+        fig = MultiPlot(4,2,titles=['TimeDelta w.r.t '+ms_to_m(value.BestLapTime), 'LapDeltaPolyFit', 'TyresWear on '+tyres_data[key].get_visual_compound(), 'Fuel Consumption', 'Delta/Wear', 'Delta/Fuel', 'FuelPolyFit'])
         
 
         fig1 = px.line(df, x='Lap', y='Delta', title='Delta')
@@ -174,17 +172,19 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         fig.add_trace(fig6, row=3, col=2)
         fig.add_trace(fig7, row=4, col=1)
 
+        path = os.path.abspath(folder)
         if os.name == 'posix':
-            path = folder.split('/')[1:]
+            path = path.split('/')
         else:
-            path = folder.split('\\')[2:]
-        plots_path = os.path.join('Plots',path[0],path[1])
+            path = path.split('\\')
+        
+        plots_path = os.path.join('Plots',path[-2],path[-1])
         fig.set_title(f"Car {car_id} -> {get_car_name(car_id,path=folder)} (DATA {key})")
         if get_host() == 'DESKTOP-KICFR1D':
             fig.show(filename=os.path.join(plots_path,f'Car{car_id}.html'))
         else:
             fig.save(os.path.join(plots_path,f'Car{car_id}.html'))
-            fig.show()
+            #fig.show()
         
     return to_ret
     

@@ -33,11 +33,16 @@ class Timing:
             
             self.LapTimes = list()
             for col in df.filter(like="lapTimeInMS").columns.to_list():
-                self.LapTimes.append(max([int(value) for value in df[col].dropna().values]))
+                values = [int(value) for value in df[col].dropna().drop_duplicates().values if value > 0]
+                if len(values) == 1:
+                    self.LapTimes.append(values[0])
+                elif len(values) > 1:
+                    log.critical("Wrong number of times:\n\t\t\t\t\t\t{}".format(values))
+                #self.LapTimes.append(max([int(value) for value in df[col].dropna().values if value > 0]))
 
             self.LapTimes = np.array(self.LapTimes)
 
-            self.BestLapTime = min(self.LapTimes)
+            self.BestLapTime = min([lt for lt in self.LapTimes if lt > 0])
             self.BestLap = self.LapTimes.argmin() + 1
 
             self.Deltas = []
@@ -77,18 +82,18 @@ class Timing:
             data = self.load(load_path)
             self.lap_frames = data.lap_frames
             self.LapTimes = data.LapTimes
-            #self.BestLapTime = data.BestLapTime
-            #self.BestLap = data.BestLap
-            #self.Deltas = data.Deltas
+            self.BestLapTime = data.BestLapTime
+            self.BestLap = data.BestLap
+            self.Deltas = data.Deltas
             self.Sector1InMS = data.Sector1InMS
-            #self.BestSector1Time = data.BestSector1Time
-            #self.BestSector1 = data.BestSector1
+            self.BestSector1Time = data.BestSector1Time
+            self.BestSector1 = data.BestSector1
             self.Sector2InMS = data.Sector2InMS
-            #self.BestSector2Time = data.BestSector2Time
-            #self.BestSector2 = data.BestSector2
+            self.BestSector2Time = data.BestSector2Time
+            self.BestSector2 = data.BestSector2
             self.Sector3InMS = data.Sector3InMS
-            #self.BestSector3Time = data.BestSector3Time
-            #self.BestSector3 = data.BestSector3
+            self.BestSector3Time = data.BestSector3Time
+            self.BestSector3 = data.BestSector3
     
     def __repr__(self):
         return f"LapTimes: {self.LapTimes}\nSector1InMS: {self.Sector1InMS}\nSector2InMS: {self.Sector2InMS}\nSector3InMS: {self.Sector3InMS}"
