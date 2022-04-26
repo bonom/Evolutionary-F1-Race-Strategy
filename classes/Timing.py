@@ -6,7 +6,7 @@ import pickle
 import plotly
 import plotly.express as px
 import sys, os
-from classes.Utils import get_basic_logger
+from classes.Utils import get_basic_logger, get_host
 
 log = get_basic_logger('TIMING')
 
@@ -135,7 +135,7 @@ class Timing:
             df = pd.DataFrame(timing)
             fig = px.line(df, x='Lap',y='LapTimeInMS', title='Lap Times',markers=True,range_x=[-0.1,max(timing['Lap'])+1], range_y=[min(timing['LapTimeInMS'])-1000,max(timing['LapTimeInMS'])+1000])
             
-            if os.environ['COMPUTERNAME'] == 'DESKTOP-KICFR1D':
+            if get_host() == 'DESKTOP-KICFR1D':
                 plotly.offline.plot(fig, filename='Plots/Timing.html')
             else:
                 fig.show()

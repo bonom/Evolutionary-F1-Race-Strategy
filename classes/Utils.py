@@ -8,6 +8,7 @@ from datetime import datetime
 import numpy as np
 from plotly.subplots import make_subplots
 import plotly
+import socket
 
 ACTUAL_COMPOUNDS: dict = {
     0:"N/A",
@@ -106,7 +107,7 @@ class MultiPlot:
         self.count += 1
     
     def show(self, filename:str=None):
-        if os.environ['COMPUTERNAME'] == 'DESKTOP-KICFR1D':
+        if get_host() == 'DESKTOP-KICFR1D':
             return plotly.offline.plot(self.fig, filename=filename)
         return self.fig.show()
     
@@ -156,7 +157,7 @@ def list_circuits(path:str='Data') -> str:
     """
     Function that takes a path and returns the list of circuits data in that folder.
     """
-    log = get_basic_logger('MAIN')
+    log = get_basic_logger('UTILS')
     folders = os.listdir(path)
     if '.DS_Store' in folders:
         folders.remove('.DS_Store')
@@ -181,7 +182,7 @@ def list_data(directory:str) -> str:
     """
     Function that takes a directory and returns the list of subfolders in that folder.
     """
-    log = get_basic_logger('MAIN')
+    log = get_basic_logger('UTILS')
     folders = os.listdir(directory)
     if '.DS_Store' in folders:
         folders.remove('.DS_Store')
@@ -215,6 +216,12 @@ def get_basic_logger(logger_name="MAIN"):
     logger.addHandler(ch)
 
     return logger
+
+def get_host():
+    """
+    Returns the hostname of the machine.
+    """
+    return socket.gethostname()
 
 def separate_data(df:pd.DataFrame) -> dict:
     """

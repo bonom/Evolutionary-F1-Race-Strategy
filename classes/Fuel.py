@@ -9,7 +9,7 @@ import plotly.express as px
 import plotly
 from sklearn.linear_model import LinearRegression
 
-from classes.Utils import get_basic_logger
+from classes.Utils import get_basic_logger, get_host
 
 log = get_basic_logger('FUEL')
 
@@ -97,7 +97,7 @@ class Fuel:
         if display:
             fig = px.line(fuel_consume, x='Lap',y='Fuel', title='Fuel Consumption', range_y=[0,100], range_x=[-0.1,max(fuel_consume['Lap'])+1]) #Need to check what is the maximum value of the fuel load
             
-            if os.environ['COMPUTERNAME'] == 'DESKTOP-KICFR1D':
+            if get_host() == 'DESKTOP-KICFR1D':
                 plotly.offline.plot(fig, filename='Plots/Fuel consumption.html')
             else:
                 fig.show()

@@ -1,17 +1,14 @@
 import sys, os
 import pandas as pd
 import numpy as np
-from classes.Timing import get_timing_data, Timing
-from classes.Tyres import get_tyres_data, Tyres
-from classes.Fuel import get_fuel_data, Fuel
+from classes.Timing import get_timing_data
+from classes.Tyres import get_tyres_data
+from classes.Fuel import get_fuel_data
 from classes.Extractor import extract_data, remove_duplicates
-from classes.Utils import MultiPlot, get_basic_logger, get_car_name, list_data, ms_to_m, separate_data, list_circuits
+from classes.Utils import MultiPlot, get_basic_logger, get_car_name, get_host, list_data, ms_to_m, separate_data, list_circuits
 
 import plotly.express as px
-from plotly.subplots import make_subplots
 import plotly
-
-from datetime import datetime 
 
 import argparse
 
@@ -31,14 +28,6 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
     """
     ### Getting data from the 'folder'/'circuit' path
     log.info(f"Getting data for car '{car_id}'...")
-    if folder == '' or folder is None:
-        ### There is no specific folder of data => we use all the data in a given circuit
-        if circuit == '' or circuit is None:
-            ### There is no specific circuit => We have to get it from the user
-            circuit = list_circuits(data_folder) # Returns the path to the circuit folder
-        
-        folder = list_data(circuit) # Returns the path to the data folder
-    
     concat_path = os.path.join(folder,'ConcatData')
     if not os.path.exists(concat_path):
         os.makedirs(concat_path)
@@ -114,7 +103,7 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
     ### Return data
     to_ret = {'Times':timing_data,'Tyres':tyres_data,'Fuel':fuel_data}
 
-    tmp = pd.DataFrame(columns=['Lap','Delta','Wear_FL','Wear_FR','Wear_RL','Wear_RR','Fuel'])
+    df = pd.DataFrame(columns=['Lap','Delta','Wear_FL','Wear_FR','Wear_RL','Wear_RR','Fuel'])
 
     for key,value in timing_data.items():
         best = min([x for x in value.LapTimes if x > 0])
@@ -132,18 +121,18 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
             
             fuel_consume = fuel_data[key][frame]['FuelInTank']
             
-            tmp.loc[idx] = [idx,delta,tyres_wear['FL'],tyres_wear['FR'],tyres_wear['RL'],tyres_wear['RR'],fuel_consume]
+            df.loc[idx] = [idx,delta,tyres_wear['FL'],tyres_wear['FR'],tyres_wear['RL'],tyres_wear['RR'],fuel_consume]
 
             #log.debug(f"Lap: {idx}, Delta: {delta}, Wear: {tyres_wear}, Fuel: {fuel_consume}")
         
-        if tmp.at[len(tmp)-1,'Delta'] < 0:
-            tmp = tmp[:-1]
+        df.sort_values(by=['Lap'],inplace=True)
+        df = df.loc[df['Delta'] > 0]
 
-        x = tmp['Lap'].values
-        y = tmp['Delta'].values
-        #y = [np.log(y) if y > 0 else 0 for y in tmp['Delta'].values]
+        x = df['Lap'].values
+        y = df['Delta'].values
+        y = [np.log(y) if y > 0 else 0 for y in df['Delta'].values]
 
-        coefficients = np.polyfit(x,y,3)
+        coefficients = np.polyfit(x,y,1)
         
         poly = np.poly1d(coefficients)
 
@@ -151,20 +140,20 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         new_y = poly(new_x)
 
         #fig = make_subplots(rows=4, cols=2)
-        fig = MultiPlot(4,2,titles=['TimeDelta w.r.t '+ms_to_m(best), 'LapDeltaPolyFit', 'TyresWear', 'Fuel Consumption', 'Delta/Wear', 'Delta/Fuel', 'FuelPolyFit'])
+        fig = MultiPlot(4,2,titles=['TimeDelta w.r.t '+ms_to_m(best), 'LapDeltaPolyFit', 'TyresWear on '+tyres_data[key].get_visual_compound(), 'Fuel Consumption', 'Delta/Wear', 'Delta/Fuel', 'FuelPolyFit'])
         
 
-        fig1 = px.line(tmp, x='Lap', y='Delta', title='Delta')
+        fig1 = px.line(df, x='Lap', y='Delta', title='Delta')
         fig2 = px.line(pd.DataFrame({'Lap':new_x, 'Delta':new_y}), x='Lap', y='Delta', title='Delta')
-        fig3 = px.line(tmp, x='Lap', y=['Wear_FL','Wear_FR','Wear_RL','Wear_RR'], title='Tyres Wear')
-        fig4 = px.line(tmp, x='Lap', y='Fuel', title='Fuel Consumption')
+        fig3 = px.line(df, x='Lap', y=['Wear_FL','Wear_FR','Wear_RL','Wear_RR'], title='Tyres Wear')
+        fig4 = px.line(df, x='Lap', y='Fuel', title='Fuel Consumption')
 
-        tmp = tmp.sort_values(by='Delta')
-        fig5 = px.line(tmp,x='Delta',y=['Wear_FL','Wear_FR','Wear_RL','Wear_RR'])
-        fig6 = px.line(tmp,x='Delta',y='Fuel')
+        df = df.sort_values(by='Delta')
+        fig5 = px.line(df,x='Delta',y=['Wear_FL','Wear_FR','Wear_RL','Wear_RR'])
+        fig6 = px.line(df,x='Delta',y='Fuel')
 
-        x = tmp['Delta'].values
-        y = tmp['Fuel'].values
+        x = df['Delta'].values
+        y = df['Fuel'].values
 
         coefficients = np.polyfit(x, y, 1)
         poly = np.poly1d(coefficients)
@@ -187,9 +176,12 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         else:
             path = folder.split('\\')[2:]
         plots_path = os.path.join('Plots',path[0],path[1])
-        fig.set_title(f"Car_{car_id}")
-        fig.save(os.path.join(plots_path,f'{car_id}.html'))
-        fig.show(filename=os.path.join(plots_path,f'{car_id}.html'))
+        fig.set_title(f"Car {i} -> {get_car_name(i,path=folder)} (DATA {key})")
+        if get_host() == 'DESKTOP-KICFR1D':
+            fig.show(filename=os.path.join(plots_path,f'Car{car_id}.html'))
+        else:
+            #fig.save(os.path.join(plots_path,f'{car_id}.html'))
+            fig.show()
         
     return to_ret
     
@@ -197,12 +189,25 @@ if __name__ == "__main__":
     if not os.path.exists('Plots'):
         os.mkdir('Plots')
 
+    if args.f == '' or args.f is None:
+        ### There is no specific folder of data => we use all the data in a given circuit
+        if args.c == '' or args.c is None:
+            ### There is no specific circuit => We have to get it from the user
+            circuit_folder = list_circuits(args.d) # Returns the path to the circuit folder
+        
+        folder = list_data(circuit_folder) # Returns the path to the data folder
+        data_folder = 'Data'
+    else:
+        folder = args.f
+        circuit_folder = args.c
+        data_folder = args.d
+
     if args.i is not None:
-        main(args.i,args.d,args.c,args.f)
+        main(args.i,data_folder,circuit_folder,folder)
         sys.exit(0)
 
     for i in range(0,20):
-        data = main(i,args.d,args.c,args.f)
+        data = main(i,data_folder,circuit_folder,folder)
         
     """
         max_value = max([len(data['Times'].keys()),len(data['Tyres'].keys()),len(data['Fuel'].keys())])
