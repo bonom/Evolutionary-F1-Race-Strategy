@@ -1,7 +1,6 @@
 import sys, os
 import pandas as pd
 import numpy as np
-from classes.Car import Car
 from classes.Timing import get_timing_data
 from classes.Tyres import get_tyres_data
 from classes.Fuel import get_fuel_data
