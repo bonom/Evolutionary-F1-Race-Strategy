@@ -180,11 +180,9 @@ def main(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
         
         plots_path = os.path.join('Plots',path[-2],path[-1])
         fig.set_title(f"Car {car_id} -> {get_car_name(car_id,path=folder)} (DATA {key})")
-        if get_host() == 'DESKTOP-KICFR1D':
-            fig.show(filename=os.path.join(plots_path,f'Car{car_id}.html'))
-        else:
-            fig.save(os.path.join(plots_path,f'Car{car_id}.html'))
-            #fig.show()
+        
+        fig.save(os.path.join(plots_path,f'Car{car_id}.html'))
+        fig.show()
         
     return to_ret
     
