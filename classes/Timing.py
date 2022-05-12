@@ -33,12 +33,12 @@ class Timing:
             
             self.LapTimes = list()
             for col in df.filter(like="lapTimeInMS").columns.to_list():
-                values = [int(value) for value in df[col].dropna().drop_duplicates().values if value > 0]
+                values = [int(value) for value in df[col].dropna().drop_duplicates().values if int(value) > 0]
                 if len(values) == 1:
                     self.LapTimes.append(values[0])
                 elif len(values) > 1:
                     log.critical("Wrong number of times:\n\t\t\t\t\t\t{}".format(values))
-                #self.LapTimes.append(max([int(value) for value in df[col].dropna().values if value > 0]))
+             
 
             self.LapTimes = np.array(self.LapTimes)
 
