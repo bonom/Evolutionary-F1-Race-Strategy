@@ -11,7 +11,7 @@ from sklearn.linear_model import LinearRegression
 
 from classes.Utils import get_basic_logger, get_host
 
-log = get_basic_logger('FUEL')
+log = get_basic_logger('Fuel')
 
 class Fuel:
     def __init__(self, df:pd.DataFrame=None, load_path:str=None, start:int=0) -> None:
@@ -85,14 +85,8 @@ class Fuel:
         
         fuel_consume = {'Frame':[int(value) for value in self.FuelInTank.keys()],'Fuel':[value for value in self.FuelInTank.values()], 'Lap':[]}
 
-        #print(f"-----------------------")
-        #print(max(fuel_consume['Frame']))
-        #print(max(self.lap_frames.keys()))
-        #print(list(self.lap_frames.keys())[28025-min(self.lap_frames.keys()):28030-min(self.lap_frames.keys())])
-        #print(f"-----------------------")
         for value in fuel_consume['Frame']:
             fuel_consume['Lap'].append(self.get_lap(value, True))
-            #fuel_consume.at[row,'Lap'] = self.get_lap(fuel_consume.at[row,'Frame'],True)
         
         if display:
             fuel_consume_df = pd.DataFrame(fuel_consume)

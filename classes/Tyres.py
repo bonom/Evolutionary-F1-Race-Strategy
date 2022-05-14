@@ -10,7 +10,7 @@ import plotly
 from classes.RangeDictionary import RangeDictionary
 from classes.Utils import ACTUAL_COMPOUNDS, VISUAL_COMPOUNDS, TYRE_POSITION, get_basic_logger, get_host
 
-log = get_basic_logger("TYRES")
+log = get_basic_logger("Tyres")
 
 class Tyre:
     """

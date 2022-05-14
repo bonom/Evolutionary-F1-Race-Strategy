@@ -13,7 +13,7 @@ import pandas as pd
 
 from classes.Utils import get_basic_logger
 
-log = get_basic_logger('CARS')
+log = get_basic_logger('Cars')
 
 class Car:
     def __init__(self,base_path:str=None, car_id:int=None, load_path:str=None):

@@ -8,7 +8,7 @@ import plotly.express as px
 import sys, os
 from classes.Utils import get_basic_logger, get_host
 
-log = get_basic_logger('TIMING')
+log = get_basic_logger('Timing')
 
 class Timing:
     def __init__(self, df:pd.DataFrame=None, load_path:str=None) -> None:

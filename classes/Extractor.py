@@ -7,7 +7,7 @@ from classes.Utils import get_basic_logger
 from typing import Union
 import sys
 
-log = get_basic_logger('EXTRACTOR')
+log = get_basic_logger('Extractor')
 
 def fixer(df:pd.DataFrame, frame:int, col:str, before) -> pd.DataFrame:
     """
