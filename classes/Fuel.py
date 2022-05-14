@@ -14,29 +14,34 @@ from classes.Utils import get_basic_logger, get_host
 log = get_basic_logger('FUEL')
 
 class Fuel:
-    def __init__(self, df:pd.DataFrame=None, load_path:str=None) -> None:
+    def __init__(self, df:pd.DataFrame=None, load_path:str=None, start:int=0) -> None:
         if df is not None:
-            indexes = list()
-            for lap in df['NumLaps'].unique():
-                if not math.isnan(lap):
-                    indexes.append(min(df.loc[df['NumLaps'] == lap].notna().index.values))
 
+            indexes = list()
+            laps = [int(x) for x in df['NumLaps'].unique() if not math.isnan(x)]
+            for lap in laps:
+                if not math.isnan(lap):
+                    indexes.append((min(df.loc[df['NumLaps'] == lap,'FrameIdentifier'].values), max(df.loc[df['NumLaps'] == lap,'FrameIdentifier'].values)))
+            
             self.lap_frames = dict()
             max_lap_len = len(indexes)
             for idx in range(max_lap_len):
                 if idx < max_lap_len-1:
-                    start = indexes[idx]
-                    end = indexes[idx+1]
+                    start,_ = indexes[idx]
+                    end,_ = indexes[idx+1]
                 else:
-                    start = indexes[idx]
-                    end = df['FrameIdentifier'].iloc[-1]
-                
+                    start, end = indexes[idx]
                 for i in range(start,end):
-                    self.lap_frames[i] = idx + round(((i - start)/(end - start)),2)
+                    self.lap_frames[i] = idx + round(((i - start)/(end - start)),4)  
+            
+            #print(f"Lap frame [0]: {list(self.lap_frames.items())[0]}")
+            #print(f"Lap frame [1]: {list(self.lap_frames.items())[1]}")
 
-            self.FuelInTank = RangeDictionary(df['FuelInTank'].values)
-            self.FuelCapacity = RangeDictionary(df['FuelCapacity'].values)
-            self.FuelRemainingLaps = RangeDictionary(df['FuelRemainingLaps'].values)
+            df = df.loc[(df['FrameIdentifier'] >= list(self.lap_frames.keys())[0]) & (df['FrameIdentifier'] <= list(self.lap_frames.keys())[-1])]
+
+            self.FuelInTank = RangeDictionary(df[['FrameIdentifier','FuelInTank']])
+            self.FuelCapacity = RangeDictionary(df[['FrameIdentifier','FuelCapacity']])
+            self.FuelRemainingLaps = RangeDictionary(df[['FrameIdentifier','FuelRemainingLaps']])
 
             ### MODEL ###
             x = np.array([int(key) for key in self.FuelInTank.keys()]).reshape((-1,1))
@@ -45,10 +50,6 @@ class Fuel:
                 y[0] = 0
 
             self.model = LinearRegression().fit(x,y)
-
-            #r_sq = self.model.score(x,y)
-            #intercept = self.model.intercept_
-            #slope = self.model.coef_
             
         elif load_path is not None:
             data = self.load(load_path)
@@ -68,11 +69,10 @@ class Fuel:
         return {'NumLap': lap, 'FuelInTank': self.FuelInTank[idx], 'FuelCapacity': self.FuelCapacity[idx], 'FuelRemaining': self.FuelRemainingLaps[idx]}
 
     def get_lap(self, frame, get_float:bool=False) -> Union[int,float]:
-        first_value = list(self.lap_frames.keys())[0]
         if get_float:
-            return self.lap_frames[frame+first_value]
+            return self.lap_frames[frame]
         
-        return int(self.lap_frames[frame+first_value])
+        return int(self.lap_frames[frame])
 
     def get_frame(self, lap_num:Union[int,float]) -> int:
         for frame, lap in self.lap_frames.items():
@@ -83,19 +83,25 @@ class Fuel:
 
     def consumption(self, display:bool=False) -> dict:
         
-        fuel_consume = {'Frame':[int(value) for value in self.FuelInTank.keys()],'Fuel':[value for value in self.FuelInTank.values()]}
+        fuel_consume = {'Frame':[int(value) for value in self.FuelInTank.keys()],'Fuel':[value for value in self.FuelInTank.values()], 'Lap':[]}
 
-        fuel_consume = pd.DataFrame(fuel_consume)
-
-        for row in fuel_consume.index:
-            fuel_consume.at[row,'Lap'] = self.get_lap(fuel_consume.at[row,'Frame'],True)
+        #print(f"-----------------------")
+        #print(max(fuel_consume['Frame']))
+        #print(max(self.lap_frames.keys()))
+        #print(list(self.lap_frames.keys())[28025-min(self.lap_frames.keys()):28030-min(self.lap_frames.keys())])
+        #print(f"-----------------------")
+        for value in fuel_consume['Frame']:
+            fuel_consume['Lap'].append(self.get_lap(value, True))
+            #fuel_consume.at[row,'Lap'] = self.get_lap(fuel_consume.at[row,'Frame'],True)
         
-        max_lap = int(max(fuel_consume['Lap']))
-        fuel_consume = fuel_consume[fuel_consume['Lap'] <= max_lap]
-        fuel_consume.drop_duplicates(subset=['Lap'], keep='first', inplace=True)
-
         if display:
-            fig = px.line(fuel_consume, x='Lap',y='Fuel', title='Fuel Consumption', range_y=[0,100], range_x=[-0.1,max(fuel_consume['Lap'])+1]) #Need to check what is the maximum value of the fuel load
+            fuel_consume_df = pd.DataFrame(fuel_consume)
+            
+            max_lap = int(max(fuel_consume_df['Lap']))
+            fuel_consume_df = fuel_consume_df[fuel_consume_df['Lap'] <= max_lap]
+            fuel_consume_df.drop_duplicates(subset=['Lap'], keep='first', inplace=True)
+            
+            fig = px.line(fuel_consume_df, x='Lap',y='Fuel', title='Fuel Consumption', range_y=[0,100], range_x=[-0.1,max(fuel_consume_df['Lap'])+1]) #Need to check what is the maximum value of the fuel load
             
             if get_host() == 'DESKTOP-KICFR1D':
                 plotly.offline.plot(fig, filename='Plots/Fuel consumption.html')
@@ -168,7 +174,7 @@ def get_fuel_data(df:pd.DataFrame, separators:dict, path:str=None) -> set:
             data = df.loc[(df['FrameIdentifier'] >= sep_start) & (df['FrameIdentifier'] <= sep_end),fuel_columns]
 
             ### Add them to the set
-            fuel = Fuel(df=data)
+            fuel = Fuel(df=data, start=sep_start)
             fuel.save(path,id=key)
             fuel_data[key] = fuel
         else:

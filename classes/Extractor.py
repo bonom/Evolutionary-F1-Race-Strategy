@@ -199,18 +199,6 @@ def extract_data(path:str='Data',idx:int=19) -> Union[pd.DataFrame, pd.DataFrame
     lap = pd.read_csv(os.path.join(path, 'Lap.csv')).replace('-', np.nan).drop_duplicates(subset=['FrameIdentifier','CarIndex'], keep='last')
     lap = lap.loc[lap['CarIndex']==idx,['FrameIdentifier','CarIndex','LastLapTimeInMS','CurrentLapTimeInMS','Sector1TimeInMS','Sector2TimeInMS','LapDistance','TotalDistance','CurrentLapNum','Sector','PitStopShouldServePen','DriverStatus']]
 
-    # For now not used
-
-    #lap_frames = dict()
-    #num_laps = lap['CurrentLapNum'].iloc[-1]
-    #for i in range(1,num_laps):
-    #    frame_range = lap.loc[lap['CurrentLapNum']==i,'FrameIdentifier']
-    #    if len(frame_range) > 0:
-    #        last_frame = frame_range.iloc[-1]
-    #        lap_frames[i] = last_frame
-    #    else:
-    #        lap_frames[i] = 0
-
     motion = pd.read_csv(os.path.join(path, 'Motion.csv')).replace('-', np.nan).drop_duplicates(subset=['FrameIdentifier','CarIndex'], keep='last')
     motion = motion.loc[motion['CarIndex']==idx, ['FrameIdentifier','CarIndex','WorldPositionX','WorldPositionY','WorldPositionZ','RLWheelSlip','RRWheelSlip','FLWheelSlip','FRWheelSlip','Pitch','Roll']]
 

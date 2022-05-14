@@ -2,34 +2,38 @@ from typing import Union
 import numpy as np
 import math
 import sys
+import pandas as pd
 
 from classes.Utils import get_basic_logger
 
 log = get_basic_logger('RangeDictionary')
 
 class RangeDictionary:
-    def __init__(self, array:Union[np.ndarray, list]=[],start:int=0) -> None:
+    def __init__(self, data:pd.DataFrame=[]) -> None:
         self.dataset = {}
         tmp = np.nan
-        key = start
-        for idx, value in enumerate(array):
-            if (value != tmp and not math.isnan(value)) or (idx == 0):
-                self.dataset[key] = value
+        start = data['FrameIdentifier'].values[0]
+        for row in data.itertuples(): #row[1] = FrameIdentifier, row[2] = value, {row[0] = index => not used}
+            frame = row[1]
+            value = row[2]
+            if (value != tmp and not math.isnan(value)) or (frame-start == 0):
+                self.dataset[frame] = value
                 tmp = value
             else:
                 tmp_key = list(self.dataset.keys())[-1]
                 self.dataset.pop(tmp_key)
-                if isinstance(tmp_key, int):
-                    self.dataset[(tmp_key,key)] = tmp
-                elif isinstance(tmp_key,tuple):
-                    self.dataset[(tmp_key[0],key)] = tmp
-                
-            key += 1
+                try:
+                    self.dataset[(tmp_key[0],frame)] = tmp
+                except TypeError:
+                    self.dataset[(tmp_key,frame)] = tmp
 
         self.len = len(self.dataset.values())
 
     def __getitem__(self, key:int) -> Union[int,float,list]:
+        if key == -1:
+            key = list(self.dataset.keys())[-1]
         try:
+            
             return self.dataset[key]
         except KeyError:
             for keys in list(self.dataset.keys()):
@@ -54,7 +58,7 @@ class RangeDictionary:
     def __str__(self) -> str:
         return self.__repr__()
 
-    def __call__(self, array:Union[np.ndarray, list]) -> None:
+    def __call__(self, array:pd.DataFrame) -> None:
         return self.__init__(array)
 
     def __iter__(self) -> dict:
@@ -106,6 +110,12 @@ class RangeDictionary:
 
     def items(self):
         return zip(self.keys(), self.values())
+
+    def first(self):
+        return list(self.dataset.items())[0]
+    
+    def last(self):
+        return list(self.dataset.items())[-1]
 
 if __name__ == "__main__":
     log.warning("This module is not intended to be used as a standalone script. Run 'python main.py' instead.")

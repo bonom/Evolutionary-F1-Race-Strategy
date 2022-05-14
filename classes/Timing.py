@@ -13,27 +13,27 @@ log = get_basic_logger('TIMING')
 class Timing:
     def __init__(self, df:pd.DataFrame=None, load_path:str=None) -> None:
         if df is not None:
-            indexes = list()
-            for lap in df['NumLaps'].unique():
-                if not math.isnan(lap):
-                    indexes.append(min(df.loc[df['NumLaps'] == lap].notna().index.values))
 
+            indexes = list()
+            laps = [int(x) for x in df['NumLaps'].unique() if not math.isnan(x)]
+            for lap in laps:
+                if not math.isnan(lap):
+                    indexes.append((min(df.loc[df['NumLaps'] == lap,'FrameIdentifier'].values), max(df.loc[df['NumLaps'] == lap,'FrameIdentifier'].values)))
+            
             self.lap_frames = dict()
             max_lap_len = len(indexes)
             for idx in range(max_lap_len):
                 if idx < max_lap_len-1:
-                    start = indexes[idx]
-                    end = indexes[idx+1]
+                    start,_ = indexes[idx]
+                    end,_ = indexes[idx+1]
                 else:
-                    start = indexes[idx]
-                    end = df['FrameIdentifier'].iloc[-1]
-                
+                    start, end = indexes[idx]
                 for i in range(start,end):
-                    self.lap_frames[i] = idx + round(((i - start)/(end - start)),2)
-            
+                    self.lap_frames[i] = idx + round(((i - start)/(end - start)),4)
+                    
             self.LapTimes = list()
             for col in df.filter(like="lapTimeInMS").columns.to_list():
-                values = [int(value) for value in df[col].dropna().drop_duplicates().values if value > 0]
+                values = [int(value) for value in df[col].dropna().drop_duplicates().values if int(value) > 0]
                 if len(values) == 1:
                     self.LapTimes.append(values[0])
                 elif len(values) > 1:
@@ -94,9 +94,14 @@ class Timing:
             self.Sector3InMS = data.Sector3InMS
             self.BestSector3Time = data.BestSector3Time
             self.BestSector3 = data.BestSector3
+
+            #log.debug(f"{list(self.lap_frames.items())[0]} {list(self.lap_frames.items())[-1]}")
+            #log.debug(f"{self.get_frame(0)} {self.get_frame(6)}")
     
-    def __repr__(self):
-        return f"LapTimes: {self.LapTimes}\nSector1InMS: {self.Sector1InMS}\nSector2InMS: {self.Sector2InMS}\nSector3InMS: {self.Sector3InMS}"
+    def __repr__(self, key:int=None) -> dict:
+        if key is not None:
+            return self.__getitem__(key)
+        return {"LapTimes": {self.LapTimes},"Sector1InMS": {self.Sector1InMS},"Sector2InMS": {self.Sector2InMS},"Sector3InMS": {self.Sector3InMS}}
     
     def __str__(self):
         return self.__repr__(self)
@@ -112,13 +117,11 @@ class Timing:
     def __len__(self) -> int:
         return len(self.lap_frames.keys())
     
-    def get_lap(self, frame, get_float:bool=False) -> Union[int,float]:
-        first_value = list(self.lap_frames.keys())[0]
-
+    def get_lap(self, frame:int, get_float:bool=False) -> Union[int,float]:
         if get_float:
-            return self.lap_frames[frame+first_value]
+            return self.lap_frames[frame]
         
-        return int(self.lap_frames[frame+first_value])
+        return int(self.lap_frames[frame])
     
     def get_frame(self, lap_num:Union[int,float]) -> int:
         for frame, lap in self.lap_frames.items():

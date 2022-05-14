@@ -191,7 +191,7 @@ def list_data(directory:str) -> str:
         log.info(f"Only one folder ({folders[0]}) found in {directory}. Using it.")
         return os.path.join(directory,folders[0])
 
-    print(f"Select the folder data to use:")
+    print(f"Select the folder data to use from circuit '{directory}':")
     for idx,folder in enumerate(folders):
         print(f" {idx} for {folder}")
     
