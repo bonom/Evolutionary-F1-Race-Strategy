@@ -38,7 +38,7 @@ class Timing:
                     self.LapTimes.append(values[0])
                 elif len(values) > 1:
                     log.critical("Wrong number of times:\n\t\t\t\t\t\t{}".format(values))
-                #self.LapTimes.append(max([int(value) for value in df[col].dropna().values if value > 0]))
+             
 
             self.LapTimes = np.array(self.LapTimes)
 
