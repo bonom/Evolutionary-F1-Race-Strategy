@@ -66,6 +66,37 @@ TYRE_POSITION: dict ={
     'RR':'Rear Right',
 }
 
+_xor = {("0", "0"): "0",
+        ("0", "1"): "1",
+        ("1", "0"): "1",
+        ("1", "1"): "0"}
+
+def tograystr(binary):
+    result = prec = binary[0]
+    for el in binary[1:]:
+        result += _xor[el, prec]
+        prec = el
+    return result
+
+def tobinarystr(gray):
+    result = prec = gray[0]
+    for el in gray[1:]:
+        prec = _xor[prec, el]
+        result += prec
+    return result
+
+def int_to_gray(n:int) -> str:
+    """
+    Convert an integer to a gray code string
+    """
+    return tograystr(bin(n)[2:])
+
+def gray_to_int(n:str) -> int:
+    """
+    Convert a gray code string to an integer
+    """
+    return int(tobinarystr(n), 2)
+
 
 class CustomFormatter(logging.Formatter):
 
@@ -264,15 +295,11 @@ def separate_data(df:pd.DataFrame) -> dict:
     except KeyError:
         pass
     
-    ### Left here for debugging purposes
-    #for key, values in separator.items():
-    #    print(key, values)
-
-    #(px.line(tmp_df, x='FrameIdentifier', y='DriverStatus', title='Driver Status',)).show()
-
     return separator
 
 if __name__ == "__main__":
-    log = get_basic_logger('UTILS')
+    #print(tograystr(bin(5)[2:]))
+    #print(tobinarystr(tograystr(bin(5)[2:])))
+    log = get_basic_logger('Utils')
     log.warning("This module is not intended to be used as a standalone script. Run 'python main.py' instead.")
     sys.exit(1)
