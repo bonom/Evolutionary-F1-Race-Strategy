@@ -2,6 +2,7 @@ from json import load
 import sys, os
 import pandas as pd
 import numpy as np
+from classes.Genetic import GeneticSolver
 from classes.Car import get_cars
 from classes.Timing import Timing, get_timing_data
 from classes.Tyres import Tyres, get_tyres_data
@@ -192,6 +193,7 @@ def main():
 
     data = dict()
 
+    
     if args.f == '' or args.f is None:
         ### There is no specific folder of data => we use all the data in a given circuit
         if args.c == '' or args.c is None:
@@ -215,14 +217,17 @@ def main():
         data_folder = os.path.abspath('Data')
 
     if args.i is not None:
-        data = DataLoad(args.i,data_folder,circuit_folder,folder)
+        #data = DataLoad(args.i,data_folder,circuit_folder,folder)
+
+        car = get_cars(path=circuit_folder,load_path=os.path.join(circuit_folder,'CarSaves'), car_idx=args.i)
+        
+        print(GeneticSolver(population=10, mutation_pr=0.2, crossover_pr=0.1, car=car))
     else:
         for i in range(0,20):
             data[i] = DataLoad(i,data_folder,circuit_folder,folder)
-
-    cars = get_cars(path=circuit_folder,load_path=os.path.join(circuit_folder,'CarSaves'))
-            
-    
+        
+        cars = get_cars(path=circuit_folder,load_path=os.path.join(circuit_folder,'CarSaves'))
+        GeneticSolver(population=10, mutation_pr=0.2, crossover_pr=0.1, car=cars[args.i]).print()
 
 if __name__ == "__main__":
     main() 

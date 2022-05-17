@@ -1,14 +1,11 @@
 import math
 import os
 import pickle
-import sys
 from typing import Dict, List
 import numpy as np
-from pyparsing import col
 from classes.Fuel import Fuel
 from classes.Timing import Timing
 from classes.Tyres import Tyres
-import plotly.express as px
 import pandas as pd
 
 from classes.Utils import get_basic_logger
@@ -19,9 +16,9 @@ class Car:
     def __init__(self,base_path:str=None, car_id:int=None, load_path:str=None):
         if load_path is None:
             self.car_id = car_id
-            self.fuel_lose = 0
+            self.fuel_lose = 0.0
             self.tyre_lose = {'Soft':0, 'Medium':0, 'Hard':0, 'Inter':0, 'Wet':0}
-            self.wear_coeff = {'Soft':0, 'Medium':0, 'Hard':0, 'Inter':0, 'Wet':0}
+            self.wear_coeff = {'Soft':(0,0), 'Medium':(0,0), 'Hard':(0,0), 'Inter':(0,0), 'Wet':(0,0)}
             self.fuel:List[Fuel] = list()
             self.tyres:List[Tyres] = list()
             self.timing:List[Timing] = list()
@@ -30,15 +27,13 @@ class Car:
                 self.add(base_path, car_id)
         else:
             data:Car = self.load(load_path)
-            self.car_id = data.car_id
-            self.fuel_lose = data.fuel_lose
-            self.tyre_lose = data.tyre_lose
-            self.wear_coeff = data.wear_coeff
-            self.fuel = data.fuel
-            self.tyres = data.tyres
-            self.timing = data.timing
-
-
+            self.car_id:int = data.car_id
+            self.fuel_lose:float = data.fuel_lose
+            self.tyre_lose:dict = data.tyre_lose
+            self.wear_coeff:dict = data.wear_coeff
+            self.fuel:List[Fuel] = data.fuel
+            self.tyres:List[Tyres] = data.tyres
+            self.timing:List[Timing] = data.timing
 
     def add(self,base_path:str, car_id:int):
         folders = os.listdir(base_path)
@@ -83,6 +78,9 @@ class Car:
 
         self.get_wear_time_lose()
 
+    def get_best_lap_time(self,):
+        return min(self.timing, key=lambda x: x.BestLapTime).BestLapTime
+
     def compute_wear_time_lose(self, wear_percentage, tyre_compound):
         log_y = self.wear_coeff[tyre_compound][0] + self.wear_coeff[tyre_compound][1] * wear_percentage 
         return np.exp(log_y)
@@ -122,7 +120,7 @@ class Car:
                 
                 
                 try:
-                    fit = np.polyfit(x, np.log(y), 1)
+                    fit = np.polyfit(x, np.log(y), 1, w=np.sqrt(y))
                 except:
                     log.error("Unable to fit data, skipping it.\nx ({}) = {}\ny ({}) = {}".format(len(x),[round(_x) for _x in x],len(y),[round(_y) for _y in y]))
                 
@@ -239,7 +237,7 @@ class Car:
         with open(path, 'rb') as f:
             return pickle.load(f)
 
-def get_cars(path:str=None, load_path:str=None) -> dict:
+def get_cars(path:str=None, load_path:str=None, car_idx:int = None) -> dict:
     cars:Dict[int,Car] = dict()
 
     files = []
@@ -250,14 +248,17 @@ def get_cars(path:str=None, load_path:str=None) -> dict:
     
 
     if load_path is not None and len(files) > 0:
-        log.info("Loading Cars Data from '{}'.".format(load_path))
-        for idx in range(0,20):
-            try:    
-                cars[idx] = Car(load_path=os.path.join(load_path,'Car_'+str(idx)+'.json'))
-                log.info("Car {} loaded successfully.".format(idx))
-            except FileNotFoundError:
-                log.info("Car {} not found.".format(idx))
-                cars[idx] = Car()
+        log.info("Loading Car(s) Data from '{}'.".format(load_path))
+        if car_idx is None:
+            for idx in range(0,20):
+                try:    
+                    cars[idx] = Car(load_path=os.path.join(load_path,'Car_'+str(idx)+'.json'))
+                    log.info("Car {} loaded successfully.".format(idx))
+                except FileNotFoundError:
+                    log.info("Car {} not found.".format(idx))
+                    cars[idx] = Car()
+        else:
+            return Car(load_path=os.path.join(load_path,'Car_'+str(car_idx)+'.json'))
     elif path is not None:
         path = os.path.abspath(path)
         if os.name == 'posix' and path.split('/')[-2] != 'Data':
@@ -282,14 +283,23 @@ def get_cars(path:str=None, load_path:str=None) -> dict:
         if not os.path.exists(save_path):
             os.makedirs(save_path)
 
-        log.info("Ready to create Cars Data, will be saved in '{}'.".format(save_path))
+        log.info("Ready to create Car(s) Data, will be saved in '{}'.".format(save_path))
         
-        for idx in range(0,20):
-            log.info("Creating Car {}...".format(idx))
-            if cars.get(idx) is None:
-                cars[idx] = Car()
-            cars[idx].add(path, idx)
-            cars[idx].save(save_path, idx)
+        if car_idx is None:
+            for idx in range(0,20):
+                log.info("Creating Car {}...".format(idx))
+                if cars.get(idx) is None:
+                    cars[idx] = Car()
+                cars[idx].add(path, idx)
+                cars[idx].save(save_path, idx)
+        else:
+            car = Car()
+            car.add(path, car_idx)
+            #car.save(save_path, car_idx)
+
+            log.info("Car Data created and saved successfully.")
+
+            return car
 
         log.info("Cars Data created and saved successfully.")
 
