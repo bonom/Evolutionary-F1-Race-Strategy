@@ -1,6 +1,5 @@
 import numpy as np
 from classes.Car import Car
-import datetime
 
 from classes.Utils import get_basic_logger
 
@@ -33,7 +32,7 @@ class GeneticSolver:
         self.initSolver()
 
 
-    def __str__(self) -> str:
+    def print(self) -> None:
         string = ''
         for i in range(self.population):
             string+=f"---------- Individual {i+1} ----------\n"
@@ -42,7 +41,7 @@ class GeneticSolver:
             string+=f"TotalTime: {convertMillis(self.strategies[i]['TotalTime'])}\n"
             string+="\n"
 
-        return string
+        print(string)
         
 
     def lapTime(self, stint:str, wear:float, fuel_load:float, pitStop:bool) -> int:

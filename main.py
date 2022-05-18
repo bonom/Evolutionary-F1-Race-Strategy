@@ -221,7 +221,7 @@ def main():
 
         car = get_cars(path=circuit_folder,load_path=os.path.join(circuit_folder,'CarSaves'), car_idx=args.i)
         
-        print(GeneticSolver(population=10, mutation_pr=0.2, crossover_pr=0.1, car=car))
+        GeneticSolver(population=10, mutation_pr=0.2, crossover_pr=0.1, car=car).print()
     else:
         for i in range(0,20):
             data[i] = DataLoad(i,data_folder,circuit_folder,folder)
