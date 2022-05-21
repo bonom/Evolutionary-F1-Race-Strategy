@@ -26,7 +26,7 @@ log_dl = get_basic_logger('DataLoad')
 log_main = get_basic_logger('Main')
 
 
-def DataLoad(car_id:int=19,data_folder:str='Data',circuit:str='',folder:str=''):
+def DataLoad(car_id:int=19,folder:str=''): #data_folder:str='Data',circuit:str='',
     """
     Main wrapper, takes the folder where the csv's are stores and car id as input and runs the whole process.
     """
@@ -217,17 +217,24 @@ def main():
         data_folder = os.path.abspath('Data')
 
     if args.i is not None:
+        
         #data = DataLoad(args.i,data_folder,circuit_folder,folder)
 
         car = get_cars(path=circuit_folder,load_path=os.path.join(circuit_folder,'CarSaves'), car_idx=args.i)
         
-        print(GeneticSolver(population=10, mutation_pr=0.2, crossover_pr=0.1, car=car))
+        genetic = GeneticSolver(population=1000, mutation_pr=0.5, crossover_pr=0.5, iterations=10000, numLaps=54, car=car)
+        strategy = genetic.startSolver()[0]
+        log_main.info(f"Strategy for car {args.i}:\n{strategy}")
     else:
         for i in range(0,20):
-            data[i] = DataLoad(i,data_folder,circuit_folder,folder)
+            data[i] = DataLoad(i,folder) #data_folder,circuit_folder,
         
         cars = get_cars(path=circuit_folder,load_path=os.path.join(circuit_folder,'CarSaves'))
-        GeneticSolver(population=10, mutation_pr=0.2, crossover_pr=0.1, car=cars[args.i]).print()
+        
+        for i in range(0,20):
+            genetic = GeneticSolver(population=1000, mutation_pr=0.5, crossover_pr=0.5, iterations=10000, numLaps=54, car=cars[i])
+            strategy = genetic.startSolver()[0]
+            log_main(f"Strategy for car {i} is:\n{strategy}")
 
 if __name__ == "__main__":
     main() 
