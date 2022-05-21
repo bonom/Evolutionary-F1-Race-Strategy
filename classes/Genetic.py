@@ -37,8 +37,8 @@ class GeneticSolver:
         self.numLaps = numLaps
         self.iterations = iterations
 
-        self.mu_decay = 1
-        self.sigma_decay = 1
+        self.mu_decay = 0.99
+        self.sigma_decay = 0.99
 
 
     def print(self) -> None:
@@ -120,65 +120,56 @@ class GeneticSolver:
             self.correct_strategy(c2)
         return [c1, c2]
 
-    def selection(self,population, scores, k):
+    def selection(self,population, scores):
         dict_map = {}
         temp = [score for score in scores if not math.isinf(score)]
         for index,score in enumerate(scores):
-            if math.isinf(score):
-                new_idx = random.randint(max(temp)*5, max(temp)*10)
+            new_idx = score
+            
+            if math.isinf(new_idx):
                 while dict_map.get(new_idx) is not None:
                     new_idx = random.randint(max(temp)*5, max(temp)*10)
-            else:
-                new_idx = score
-
+            
             dict_map[new_idx] = population[index]
-        
-        #log.debug(f"Index: {index}, Len of dict_map: {len(dict_map.keys())} while population = {self.population}\n{dict_map.keys()}")
-        
+
         sorted_dict = sorted(dict_map.items(), key=lambda x: x[0])
 
-        try:
-            return sorted_dict[k][1]
-        except IndexError:
-            return sorted_dict[-1][1]
-        #return sorted.pop()[1]
-        # selection_idx = random.randint(0, len(population)-1)
-        # for i in range(0,len(population),k-1):
-        #     if scores[i] < scores[selection_idx]:
-        #         selection_idx = i
-        # return population[selection_idx]
+        return [val for _, val in sorted_dict]
+
+    def randomChild(self,):
+        strategy = {'TyreStint': [], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'TotalTime': np.inf}
+            
+        strategy['TyreStint'].append(random.choice(STINTS))
+        strategy['TyreWear'].append(0)
+        strategy['FuelLoad'].append(random.randint(120,200))
+        strategy['PitStop'].append(False)
+        strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][0], strategy['TyreWear'][0], strategy['FuelLoad'][0], False))
+        
+        for i in range(1,self.numLaps+1):
+            strategy['TyreStint'].append(np.random.choice(STINTS))
+            if strategy['TyreStint'][i] == strategy['TyreStint'][i-1]:
+                strategy['TyreWear'].append(float(strategy['TyreWear'][i-1])+2.5)
+                strategy['PitStop'].append(False)
+            else:
+                strategy['TyreWear'].append(0)
+                strategy['PitStop'].append(True)
+            
+            strategy['FuelLoad'].append(strategy['FuelLoad'][i-1]-3)
+            strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][i], strategy['TyreWear'][i], strategy['FuelLoad'][i], strategy['PitStop'][i]))
+        
+        stints = set(strategy['TyreStint'])
+
+        if len(stints) > 1 and strategy['FuelLoad'][-1] > 0:
+            strategy['TotalTime'] = sum(strategy['LapTime'])
+        else:
+            strategy['TotalTime'] = np.inf
+
+        return strategy
 
     def initSolver(self,):
         strategies = []
         for _ in range(self.population):
-            strategy = {'TyreStint': [], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'TotalTime': np.inf}
-            
-            strategy['TyreStint'].append(random.choice(STINTS))
-            strategy['TyreWear'].append(0)
-            strategy['FuelLoad'].append(random.randint(120,200))
-            strategy['PitStop'].append(False)
-            strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][0], strategy['TyreWear'][0], strategy['FuelLoad'][0], False))
-            
-            for i in range(1,self.numLaps+1):
-                strategy['TyreStint'].append(np.random.choice(STINTS))
-
-                if strategy['TyreStint'][i] == strategy['TyreStint'][i-1]:
-                    strategy['TyreWear'].append(float(strategy['TyreWear'][i-1])+2.5)
-                    strategy['PitStop'].append(False)
-                else:
-                    strategy['TyreWear'].append(0)
-                    strategy['PitStop'].append(True)
-                
-                strategy['FuelLoad'].append(strategy['FuelLoad'][i-1]-3)
-                strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][i], strategy['TyreWear'][i], strategy['FuelLoad'][i], strategy['PitStop'][i]))
-
-            stints = set(strategy['TyreStint'])
-            if len(stints) > 1 and strategy['FuelLoad'][-1] > 0:
-                strategy['TotalTime'] = sum(strategy['LapTime'])
-            else:
-                strategy['TotalTime'] = np.inf
-
-            strategies.append(strategy)
+            strategies.append(self.randomChild())
 
         return strategies
         
@@ -207,7 +198,10 @@ class GeneticSolver:
                     temp_best, temp_best_eval = pop[i], scores[i]
 
             # select parents
-            selected = [self.selection(pop, scores, x) for x in range(self.population)]
+            selected = self.selection(pop, scores)#[self.selection(pop, scores, x) for x in range(self.population)]
+            if len(selected) < self.population:
+                for _ in range(self.population-len(selected)):
+                    selected.append(self.randomChild())
             # create the next generation
             children = list()
             for i in range(0, self.population, 2):
