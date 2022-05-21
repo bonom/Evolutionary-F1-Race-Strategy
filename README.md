@@ -38,3 +38,7 @@ The class is intended to extract and analyze data about a stint (set) of tyre. T
 
 ## Fuel
 The class is intended to extract and analyze data about fuel usage (it is based on the different stints approach). There is one main classes: *Fuel*.
+
+```
+python -B main.py --i 19 --c Data/Monza/ 
+```

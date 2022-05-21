@@ -41,7 +41,7 @@ class GeneticSolver:
         self.sigma_decay = 1
 
 
-    def __str__(self) -> str:
+    def print(self) -> None:
         string = ''
         for i in range(self.population):
             string+=f"---------- Individual {i+1} ----------\n"
