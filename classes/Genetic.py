@@ -1,5 +1,5 @@
 import math
-from typing import List
+import plotly.graph_objects as go
 import numpy as np
 from classes.Car import Car
 from random import SystemRandom
@@ -179,6 +179,8 @@ class GeneticSolver:
     # https://machinelearningmastery.com/simple-genetic-algorithm-from-scratch-in-python/
     # 
     def startSolver(self,):
+        fitness_values = list()
+
         # initial population of random bitstring
         pop = self.initSolver()
 
@@ -186,128 +188,45 @@ class GeneticSolver:
         best, best_eval = 0, pop[0]['TotalTime']
 
         # enumerate generations
-        for gen in range(self.iterations):
-            temp_best, temp_best_eval = 0, pop[0]['TotalTime']
-            # evaluate all candidates in the population
-            scores = [c['TotalTime'] for c in pop]
-            # check for new best solution
-            for i in range(self.population):
-                if scores[i] < best_eval:
-                    best, best_eval = pop[i], scores[i]
-                if scores[i] < temp_best_eval:
-                    temp_best, temp_best_eval = pop[i], scores[i]
+        try:
+            for gen in range(self.iterations):
+                temp_best, temp_best_eval = 0, pop[0]['TotalTime']
+                # evaluate all candidates in the population
+                scores = [c['TotalTime'] for c in pop]
+                # check for new best solution
+                for i in range(self.population):
+                    if scores[i] < best_eval:
+                        best, best_eval = pop[i], scores[i]
+                    if scores[i] < temp_best_eval:
+                        temp_best, temp_best_eval = pop[i], scores[i]
 
-            # select parents
-            selected = self.selection(pop, scores)#[self.selection(pop, scores, x) for x in range(self.population)]
-            if len(selected) < self.population:
-                for _ in range(self.population-len(selected)):
-                    selected.append(self.randomChild())
-            # create the next generation
-            children = list()
-            for i in range(0, self.population, 2):
-                # get selected parents in pairs
-                p1, p2 = selected[i], selected[i+1]
-                # crossover and mutation
-                for c in self.crossover(p1, p2):
-                    # mutation
-                    self.mutation(c)
-                    # store for next generation
-                    children.append(c)
-            # replace population
-            pop = children
-            #log.debug("Population:\n{}".format(pop))
+                # select parents
+                selected = self.selection(pop, scores)#[self.selection(pop, scores, x) for x in range(self.population)]
+                if len(selected) < self.population:
+                    for _ in range(self.population-len(selected)):
+                        selected.append(self.randomChild())
+                # create the next generation
+                children = list()
+                for i in range(0, self.population, 2):
+                    # get selected parents in pairs
+                    p1, p2 = selected[i], selected[i+1]
+                    # crossover and mutation
+                    for c in self.crossover(p1, p2):
+                        # mutation
+                        self.mutation(c)
+                        # store for next generation
+                        children.append(c)
+                # replace population
+                pop = children
+                #log.debug("Population:\n{}".format(pop))
 
-            self.sigma = self.sigma * self.sigma_decay
-            self.mu = self.mu * self.mu_decay
+                #self.sigma = self.sigma * self.sigma_decay
+                #self.mu = self.mu * self.mu_decay
 
-            log.debug(f'Generation {gen+1}/{self.iterations} best overall: {convertMillis(best_eval)}, best of generation: {convertMillis(temp_best_eval)}')
-        
+                fitness_values.append(temp_best_eval)
+
+                log.debug(f'Generation {gen+1}/{self.iterations} best overall: {convertMillis(best_eval)}, best of generation: {convertMillis(temp_best_eval)}')
+        except KeyboardInterrupt:
+            pass 
         return (best, best_eval)
-        
-
-"""
-
- https://machinelearningmastery.com/simple-genetic-algorithm-from-scratch-in-python/
-
-# objective function
-def onemax(x):
-	return -sum(x)
-
-# tournament selection
-def selection(pop, scores, k=3):
-	# first random selection
-	selection_ix = randint(len(pop))
-	for ix in randint(0, len(pop), k-1):
-		# check if better (e.g. perform a tournament)
-		if scores[ix] < scores[selection_ix]:
-			selection_ix = ix
-	return pop[selection_ix]
-
-# crossover two parents to create two children
-def crossover(p1, p2, r_cross):
-	# children are copies of parents by default
-	c1, c2 = p1.copy(), p2.copy()
-	# check for recombination
-	if rand() < r_cross:
-		# select crossover point that is not on the end of the string
-		pt = randint(1, len(p1)-2)
-		# perform crossover
-		c1 = p1[:pt] + p2[pt:]
-		c2 = p2[:pt] + p1[pt:]
-	return [c1, c2]
-
-# mutation operator
-def mutation(bitstring, r_mut):
-	for i in range(len(bitstring)):
-		# check for a mutation
-		if rand() < r_mut:
-			# flip the bit
-			bitstring[i] = 1 - bitstring[i]
-
-# genetic algorithm
-def genetic_algorithm(objective, n_bits, n_iter, n_pop, r_cross, r_mut):
-	# initial population of random bitstring
-	pop = [randint(0, 2, n_bits).tolist() for _ in range(n_pop)]
-	# keep track of best solution
-	best, best_eval = 0, objective(pop[0])
-	# enumerate generations
-	for gen in range(n_iter):
-		# evaluate all candidates in the population
-		scores = [objective(c) for c in pop]
-		# check for new best solution
-		for i in range(n_pop):
-			if scores[i] < best_eval:
-				best, best_eval = pop[i], scores[i]
-				print(">%d, new best f(%s) = %.3f" % (gen,  pop[i], scores[i]))
-		# select parents
-		selected = [selection(pop, scores) for _ in range(n_pop)]
-		# create the next generation
-		children = list()
-		for i in range(0, n_pop, 2):
-			# get selected parents in pairs
-			p1, p2 = selected[i], selected[i+1]
-			# crossover and mutation
-			for c in crossover(p1, p2, r_cross):
-				# mutation
-				mutation(c, r_mut)
-				# store for next generation
-				children.append(c)
-		# replace population
-		pop = children
-	return [best, best_eval]
-
-# define the total iterations
-n_iter = 100
-# bits
-n_bits = 20
-# define the population size
-n_pop = 100
-# crossover rate
-r_cross = 0.9
-# mutation rate
-r_mut = 1.0 / float(n_bits)
-# perform the genetic algorithm search
-best, score = genetic_algorithm(onemax, n_bits, n_iter, n_pop, r_cross, r_mut)
-print('Done!')
-print('f(%s) = %f' % (best, score))
-"""
+      

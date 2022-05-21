@@ -232,7 +232,7 @@ def main():
         cars = get_cars(path=circuit_folder,load_path=os.path.join(circuit_folder,'CarSaves'))
         
         for i in range(0,20):
-            genetic = GeneticSolver(population=1000, mutation_pr=0.75, crossover_pr=0.75, iterations=10000, numLaps=54, car=cars[i])
+            genetic = GeneticSolver(population=1000, mutation_pr=1, crossover_pr=1, iterations=10000, numLaps=54, car=cars[i])
             strategy = genetic.startSolver()[0]
             log_main(f"Strategy for car {i} is:\n{strategy}")
 
