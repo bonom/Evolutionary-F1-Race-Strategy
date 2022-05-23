@@ -307,15 +307,19 @@ class Tyres:
 
         return df.to_dict()
     
-    def predict_wears(self, x_predict:int) -> dict:
+    def predict_wears(self, x_predict:int, single:bool=False) -> dict:
         FL_Tyre_model = self.FL_tyre.predict_wear(x_predict)
         FR_Tyre_model = self.FR_tyre.predict_wear(x_predict)
         RL_Tyre_model = self.RL_tyre.predict_wear(x_predict)
         RR_Tyre_model = self.RR_tyre.predict_wear(x_predict)
 
         predictions = dict({'FL' : FL_Tyre_model, 'FR' : FR_Tyre_model,'RL' : RL_Tyre_model, 'RR' : RR_Tyre_model})
-        log.info(f"Tyres Wear predictions at lap {self.get_lap(x_predict, True)} (frame {x_predict}):\n\t\t\t\t\tFrontLeft Wear: {predictions['FL']} %,\n\t\t\t\t\tFrontRight Wear: {predictions['FR']} %,\n\t\t\t\t\tRearLeft Wear: {predictions['RL']} %,\n\t\t\t\t\tRearRight Wear: {predictions['RR']} %.")
-
+        
+        #log.info(f"Tyres Wear predictions at lap {self.get_lap(x_predict, True)} (frame {x_predict}):\n\t\t\t\t\tFrontLeft Wear: {predictions['FL']} %,\n\t\t\t\t\tFrontRight Wear: {predictions['FR']} %,\n\t\t\t\t\tRearLeft Wear: {predictions['RL']} %,\n\t\t\t\t\tRearRight Wear: {predictions['RR']} %.")
+        
+        if single:
+            return sum(predictions.values()) / 4
+        
         return predictions
 
     def slip(self, display:bool=False) -> pd.DataFrame:

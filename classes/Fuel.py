@@ -113,7 +113,7 @@ class Fuel:
         y_predict = self.model.predict(x_predict)
         
         y_predict = round(y_predict[0],2)
-        log.info(f"Predicted fuel consumption for lap {self.get_lap(int(x_predict))} (frame {int(x_predict)}) is {y_predict} %")
+        #log.info(f"Predicted fuel consumption for lap {self.get_lap(int(x_predict))} (frame {int(x_predict)}) is {y_predict} Kg")
         
         return y_predict
 

@@ -80,6 +80,13 @@ class Car:
 
     def get_best_lap_time(self,):
         return min(self.timing, key=lambda x: x.BestLapTime).BestLapTime
+    
+    def get_tyre_wear(self, tyre_compound:str, lap:int) -> float:
+        for i in range(len(self.tyres)):
+            if self.tyres[i].get_visual_compound() == tyre_compound:
+                return self.tyres[i].predict_wears(self.tyres[i].get_frame(lap), single=True)
+        
+        return 3*lap-1.5
 
     def compute_wear_time_lose(self, wear_percentage, tyre_compound):
         log_y = self.wear_coeff[tyre_compound][0] + self.wear_coeff[tyre_compound][1] * wear_percentage 

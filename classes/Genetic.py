@@ -1,5 +1,4 @@
 import math
-import plotly.graph_objects as go
 import numpy as np
 from classes.Car import Car
 from random import SystemRandom
@@ -36,6 +35,7 @@ class GeneticSolver:
         self.population = population
         self.numLaps = numLaps
         self.iterations = iterations
+        self.car:Car = car
 
         self.mu_decay = 0.99
         self.sigma_decay = 0.99
@@ -52,8 +52,11 @@ class GeneticSolver:
 
         return string
     
-    def getTyreWear(self, stint:str, lap:int, wear:float=0.0):
-        return 2.5 if wear == 0 else wear+2.5
+    def getTyreWear(self, stint:str, lap:int):
+        return self.car.get_tyre_wear(stint, lap)
+    
+    def getFuelLoad(self, lap:int):
+        return min([self.car.fuel[i].predict_fuelload(self.car.fuel[i].get_frame(lap)) for i in range(len(self.car.fuel))])
 
     def lapTime(self, stint:str, wear:float, fuel_load:float, pitStop:bool) -> int:
 
@@ -69,7 +72,7 @@ class GeneticSolver:
         if self.coeff[tyre_compound] == (0,0):
             if tyre_compound == 'Medium':
                 self.coeff[tyre_compound] = ((self.coeff['Hard'][0]+self.coeff['Soft'][0])/2, (self.coeff['Soft'][1]+self.coeff['Soft'][1])/2)
-        
+
         lose = self.coeff[tyre_compound][0] + self.coeff[tyre_compound][1] * wear_percentage 
 
         return lose
@@ -148,13 +151,13 @@ class GeneticSolver:
         for i in range(1,self.numLaps+1):
             strategy['TyreStint'].append(np.random.choice(STINTS))
             if strategy['TyreStint'][i] == strategy['TyreStint'][i-1]:
-                strategy['TyreWear'].append(float(strategy['TyreWear'][i-1])+2.5)
+                strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][i], i))
                 strategy['PitStop'].append(False)
             else:
                 strategy['TyreWear'].append(0)
                 strategy['PitStop'].append(True)
             
-            strategy['FuelLoad'].append(strategy['FuelLoad'][i-1]-3)
+            strategy['FuelLoad'].append(self.getFuelLoad(i))
             strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][i], strategy['TyreWear'][i], strategy['FuelLoad'][i], strategy['PitStop'][i]))
         
         stints = set(strategy['TyreStint'])
