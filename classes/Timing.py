@@ -20,6 +20,7 @@ class Timing:
                 if not math.isnan(lap):
                     indexes.append((min(df.loc[df['NumLaps'] == lap,'FrameIdentifier'].values), max(df.loc[df['NumLaps'] == lap,'FrameIdentifier'].values)))
             
+            self.frames_lap = dict()
             self.lap_frames = dict()
             max_lap_len = len(indexes)
             for idx in range(max_lap_len):
@@ -29,7 +30,11 @@ class Timing:
                 else:
                     start, end = indexes[idx]
                 for i in range(start,end):
-                    self.lap_frames[i] = idx + round(((i - start)/(end - start)),4)
+                    self.frames_lap[i] = idx + round(((i - start)/(end - start)),4)
+                    try:
+                        self.lap_frames[idx].append(i)
+                    except:
+                        self.lap_frames[idx] = [i]
                     
             self.LapTimes = list()
             for col in df.filter(like="lapTimeInMS").columns.to_list():
@@ -80,6 +85,7 @@ class Timing:
             
         elif load_path is not None:
             data = self.load(load_path)
+            self.frames_lap = data.frames_lap
             self.lap_frames = data.lap_frames
             self.LapTimes = data.LapTimes
             self.BestLapTime = data.BestLapTime
@@ -95,7 +101,7 @@ class Timing:
             self.BestSector3Time = data.BestSector3Time
             self.BestSector3 = data.BestSector3
 
-            #log.debug(f"{list(self.lap_frames.items())[0]} {list(self.lap_frames.items())[-1]}")
+            #log.debug(f"{list(self.frames_lap.items())[0]} {list(self.frames_lap.items())[-1]}")
             #log.debug(f"{self.get_frame(0)} {self.get_frame(6)}")
     
     def __repr__(self, key:int=None) -> dict:
@@ -110,25 +116,25 @@ class Timing:
         if key == -1:
             key = self.__len__() - 1
 
-        #key -= list(self.lap_frames.keys())[0]
+        #key -= list(self.frames_lap.keys())[0]
         lap = self.get_lap(key)
         return {'Lap':lap,'LapTimeInMS':self.LapTimes[lap], 'Sector1InMS':self.Sector1InMS[lap], 'Sector2InMS':self.Sector2InMS[lap], 'Sector3InMS':self.Sector3InMS[lap]}
 
     def __len__(self) -> int:
-        return len(self.lap_frames.keys())
+        return len(self.frames_lap.keys())
     
-    def get_lap(self, frame:int, get_float:bool=False) -> Union[int,float]:
+    def get_lap(self, frame, get_float:bool=False) -> Union[int,float]:
         if get_float:
-            return self.lap_frames[frame]
+            return self.frames_lap[frame]
         
-        return int(self.lap_frames[frame])
-    
+        return int(self.frames_lap[frame])
+
     def get_frame(self, lap_num:Union[int,float]) -> int:
-        for frame, lap in self.lap_frames.items():
-            if lap == lap_num:
-                return frame
+        if isinstance(lap_num, float):
+            length = len(self.lap_frames[int(lap_num)])
+            return self.lap_frames[int(lap_num)][int((length*lap_num)%length)]
         
-        return -1
+        return self.lap_frames[lap_num][0]   
         
     def plot(self, display:bool=False) -> dict:
         timing = {'Lap':[],'LapTimeInMS':[]}
