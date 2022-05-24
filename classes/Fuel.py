@@ -7,7 +7,6 @@ import sys, os
 from classes.RangeDictionary import RangeDictionary
 import plotly.express as px
 import plotly
-from sklearn.linear_model import LinearRegression
 
 from classes.Utils import get_basic_logger, get_host
 
@@ -47,21 +46,21 @@ class Fuel:
             self.FuelRemainingLaps = RangeDictionary(df[['FrameIdentifier','FuelRemainingLaps']])
 
             ### MODEL ###
-            x = np.array([int(key) for key in self.FuelInTank.keys()]).reshape((-1,1))
+            x = np.array([int(key) for key in self.FuelInTank.keys()])
             y = np.array(list(self.FuelInTank.values()))
             if math.isnan(y[0]):
                 y[0] = 0
-
-            self.model = LinearRegression().fit(x,y)
+            
+            self.coeff = np.polyfit(x, y, 1)
             
         elif load_path is not None:
-            data = self.load(load_path)
+            data:Fuel = self.load(load_path)
             self.frames_lap = data.frames_lap
             self.lap_frames = data.lap_frames
             self.FuelInTank = data.FuelInTank
             self.FuelCapacity = data.FuelCapacity
             self.FuelRemainingLaps = data.FuelRemainingLaps
-            self.model = data.model
+            self.coeff = data.coeff
 
 
     def __getitem__(self, idx) -> dict:
@@ -109,17 +108,11 @@ class Fuel:
 
         return fuel_consume
     
-    def predict_fuelload(self, x_predict:int) -> float:
+    def predict_fuelload(self, x_predict:int, intercept:float=0.0) -> float:
         """
         Return the 2 coefficient beta_0 and beta_1 for the linear model that fits the data : Time/Fuel
         """
-        x_predict = np.array(x_predict).reshape(-1,1)
-        y_predict = self.model.predict(x_predict)
-        
-        y_predict = round(y_predict[0],2)
-        #log.info(f"Predicted fuel consumption for lap {self.get_lap(int(x_predict))} (frame {int(x_predict)}) is {y_predict} Kg")
-        
-        return y_predict
+        return self.coeff[0]*x_predict + intercept
 
     def save(self, save_path:str='', id:int=0) -> None:
         save_path = os.path.join(save_path,'Fuel_'+str(id)+'.json')

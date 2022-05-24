@@ -2,7 +2,6 @@ import sys, os
 from typing import Union
 import pandas as pd
 import numpy as np
-from sklearn.linear_model import LinearRegression
 import math
 import pickle
 import plotly.express as px
@@ -60,14 +59,13 @@ class Tyre:
 
 
         ### MODEL ###
-        x = np.array([int(key) for key in self.wear.keys()]).reshape((-1,1))
+        x = np.array([self.get_lap(key) for key in self.wear.keys()])
+        
         y = np.array(list(self.wear.values()))
         if math.isnan(y[0]):
             y[0] = 0
-        
-        self.model = LinearRegression().fit(x,y)
-
-
+            
+        self.coeff = np.polyfit(x, y, 1)
 
     def __len__(self) -> int:
         if len(self.lap_frames) == 0:
@@ -151,15 +149,12 @@ class Tyre:
 
         return dict_items
     
-    def predict_wear(self, x_predict:int) -> float:
+    def predict_wear(self, x_predict:int, intercept:float=0.0) -> float:
         """
         Return the 2 coefficient beta_0 and beta_1 for the linear model that fits the data : Time/Fuel
         """
-        x_predict = np.array(x_predict).reshape(-1,1)
-        y_predict = self.model.predict(x_predict)
-
-        y_predict = round(y_predict[0],2)
-        return y_predict
+    
+        return self.coeff[0]*x_predict + self.coeff[1]
 
 
 class Tyres:
