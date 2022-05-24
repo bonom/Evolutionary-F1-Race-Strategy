@@ -3,6 +3,7 @@ from tkinter.tix import PopupMenu
 import numpy as np
 from classes.Car import Car
 from random import SystemRandom
+import matplotlib.pyplot as plt
 random = SystemRandom()
 
 from classes.Utils import get_basic_logger
@@ -38,6 +39,7 @@ class GeneticSolver:
         self.numLaps = numLaps
         self.iterations = iterations
         self.car:Car = car
+        self.numPitStop = 0
 
         self.mu_decay = 0.99
         self.sigma_decay = 0.99
@@ -89,6 +91,14 @@ class GeneticSolver:
         lose = self.coeff[tyre_compound][0] + self.coeff[tyre_compound][1] * wear_percentage 
 
         return lose
+    
+    def count_pitstop(self, strategy:dict):
+        num_pitstop = 0
+        for i in range(self.numLaps -1):
+            if strategy['PitStop'][i] == True:
+                num_pitstop +=1
+        return num_pitstop
+
 
     def correct_strategy(self, strategy:dict):
 
@@ -113,16 +123,21 @@ class GeneticSolver:
 
     
     def mutation(self,child:dict):
-        iRandom = random.randint(0,len(child['TyreStint'])-1)
-        child['TyreStint'][iRandom] = random.choice(STINTS)
+        if random.random() < self.sigma:
+            mutationStint = random.choice(STINTS)
+            iRandom = random.randint(0,len(child['TyreStint'])-1)
+            #child['TyreStint'][iRandom] = mutationStint
+            for i in range(iRandom, len(child['TyreStint'])-1):
+                if child['PitStop'][i] == False:
+                    child['TyreStint'][i] = mutationStint
+                else:
+                    break
         #for i in range(len(child['TyreStint'])):
 		#    # check for a mutation
         #    if random.random() < self.sigma:
 		#    	# flip the bit
         #        if child[]
-        #        child['TyreStint'][i] = random.choice(STINTS)
-
-                
+        #        child['TyreStint'][i] = random.choice(STINTS)      
         self.correct_strategy(child)        
     
     
@@ -155,15 +170,15 @@ class GeneticSolver:
             dict_map[new_idx] = population[index]
 
         sorted_dict = sorted(dict_map.items(), key=lambda x: x[0])
-
+        
         population_selected = []
-        for i in range(1, round((40/100)*len(population))):
+        for i in range(0, round((40/100)*self.population)):
             population_selected.append(sorted_dict[i][1])
-
+            
         return population_selected
 
     def randomChild(self,):
-        strategy = {'TyreStint': [], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'TotalTime': np.inf}
+        strategy = {'TyreStint': [], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'TotalTime': np.inf}
             
         strategy['TyreStint'].append(random.choice(STINTS))
         strategy['TyreWear'].append(0)
@@ -176,6 +191,10 @@ class GeneticSolver:
             if strategy['TyreStint'][i] == strategy['TyreStint'][i-1]:
                 strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][i], i))
                 strategy['PitStop'].append(False)
+                if strategy['TyreWear'][i] >= 80:
+                    strategy['PitStop'].append(True)
+                else:
+                    strategy['PitStop'].append(False)
             else:
                 strategy['TyreWear'].append(0)
                 strategy['PitStop'].append(True)
@@ -183,22 +202,23 @@ class GeneticSolver:
             strategy['FuelLoad'].append(strategy['FuelLoad'][i-1]-3.0)#(self.getFuelLoad(i))
             strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][i], strategy['TyreWear'][i], strategy['FuelLoad'][i], strategy['PitStop'][i]))
         
+        strategy['NumPitStop'] = self.count_pitstop(strategy)
+
         stints = set(strategy['TyreStint'])
 
         if len(stints) > 0 and strategy['FuelLoad'][-1] > 0:
             strategy['TotalTime'] = sum(strategy['LapTime'])
         else:
             strategy['TotalTime'] = np.inf
-
+        self.correct_strategy(strategy)
         return strategy
 
     def initPopulation(self,):
-        strategy = {'TyreStint': [], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'TotalTime': np.inf}
+        strategy = {'TyreStint': [], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'TotalTime': np.inf}
         initial_stint = np.random.choice(STINTS)
-        initPitstop = np.random.choice(PITSTOP)
         strategy['TyreStint'].append(initial_stint)
         strategy['TyreWear'].append(0)
-        strategy['FuelLoad'].append(random.randint(120,200))
+        strategy['FuelLoad'].append(random.randint(270,300))
         strategy['PitStop'].append(False)
         strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][0], strategy['TyreWear'][0], strategy['FuelLoad'][0], False))
         
@@ -212,9 +232,9 @@ class GeneticSolver:
                 strategy['TyreWear'].append(float(strategy['TyreWear'][i-1])+2.5)
                 if strategy['TyreWear'][i] >= 80:
                     strategy['PitStop'].append(True)
+                    
                 else:
                     strategy['PitStop'].append(False)
-                #strategy['PitStop'].append(initPitstop)
             else:
                 strategy['TyreWear'].append(0)
                 strategy['PitStop'].append(True)
@@ -222,6 +242,7 @@ class GeneticSolver:
             strategy['FuelLoad'].append(strategy['FuelLoad'][i-1]-3)
             strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][i], strategy['TyreWear'][i], strategy['FuelLoad'][i], strategy['PitStop'][i]))
         
+        strategy['NumPitStop'] = self.count_pitstop(strategy)
         stints = set(strategy['TyreStint'])
 
         if len(stints) > 0 and strategy['FuelLoad'][-1] > 0:
@@ -229,7 +250,6 @@ class GeneticSolver:
         else:
             strategy['TotalTime'] = np.inf
 
-        #print(strategy)
         return strategy
 
     def initSolver(self,):
@@ -252,7 +272,7 @@ class GeneticSolver:
 
         # keep track of best solution
         best, best_eval = 0, pop[0]['TotalTime']
-
+        
         # enumerate generations
         try:
             for gen in range(self.iterations):
@@ -265,17 +285,18 @@ class GeneticSolver:
                         best, best_eval = pop[i], scores[i]
                     if scores[i] < temp_best_eval:
                         temp_best, temp_best_eval = pop[i], scores[i]
+                
 
                 # select parents
                 selected = self.selection(pop, scores)#[self.selection(pop, scores, x) for x in range(self.population)]
-                #log.debug(selected)
+                
                 #if len(selected) < self.population:
                 #    for _ in range(self.population-len(selected)):
                 #        selected.append(self.randomChild())
                
                 # create the next generation
                 children = list()
-                for i in range(1, len(selected)):
+                for i in range(0, len(selected)-1):
                     children.append(selected[i])
 
                 for i in range(0, len(selected)-2, 2):
@@ -291,7 +312,6 @@ class GeneticSolver:
                 if len(children) < self.population:
                     for _ in range(self.population-len(children)):
                         children.append(self.randomChild())
-                #log.debug(len(children))
                 # replace population
                 pop = children
                 #log.debug("Population:\n{}".format(pop))
@@ -300,10 +320,13 @@ class GeneticSolver:
                 #self.mu = self.mu * self.mu_decay
 
                 fitness_values.append(temp_best_eval)
-                
+
                 log.debug(f'Generation {gen+1}/{self.iterations} best overall: {convertMillis(best_eval)}, best of generation: {convertMillis(temp_best_eval)}')
         except KeyboardInterrupt:
             pass 
+        
+        plt.plot(np.arange(len(fitness_values)), fitness_values)
+        plt.show()
         return (best, best_eval)
     
     
