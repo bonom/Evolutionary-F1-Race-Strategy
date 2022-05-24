@@ -133,9 +133,17 @@ class Car:
                 
                 try:
                     fit = np.polyfit(x, np.log(y), 1, w=np.sqrt(y))
+                    from matplotlib import pyplot as plt
+                    plt.plot(x,y,'o')
+                    plt.show()
+                    trendpoly = np.poly1d(fit)
+                    plt.plot(x,trendpoly(x))
+                    plt.show()
+
+
                 except:
                     log.error("Unable to fit data, skipping it.\nx ({}) = {}\ny ({}) = {}".format(len(x),[round(_x) for _x in x],len(y),[round(_y) for _y in y]))
-                
+                exit(0)
                 coeff = self.wear_coeff[tyre.get_visual_compound()]
                 if isinstance(coeff,int) and coeff == 0:
                     self.wear_coeff[tyre.get_visual_compound()] = (fit[1],fit[0])
