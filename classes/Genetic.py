@@ -174,7 +174,7 @@ class GeneticSolver:
         
         stints = set(strategy['TyreStint'])
 
-        if len(stints) > 1 and strategy['FuelLoad'][-1] > 0:
+        if len(stints) > 0 and strategy['FuelLoad'][-1] > 0:
             strategy['TotalTime'] = sum(strategy['LapTime'])
         else:
             strategy['TotalTime'] = np.inf
