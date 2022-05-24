@@ -56,7 +56,18 @@ class GeneticSolver:
         return self.car.get_tyre_wear(stint, lap)
     
     def getFuelLoad(self, lap:int):
-        return min([self.car.fuel[i].predict_fuelload(self.car.fuel[i].get_frame(lap)) for i in range(len(self.car.fuel))])
+        fuel_load = list()
+        for i in range(len(self.car.fuel)):
+            try:
+                frame = self.car.fuel[i].get_frame(lap)
+                fl = self.car.fuel[i].predict_fuelload(frame)
+            except:
+                fl = 0
+            
+            if fl > 0:
+                fuel_load.append(fl)
+
+        return min(fuel_load) if len(fuel_load) > 0 else 0
 
     def lapTime(self, stint:str, wear:float, fuel_load:float, pitStop:bool) -> int:
 
@@ -126,12 +137,13 @@ class GeneticSolver:
     def selection(self,population, scores):
         dict_map = {}
         temp = [score for score in scores if not math.isinf(score)]
+
         for index,score in enumerate(scores):
             new_idx = score
             
             if math.isinf(new_idx):
                 while dict_map.get(new_idx) is not None:
-                    new_idx = random.randint(max(temp)*5, max(temp)*10)
+                    new_idx = random.randint(3600000,4000000)
             
             dict_map[new_idx] = population[index]
 
@@ -148,7 +160,7 @@ class GeneticSolver:
         strategy['PitStop'].append(False)
         strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][0], strategy['TyreWear'][0], strategy['FuelLoad'][0], False))
         
-        for i in range(1,self.numLaps+1):
+        for i in range(1,self.numLaps):
             strategy['TyreStint'].append(np.random.choice(STINTS))
             if strategy['TyreStint'][i] == strategy['TyreStint'][i-1]:
                 strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][i], i))

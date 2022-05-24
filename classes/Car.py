@@ -84,7 +84,12 @@ class Car:
     def get_tyre_wear(self, tyre_compound:str, lap:int) -> float:
         for i in range(len(self.tyres)):
             if self.tyres[i].get_visual_compound() == tyre_compound:
-                return self.tyres[i].predict_wears(self.tyres[i].get_frame(lap), single=True)
+                try:
+                    frame = self.tyres[i].get_frame(lap) 
+                    return self.tyres[i].predict_wears(frame, single=True)
+                except KeyError:
+                    pass
+            
         
         return 3*lap-1.5
 
