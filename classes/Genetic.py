@@ -269,13 +269,16 @@ class GeneticSolver:
                 # select parents
                 selected = self.selection(pop, scores)#[self.selection(pop, scores, x) for x in range(self.population)]
                 #log.debug(selected)
-                if len(selected) < self.population:
-                    for _ in range(self.population-len(selected)):
-                        selected.append(self.randomChild())
+                #if len(selected) < self.population:
+                #    for _ in range(self.population-len(selected)):
+                #        selected.append(self.randomChild())
                
                 # create the next generation
                 children = list()
-                for i in range(0, self.population, 2):
+                for i in range(1, len(selected)):
+                    children.append(selected[i])
+
+                for i in range(0, len(selected)-2, 2):
                     # get selected parents in pairs
                     p1, p2 = selected[i], selected[i+1]
                     # crossover and mutation
@@ -284,6 +287,11 @@ class GeneticSolver:
                         self.mutation(c)
                         # store for next generation
                         children.append(c)
+                
+                if len(children) < self.population:
+                    for _ in range(self.population-len(children)):
+                        children.append(self.randomChild())
+                #log.debug(len(children))
                 # replace population
                 pop = children
                 #log.debug("Population:\n{}".format(pop))
