@@ -19,6 +19,8 @@ class Car:
             self.fuel_lose = 0.0
             self.tyre_lose = {'Soft':0, 'Medium':0, 'Hard':0, 'Inter':0, 'Wet':0}
             self.wear_coeff = {'Soft':(0,0), 'Medium':(0,0), 'Hard':(0,0), 'Inter':(0,0), 'Wet':(0,0)}
+            self.fuel_coeff = (0,0)
+            self.tyre_coeff = {'Soft':(0,0), 'Medium':(0,0), 'Hard':(0,0), 'Inter':(0,0), 'Wet':(0,0)}
             self.fuel:List[Fuel] = list()
             self.tyres:List[Tyres] = list()
             self.timing:List[Timing] = list()
@@ -65,6 +67,19 @@ class Car:
                 self.timing.append(Timing(load_path=os.path.join(path,file)))
             for file in tyres_data:
                 self.tyres.append(Tyres(load_path=os.path.join(path,file)))
+
+        fuel_coeff = [fuel.coeff for fuel in self.fuel]
+        tyre_coeff = [tyre.wear_coeff for tyre in self.tyres]
+
+        for coeff in fuel_coeff:
+            self.fuel_coeff = (self.fuel_coeff[0]+coeff[0], self.fuel_coeff[1]+coeff[1])
+        self.fuel_coeff[0] /= len(fuel_coeff)
+        self.fuel_coeff[1] /= len(fuel_coeff)
+
+        # for coeff in tyre_coeff:
+        #     self.tyre_coeff = (self.tyre_coeff[0]+coeff[0], self.tyre_coeff[1]+coeff[1])
+        # self.tyre_coeff[0] /= len(tyre_coeff)
+        # self.tyre_coeff[1] /= len(tyre_coeff)
 
         fuel_lose = self.get_fuel_time_lose()
         if fuel_lose is not None and (self.fuel_lose > fuel_lose or self.fuel_lose == 0):

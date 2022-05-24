@@ -246,8 +246,10 @@ class Tyres:
             self.RL_tyre = Tyre("RL", df[['FrameIdentifier','TyresWearRL']],df[['FrameIdentifier','TyresDamageRL']],df[['FrameIdentifier','RLTyrePressure']],df[['FrameIdentifier','RLTyreInnerTemperature']],df[['FrameIdentifier','RLTyreSurfaceTemperature']],self.frames_lap,df[['FrameIdentifier','RLWheelSlip']])
             self.RR_tyre = Tyre("RR", df[['FrameIdentifier','TyresWearRR']],df[['FrameIdentifier','TyresDamageRR']],df[['FrameIdentifier','RRTyrePressure']],df[['FrameIdentifier','RRTyreInnerTemperature']],df[['FrameIdentifier','RRTyreSurfaceTemperature']],self.frames_lap,df[['FrameIdentifier','RRWheelSlip']])
 
+            self.wear_coeff = {'FL': self.FL_tyre.coeff, 'FR': self.FR_tyre.coeff, 'RL': self.RL_tyre.coeff, 'RR': self.RR_tyre.coeff}
+
         elif load_path is not None:
-            data = self.load(load_path)
+            data:Tyres = self.load(load_path)
             self.FL_tyre = data.FL_tyre
             self.FR_tyre = data.FR_tyre
             self.RL_tyre = data.RL_tyre
@@ -256,6 +258,7 @@ class Tyres:
             self.actual_tyre_compound = data.actual_tyre_compound
             self.frames_lap = data.frames_lap
             self.lap_frames = data.lap_frames
+            self.wear_coeff = data.wear_coeff
 
 
     def __str__(self) -> str:
@@ -315,8 +318,6 @@ class Tyres:
         RR_Tyre_model = self.RR_tyre.predict_wear(x_predict)
 
         predictions = dict({'FL' : FL_Tyre_model, 'FR' : FR_Tyre_model,'RL' : RL_Tyre_model, 'RR' : RR_Tyre_model})
-        
-        #log.info(f"Tyres Wear predictions at lap {self.get_lap(x_predict, True)} (frame {x_predict}):\n\t\t\t\t\tFrontLeft Wear: {predictions['FL']} %,\n\t\t\t\t\tFrontRight Wear: {predictions['FR']} %,\n\t\t\t\t\tRearLeft Wear: {predictions['RL']} %,\n\t\t\t\t\tRearRight Wear: {predictions['RR']} %.")
         
         if single:
             return sum(predictions.values()) / 4
