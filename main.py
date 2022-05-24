@@ -218,8 +218,9 @@ def main():
 
     if args.i is not None:
         
-        #data = DataLoad(args.i,data_folder,circuit_folder,folder)
+        #data = DataLoad(args.i,folder)
 
+        #sys.exit(0)
         car = get_cars(path=circuit_folder,load_path=os.path.join(circuit_folder,'CarSaves'), car_idx=args.i)
         
         genetic = GeneticSolver(population=100, mutation_pr=0.5, crossover_pr=0.5, iterations=10000, numLaps=54, car=car)
