@@ -8,9 +8,20 @@ from classes.Timing import Timing
 from classes.Tyres import Tyres
 import pandas as pd
 
-from classes.Utils import get_basic_logger
+from classes.Utils import STINTS, get_basic_logger
 
 log = get_basic_logger('Cars')
+
+def emptyTuple(d:dict):
+    for _, val in d.items():
+        if val != (0,0):
+            return False
+    return True
+
+def getKey(dictionary:dict, value:int) -> int:
+    for key, val in dictionary.items():
+        if val == value:
+            return key
 
 class Car:
     def __init__(self,base_path:str=None, car_id:int=None, load_path:str=None):
@@ -18,12 +29,16 @@ class Car:
             self.car_id = car_id
             self.fuel_lose = 0.0
             self.tyre_lose = {'Soft':0, 'Medium':0, 'Hard':0, 'Inter':0, 'Wet':0}
-            self.wear_coeff = {'Soft':(0,0), 'Medium':(0,0), 'Hard':(0,0), 'Inter':(0,0), 'Wet':(0,0)}
+            self.wear_coeff = {'Soft':None, 'Medium':None, 'Hard':None, 'Inter':None, 'Wet':None}
             self.fuel_coeff = (0,0)
             self.tyre_coeff = {'Soft':(0,0), 'Medium':(0,0), 'Hard':(0,0), 'Inter':(0,0), 'Wet':(0,0)}
             self.fuel:List[Fuel] = list()
             self.tyres:List[Tyres] = list()
             self.timing:List[Timing] = list()
+
+            base_wear:dict = {'FL':(0,0), 'FR':(0,0), 'RL':(0,0), 'RR':(0,0)}
+            for key, _ in self.wear_coeff.items():
+                self.wear_coeff[key] = base_wear.copy()
 
             if base_path is not None:
                 self.add(base_path, car_id)
@@ -69,17 +84,42 @@ class Car:
                 self.tyres.append(Tyres(load_path=os.path.join(path,file)))
 
         fuel_coeff = [fuel.coeff for fuel in self.fuel]
-        tyre_coeff = [tyre.wear_coeff for tyre in self.tyres]
 
         for coeff in fuel_coeff:
             self.fuel_coeff = (self.fuel_coeff[0]+coeff[0], self.fuel_coeff[1]+coeff[1])
-        self.fuel_coeff[0] /= len(fuel_coeff)
-        self.fuel_coeff[1] /= len(fuel_coeff)
+        self.fuel_coeff = (self.fuel_coeff[0]/len(fuel_coeff), self.fuel_coeff[1]/len(fuel_coeff))
+        
+        count = {'Soft':0, 'Medium':0, 'Hard':0, 'Inter':0, 'Wet':0}
 
-        # for coeff in tyre_coeff:
-        #     self.tyre_coeff = (self.tyre_coeff[0]+coeff[0], self.tyre_coeff[1]+coeff[1])
-        # self.tyre_coeff[0] /= len(tyre_coeff)
-        # self.tyre_coeff[1] /= len(tyre_coeff)
+        for key, _ in self.wear_coeff.items():
+            for tyre in self.tyres:
+                if tyre.get_visual_compound() == key:
+                    if emptyTuple(self.wear_coeff[key]):
+                        self.wear_coeff[key] = tyre.wear_coeff
+                        count[key] += 1
+                    else:
+                        self.wear_coeff[key]['FL'] = (self.wear_coeff[key]['FL'][0]+tyre.wear_coeff['FL'][0], self.wear_coeff[key]['FL'][1]+tyre.wear_coeff['FL'][1])
+                        self.wear_coeff[key]['FR'] = (self.wear_coeff[key]['FR'][0]+tyre.wear_coeff['FR'][0], self.wear_coeff[key]['FR'][1]+tyre.wear_coeff['FR'][1])
+                        self.wear_coeff[key]['RL'] = (self.wear_coeff[key]['RL'][0]+tyre.wear_coeff['RL'][0], self.wear_coeff[key]['RL'][1]+tyre.wear_coeff['RL'][1])
+                        self.wear_coeff[key]['RR'] = (self.wear_coeff[key]['RR'][0]+tyre.wear_coeff['RR'][0], self.wear_coeff[key]['RR'][1]+tyre.wear_coeff['RR'][1])
+                        count[key] += 1
+                        
+        for key, _ in self.wear_coeff.items():
+            if count[key] > 1:
+                self.wear_coeff[key]['FL'] = (self.wear_coeff[key]['FL'][0]/count[key], self.wear_coeff[key]['FL'][1]/count[key])
+                self.wear_coeff[key]['FR'] = (self.wear_coeff[key]['FR'][0]/count[key], self.wear_coeff[key]['FR'][1]/count[key])
+                self.wear_coeff[key]['RL'] = (self.wear_coeff[key]['RL'][0]/count[key], self.wear_coeff[key]['RL'][1]/count[key])
+                self.wear_coeff[key]['RR'] = (self.wear_coeff[key]['RR'][0]/count[key], self.wear_coeff[key]['RR'][1]/count[key])
+                
+        for key, val in self.wear_coeff.items():
+            if emptyTuple(val):
+                idx = getKey(STINTS, key)
+                
+                if idx != 0 and idx < len(STINTS)-1 and not emptyTuple(self.wear_coeff[STINTS[idx-1]]) and not emptyTuple(self.wear_coeff[STINTS[idx+1]]):
+                    self.wear_coeff[key]['FL'] = ((self.wear_coeff[STINTS[idx-1]]['FL'][0]+self.wear_coeff[STINTS[idx+1]]['FL'][0])/2, (self.wear_coeff[STINTS[idx-1]]['FL'][1]+self.wear_coeff[STINTS[idx+1]]['FL'][1])/2)
+                    self.wear_coeff[key]['FR'] = ((self.wear_coeff[STINTS[idx-1]]['FR'][0]+self.wear_coeff[STINTS[idx+1]]['FR'][0])/2, (self.wear_coeff[STINTS[idx-1]]['FR'][1]+self.wear_coeff[STINTS[idx+1]]['FR'][1])/2)
+                    self.wear_coeff[key]['RL'] = ((self.wear_coeff[STINTS[idx-1]]['RL'][0]+self.wear_coeff[STINTS[idx+1]]['RL'][0])/2, (self.wear_coeff[STINTS[idx-1]]['RL'][1]+self.wear_coeff[STINTS[idx+1]]['RL'][1])/2)
+                    self.wear_coeff[key]['RR'] = ((self.wear_coeff[STINTS[idx-1]]['RR'][0]+self.wear_coeff[STINTS[idx+1]]['RR'][0])/2, (self.wear_coeff[STINTS[idx-1]]['RR'][1]+self.wear_coeff[STINTS[idx+1]]['RR'][1])/2)                   
 
         fuel_lose = self.get_fuel_time_lose()
         if fuel_lose is not None and (self.fuel_lose > fuel_lose or self.fuel_lose == 0):
@@ -96,23 +136,61 @@ class Car:
     def get_best_lap_time(self,):
         return min(self.timing, key=lambda x: x.BestLapTime).BestLapTime
     
-    def get_tyre_wear(self, tyre_compound:str, lap:int) -> float:
-        for i in range(len(self.tyres)):
-            if self.tyres[i].get_visual_compound() == tyre_compound:
-                try:
-                    frame = self.tyres[i].get_frame(lap) 
-                    return self.tyres[i].predict_wears(frame, single=True)
-                except KeyError:
-                    pass
-            
+    def get_tyre_wear(self, tyre_compound:str, lap:int) -> dict:
+        if lap == 0:
+            return {'FL':0, 'FR':0, 'RL':0, 'RR':0}
+
+        wear_FL = self.wear_coeff[tyre_compound]['FL'][0]*lap + self.wear_coeff[tyre_compound]['FL'][1]
+        wear_FR = self.wear_coeff[tyre_compound]['FR'][0]*lap + self.wear_coeff[tyre_compound]['FR'][1]
+        wear_RL = self.wear_coeff[tyre_compound]['RL'][0]*lap + self.wear_coeff[tyre_compound]['RL'][1]
+        wear_RR = self.wear_coeff[tyre_compound]['RR'][0]*lap + self.wear_coeff[tyre_compound]['RR'][1]
+
+        return {'FL':wear_FL, 'FR':wear_FR, 'RL':wear_RL, 'RR':wear_RR}
         
-        return 3*lap-1.5
 
     def compute_wear_time_lose(self, wear_percentage, tyre_compound):
         log_y = self.wear_coeff[tyre_compound][0] + self.wear_coeff[tyre_compound][1] * wear_percentage 
         return np.exp(log_y)
 
     def get_wear_time_lose(self,):
+        for time, fuel, tyre in zip(self.timing, self.fuel, self.tyres):            
+            laps = list(time.lap_frames.keys())[1:-1]
+            deltas = []
+            
+            x_FL = [self.get_tyre_wear(tyre.get_visual_compound(),lap)['FL'] for lap in laps]
+            x_FR = [self.get_tyre_wear(tyre.get_visual_compound(),lap)['FR'] for lap in laps]
+            x_RL = [self.get_tyre_wear(tyre.get_visual_compound(),lap)['RL'] for lap in laps]
+            x_RR = [self.get_tyre_wear(tyre.get_visual_compound(),lap)['RR'] for lap in laps]
+
+
+
+            for lap, delta in enumerate(time.Deltas):
+                deltas.append(delta-(self.fuel_lose * fuel.FuelInTank[fuel.get_frame(lap)]))
+            
+            deltas_min = min(deltas)
+
+            time_lose = []
+            for delta in deltas:
+                time_lose.append(round(delta+abs(deltas_min)))
+
+            FL_wear_lose = np.polyfit(x_FL, np.log(time_lose), 1, w=np.sqrt(time_lose))
+            FR_wear_lose = np.polyfit(x_FR, np.log(time_lose), 1, w=np.sqrt(time_lose))
+            RL_wear_lose = np.polyfit(x_RL, np.log(time_lose), 1, w=np.sqrt(time_lose))
+            RR_wear_lose = np.polyfit(x_RR, np.log(time_lose), 1, w=np.sqrt(time_lose))
+            
+            a = np.exp(FL_wear_lose[1])
+            b = FL_wear_lose[0]
+            y_fitted = a * np.exp(b * x_FL)
+            
+            import matplotlib.pyplot as plt
+            poly = np.poly1d(FL_wear_lose)
+            new_y = poly(x_FL)
+
+            plt.plot(x_FL, np.log(time_lose), 'o')
+            plt.show()
+            plt.plot(x_FL, new_y, 'n')
+            plt.show()
+        exit()
         for idx, tyre in enumerate(self.tyres):
             time_lose = list()
 
@@ -148,17 +226,15 @@ class Car:
                 
                 try:
                     fit = np.polyfit(x, np.log(y), 1, w=np.sqrt(y))
-                    from matplotlib import pyplot as plt
-                    plt.plot(x,y,'o')
-                    plt.show()
-                    trendpoly = np.poly1d(fit)
-                    plt.plot(x,trendpoly(x))
-                    plt.show()
-
-
+                    # from matplotlib import pyplot as plt
+                    # plt.plot(x,y,'o')
+                    # plt.show()
+                    # trendpoly = np.poly1d(fit)
+                    # plt.plot(x,trendpoly(x))
+                    # plt.show()
                 except:
                     log.error("Unable to fit data, skipping it.\nx ({}) = {}\ny ({}) = {}".format(len(x),[round(_x) for _x in x],len(y),[round(_y) for _y in y]))
-                exit(0)
+                #exit(0)
                 coeff = self.wear_coeff[tyre.get_visual_compound()]
                 if isinstance(coeff,int) and coeff == 0:
                     self.wear_coeff[tyre.get_visual_compound()] = (fit[1],fit[0])
@@ -331,6 +407,7 @@ def get_cars(path:str=None, load_path:str=None, car_idx:int = None) -> dict:
             car = Car()
             car.add(path, car_idx)
             #car.save(save_path, car_idx)
+            car.get_wear_time_lose()
 
             log.info("Car Data created and saved successfully.")
 

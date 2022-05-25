@@ -11,6 +11,15 @@ from plotly.subplots import make_subplots
 import plotly
 import socket
 
+STINTS: dict = {
+    0: 'Soft',
+    1: 'Medium',
+    2: 'Hard',
+    3: 'Inter',
+    4: 'Wet',
+
+}
+
 ACTUAL_COMPOUNDS: dict = {
     0:"N/A",
     1:"N/A",

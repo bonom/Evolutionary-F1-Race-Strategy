@@ -246,7 +246,7 @@ class Tyres:
             self.RL_tyre = Tyre("RL", df[['FrameIdentifier','TyresWearRL']],df[['FrameIdentifier','TyresDamageRL']],df[['FrameIdentifier','RLTyrePressure']],df[['FrameIdentifier','RLTyreInnerTemperature']],df[['FrameIdentifier','RLTyreSurfaceTemperature']],self.frames_lap,df[['FrameIdentifier','RLWheelSlip']])
             self.RR_tyre = Tyre("RR", df[['FrameIdentifier','TyresWearRR']],df[['FrameIdentifier','TyresDamageRR']],df[['FrameIdentifier','RRTyrePressure']],df[['FrameIdentifier','RRTyreInnerTemperature']],df[['FrameIdentifier','RRTyreSurfaceTemperature']],self.frames_lap,df[['FrameIdentifier','RRWheelSlip']])
 
-            self.wear_coeff = {'FL': self.FL_tyre.coeff, 'FR': self.FR_tyre.coeff, 'RL': self.RL_tyre.coeff, 'RR': self.RR_tyre.coeff}
+            self.wear_coeff = {'FL': tuple(self.FL_tyre.coeff), 'FR': tuple(self.FR_tyre.coeff), 'RL': tuple(self.RL_tyre.coeff), 'RR': tuple(self.RR_tyre.coeff)}
 
         elif load_path is not None:
             data:Tyres = self.load(load_path)

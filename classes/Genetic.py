@@ -1,16 +1,14 @@
 import math
-from tkinter.tix import PopupMenu
 import numpy as np
 from classes.Car import Car
 from random import SystemRandom
 import matplotlib.pyplot as plt
 random = SystemRandom()
 
-from classes.Utils import get_basic_logger
+from classes.Utils import get_basic_logger, STINTS
 
 log = get_basic_logger('Genetic')
 
-STINTS = ['Soft', 'Medium', 'Hard'] #'Inter', 'Wet'
 PITSTOP = [True, False]
 
 def convertMillis(ms):
@@ -88,6 +86,8 @@ class GeneticSolver:
             if tyre_compound == 'Medium':
                 self.coeff[tyre_compound] = ((self.coeff['Hard'][0]+self.coeff['Soft'][0])/2, (self.coeff['Soft'][1]+self.coeff['Soft'][1])/2)
 
+        log.debug(tyre_compound)
+        log.debug(self.coeff)
         lose = self.coeff[tyre_compound][0] + self.coeff[tyre_compound][1] * wear_percentage 
 
         return lose
