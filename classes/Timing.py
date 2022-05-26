@@ -170,23 +170,23 @@ def get_timing_data(df:pd.DataFrame, separators:dict, path:str=None) -> Timing:
     timing_data = dict()
     
     if path is not None:
-        log.info('Specified load path, trying to find Timing_*.json files...')
+        #log.info('Specified load path, trying to find Timing_*.json files...')
         files = [f for f in os.listdir(path) if f.endswith('.json') and f.startswith('Timing_')]
         if len(files) > 0:
-            log.info('Specified load path with files inside. Loading Timing data from file...')
+            #log.info('Specified load path with files inside. Loading Timing data from file...')
             for file in files:
                 timing = Timing(load_path=os.path.join(path,file))
                 idx = int(file.replace('Timing_','').replace('.json',''))
                 timing_data[idx] = timing
 
-            log.info('Loading completed.')
+            #log.info('Loading completed.')
             return timing_data
                 
     
-    if path is not None:
-        log.info(f'No timing_*.json files found in "{path}". Loading timing data from dataframe.')
-    else:
-        log.info('No load path specified. Loading timing data from dataframe.')
+    #if path is not None:
+    #    log.info(f'No timing_*.json files found in "{path}". Loading timing data from dataframe.')
+    #else:
+    #    log.info('No load path specified. Loading timing data from dataframe.')
 
     ### Initialize the columns of interest (these are the common columns to all timings)
     basic_columns = ['FrameIdentifier','NumLaps']

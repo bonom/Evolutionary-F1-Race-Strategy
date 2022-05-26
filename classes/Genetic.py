@@ -2,7 +2,6 @@ import math
 import numpy as np
 from classes.Car import Car
 from random import SystemRandom
-import matplotlib.pyplot as plt
 random = SystemRandom()
 
 from classes.Utils import get_basic_logger, STINTS
@@ -90,12 +89,11 @@ class GeneticSolver:
         return num_pitstop
 
     def correct_strategy(self, strategy:dict):
-
         for i in range(1,self.numLaps):
             stint = strategy['TyreStint'][i]
             if strategy['TyreStint'][i-1] != stint:
                 strategy['PitStop'][i] = True
-                strategy['TyreWear'][i] = 0
+                strategy['TyreWear'][i] = self.getTyreWear(stint, 0)
                 strategy['LapTime'][i] = self.lapTime(stint, i, strategy['FuelLoad'][i], True)
                 j = i+1
                 while j < self.numLaps and strategy['TyreWear'][j] == stint:
@@ -170,26 +168,34 @@ class GeneticSolver:
         strategy = {'TyreStint': [], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'TotalTime': np.inf}
             
         strategy['TyreStint'].append(random.choice(DRY_STINTS))
-        strategy['TyreWear'].append(0)
+        strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][0], 0))
         strategy['FuelLoad'].append(random.randint(300, 350))
         strategy['PitStop'].append(False)
         strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][0], 0, strategy['FuelLoad'][0], False))
         
+        lap_count = 0
         for i in range(1,self.numLaps):
+            lap_count += 1
             strategy['TyreStint'].append(random.choice(DRY_STINTS))
-            if strategy['TyreStint'][i] == strategy['TyreStint'][i-1]:
-                strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][i], i))
+            if strategy['TyreStint'][i] == strategy['TyreStint'][i-1] and strategy['PitStop'][i-1] == False:
+                strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][i], lap_count))
                 strategy['PitStop'].append(False)
                 if overLimit(strategy['TyreWear'][i].values(), 80):
                     strategy['PitStop'].append(True)
                 else:
                     strategy['PitStop'].append(False)
             else:
-                strategy['TyreWear'].append(0)
+                lap_count = 0
+                strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][i], lap_count))
                 strategy['PitStop'].append(True)
 
             strategy['FuelLoad'].append(self.getFuelLoad(i))
             strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][i], i, strategy['FuelLoad'][i], strategy['PitStop'][i]))
+
+            try:
+                strategy['TyreWear'][i]['FL']
+            except:
+                log.error(f"At {i} -> {strategy['TyreWear'][i]}")
         
         strategy['NumPitStop'] = self.count_pitstop(strategy)
 
@@ -202,44 +208,44 @@ class GeneticSolver:
         self.correct_strategy(strategy)
         return strategy
 
-    def initPopulation(self,):
-        strategy = {'TyreStint': [], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'TotalTime': np.inf}
-        initial_stint = random.choice(DRY_STINTS)
-        strategy['TyreStint'].append(initial_stint)
-        strategy['TyreWear'].append(0)
-        strategy['FuelLoad'].append(random.randint(270,300))
-        strategy['PitStop'].append(False)
-        strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][0], i, strategy['FuelLoad'][0], False))
+    # def initPopulation(self,):
+    #     strategy = {'TyreStint': [], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'TotalTime': np.inf}
+    #     initial_stint = random.choice(DRY_STINTS)
+    #     strategy['TyreStint'].append(initial_stint)
+    #     strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][0], 0))
+    #     strategy['FuelLoad'].append(random.randint(270,300))
+    #     strategy['PitStop'].append(False)
+    #     strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][0], i, strategy['FuelLoad'][0], False))
         
-        for i in range(1,self.numLaps+1):
-            if strategy['PitStop'][i-1] == True:
-                initial_stint = random.choice(DRY_STINTS)
-                strategy['TyreStint'].append(initial_stint)
-            else: 
-                strategy['TyreStint'].append(initial_stint)
-            if strategy['TyreStint'][i] == strategy['TyreStint'][i-1]:
-                strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][i], i))
-                if overLimit(strategy['TyreWear'][i].values(), 80):
-                    strategy['PitStop'].append(True)
+    #     for i in range(1,self.numLaps+1):
+    #         if strategy['PitStop'][i-1] == True:
+    #             initial_stint = random.choice(DRY_STINTS)
+    #             strategy['TyreStint'].append(initial_stint)
+    #         else: 
+    #             strategy['TyreStint'].append(initial_stint)
+    #         if strategy['TyreStint'][i] == strategy['TyreStint'][i-1]:
+    #             strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][i], i))
+    #             if overLimit(strategy['TyreWear'][i].values(), 80):
+    #                 strategy['PitStop'].append(True)
                     
-                else:
-                    strategy['PitStop'].append(False)
-            else:
-                strategy['TyreWear'].append(0)
-                strategy['PitStop'].append(True)
+    #             else:
+    #                 strategy['PitStop'].append(False)
+    #         else:
+    #             strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][i], i))
+    #             strategy['PitStop'].append(True)
             
-            strategy['FuelLoad'].append(self.getFuelLoad(i))
-            strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][i], i, strategy['FuelLoad'][i], strategy['PitStop'][i]))
+    #         strategy['FuelLoad'].append(self.getFuelLoad(i))
+    #         strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][i], i, strategy['FuelLoad'][i], strategy['PitStop'][i]))
         
-        strategy['NumPitStop'] = self.count_pitstop(strategy)
-        stints = set(strategy['TyreStint'])
+    #     strategy['NumPitStop'] = self.count_pitstop(strategy)
+    #     stints = set(strategy['TyreStint'])
 
-        if len(stints) > 0 and strategy['FuelLoad'][-1] > 0:
-            strategy['TotalTime'] = sum(strategy['LapTime'])
-        else:
-            strategy['TotalTime'] = np.inf
+    #     if len(stints) > 0 and strategy['FuelLoad'][-1] > 0:
+    #         strategy['TotalTime'] = sum(strategy['LapTime'])
+    #     else:
+    #         strategy['TotalTime'] = np.inf
 
-        return strategy
+    #     return strategy
 
     def initSolver(self,):
         strategies = []
@@ -248,7 +254,6 @@ class GeneticSolver:
 
         return strategies
         
-    
     # 
     #                           Function taken from 
     # https://machinelearningmastery.com/simple-genetic-algorithm-from-scratch-in-python/
@@ -260,7 +265,7 @@ class GeneticSolver:
         pop = self.initSolver()
 
         # keep track of best solution
-        best, best_eval = 0, pop[0]['TotalTime']
+        best, best_eval = pop[0], pop[0]['TotalTime']
         
         # enumerate generations
         try:
@@ -310,12 +315,10 @@ class GeneticSolver:
 
                 fitness_values.append(temp_best_eval)
 
+                #if gen%10:
                 log.debug(f'Generation {gen+1}/{self.iterations} best overall: {convertMillis(best_eval)}, best of generation: {convertMillis(temp_best_eval)}')
         except KeyboardInterrupt:
             pass 
         
-        plt.plot(np.arange(len(fitness_values)), fitness_values)
-        plt.show()
-        return (best, best_eval)
-    
+        return best, best_eval, {key+1:val for key, val in enumerate(fitness_values)}
     

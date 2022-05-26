@@ -1,4 +1,3 @@
-from json import load
 import sys, os
 import pandas as pd
 import numpy as np
@@ -7,24 +6,27 @@ from classes.Car import get_cars
 from classes.Timing import Timing, get_timing_data
 from classes.Tyres import Tyres, get_tyres_data
 from classes.Fuel import Fuel, get_fuel_data
-from classes.Extractor import extract_data, remove_duplicates
-from classes.Utils import MultiPlot, get_basic_logger, get_car_name, get_host, list_data, ms_to_m, separate_data, list_circuits
+from classes.Extractor import extract_data
+from classes.Utils import MultiPlot, get_basic_logger, get_car_name, list_data, ms_to_m, separate_data, list_circuits
 
 import plotly.express as px
-import plotly
 
 import argparse
 
 parser = argparse.ArgumentParser(description='Process F1 Data.')
 parser.add_argument('--i', type=int, default=None, help='Car ID')
-parser.add_argument('--d', type=str, default='Data', help='Data folder')
-parser.add_argument('--c', type=str, help='Circuit path')
-parser.add_argument('--f', type=str, help='Exact data folder')
+parser.add_argument('--c', type=str, default=None, help='Circuit path')
 args = parser.parse_args()
 
 log_dl = get_basic_logger('DataLoad')
 log_main = get_basic_logger('Main')
 
+def printStrategy(strategy):
+    log_main.debug(strategy)
+    log_main.debug(strategy['TyreStint'])
+    log_main.debug(len(strategy['TyreStint']))
+    for lap in range(len(strategy['TyreStint'])):
+        log_main.info(f"Lap {lap+1} -> Stint '{strategy['TyreStint'][lap]}', Wear '{round(strategy['TyreWear'][lap]['FL'],2)}'% | '{round(strategy['TyreWear'][lap]['FR'],2)}'% | '{round(strategy['TyreWear'][lap]['RL'],2)}'% | '{round(strategy['TyreWear'][lap]['RR'],2)}'%, Fuel '{round(strategy['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if strategy['PitStop'][lap] else 'No'}', Time '{strategy['LapTime'][lap]}' ms")
 
 def DataLoad(car_id:int=19,folder:str=''): #data_folder:str='Data',circuit:str='',
     """
@@ -37,7 +39,7 @@ def DataLoad(car_id:int=19,folder:str=''): #data_folder:str='Data',circuit:str='
         os.makedirs(concat_path)
     
     if os.path.isfile(os.path.join(concat_path,'CarId_{}.csv'.format(car_id))):
-        log_dl.info(f"Found concatenated data for car '{car_id}' in '{concat_path}'")
+        #log_dl.info(f"Found concatenated data for car '{car_id}' in '{concat_path}'")
         df = pd.read_csv(os.path.join(concat_path,'CarId_{}.csv'.format(car_id)))
     else:
         acquired_data_folder = os.path.join(folder,'Acquired_data')
@@ -82,9 +84,9 @@ def DataLoad(car_id:int=19,folder:str=''): #data_folder:str='Data',circuit:str='
     if not os.path.exists(saves):
         os.makedirs(saves)
     ### Separating the dataframe into different dataframes
-    log_dl.info(f"Separating data for car '{car_id}'...")
+    #log_dl.info(f"Separating data for car '{car_id}'...")
     separators = separate_data(df)
-    log_dl.info(f"Separation complete.")
+    #log_dl.info(f"Separation complete.")
 
     ### Getting the tyres data
     log_dl.info(f"Getting the data for the times ({len(separators.keys())})...")
@@ -192,50 +194,62 @@ def main():
         os.mkdir('Plots')
 
     data = dict()
-
     
-    if args.f == '' or args.f is None:
-        ### There is no specific folder of data => we use all the data in a given circuit
-        if args.c == '' or args.c is None:
-            ### There is no specific circuit => We have to get it from the user
-            circuit_folder = os.path.abspath(list_circuits(args.d)) # Returns the path to the circuit folder
-        else:
-            circuit_folder = os.path.abspath(args.c)
-        #folder = os.path.abspath(list_data(circuit_folder)) # Returns the path to the data folder
-        data_folder = os.path.abspath('Data')
-
+    if args.c == '' or args.c is None:
+        circuit_folder = os.path.abspath(list_circuits(os.path.abspath('Data')))
     else:
-        folder:str = os.path.abspath(args.f)
-        if args.c == '' or args.c is None:
-            circuit = folder.split('/')[:-1] if os.name == 'posix' else folder.split('\\')[:-1]
-            circuit_folder = ''
-            for c in circuit:
-                circuit_folder += c+'/' if os.name == 'posix' else c+'\\'
-            circuit_folder = os.path.abspath(circuit_folder)
-        else:
-            circuit_folder = os.path.abspath(args.c)
-        data_folder = os.path.abspath('Data')
+        circuit_folder = os.path.abspath(args.c)
+    # if args.f == '' or args.f is None:
+    #     ### There is no specific folder of data => we use all the data in a given circuit
+    #     if args.c == '' or args.c is None:
+    #         ### There is no specific circuit => We have to get it from the user
+    #         circuit_folder = os.path.abspath(list_circuits(args.d)) # Returns the path to the circuit folder
+    #     else:
+    #         circuit_folder = os.path.abspath(args.c)
+    #     folder = os.path.abspath(list_data(circuit_folder)) # Returns the path to the data folder
+    #     data_folder = os.path.abspath('Data')
+
+    # else:
+    #     folder:str = os.path.abspath(args.f)
+    #     if args.c == '' or args.c is None:
+    #         circuit = folder.split('/')[:-1] if os.name == 'posix' else folder.split('\\')[:-1]
+    #         circuit_folder = ''
+    #         for c in circuit:
+    #             circuit_folder += c+'/' if os.name == 'posix' else c+'\\'
+    #         circuit_folder = os.path.abspath(circuit_folder)
+    #     else:
+    #         circuit_folder = os.path.abspath(args.c)
+    #     data_folder = os.path.abspath('Data')
 
     if args.i is not None:
-        
-        #data = DataLoad(args.i,folder)
-
-        #sys.exit(0)
+        log_main.info("------------------------- Loading data -------------------------")
+        for folder in os.listdir(circuit_folder):
+            if folder not in ['.DS_Store', 'CarSaves']:
+                data = DataLoad(args.i, os.path.join(circuit_folder,folder))
+        log_main.info("----------------------- End data loading -----------------------")
+        log_main.info("-------------------------  Car loading -------------------------")
         car = get_cars(path=circuit_folder,load_path=os.path.join(circuit_folder,'CarSaves'), car_idx=args.i)
-        
-        genetic = GeneticSolver(population=100, mutation_pr=0.5, crossover_pr=0.5, iterations=10000, numLaps=54, car=car)
-        strategy = genetic.startSolver()[0]
-        log_main.info(f"Strategy for car {args.i}:\n{strategy}")
+        log_main.info("-----------------------  End car loading -----------------------")
+        log_main.info("----------------------- Start Evolutions -----------------------")
+        genetic = GeneticSolver(population=1000, mutation_pr=0.5, crossover_pr=0.5, iterations=1000, numLaps=54, car=car)
+        strategy, _, vals = genetic.startSolver()
+        log_main.info("----------------------- Ended Evolutions -----------------------")
+        printStrategy(strategy)
+        df = pd.DataFrame(list(vals.items()), columns=['Generation','Fitness'])
+        (px.line(df, x='Generation', y='Fitness', title="Fitness values",)).show()
     else:
-        for i in range(0,20):
-            data[i] = DataLoad(i,folder) #data_folder,circuit_folder,
+        for folder in os.listdir(circuit_folder):
+            for i in range(0,20):
+                data[i] = DataLoad(i,folder) #data_folder,circuit_folder,
         
         cars = get_cars(path=circuit_folder,load_path=os.path.join(circuit_folder,'CarSaves'))
         
         for i in range(0,20):
-            genetic = GeneticSolver(population=1000, mutation_pr=1, crossover_pr=1, iterations=10000, numLaps=54, car=cars[i])
-            strategy = genetic.startSolver()[0]
-            log_main(f"Strategy for car {i} is:\n{strategy}")
+            genetic = GeneticSolver(population=1000, mutation_pr=1, crossover_pr=1, iterations=1, numLaps=54, car=cars[i])
+            strategy, _, vals = genetic.startSolver()
+            printStrategy(strategy)
+            df = pd.DataFrame(list(vals.items()), columns=['Generation','Fitness'])
+            (px.line(df, x='Generation', y='Fitness', title="Fitness values",)).show()
 
 if __name__ == "__main__":
     main() 

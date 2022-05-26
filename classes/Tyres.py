@@ -412,23 +412,23 @@ def get_tyres_data(df:pd.DataFrame, separators:dict, path:str=None) -> Tyres:
     tyres_data = dict()
     
     if path is not None:
-        log.info('Specified load path, trying to find Tyres_*.json files...')
+        #log.info('Specified load path, trying to find Tyres_*.json files...')
         files = [f for f in os.listdir(path) if f.endswith('.json') and f.startswith('Tyres_')]
         if len(files) > 0:
-            log.info('Specified load path with files inside. Loading tyres data from file...')
+            #log.info('Specified load path with files inside. Loading tyres data from file...')
             for file in files:
                 tyres = Tyres(load_path=os.path.join(path,file))
                 idx = int(file.replace('Tyres_','').replace('.json',''))
                 tyres_data[idx] = tyres
 
-            log.info('Loading completed.')
+            #log.info('Loading completed.')
             return tyres_data
                 
     
-    if path is not None:
-        log.info(f'No Tyres_*.json files found in "{path}". Loading tyres data from dataframe.')
-    else:
-        log.info('No load path specified. Loading tyres data from dataframe.')
+    #if path is not None:
+    #    log.info(f'No Tyres_*.json files found in "{path}". Loading tyres data from dataframe.')
+    #else:
+    #    log.info('No load path specified. Loading tyres data from dataframe.')
 
     
     
