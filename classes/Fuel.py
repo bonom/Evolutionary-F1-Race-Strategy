@@ -46,13 +46,14 @@ class Fuel:
             self.FuelRemainingLaps = RangeDictionary(df[['FrameIdentifier','FuelRemainingLaps']])
 
             ### MODEL ###
-            x = np.array([int(key) for key in self.FuelInTank.keys()])
+            x = np.array([self.get_lap(int(key),True) for key in self.FuelInTank.keys()])
             y = np.array(list(self.FuelInTank.values()))
+            
             if math.isnan(y[0]):
                 y[0] = 0
             
             self.coeff = np.polyfit(x, y, 1)
-            
+
         elif load_path is not None:
             data:Fuel = self.load(load_path)
             self.frames_lap = data.frames_lap

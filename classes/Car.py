@@ -225,11 +225,8 @@ class Car:
                 #     self.tyre_coeff[stint]['RR'] = (self.tyre_coeff[STINTS[idx-1]]['RR'][0]+2, self.tyre_coeff[STINTS[idx-1]]['RR'][1]-1)
 
     def compute_fuel_coeff(self,):
-        fuel_coeff = [fuel.coeff for fuel in self.fuel]
-
-        for coeff in fuel_coeff:
-            self.fuel_coeff = (self.fuel_coeff[0]+coeff[0], self.fuel_coeff[1]+coeff[1])
-        self.fuel_coeff = (self.fuel_coeff[0]/len(fuel_coeff), self.fuel_coeff[1]/len(fuel_coeff))
+        fuel_coeff = [fuel.coeff[0] for fuel in self.fuel]
+        self.fuel_coeff = sum(fuel_coeff)/len(fuel_coeff)
 
     def compute_fuel_time_lose(self,):
         time_lose = 0
@@ -312,8 +309,8 @@ class Car:
 
         return y_FL + y_FR + y_RL + y_RR
     
-    def getFuelLoad(self, lap:int):
-        return self.fuel_coeff[0]*lap + self.fuel_coeff[1]
+    def getFuelLoad(self, lap:int, initial_fuel:float) -> float:
+        return initial_fuel-abs(self.fuel_coeff*lap)
 
     def getFuelTimeLose(self, lap:int):
         return self.fuel_lose*lap
@@ -391,7 +388,6 @@ def get_cars(path:str=None, load_path:str=None, car_idx:int = None) -> dict:
                 cars[idx].add(path, idx)
                 cars[idx].save(save_path, idx)
         else:
-
             car = Car()
             car.add(path, car_idx)
             car.save(save_path, car_idx)

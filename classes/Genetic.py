@@ -52,8 +52,8 @@ class GeneticSolver:
     def getTyreWear(self, stint:str, lap:int):
         return self.car.getTyreWear(stint, lap)
     
-    def getFuelLoad(self, lap:int):
-        return self.car.getFuelLoad(lap)
+    def getFuelLoad(self, lap:int, initial_fuel:float) :
+        return self.car.getFuelLoad(lap, initial_fuel)
     
     def getWearTimeLose(self, stint:str, lap:int):
         return self.car.getWearTimeLose(stint, lap)
@@ -85,7 +85,7 @@ class GeneticSolver:
                 strategy['TyreWear'][i] = self.getTyreWear(stint, 0)
                 strategy['LapTime'][i] = self.lapTime(stint, i, strategy['FuelLoad'][i], True)
                 j = i+1
-                while j < self.numLaps and strategy['TyreWear'][j] == stint:
+                while j < self.numLaps and (strategy['TyreWear'][j] == stint or strategy['PitStop'][j] == False):
                     strategy['TyreWear'][j] = self.getTyreWear(strategy['TyreStint'][j], j-i)
                     strategy['PitStop'][j] = False
                     strategy['LapTime'][j] = self.lapTime(stint, j-i, strategy['FuelLoad'][j], False)
@@ -158,7 +158,7 @@ class GeneticSolver:
             
         strategy['TyreStint'].append(random.choice(DRY_STINTS))
         strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][0], 0))
-        strategy['FuelLoad'].append(random.randint(300, 350))
+        strategy['FuelLoad'].append(random.randint(80, 120))
         strategy['PitStop'].append(False)
         strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][0], 0, strategy['FuelLoad'][0], False))
         
@@ -178,7 +178,7 @@ class GeneticSolver:
                 strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][i], lap_count))
                 strategy['PitStop'].append(True)
 
-            strategy['FuelLoad'].append(self.getFuelLoad(i))
+            strategy['FuelLoad'].append(self.getFuelLoad(i, strategy['FuelLoad'][0]))
             strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][i], i, strategy['FuelLoad'][i], strategy['PitStop'][i]))
         
         strategy['NumPitStop'] = self.count_pitstop(strategy)
@@ -186,9 +186,10 @@ class GeneticSolver:
 
         if len(stints) > 0 and strategy['FuelLoad'][-1] > 0:
             strategy['TotalTime'] = sum(strategy['LapTime'])
+            self.correct_strategy(strategy)
         else:
-            strategy['TotalTime'] = np.inf
-        self.correct_strategy(strategy)
+            return self.randomChild()
+        
         return strategy
 
     # def initPopulation(self,):

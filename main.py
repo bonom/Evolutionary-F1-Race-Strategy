@@ -22,9 +22,6 @@ log_dl = get_basic_logger('DataLoad')
 log_main = get_basic_logger('Main')
 
 def printStrategy(strategy):
-    log_main.debug(strategy)
-    log_main.debug(strategy['TyreStint'])
-    log_main.debug(len(strategy['TyreStint']))
     for lap in range(len(strategy['TyreStint'])):
         log_main.info(f"Lap {lap+1} -> Stint '{strategy['TyreStint'][lap]}', Wear '{round(strategy['TyreWear'][lap]['FL'],2)}'% | '{round(strategy['TyreWear'][lap]['FR'],2)}'% | '{round(strategy['TyreWear'][lap]['RL'],2)}'% | '{round(strategy['TyreWear'][lap]['RR'],2)}'%, Fuel '{round(strategy['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if strategy['PitStop'][lap] else 'No'}', Time '{strategy['LapTime'][lap]}' ms")
 
