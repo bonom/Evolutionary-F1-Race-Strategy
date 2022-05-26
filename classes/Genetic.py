@@ -4,25 +4,12 @@ from classes.Car import Car
 from random import SystemRandom
 random = SystemRandom()
 
-from classes.Utils import get_basic_logger, STINTS
+from classes.Utils import get_basic_logger, STINTS, ms_to_time
 
 log = get_basic_logger('Genetic')
 
 DRY_STINTS:list = ['Soft', 'Medium', 'Hard']
 PITSTOP = [True, False]
-
-def convertMillis(ms):
-    if math.isinf(ms):
-        return f"::. (infinite)"
-    seconds=(ms/1000)%60
-    minutes=(ms/(1000*60))%60
-    hours=(ms/(1000*60*60))%24
-    ms=ms % 1000
-    
-    if int(hours) < 1:
-        return f"{int(minutes)}:{int(seconds)}.{ms}"
-    
-    return f"{int(hours)}:{int(minutes)}:{int(seconds)}.{ms}"
 
 def overLimit(values, limit):
     if not isinstance(values, list):
@@ -56,8 +43,8 @@ class GeneticSolver:
         for i in range(self.population):
             string+=f"---------- Individual {i+1} ----------\n"
             for lap in range(self.numLaps):
-                string+=f"{lap+1}º LapTime: {convertMillis(self.strategies[i]['LapTime'][lap])} | TyreStint: {self.strategies[i]['TyreStint'][lap]} | TyreWear: {self.strategies[i]['TyreWear'][lap]} | FuelLoad: {self.strategies[i]['FuelLoad'][lap]} | PitStop: {self.strategies[i]['PitStop'][lap]}\n"
-            string+=f"TotalTime: {convertMillis(self.strategies[i]['TotalTime'])}\n"
+                string+=f"{lap+1}º LapTime: {ms_to_time(self.strategies[i]['LapTime'][lap])} | TyreStint: {self.strategies[i]['TyreStint'][lap]} | TyreWear: {self.strategies[i]['TyreWear'][lap]} | FuelLoad: {self.strategies[i]['FuelLoad'][lap]} | PitStop: {self.strategies[i]['PitStop'][lap]}\n"
+            string+=f"TotalTime: {ms_to_time(self.strategies[i]['TotalTime'])}\n"
             string+="\n"
 
         return string
@@ -78,7 +65,9 @@ class GeneticSolver:
         if fuel_load < 0:
             fuel_load = 0
 
-        time = self.bestLapTime + self.getWearTimeLose(stint, lap) + self.getFuelTimeLose(lap) + self.pitStopTime * pitStop
+        time = self.bestLapTime + self.getWearTimeLose(stint, lap) + self.getFuelTimeLose(lap)
+        if pitStop:
+            time += self.pitStopTime
         return round(time) 
     
     def count_pitstop(self, strategy:dict):
@@ -91,15 +80,15 @@ class GeneticSolver:
     def correct_strategy(self, strategy:dict):
         for i in range(1,self.numLaps):
             stint = strategy['TyreStint'][i]
-            if strategy['TyreStint'][i-1] != stint:
+            if strategy['TyreStint'][i-1] != stint or strategy['PitStop'][i] == True:
                 strategy['PitStop'][i] = True
                 strategy['TyreWear'][i] = self.getTyreWear(stint, 0)
                 strategy['LapTime'][i] = self.lapTime(stint, i, strategy['FuelLoad'][i], True)
                 j = i+1
                 while j < self.numLaps and strategy['TyreWear'][j] == stint:
-                    strategy['TyreWear'][j] = self.getTyreWear(strategy['TyreStint'][j], j)
+                    strategy['TyreWear'][j] = self.getTyreWear(strategy['TyreStint'][j], j-i)
                     strategy['PitStop'][j] = False
-                    strategy['LapTime'][j] = self.lapTime(stint, i, strategy['FuelLoad'][j], False)
+                    strategy['LapTime'][j] = self.lapTime(stint, j-i, strategy['FuelLoad'][j], False)
                     j+=1
         
         stints = set(strategy['TyreStint'])
@@ -191,14 +180,8 @@ class GeneticSolver:
 
             strategy['FuelLoad'].append(self.getFuelLoad(i))
             strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][i], i, strategy['FuelLoad'][i], strategy['PitStop'][i]))
-
-            try:
-                strategy['TyreWear'][i]['FL']
-            except:
-                log.error(f"At {i} -> {strategy['TyreWear'][i]}")
         
         strategy['NumPitStop'] = self.count_pitstop(strategy)
-
         stints = set(strategy['TyreStint'])
 
         if len(stints) > 0 and strategy['FuelLoad'][-1] > 0:
@@ -316,7 +299,8 @@ class GeneticSolver:
                 fitness_values.append(temp_best_eval)
 
                 #if gen%10:
-                log.debug(f'Generation {gen+1}/{self.iterations} best overall: {convertMillis(best_eval)}, best of generation: {convertMillis(temp_best_eval)}')
+                log.info(f'Generation {gen+1}/{self.iterations} best overall: {ms_to_time(best_eval)}, best of generation: {ms_to_time(temp_best_eval)}')
+                
         except KeyboardInterrupt:
             pass 
         

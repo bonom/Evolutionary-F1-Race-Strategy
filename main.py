@@ -7,7 +7,7 @@ from classes.Timing import Timing, get_timing_data
 from classes.Tyres import Tyres, get_tyres_data
 from classes.Fuel import Fuel, get_fuel_data
 from classes.Extractor import extract_data
-from classes.Utils import MultiPlot, get_basic_logger, get_car_name, list_data, ms_to_m, separate_data, list_circuits
+from classes.Utils import MultiPlot, get_basic_logger, get_car_name, ms_to_time, separate_data, list_circuits
 
 import plotly.express as px
 
@@ -199,27 +199,6 @@ def main():
         circuit_folder = os.path.abspath(list_circuits(os.path.abspath('Data')))
     else:
         circuit_folder = os.path.abspath(args.c)
-    # if args.f == '' or args.f is None:
-    #     ### There is no specific folder of data => we use all the data in a given circuit
-    #     if args.c == '' or args.c is None:
-    #         ### There is no specific circuit => We have to get it from the user
-    #         circuit_folder = os.path.abspath(list_circuits(args.d)) # Returns the path to the circuit folder
-    #     else:
-    #         circuit_folder = os.path.abspath(args.c)
-    #     folder = os.path.abspath(list_data(circuit_folder)) # Returns the path to the data folder
-    #     data_folder = os.path.abspath('Data')
-
-    # else:
-    #     folder:str = os.path.abspath(args.f)
-    #     if args.c == '' or args.c is None:
-    #         circuit = folder.split('/')[:-1] if os.name == 'posix' else folder.split('\\')[:-1]
-    #         circuit_folder = ''
-    #         for c in circuit:
-    #             circuit_folder += c+'/' if os.name == 'posix' else c+'\\'
-    #         circuit_folder = os.path.abspath(circuit_folder)
-    #     else:
-    #         circuit_folder = os.path.abspath(args.c)
-    #     data_folder = os.path.abspath('Data')
 
     if args.i is not None:
         log_main.info("------------------------- Loading data -------------------------")
@@ -232,9 +211,10 @@ def main():
         log_main.info("-----------------------  End car loading -----------------------")
         log_main.info("----------------------- Start Evolutions -----------------------")
         genetic = GeneticSolver(population=1000, mutation_pr=0.5, crossover_pr=0.5, iterations=1000, numLaps=54, car=car)
-        strategy, _, vals = genetic.startSolver()
+        strategy, time, vals = genetic.startSolver()
         log_main.info("----------------------- Ended Evolutions -----------------------")
         printStrategy(strategy)
+        log_main.info(f"Best time: {ms_to_time(time)}")
         df = pd.DataFrame(list(vals.items()), columns=['Generation','Fitness'])
         (px.line(df, x='Generation', y='Fitness', title="Fitness values",)).show()
     else:
