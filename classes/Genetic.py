@@ -92,7 +92,7 @@ class GeneticSolver:
                     j+=1
         
         stints = set(strategy['TyreStint'])
-        if len(stints) > 0 and strategy['FuelLoad'][-1] > 0:
+        if len(stints) > 0 and strategy['FuelLoad'][-1] >= 1:
             strategy['TotalTime'] = sum(strategy['LapTime'])
         else:
             strategy['TotalTime'] = np.inf
@@ -148,7 +148,7 @@ class GeneticSolver:
         sorted_dict = sorted(dict_map.items(), key=lambda x: x[0])
         
         population_selected = []
-        for i in range(0, round((40/100)*self.population)):
+        for i in range(0, round((20/100)*self.population)):
             population_selected.append(sorted_dict[i][1])
             
         return population_selected
@@ -184,7 +184,7 @@ class GeneticSolver:
         strategy['NumPitStop'] = self.count_pitstop(strategy)
         stints = set(strategy['TyreStint'])
 
-        if len(stints) > 0 and strategy['FuelLoad'][-1] > 0:
+        if len(stints) > 0 and strategy['FuelLoad'][-1] >= 1:
             strategy['TotalTime'] = sum(strategy['LapTime'])
             self.correct_strategy(strategy)
         else:
