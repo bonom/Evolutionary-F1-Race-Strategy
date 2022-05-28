@@ -11,6 +11,15 @@ from plotly.subplots import make_subplots
 import plotly
 import socket
 
+STINTS: dict = {
+    0: 'Soft',
+    1: 'Medium',
+    2: 'Hard',
+    3: 'Inter',
+    4: 'Wet',
+
+}
+
 ACTUAL_COMPOUNDS: dict = {
     0:"N/A",
     1:"N/A",
@@ -163,12 +172,11 @@ class MultiPlot:
         self.fig.update_layout(title_text=title)
 
 
-def ms_to_m(ms:int) -> str:
-    seconds=(ms/1000)%60
-    minutes=(ms/(1000*60))%60
-    ms = ms % 1000
-
-    return f"{int(minutes)}:{int(seconds)}:{int(ms)}"
+def ms_to_time(ms:int) -> str:
+    if math.isinf(ms):
+        return 'Inf'
+    date = datetime.fromtimestamp(ms/1000 - 3600) # - 3600 for UTC (I think)
+    return date.strftime("%H:%M:%S.%f")[:-3]
 
 def get_car_name(id:int=19, path:str=None) -> str:
     data_path = os.path.join(path,'ConcatData/Names.csv')
@@ -298,8 +306,6 @@ def separate_data(df:pd.DataFrame) -> dict:
     return separator
 
 if __name__ == "__main__":
-    #print(tograystr(bin(5)[2:]))
-    #print(tobinarystr(tograystr(bin(5)[2:])))
     log = get_basic_logger('Utils')
     log.warning("This module is not intended to be used as a standalone script. Run 'python main.py' instead.")
     sys.exit(1)

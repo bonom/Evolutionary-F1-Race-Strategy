@@ -7,7 +7,6 @@ import sys, os
 from classes.RangeDictionary import RangeDictionary
 import plotly.express as px
 import plotly
-from sklearn.linear_model import LinearRegression
 
 from classes.Utils import get_basic_logger, get_host
 
@@ -23,6 +22,7 @@ class Fuel:
                 if not math.isnan(lap):
                     indexes.append((min(df.loc[df['NumLaps'] == lap,'FrameIdentifier'].values), max(df.loc[df['NumLaps'] == lap,'FrameIdentifier'].values)))
             
+            self.frames_lap = dict()
             self.lap_frames = dict()
             max_lap_len = len(indexes)
             for idx in range(max_lap_len):
@@ -32,54 +32,58 @@ class Fuel:
                 else:
                     start, end = indexes[idx]
                 for i in range(start,end):
-                    self.lap_frames[i] = idx + round(((i - start)/(end - start)),4)  
+                    self.frames_lap[i] = idx + round(((i - start)/(end - start)),4)  
+                    try:
+                        self.lap_frames[idx].append(i) 
+                    except:
+                        self.lap_frames[idx] = [i]
             
-            #print(f"Lap frame [0]: {list(self.lap_frames.items())[0]}")
-            #print(f"Lap frame [1]: {list(self.lap_frames.items())[1]}")
 
-            df = df.loc[(df['FrameIdentifier'] >= list(self.lap_frames.keys())[0]) & (df['FrameIdentifier'] <= list(self.lap_frames.keys())[-1])]
+            df = df.loc[(df['FrameIdentifier'] >= list(self.frames_lap.keys())[0]) & (df['FrameIdentifier'] <= list(self.frames_lap.keys())[-1])]
 
             self.FuelInTank = RangeDictionary(df[['FrameIdentifier','FuelInTank']])
             self.FuelCapacity = RangeDictionary(df[['FrameIdentifier','FuelCapacity']])
             self.FuelRemainingLaps = RangeDictionary(df[['FrameIdentifier','FuelRemainingLaps']])
 
             ### MODEL ###
-            x = np.array([int(key) for key in self.FuelInTank.keys()]).reshape((-1,1))
+            x = np.array([self.get_lap(int(key),True) for key in self.FuelInTank.keys()])
             y = np.array(list(self.FuelInTank.values()))
+            
             if math.isnan(y[0]):
                 y[0] = 0
-
-            self.model = LinearRegression().fit(x,y)
             
+            self.coeff = np.polyfit(x, y, 1)
+
         elif load_path is not None:
-            data = self.load(load_path)
+            data:Fuel = self.load(load_path)
+            self.frames_lap = data.frames_lap
             self.lap_frames = data.lap_frames
             self.FuelInTank = data.FuelInTank
             self.FuelCapacity = data.FuelCapacity
             self.FuelRemainingLaps = data.FuelRemainingLaps
-            self.model = data.model
+            self.coeff = data.coeff
 
 
     def __getitem__(self, idx) -> dict:
         if idx == -1:
             idx = self.__len__() - 1
         
-        idx -= list(self.lap_frames.keys())[0]
+        idx -= list(self.frames_lap.keys())[0]
         lap = self.get_lap(idx)
         return {'NumLap': lap, 'FuelInTank': self.FuelInTank[idx], 'FuelCapacity': self.FuelCapacity[idx], 'FuelRemaining': self.FuelRemainingLaps[idx]}
 
     def get_lap(self, frame, get_float:bool=False) -> Union[int,float]:
         if get_float:
-            return self.lap_frames[frame]
+            return self.frames_lap[frame]
         
-        return int(self.lap_frames[frame])
+        return int(self.frames_lap[frame])
 
     def get_frame(self, lap_num:Union[int,float]) -> int:
-        for frame, lap in self.lap_frames.items():
-            if lap == lap_num:
-                return frame
+        if isinstance(lap_num, float):
+            length = len(self.lap_frames[int(lap_num)])
+            return self.lap_frames[int(lap_num)][int((length*lap_num)%length)]
         
-        return -1
+        return self.lap_frames[lap_num][0]      
 
     def consumption(self, display:bool=False) -> dict:
         
@@ -105,17 +109,14 @@ class Fuel:
 
         return fuel_consume
     
-    def predict_fuelload(self, x_predict:int) -> float:
+    def predict_fuelload(self, x_predict:int, intercept:float=0.0) -> float:
         """
         Return the 2 coefficient beta_0 and beta_1 for the linear model that fits the data : Time/Fuel
         """
-        x_predict = np.array(x_predict).reshape(-1,1)
-        y_predict = self.model.predict(x_predict)
-        
-        y_predict = round(y_predict[0],2)
-        log.info(f"Predicted fuel consumption for lap {self.get_lap(int(x_predict))} (frame {int(x_predict)}) is {y_predict} %")
-        
-        return y_predict
+        if intercept == 0.0:
+            intercept = max([val for val in self.FuelInTank.values() if not math.isnan(val)])
+            
+        return self.coeff[0]*x_predict + intercept
 
     def save(self, save_path:str='', id:int=0) -> None:
         save_path = os.path.join(save_path,'Fuel_'+str(id)+'.json')
@@ -136,26 +137,26 @@ def get_fuel_data(df:pd.DataFrame, separators:dict, path:str=None) -> set:
     fuel_data = dict()
 
     if path is not None:
-        log.info('Specified load path, trying to find Fuel_*.json files...')
+        #log.info('Specified load path, trying to find Fuel_*.json files...')
         files = [f for f in os.listdir(path) if f.endswith('.json') and f.startswith('Fuel_')]
         if len(files) > 0:
-            log.info('Specified load path with files inside. Loading fuel data from file...')
+            #log.info('Specified load path with files inside. Loading fuel data from file...')
             for file in files:
                 fuel = Fuel(load_path=os.path.join(path,file))
                 idx = int(file.replace('Fuel_','').replace('.json',''))
                 fuel_data[idx] = fuel
                 
-            log.info('Loading completed.')
+            #log.info('Loading completed.')
             return fuel_data
                 
     
-    if path is not None:
-        log.info(f'No Fuel_*.json files found in "{path}". Loading fuel data from dataframe.')
-    else:
-        log.info('No load path specified. Loading fuel data from dataframe.')
+    #if path is not None:
+    #    log.info(f'No Fuel_*.json files found in "{path}". Loading fuel data from dataframe.')
+    #else:
+    #    log.info('No load path specified. Loading fuel data from dataframe.')
 
     ### Initialize the columns of interest
-    fuel_columns = ['FrameIdentifier', 'NumLaps', 'FuelInTank', 'FuelCapacity','FuelRemainingLaps']
+    fuel_columns = ['FrameIdentifier', 'NumLaps', 'FuelLoad', 'FuelInTank', 'FuelCapacity','FuelRemainingLaps']
 
     ### Cycle over all the times we box
     for key, (sep_start,sep_end) in separators.items():
