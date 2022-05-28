@@ -173,6 +173,8 @@ class MultiPlot:
 
 
 def ms_to_time(ms:int) -> str:
+    if math.isinf(ms):
+        return 'Inf'
     date = datetime.fromtimestamp(ms/1000 - 3600) # - 3600 for UTC (I think)
     return date.strftime("%H:%M:%S.%f")[:-3]
 

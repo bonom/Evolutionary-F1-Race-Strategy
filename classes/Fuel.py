@@ -113,6 +113,9 @@ class Fuel:
         """
         Return the 2 coefficient beta_0 and beta_1 for the linear model that fits the data : Time/Fuel
         """
+        if intercept == 0.0:
+            intercept = max([val for val in self.FuelInTank.values() if not math.isnan(val)])
+            
         return self.coeff[0]*x_predict + intercept
 
     def save(self, save_path:str='', id:int=0) -> None:
@@ -153,7 +156,7 @@ def get_fuel_data(df:pd.DataFrame, separators:dict, path:str=None) -> set:
     #    log.info('No load path specified. Loading fuel data from dataframe.')
 
     ### Initialize the columns of interest
-    fuel_columns = ['FrameIdentifier', 'NumLaps', 'FuelInTank', 'FuelCapacity','FuelRemainingLaps']
+    fuel_columns = ['FrameIdentifier', 'NumLaps', 'FuelLoad', 'FuelInTank', 'FuelCapacity','FuelRemainingLaps']
 
     ### Cycle over all the times we box
     for key, (sep_start,sep_end) in separators.items():

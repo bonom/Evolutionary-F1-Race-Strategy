@@ -16,6 +16,7 @@ import argparse
 parser = argparse.ArgumentParser(description='Process F1 Data.')
 parser.add_argument('--i', type=int, default=None, help='Car ID')
 parser.add_argument('--c', type=str, default=None, help='Circuit path')
+parser.add_argument('--l', type=int, default=60, help='Laps')
 args = parser.parse_args()
 
 log_dl = get_basic_logger('DataLoad')
@@ -207,7 +208,7 @@ def main():
         car = get_cars(path=circuit_folder,load_path=os.path.join(circuit_folder,'CarSaves'), car_idx=args.i)
         log_main.info("-----------------------  End car loading -----------------------")
         log_main.info("----------------------- Start Evolutions -----------------------")
-        genetic = GeneticSolver(population=1000, mutation_pr=0.5, crossover_pr=0.5, iterations=1000, numLaps=54, car=car)
+        genetic = GeneticSolver(population=100, mutation_pr=0.75, crossover_pr=0.25, iterations=1, numLaps=args.l, car=car)
         strategy, time, vals = genetic.startSolver()
         log_main.info("----------------------- Ended Evolutions -----------------------")
         printStrategy(strategy)
@@ -222,7 +223,7 @@ def main():
         cars = get_cars(path=circuit_folder,load_path=os.path.join(circuit_folder,'CarSaves'))
         
         for i in range(0,20):
-            genetic = GeneticSolver(population=1000, mutation_pr=1, crossover_pr=1, iterations=1, numLaps=54, car=cars[i])
+            genetic = GeneticSolver(population=2, mutation_pr=1, crossover_pr=1, iterations=1, numLaps=args.l, car=cars[i])
             strategy, _, vals = genetic.startSolver()
             printStrategy(strategy)
             df = pd.DataFrame(list(vals.items()), columns=['Generation','Fitness'])
@@ -231,4 +232,3 @@ def main():
 if __name__ == "__main__":
     main() 
     sys.exit(0)
-    
