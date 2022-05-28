@@ -16,15 +16,14 @@ import argparse
 parser = argparse.ArgumentParser(description='Process F1 Data.')
 parser.add_argument('--i', type=int, default=None, help='Car ID')
 parser.add_argument('--c', type=str, default=None, help='Circuit path')
-parser.add_argument('--l', type=int, default=60, help='Laps')
 args = parser.parse_args()
 
 log_dl = get_basic_logger('DataLoad')
 log_main = get_basic_logger('Main')
 
 def printStrategy(strategy):
-    for lap in range(len(strategy['TyreStint'])):
-        log_main.info(f"Lap {lap+1} -> Stint '{strategy['TyreStint'][lap]}', Wear '{round(strategy['TyreWear'][lap]['FL'],2)}'% | '{round(strategy['TyreWear'][lap]['FR'],2)}'% | '{round(strategy['TyreWear'][lap]['RL'],2)}'% | '{round(strategy['TyreWear'][lap]['RR'],2)}'%, Fuel '{round(strategy['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if strategy['PitStop'][lap] else 'No'}', Time '{strategy['LapTime'][lap]}' ms")
+    for lap in range(len(strategy['TyreCompound'])):
+        log_main.info(f"Lap {lap+1} -> Compound '{strategy['TyreCompound'][lap]}', Wear '{round(strategy['TyreWear'][lap]['FL'],2)}'% | '{round(strategy['TyreWear'][lap]['FR'],2)}'% | '{round(strategy['TyreWear'][lap]['RL'],2)}'% | '{round(strategy['TyreWear'][lap]['RR'],2)}'%, Fuel '{round(strategy['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if strategy['PitStop'][lap] else 'No'}', Time '{strategy['LapTime'][lap]}' ms")
 
 def DataLoad(car_id:int=19,folder:str=''): #data_folder:str='Data',circuit:str='',
     """
@@ -195,26 +194,26 @@ def main():
     
     if args.c == '' or args.c is None:
         circuit_folder = os.path.abspath(list_circuits(os.path.abspath('Data')))
+        circuit = circuit_folder.split('/')[-1] if os.name == 'posix' else circuit_folder.split('\\')[-1]
     else:
         circuit_folder = os.path.abspath(args.c)
+        circuit = circuit_folder.split('/')[-1] if os.name == 'posix' else circuit_folder.split('\\')[-1]
 
     if args.i is not None:
-        log_main.info("------------------------- Loading data -------------------------")
+        
         for folder in os.listdir(circuit_folder):
             if folder not in ['.DS_Store', 'CarSaves']:
                 data = DataLoad(args.i, os.path.join(circuit_folder,folder))
-        log_main.info("----------------------- End data loading -----------------------")
-        log_main.info("-------------------------  Car loading -------------------------")
+                
         car = get_cars(path=circuit_folder,load_path=os.path.join(circuit_folder,'CarSaves'), car_idx=args.i)
-        log_main.info("-----------------------  End car loading -----------------------")
-        log_main.info("----------------------- Start Evolutions -----------------------")
-        genetic = GeneticSolver(population=100, mutation_pr=0.75, crossover_pr=0.25, iterations=1, numLaps=args.l, car=car)
+        
+        genetic = GeneticSolver(population=200, mutation_pr=0.9, crossover_pr=0.5, iterations=10000, car=car, circuit=circuit)
         strategy, time, vals = genetic.startSolver()
-        log_main.info("----------------------- Ended Evolutions -----------------------")
+        
         printStrategy(strategy)
         log_main.info(f"Best time: {ms_to_time(time)}")
         df = pd.DataFrame(list(vals.items()), columns=['Generation','Fitness'])
-        (px.line(df, x='Generation', y='Fitness', title="Fitness values",)).show()
+        #(px.line(df, x='Generation', y='Fitness', title="Fitness values",)).show()
     else:
         for folder in os.listdir(circuit_folder):
             for i in range(0,20):
@@ -223,11 +222,11 @@ def main():
         cars = get_cars(path=circuit_folder,load_path=os.path.join(circuit_folder,'CarSaves'))
         
         for i in range(0,20):
-            genetic = GeneticSolver(population=2, mutation_pr=1, crossover_pr=1, iterations=1, numLaps=args.l, car=cars[i])
+            genetic = GeneticSolver(population=2, mutation_pr=1, crossover_pr=1, iterations=1, car=cars[i], circuit=circuit)
             strategy, _, vals = genetic.startSolver()
             printStrategy(strategy)
             df = pd.DataFrame(list(vals.items()), columns=['Generation','Fitness'])
-            (px.line(df, x='Generation', y='Fitness', title="Fitness values",)).show()
+            #(px.line(df, x='Generation', y='Fitness', title="Fitness values",)).show()
 
 if __name__ == "__main__":
     main() 

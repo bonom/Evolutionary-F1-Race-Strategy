@@ -6,18 +6,22 @@ import math
 import sys, os
 from datetime import datetime
 import numpy as np
-import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly
 import socket
 
-STINTS: dict = {
+CIRCUIT: dict = {
+    'Monza': {'Laps': 53, 'PitStopTime':25, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+    'Spielberg' : {'Laps': 71, 'PitStopTime':21, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+    'Montreal' : {'Laps': 70, 'PitStopTime':24, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+}
+
+COMPOUNDS: dict = {
     0: 'Soft',
     1: 'Medium',
     2: 'Hard',
     3: 'Inter',
     4: 'Wet',
-
 }
 
 ACTUAL_COMPOUNDS: dict = {
@@ -114,7 +118,8 @@ class CustomFormatter(logging.Formatter):
     red = "\x1b[31;20m"
     bold_red = "\x1b[31;1m"
     reset = "\x1b[0m"
-    format = datetime.now().strftime("%H:%M:%S")+" - %(name)s - %(levelname)s - %(message)s"
+    format = '%(asctime)s - %(name)s - %(levelname)s: %(message)s'
+    debug_format = '%(asctime)s [%(filename)s:%(lineno)d]: %(message)s'
 
     FORMATS = {
         logging.DEBUG: grey + format + reset,
@@ -126,7 +131,7 @@ class CustomFormatter(logging.Formatter):
 
     def format(self, record):
         log_fmt = self.FORMATS.get(record.levelno)
-        formatter = logging.Formatter(log_fmt)
+        formatter = logging.Formatter(log_fmt, datefmt='%H:%M:%S')
         return formatter.format(record)
 
 class MultiPlot:

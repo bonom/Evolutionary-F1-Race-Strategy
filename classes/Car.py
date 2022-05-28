@@ -8,7 +8,7 @@ from classes.Timing import Timing
 from classes.Tyres import Tyres
 import pandas as pd
 
-from classes.Utils import STINTS, get_basic_logger
+from classes.Utils import COMPOUNDS, get_basic_logger
 log = get_basic_logger('Cars')
 
 def convertMillis(ms):
@@ -129,13 +129,13 @@ class Car:
                 
         for key, val in self.wear_coeff.items():
             if emptyTuple(val):
-                idx = getKey(STINTS, key)
+                idx = getKey(COMPOUNDS, key)
                 
-                if idx is not None and idx < len(STINTS)-1 and not emptyTuple(self.wear_coeff[STINTS[idx-1]]) and not emptyTuple(self.wear_coeff[STINTS[idx+1]]):
-                    self.wear_coeff[key]['FL'] = ((self.wear_coeff[STINTS[idx-1]]['FL'][0]+self.wear_coeff[STINTS[idx+1]]['FL'][0])/2, (self.wear_coeff[STINTS[idx-1]]['FL'][1]+self.wear_coeff[STINTS[idx+1]]['FL'][1])/2)
-                    self.wear_coeff[key]['FR'] = ((self.wear_coeff[STINTS[idx-1]]['FR'][0]+self.wear_coeff[STINTS[idx+1]]['FR'][0])/2, (self.wear_coeff[STINTS[idx-1]]['FR'][1]+self.wear_coeff[STINTS[idx+1]]['FR'][1])/2)
-                    self.wear_coeff[key]['RL'] = ((self.wear_coeff[STINTS[idx-1]]['RL'][0]+self.wear_coeff[STINTS[idx+1]]['RL'][0])/2, (self.wear_coeff[STINTS[idx-1]]['RL'][1]+self.wear_coeff[STINTS[idx+1]]['RL'][1])/2)
-                    self.wear_coeff[key]['RR'] = ((self.wear_coeff[STINTS[idx-1]]['RR'][0]+self.wear_coeff[STINTS[idx+1]]['RR'][0])/2, (self.wear_coeff[STINTS[idx-1]]['RR'][1]+self.wear_coeff[STINTS[idx+1]]['RR'][1])/2)                   
+                if idx is not None and idx < len(COMPOUNDS)-1 and not emptyTuple(self.wear_coeff[COMPOUNDS[idx-1]]) and not emptyTuple(self.wear_coeff[COMPOUNDS[idx+1]]):
+                    self.wear_coeff[key]['FL'] = ((self.wear_coeff[COMPOUNDS[idx-1]]['FL'][0]+self.wear_coeff[COMPOUNDS[idx+1]]['FL'][0])/2, (self.wear_coeff[COMPOUNDS[idx-1]]['FL'][1]+self.wear_coeff[COMPOUNDS[idx+1]]['FL'][1])/2)
+                    self.wear_coeff[key]['FR'] = ((self.wear_coeff[COMPOUNDS[idx-1]]['FR'][0]+self.wear_coeff[COMPOUNDS[idx+1]]['FR'][0])/2, (self.wear_coeff[COMPOUNDS[idx-1]]['FR'][1]+self.wear_coeff[COMPOUNDS[idx+1]]['FR'][1])/2)
+                    self.wear_coeff[key]['RL'] = ((self.wear_coeff[COMPOUNDS[idx-1]]['RL'][0]+self.wear_coeff[COMPOUNDS[idx+1]]['RL'][0])/2, (self.wear_coeff[COMPOUNDS[idx-1]]['RL'][1]+self.wear_coeff[COMPOUNDS[idx+1]]['RL'][1])/2)
+                    self.wear_coeff[key]['RR'] = ((self.wear_coeff[COMPOUNDS[idx-1]]['RR'][0]+self.wear_coeff[COMPOUNDS[idx+1]]['RR'][0])/2, (self.wear_coeff[COMPOUNDS[idx-1]]['RR'][1]+self.wear_coeff[COMPOUNDS[idx+1]]['RR'][1])/2)                   
     
     def compute_wear_time_lose(self,):
         count = {'Soft':0, 'Medium':0, 'Hard':0, 'Inter':0, 'Wet':0}
@@ -221,18 +221,18 @@ class Car:
                 self.tyre_coeff[stint]['RR'] = (RR_coeff_0/val, RR_coeff_1/val)
             
             if val == 0:
-                idx = getKey(STINTS, stint)
-                if idx is not None and idx < len(STINTS)-1 and not emptyTuple(self.tyre_coeff[STINTS[idx-1]]) and not emptyTuple(self.tyre_coeff[STINTS[idx+1]]):
-                    self.tyre_coeff[stint]['FL'] = ((self.tyre_coeff[STINTS[idx-1]]['FL'][0]+self.tyre_coeff[STINTS[idx+1]]['FL'][0])/2, (self.tyre_coeff[STINTS[idx-1]]['FL'][1]+self.tyre_coeff[STINTS[idx+1]]['FL'][1])/2)
-                    self.tyre_coeff[stint]['FR'] = ((self.tyre_coeff[STINTS[idx-1]]['FR'][0]+self.tyre_coeff[STINTS[idx+1]]['FR'][0])/2, (self.tyre_coeff[STINTS[idx-1]]['FR'][1]+self.tyre_coeff[STINTS[idx+1]]['FR'][1])/2)
-                    self.tyre_coeff[stint]['RL'] = ((self.tyre_coeff[STINTS[idx-1]]['RL'][0]+self.tyre_coeff[STINTS[idx+1]]['RL'][0])/2, (self.tyre_coeff[STINTS[idx-1]]['RL'][1]+self.tyre_coeff[STINTS[idx+1]]['RL'][1])/2)
-                    self.tyre_coeff[stint]['RR'] = ((self.tyre_coeff[STINTS[idx-1]]['RR'][0]+self.tyre_coeff[STINTS[idx+1]]['RR'][0])/2, (self.tyre_coeff[STINTS[idx-1]]['RR'][1]+self.tyre_coeff[STINTS[idx+1]]['RR'][1])/2)                   
+                idx = getKey(COMPOUNDS, stint)
+                if idx is not None and idx < len(COMPOUNDS)-1 and not emptyTuple(self.tyre_coeff[COMPOUNDS[idx-1]]) and not emptyTuple(self.tyre_coeff[COMPOUNDS[idx+1]]):
+                    self.tyre_coeff[stint]['FL'] = ((self.tyre_coeff[COMPOUNDS[idx-1]]['FL'][0]+self.tyre_coeff[COMPOUNDS[idx+1]]['FL'][0])/2, (self.tyre_coeff[COMPOUNDS[idx-1]]['FL'][1]+self.tyre_coeff[COMPOUNDS[idx+1]]['FL'][1])/2)
+                    self.tyre_coeff[stint]['FR'] = ((self.tyre_coeff[COMPOUNDS[idx-1]]['FR'][0]+self.tyre_coeff[COMPOUNDS[idx+1]]['FR'][0])/2, (self.tyre_coeff[COMPOUNDS[idx-1]]['FR'][1]+self.tyre_coeff[COMPOUNDS[idx+1]]['FR'][1])/2)
+                    self.tyre_coeff[stint]['RL'] = ((self.tyre_coeff[COMPOUNDS[idx-1]]['RL'][0]+self.tyre_coeff[COMPOUNDS[idx+1]]['RL'][0])/2, (self.tyre_coeff[COMPOUNDS[idx-1]]['RL'][1]+self.tyre_coeff[COMPOUNDS[idx+1]]['RL'][1])/2)
+                    self.tyre_coeff[stint]['RR'] = ((self.tyre_coeff[COMPOUNDS[idx-1]]['RR'][0]+self.tyre_coeff[COMPOUNDS[idx+1]]['RR'][0])/2, (self.tyre_coeff[COMPOUNDS[idx-1]]['RR'][1]+self.tyre_coeff[COMPOUNDS[idx+1]]['RR'][1])/2)                   
                 ### TODO: check if I have a different stint to use (wet, inter)
                 # else:
-                #     self.tyre_coeff[stint]['FL'] = (self.tyre_coeff[STINTS[idx-1]]['FL'][0]+2, self.tyre_coeff[STINTS[idx-1]]['FL'][1]-1)
-                #     self.tyre_coeff[stint]['FR'] = (self.tyre_coeff[STINTS[idx-1]]['FR'][0]+2, self.tyre_coeff[STINTS[idx-1]]['FR'][1]-1)
-                #     self.tyre_coeff[stint]['RL'] = (self.tyre_coeff[STINTS[idx-1]]['RL'][0]+2, self.tyre_coeff[STINTS[idx-1]]['RL'][1]-1)
-                #     self.tyre_coeff[stint]['RR'] = (self.tyre_coeff[STINTS[idx-1]]['RR'][0]+2, self.tyre_coeff[STINTS[idx-1]]['RR'][1]-1)
+                #     self.tyre_coeff[stint]['FL'] = (self.tyre_coeff[COMPOUNDS[idx-1]]['FL'][0]+2, self.tyre_coeff[COMPOUNDS[idx-1]]['FL'][1]-1)
+                #     self.tyre_coeff[stint]['FR'] = (self.tyre_coeff[COMPOUNDS[idx-1]]['FR'][0]+2, self.tyre_coeff[COMPOUNDS[idx-1]]['FR'][1]-1)
+                #     self.tyre_coeff[stint]['RL'] = (self.tyre_coeff[COMPOUNDS[idx-1]]['RL'][0]+2, self.tyre_coeff[COMPOUNDS[idx-1]]['RL'][1]-1)
+                #     self.tyre_coeff[stint]['RR'] = (self.tyre_coeff[COMPOUNDS[idx-1]]['RR'][0]+2, self.tyre_coeff[COMPOUNDS[idx-1]]['RR'][1]-1)
 
     def compute_fuel_coeff(self,):
         fuel_coeff = [-abs(fuel.coeff[0]) for fuel in self.fuel]
@@ -321,6 +321,9 @@ class Car:
         y_RR = coeff1_RR * np.exp(coeff2_RR*lap)
 
         return y_FL + y_FR + y_RL + y_RR
+    
+    def getInitialFuelLoad(self, total_laps:int) -> float:
+        return abs(self.fuel_coeff*total_laps)
     
     def getFuelLoad(self, lap:int, initial_fuel:float) -> float:
         return initial_fuel-abs(self.fuel_coeff*lap)
