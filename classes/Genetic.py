@@ -32,7 +32,8 @@ class GeneticSolver:
         self.numLaps = numLaps
         self.iterations = iterations
         self.car:Car = car
-        self.numPitStop = 0
+        #self.numPitStop = 0
+        
 
         self.mu_decay = 0.99
         self.sigma_decay = 0.99
@@ -43,7 +44,7 @@ class GeneticSolver:
         for i in range(self.population):
             string+=f"---------- Individual {i+1} ----------\n"
             for lap in range(self.numLaps):
-                string+=f"{lap+1}º LapTime: {ms_to_time(self.strategies[i]['LapTime'][lap])} | TyreStint: {self.strategies[i]['TyreStint'][lap]} | TyreWear: {self.strategies[i]['TyreWear'][lap]} | FuelLoad: {self.strategies[i]['FuelLoad'][lap]} | PitStop: {self.strategies[i]['PitStop'][lap]}\n"
+                string+=f"{lap+1}º LapTime: {ms_to_time(self.strategies[i]['LapTime'][lap])} | TyreStint: {self.strategies[i]['TyreStint'][lap]} | TyreWear: {self.strategies[i]['TyreWear'][lap]} | FuelLoad: {self.strategies[i]['FuelLoad'][lap]} | PitStop: {self.strategies[i]['PitStop'][lap]} | LapsStint: {self.strategies[i]['LapsStint'][lap]}\n"
             string+=f"TotalTime: {ms_to_time(self.strategies[i]['TotalTime'])}\n"
             string+="\n"
 
@@ -76,6 +77,25 @@ class GeneticSolver:
             if strategy['PitStop'][i] == True:
                 num_pitstop +=1
         return num_pitstop
+    
+    def countLapsStint(self, strategy: dict):
+        if len(strategy['LapsStint']) == 0:
+            strategy['LapsStint'].append(1)
+            for i in range(1, self.numLaps-1):
+                if strategy['TyreStint'][i] == strategy['TyreStint'][i-1]:
+                    strategy['LapsStint'].append(strategy['LapsStint'][i-1] + 1)
+                else:
+                    strategy['LapsStint'].append(1)
+        #print(strategy['LapsStint'])
+        else:
+            strategy['LapsStint'][0] = 1
+            for i in range(1, self.numLaps-1):
+                if strategy['TyreStint'][i] == strategy['TyreStint'][i-1]:
+                    strategy['LapsStint'][i] = strategy['LapsStint'][i-1] + 1
+                else:
+                    strategy['LapsStint'][i] = 1
+        return strategy
+
 
     def correct_strategy(self, strategy:dict):
         for i in range(1,self.numLaps):
@@ -91,15 +111,46 @@ class GeneticSolver:
                     strategy['LapTime'][j] = self.lapTime(stint, j-i, strategy['FuelLoad'][j], False)
                     j+=1
         
+        strategy['numPitStop'] = self.count_pitstop(strategy)
+        self.countLapsStint(strategy)
         stints = set(strategy['TyreStint'])
         if len(stints) > 0 and strategy['FuelLoad'][-1] >= 1:
             strategy['TotalTime'] = sum(strategy['LapTime'])
         else:
             strategy['TotalTime'] = np.inf
 
-    
-    def mutation(self,child:dict):
-        if random.random() < self.sigma:
+
+    def correct_strategy_pitstop(self, strategy:dict, indexPitStop: int):
+        if indexPitStop == 0:
+            strategy['TyreStint'][0] = strategy['TyreStint'][1]
+            strategy['TyreWear'][0] = self.getTyreWear(strategy['TyreStint'][i], 0)
+            strategy['LapTime'][0] = self.lapTime(strategy['TyreStint'][i], 0, strategy['FuelLoad'][0], False)
+            for j in range(1, self.numLaps -1):
+                if strategy['PitStop'][j] == False:
+                    strategy['TyreStint'][j] = strategy['TyreStint'][j-1]
+                    strategy['TyreWear'][j] = self.getTyreWear(strategy['TyreStint'][j], j)
+                    strategy['LapTime'][j] = self.lapTime(strategy['TyreStint'][j], j, strategy['FuelLoad'][j], False)
+        else:
+            for i in range(indexPitStop, self.numLaps-1):
+                    if strategy['PitStop'][i] == False:
+                        strategy['TyreStint'][i] = strategy['TyreStint'][i-1]
+                        strategy['TyreWear'][i] = self.getTyreWear(strategy['TyreStint'][i], self.countLapsStint(strategy)['LapsStint'][i])
+                        strategy['LapTime'][i] = self.lapTime(strategy['TyreStint'][i], i, strategy['FuelLoad'][i], False)
+                
+
+        #log.debug(strategy['LapTime'][indexPitStop])
+        strategy['numPitStop'] = self.count_pitstop(strategy)
+        #self.countLapsStint(strategy)
+        stints = set(strategy['TyreStint'])
+        if len(stints) > 0 and strategy['FuelLoad'][-1] >= 1:
+            strategy['TotalTime'] = sum(strategy['LapTime'])
+        else:
+            strategy['TotalTime'] = np.inf
+
+
+
+    def mutation_stint(self, child:dict):
+        if random.random() < (self.sigma)/2:
             mutationStint = random.choice(DRY_STINTS)
             iRandom = random.randint(0,len(child['TyreStint'])-1)
             #child['TyreStint'][iRandom] = mutationStint
@@ -108,13 +159,64 @@ class GeneticSolver:
                     child['TyreStint'][i] = mutationStint
                 else:
                     break
+            #for i in range(len(child['TyreStint'])):
+            #    # check for a mutation
+            #    if random.random() < self.sigma:
+            #    	# flip the bit
+            #        if child[]
+            #        child['TyreStint'][i] = random.choice(DRY_STINTS)
+            self.correct_strategy(child) 
+            return child
+
+    def mutation_pitstop(self,child:dict):
+        num_PitStop = 0
+        if random.random() < self.sigma:
+            if child['numPitStop'] != 0:
+                pitstop_random = random.randint(1,child['numPitStop'])
+                for i in range(0, len(child['PitStop'])-1):
+                    if child['PitStop'][i] == True:
+                        num_PitStop +=1
+                        if num_PitStop == pitstop_random:
+                            child['PitStop'][i] = False
+                            indexPitStop = i
+                            self.correct_strategy_pitstop(child, indexPitStop)
+                            break
+                        
+                return child
+            
+
+    def mutation(self,child:dict):
+        numMutation = 0
+        initialChildStint = child
+        initialChildPitStop = child
+        children = []
+        if random.random() < self.sigma:
+            children.append(self.mutation_stint(initialChildStint))
+        
+        if random.random() < self.sigma:
+            children.append(self.mutation_pitstop(initialChildPitStop))
+        
+        return children
+
+
+        #if random.random() < self.sigma:
+        #    mutationStint = random.choice(DRY_STINTS)
+        #    iRandom = random.randint(0,len(child['TyreStint'])-1)
+        #    #child['TyreStint'][iRandom] = mutationStint
+        #    for i in range(iRandom, len(child['TyreStint'])-1):
+        #        if child['PitStop'][i] == False:
+        #            child['TyreStint'][i] = mutationStint
+        #        else:
+        #            break
         #for i in range(len(child['TyreStint'])):
 		#    # check for a mutation
         #    if random.random() < self.sigma:
 		#    	# flip the bit
         #        if child[]
-        #        child['TyreStint'][i] = random.choice(DRY_STINTS)      
-        self.correct_strategy(child)        
+        #        child['TyreStint'][i] = random.choice(DRY_STINTS)  
+        #pitstop_random = random.randint(1,child['numPitStop'])
+
+        #self.correct_strategy(child)        
     
     
     def crossover(self, p1:dict, p2:dict,):
@@ -125,9 +227,14 @@ class GeneticSolver:
             # select crossover point that is not on the end of the string
             pt = random.randint(1, len(p1['TyreStint'])-2)
             # perform crossover
-            c1 = {'TyreStint': p1['TyreStint'][:pt]+p2['TyreStint'][pt:], 'TyreWear': p1['TyreWear'][:pt]+p2['TyreWear'][pt:], 'FuelLoad': p1['FuelLoad'][:pt]+p2['FuelLoad'][pt:], 'PitStop': p1['PitStop'][:pt]+p2['PitStop'][pt:], 'LapTime': p1['LapTime'][:pt]+p2['LapTime'][pt:], 'TotalTime': None}
-            c2 = {'TyreStint': p2['TyreStint'][:pt]+p1['TyreStint'][pt:], 'TyreWear': p2['TyreWear'][:pt]+p1['TyreWear'][pt:], 'FuelLoad': p2['FuelLoad'][:pt]+p1['FuelLoad'][pt:], 'PitStop': p2['PitStop'][:pt]+p1['PitStop'][pt:], 'LapTime': p2['LapTime'][:pt]+p1['LapTime'][pt:], 'TotalTime': None}
+            c1 = {'TyreStint': p1['TyreStint'][:pt]+p2['TyreStint'][pt:], 'TyreWear': p1['TyreWear'][:pt]+p2['TyreWear'][pt:], 'FuelLoad': p1['FuelLoad'][:pt]+p2['FuelLoad'][pt:], 'PitStop': p1['PitStop'][:pt]+p2['PitStop'][pt:], 'LapTime': p1['LapTime'][:pt]+p2['LapTime'][pt:], 'LapsStint': [], 'TotalTime': None}
+            c2 = {'TyreStint': p2['TyreStint'][:pt]+p1['TyreStint'][pt:], 'TyreWear': p2['TyreWear'][:pt]+p1['TyreWear'][pt:], 'FuelLoad': p2['FuelLoad'][:pt]+p1['FuelLoad'][pt:], 'PitStop': p2['PitStop'][:pt]+p1['PitStop'][pt:], 'LapTime': p2['LapTime'][:pt]+p1['LapTime'][pt:], 'LapsStint': [], 'TotalTime': None}
             
+                
+            self.count_pitstop(c1)
+            self.count_pitstop(c2)
+            self.countLapsStint(c1)
+            self.countLapsStint(c2)
             self.correct_strategy(c1)
             self.correct_strategy(c2)
         return [c1, c2]
@@ -154,14 +261,17 @@ class GeneticSolver:
         return population_selected
 
     def randomChild(self,):
-        strategy = {'TyreStint': [], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'TotalTime': np.inf}
+        strategy = {'TyreStint': [], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'LapsStint':[], 'TotalTime': np.inf}
             
         strategy['TyreStint'].append(random.choice(DRY_STINTS))
         strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][0], 0))
-        strategy['FuelLoad'].append(random.randint(80, 120))
+        strategy['FuelLoad'].append(random.randint(100, 120))
         strategy['PitStop'].append(False)
         strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][0], 0, strategy['FuelLoad'][0], False))
+        strategy['LapsStint'].append(0)
         
+            
+
         lap_count = 0
         for i in range(1,self.numLaps):
             lap_count += 1
@@ -169,6 +279,7 @@ class GeneticSolver:
             if strategy['TyreStint'][i] == strategy['TyreStint'][i-1] and strategy['PitStop'][i-1] == False:
                 strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][i], lap_count))
                 strategy['PitStop'].append(False)
+                strategy['LapsStint'].append(0)
                 if overLimit(strategy['TyreWear'][i].values(), 80):
                     strategy['PitStop'].append(True)
                 else:
@@ -177,13 +288,17 @@ class GeneticSolver:
                 lap_count = 0
                 strategy['TyreWear'].append(self.getTyreWear(strategy['TyreStint'][i], lap_count))
                 strategy['PitStop'].append(True)
+                strategy['LapsStint'].append(0)
 
             strategy['FuelLoad'].append(self.getFuelLoad(i, strategy['FuelLoad'][0]))
             strategy['LapTime'].append(self.lapTime(strategy['TyreStint'][i], i, strategy['FuelLoad'][i], strategy['PitStop'][i]))
         
         strategy['NumPitStop'] = self.count_pitstop(strategy)
+        #print(strategy)
+        self.countLapsStint(strategy)
+        #print(strategy)
         stints = set(strategy['TyreStint'])
-
+        
         if len(stints) > 0 and strategy['FuelLoad'][-1] >= 1:
             strategy['TotalTime'] = sum(strategy['LapTime'])
             self.correct_strategy(strategy)
@@ -255,6 +370,7 @@ class GeneticSolver:
         try:
             for gen in range(self.iterations):
                 temp_best, temp_best_eval = 0, pop[0]['TotalTime']
+
                 # evaluate all candidates in the population
                 scores = [c['TotalTime'] for c in pop]
                 # check for new best solution
@@ -283,9 +399,16 @@ class GeneticSolver:
                     # crossover and mutation
                     for c in self.crossover(p1, p2):
                         # mutation
-                        self.mutation(c)
+                        childrenMutated = self.mutation(c)
+                        if len(childrenMutated) != 0:
+                            for l in childrenMutated:
+                                #log.debug(l)
+                                if l is not None:
+                                    children.append(l)
+                        else:
+                            children.append(c)
                         # store for next generation
-                        children.append(c)
+                        #children.append(c)
                 
                 if len(children) < self.population:
                     for _ in range(self.population-len(children)):
