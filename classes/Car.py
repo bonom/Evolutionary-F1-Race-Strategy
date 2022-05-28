@@ -9,7 +9,6 @@ from classes.Tyres import Tyres
 import pandas as pd
 
 from classes.Utils import STINTS, get_basic_logger
-
 log = get_basic_logger('Cars')
 
 def convertMillis(ms):
@@ -145,17 +144,28 @@ class Car:
             deltas = []
             stint = tyre.get_visual_compound()
 
+            for lap, delta in enumerate(time.Deltas):
+                lf = self.fuel_lose * fuel.FuelInTank[fuel.get_frame(lap)]
+                if math.isnan(lf):
+                    lf = self.fuel_lose * fuel.predict_fuelload(lap)
+                deltas.append(delta-lf)
+
+
+            if len(deltas) != len(laps):
+                if len(deltas) < len(laps):
+                    laps = laps[:len(deltas)]
+                else:
+                    deltas = deltas[:len(laps)]
+
             x_FL = [self.getTyreWear(stint,lap)['FL'] for lap in laps]
             x_FR = [self.getTyreWear(stint,lap)['FR'] for lap in laps]
             x_RL = [self.getTyreWear(stint,lap)['RL'] for lap in laps]
             x_RR = [self.getTyreWear(stint,lap)['RR'] for lap in laps]
-
-            for lap, delta in enumerate(time.Deltas):
-                deltas.append(delta-(self.fuel_lose * fuel.FuelInTank[fuel.get_frame(lap)]))
             
             deltas_min = min(deltas)
 
             time_lose = []
+
             for delta in deltas:
                 val = round(delta+abs(deltas_min))
                 time_lose.append(val if val != 0 else 1)
@@ -172,7 +182,7 @@ class Car:
                 z_FR.append(round(fr/total_wear,2))
                 z_RL.append(round(rl/total_wear,2))
                 z_RR.append(round(rr/total_wear,2))
-
+                
             ### y is the time loss due to wear
             y_FL = [tl*z_FL[ydx] for ydx, tl in enumerate(time_lose)]
             y_FR = [tl*z_FR[ydx] for ydx, tl in enumerate(time_lose)]
@@ -225,8 +235,8 @@ class Car:
                 #     self.tyre_coeff[stint]['RR'] = (self.tyre_coeff[STINTS[idx-1]]['RR'][0]+2, self.tyre_coeff[STINTS[idx-1]]['RR'][1]-1)
 
     def compute_fuel_coeff(self,):
-        fuel_coeff = [fuel.coeff[0] for fuel in self.fuel]
-        self.fuel_coeff = sum(fuel_coeff)/len(fuel_coeff)
+        fuel_coeff = [-abs(fuel.coeff[0]) for fuel in self.fuel]
+        self.fuel_coeff = min(fuel_coeff)
 
     def compute_fuel_time_lose(self,):
         time_lose = 0
@@ -234,44 +244,47 @@ class Car:
         idx_1, idx_2 = self.getSameTyres()
         
         if idx_1 is not None and idx_2 is not None:
-            timing_1 = self.timing[idx_1].LapTimes
-            timing_2 = self.timing[idx_2].LapTimes
+            try:    
+                timing_1 = self.timing[idx_1].LapTimes
+                timing_2 = self.timing[idx_2].LapTimes
 
-            fuel_1_df = pd.DataFrame(self.fuel[idx_1].consumption())
-            fuel_2_df = pd.DataFrame(self.fuel[idx_2].consumption())
+                fuel_1_df = pd.DataFrame(self.fuel[idx_1].consumption())
+                fuel_2_df = pd.DataFrame(self.fuel[idx_2].consumption())
 
-            for row in fuel_1_df.index:
-                try:
-                    fuel_1_df.at[row,'Lap'] = round(fuel_1_df.at[row,'Lap'])
-                except KeyError:
-                    pass
-            
-            for row in fuel_2_df.index:
-                try:
-                    fuel_2_df.at[row,'Lap'] = round(fuel_2_df.at[row,'Lap'])
-                except KeyError:
-                    pass
-            
-            fuel_1_df.drop_duplicates(subset=['Lap'], keep='first', inplace=True)
-            fuel_2_df.drop_duplicates(subset=['Lap'], keep='first', inplace=True)
+                for row in fuel_1_df.index:
+                    try:
+                        fuel_1_df.at[row,'Lap'] = round(fuel_1_df.at[row,'Lap'])
+                    except KeyError:
+                        pass
+                
+                for row in fuel_2_df.index:
+                    try:
+                        fuel_2_df.at[row,'Lap'] = round(fuel_2_df.at[row,'Lap'])
+                    except KeyError:
+                        pass
+                
+                fuel_1_df.drop_duplicates(subset=['Lap'], keep='first', inplace=True)
+                fuel_2_df.drop_duplicates(subset=['Lap'], keep='first', inplace=True)
 
-            fuel_1 = list()
-            fuel_2 = list()
+                fuel_1 = list()
+                fuel_2 = list()
 
-            for lap in fuel_1_df['Lap'].values:
-                value = fuel_1_df.loc[fuel_1_df['Lap'] == lap]['Fuel'].values[0]
-                fuel_1.append(value if not math.isnan(value) else fuel_1_df.loc[fuel_1_df['Lap'] == lap+1]['Fuel'].values[0])
-            
-            for lap in fuel_2_df['Lap'].values:
-                value = fuel_2_df.loc[fuel_2_df['Lap'] == lap]['Fuel'].values[0]
-                fuel_2.append(value if not math.isnan(value) else 0)
+                for lap in fuel_1_df['Lap'].values:
+                    value = fuel_1_df.loc[fuel_1_df['Lap'] == lap]['Fuel'].values[0]
+                    fuel_1.append(value if not math.isnan(value) else fuel_1_df.loc[fuel_1_df['Lap'] == lap+1]['Fuel'].values[0])
+                
+                for lap in fuel_2_df['Lap'].values:
+                    value = fuel_2_df.loc[fuel_2_df['Lap'] == lap]['Fuel'].values[0]
+                    fuel_2.append(value if not math.isnan(value) else 0)
 
-            for i in range(min([len(fuel_1), len(fuel_2), len(timing_1), len(timing_2)])):
-                time_lose += abs(timing_1[i] - timing_2[i])
-                fuel_diff += abs(fuel_1[i] - fuel_2[i])
-            
-            self.fuel_lose = round(time_lose/fuel_diff)
-            return
+                for i in range(min([len(fuel_1), len(fuel_2), len(timing_1), len(timing_2)])):
+                    time_lose += abs(timing_1[i] - timing_2[i])
+                    fuel_diff += abs(fuel_1[i] - fuel_2[i])
+                
+                self.fuel_lose = round(time_lose/fuel_diff)
+                return
+            except:
+                pass
         
         log.warning("No same tyres found, using standard fuel time lose coefficient (30 ms/kg)")
         self.fuel_lose = 30
