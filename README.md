@@ -42,3 +42,12 @@ The class is intended to extract and analyze data about fuel usage (it is based 
 ```
 python -B main.py --i 19 --c Data/Monza/ 
 ```
+
+
+
+
+
+# TODO
+1. Read penalty function ASCHEA page 14 of slides 05 [Here](https://didatticaonline.unitn.it/dol/pluginfile.php/1536812/mod_resource/content/7/05.%20Constrained%20Evolutionary%20Algorithms.pdf)
+2. Add weather support
+3. Consider qualifying compounds?
