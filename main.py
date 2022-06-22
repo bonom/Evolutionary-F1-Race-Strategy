@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from classes.Genetic import GeneticSolver
 from classes.Car import get_cars
+from classes.NewCar import get_car_data
 from classes.Timing import Timing, get_timing_data
 from classes.Tyres import Tyres, get_tyres_data
 from classes.Fuel import Fuel, get_fuel_data
@@ -212,6 +213,7 @@ def main():
         
         printStrategy(strategy)
         log_main.info(f"Best time: {ms_to_time(time)}")
+        print(f"Expected: {genetic.basicTiming()}")
         df = pd.DataFrame(list(vals.items()), columns=['Generation','Fitness'])
         #(px.line(df, x='Generation', y='Fitness', title="Fitness values",)).show()
     else:
@@ -229,5 +231,6 @@ def main():
             #(px.line(df, x='Generation', y='Fitness', title="Fitness values",)).show()
 
 if __name__ == "__main__":
-    main() 
+    get_car_data('D:\Projects\Bio-F1\Data\Austria')
+    #main() 
     sys.exit(0)

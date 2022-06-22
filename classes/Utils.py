@@ -11,9 +11,9 @@ import plotly
 import socket
 
 CIRCUIT: dict = {
-    'Monza': {'Laps': 53, 'PitStopTime':25, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
-    'Spielberg' : {'Laps': 71, 'PitStopTime':21, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
-    'Montreal' : {'Laps': 70, 'PitStopTime':24, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+    'Monza': {'Laps': 53, 'PitStopTime':25000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+    'Spielberg' : {'Laps': 71, 'PitStopTime':21000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+    'Montreal' : {'Laps': 70, 'PitStopTime':24000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
 }
 
 COMPOUNDS: dict = {
