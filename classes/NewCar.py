@@ -7,7 +7,29 @@ import pickle
 
 from classes.Utils import get_basic_logger, VISUAL_COMPOUNDS
 
+P0 = {
+    'Soft': (0.1, 270.0),
+    'Medium': (0.075, 330.0),
+    'Hard': (0.06, 455.0),
+    'Inter': (0.05, 800.0),
+    'Wet': (0.04, 800.0)
+}
+
+BOUNDS = {
+    'Soft': ([0.075,250],[0.125,290]),
+    'Medium': ([0.05,305],[0.1,355]),
+    'Hard': ([0.045,430],[0.085,480]),
+    'Inter': ([0.02,600],[1,1000]),
+    'Wet':([0.01,600],[1,1000])
+}
+
+
 log = get_basic_logger('Car')
+
+def exponential_fun(x, a, b):
+    if isinstance(x, np.ndarray):
+        return np.exp(a*x) * b
+    return round(np.exp(a*x) * b)
 
 class Car:
     def __init__(self, data:dict=None, load_path:str=None):
@@ -15,22 +37,26 @@ class Car:
         self.tyre_used:List[str] = []
         self.drs_lose:int = 0
         self.tyre_wear_coeff = {}    
+        self.tyre_coeff = {}
         for key in ['Soft', 'Medium', 'Hard', 'Inter', 'Wet']:
-            self.tyre_wear_coeff[key] = {'FL':[], 'FR':[], 'RL':[], 'RR':[]}
+            self.tyre_wear_coeff[key] = {}
+            self.tyre_coeff[key] = 0
+        
+        ## Fuel lose
 
         if data is not None:
             self.data = data
             self.tyre_used = data.keys()
-            self.drs_lose = self.compute_drs_lose(data)
-            self.tyre_wear = self.compute_tyre_wear(data)
+            self.compute_drs_lose(data)
+            self.compute_tyre_wear_and_time_lose(data)
 
         if load_path is not None:
             self.data = data
             self.tyre_used = data.tyre_used
             self.drs_lose = data.drs_lose
 
-    def compute_drs_lose(self, data:pd.DataFrame):
-        drs_lose = 800
+    def compute_drs_lose(self, data:dict):
+        self.drs_lose = 800
 
         for _, val in data.items():
             if len(val) > 1:
@@ -44,34 +70,54 @@ class Car:
 
                 if len(drs) > 0 and len(no_drs) > 0:
                     max_len = min(len(drs['LapTime'].values), len(no_drs['LapTime'].values))
-                    drs_lose = round(np.mean(np.array(no_drs['LapTime'].values)[:max_len] - np.array(drs['LapTime'].values)[:max_len]))
+                    self.drs_lose = round(np.mean(np.array(no_drs['LapTime'].values)[:max_len] - np.array(drs['LapTime'].values)[:max_len]))
         
 
-        return drs_lose
-
-    def compute_tyre_wear(self, data:pd.DataFrame):
+    def compute_tyre_wear_and_time_lose(self, data:dict):
+        alpha = .1
         tyre_wear = {}    
         for key in ['Soft', 'Medium', 'Hard', 'Inter', 'Wet']:
             tyre_wear[key] = {'FL':[], 'FR':[], 'RL':[], 'RR':[]}
 
         for tyre, val in data.items():
             for t_data in val:
+                tyre_wear[tyre] = {'FL':[], 'FR':[], 'RL':[], 'RR':[]}
                 for fl, fr, rl, rr in t_data[['FLWear', 'FRWear', 'RLWear', 'RRWear']].values:
                     tyre_wear[tyre]['FL'].append(fl)
                     tyre_wear[tyre]['FR'].append(fr) 
                     tyre_wear[tyre]['RL'].append(rl) 
                     tyre_wear[tyre]['RR'].append(rr) 
                 
-                if all(list(self.tyre_wear_coeff[tyre].values()) == []): #####################!!!!!!!!
-                    tyre_wear_coeff_fl = self.tyre_wear_coeff[tyre]['FL']
-                    tyre_wear_coeff_fr = self.tyre_wear_coeff[tyre]['FR']
-                    tyre_wear_coeff_rl = self.tyre_wear_coeff[tyre]['RL']
-                    tyre_wear_coeff_rr = self.tyre_wear_coeff[tyre]['RR']
+                t_wear_coeff = {'FL':0, 'FR':0, 'RL':0, 'RR':0}
+                if len(self.tyre_wear_coeff[tyre]) > 0: # 
+                    t_wear_coeff['FL'] = self.tyre_wear_coeff[tyre]['FL']
+                    t_wear_coeff['FR'] = self.tyre_wear_coeff[tyre]['FR']
+                    t_wear_coeff['RL'] = self.tyre_wear_coeff[tyre]['RL']
+                    t_wear_coeff['RR'] = self.tyre_wear_coeff[tyre]['RR']
 
-                    print(tyre_wear_coeff_fl, tyre_wear_coeff_fr, tyre_wear_coeff_rl, tyre_wear_coeff_rr)
-                    exit()
                 for key in ['FL', 'FR', 'RL', 'RR']:
-                    self.tyre_wear_coeff[tyre][key] = np.polyfit(t_data['Lap'], tyre_wear[tyre][key], 1)
+                    self.tyre_wear_coeff[tyre][key] = np.polyfit(np.arange(1,len(tyre_wear[tyre][key])+1), tyre_wear[tyre][key], 1)
+                    
+                    if not isinstance(t_wear_coeff[key], int):
+                        self.tyre_wear_coeff[tyre][key] = [(self.tyre_wear_coeff[tyre][key][0] + t_wear_coeff[key][0])/2,(self.tyre_wear_coeff[tyre][key][1] + t_wear_coeff[key][1])/2]
+
+                #self.tyre_coeff[tyre],_ = curve_fit(exponential_fun,  np.arange(1,len(softTimeLose)+1), softTimeLose, p0=P0[tyre],  bounds=BOUNDS[tyre], sigma=[round(pow(alpha,i)*time)+1 for i,time in enumerate(softTimeLose)], maxfev=1000)
+        
+        #### CHECK WHAT TO DO IF WEAR COEFFS CANNOT BE COMPUTED
+        ####
+        # 
+        # C'è un problema: va computato il time perso sulla base della percentuale di usura, inutile sapere che dopo 10 giri perdo 10 secondi se ho le gomme al 1% di usura
+        # Va verificato se è esponenziale o lineare, perché ho qualche dubbio 
+        #
+        #### 
+
+    def predict_tyre_wear(self, tyre:str, lap:int):
+        fl = round(self.tyre_wear_coeff[tyre]['FL'][0] * lap + self.tyre_wear_coeff[tyre]['FL'][1])
+        fr = round(self.tyre_wear_coeff[tyre]['FR'][0] * lap + self.tyre_wear_coeff[tyre]['FR'][1])
+        rl = round(self.tyre_wear_coeff[tyre]['RL'][0] * lap + self.tyre_wear_coeff[tyre]['RL'][1])
+        rr = round(self.tyre_wear_coeff[tyre]['RR'][0] * lap + self.tyre_wear_coeff[tyre]['RR'][1])
+
+        return {'FL':fl, 'FR':fr, 'RL':rl, 'RR':rr}
 
 
 
