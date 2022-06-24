@@ -166,7 +166,7 @@ class Car:
                             for x in ['FL', 'FR', 'RL', 'RR']:
                                 self.tyre_wear_coeff[tyre][x] = self.tyre_wear_coeff[tyres[idx-1]][x]*np.exp(-idx-1)+1
                                 all_filled[idx] = True
-                        if idx < len(tyres) and tyre != 'Inter':
+                        if idx+1 < len(tyres) and tyre != 'Inter':
                             if all([self.tyre_wear_coeff[tyres[idx+1]][x] != 0 for x in ['FL', 'FR', 'RL', 'RR']]):
                                 for x in ['FL', 'FR', 'RL', 'RR']:
                                     self.tyre_wear_coeff[tyre][x] = self.tyre_wear_coeff[tyres[idx+1]][x]*np.log(idx+1.25)
@@ -333,21 +333,28 @@ class Car:
 
 def get_nearest_frame(df, frameList):
     framesReturn = []
+    toRemove = []
     for frame in frameList:
         if frame in df['FrameIdentifier'].values:
             framesReturn.append(frame)
         else:
             notFound = True
             add = 1
-            while notFound:
+            while notFound and ((frame + add) < max(df['FrameIdentifier'].values)):
                 if (frame + add) in df['FrameIdentifier'].values:
                     framesReturn.append(frame + add)
                     notFound = False
                 add += 1
+            
+            if notFound:
+                toRemove.append(frame)
 
-    return framesReturn
+    return framesReturn, toRemove
 
 def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[]):
+    if not os.path.isdir(folder):
+        return add_data
+
     lap = pd.read_csv(os.path.join(folder, "Lap.csv"))
     lap = lap.loc[lap["CarIndex"] == 19, ['CurrentLapNum', 'FrameIdentifier', 'LastLapTimeInMS']].drop_duplicates(['FrameIdentifier'], keep="last")
     lap = lap.drop_duplicates(['CurrentLapNum','LastLapTimeInMS'], keep='first').sort_values(by=['FrameIdentifier']).set_index("FrameIdentifier")
@@ -376,28 +383,37 @@ def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[]):
         lap.at[i,'CurrentLapNum'] = int(lap.at[i,'CurrentLapNum'])-sub
 
     lap_frames = lap.index.values
-    
     telemetry = pd.read_csv(os.path.join(folder, "Telemetry.csv"))
     telemetry = telemetry.loc[telemetry["CarIndex"] == 19, ['FrameIdentifier', 'DRS']].drop_duplicates(['FrameIdentifier'], keep="last")
-    telemetry_frames = get_nearest_frame(telemetry, lap_frames)
+    telemetry_frames, remove_frames = get_nearest_frame(telemetry, lap_frames)
+    for frame in remove_frames:
+        lap = lap.drop(frame)
+
     telemetry = telemetry.loc[telemetry['FrameIdentifier'].isin(telemetry_frames)].sort_values(by=['FrameIdentifier']).set_index("FrameIdentifier")
 
+    lap.index = telemetry_frames
     concatData = pd.concat([lap, telemetry], axis=1)
 
     status = pd.read_csv(os.path.join(folder, "Status.csv"))
     status = status.loc[status["CarIndex"] == 19, ['FrameIdentifier','FuelInTank','VisualTyreCompound']].drop_duplicates(['FrameIdentifier'], keep="last")
-    status_frames = get_nearest_frame(status, lap_frames)
+    status_frames, remove_frames = get_nearest_frame(status, concatData.index.values)
+    for frame in remove_frames:
+        concatData = concatData.drop(frame)
+    
     status = status.loc[status['FrameIdentifier'].isin(status_frames), :].sort_values(by=['FrameIdentifier']).set_index("FrameIdentifier")
     
     for i in status.index:
         status.at[i,'VisualTyreCompound'] = VISUAL_COMPOUNDS[status.at[i,'VisualTyreCompound']]
 
-    lap.index = status_frames
+    concatData.index = status_frames
     concatData = pd.concat([concatData, status], axis=1)
 
     damage = pd.read_csv(os.path.join(folder, "Damage.csv"))
     damage = damage.loc[damage["CarIndex"] == 19, ['FrameIdentifier', 'TyresWearFL','TyresWearFR','TyresWearRL','TyresWearRR',]].drop_duplicates(['FrameIdentifier'], keep="last")
-    damage_frames = get_nearest_frame(damage, lap_frames)
+    damage_frames, remove_frames = get_nearest_frame(damage, concatData.index.values)
+    for frame in remove_frames:
+        concatData = concatData.drop(frame)
+
     damage = damage.loc[damage['FrameIdentifier'].isin(damage_frames), :].sort_values(by=['FrameIdentifier']).set_index("FrameIdentifier")
 
     concatData.index = damage_frames
@@ -418,7 +434,7 @@ def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[]):
         sub = min(data['Lap'])-1
         if sub > 0:
             for i in data.index:
-                data.at[i,'Lap'] = int(data.at[i,'Lap'])-sub
+                data.at[i,'Lap'] = round(data.at[i,'Lap'])-sub
 
         ret[tyre].append(data)
 

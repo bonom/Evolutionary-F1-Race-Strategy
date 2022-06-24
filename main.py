@@ -15,7 +15,7 @@ def printStrategy(strategy):
 
 def main():
     if args.c is None:
-        circuits = os.path.abspath(os.listdir('Data'))
+        circuits = [os.path.abspath(os.path.join('Data', path)) for path in os.listdir(os.path.abspath('Data'))]
         if '.DS_Store' in circuits:
             circuits.remove('.DS_Store')
     else:

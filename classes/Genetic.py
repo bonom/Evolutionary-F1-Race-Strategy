@@ -41,7 +41,7 @@ def changeTyre(tyresWear:dict):
     return False
 
 class GeneticSolver:
-    def __init__(self, population:int=2, mutation_pr:float=0.0, crossover_pr:float=0.0, iterations:int=1, car:Car=None, circuit:str='') -> None:
+    def __init__(self, population:int=2, mutation_pr:float=0.0, crossover_pr:float=0.0, iterations:int=1, car:Car=None, circuit:str='', wet_probability:float=0.75) -> None:
         self.pitStopTime = CIRCUIT[circuit]['PitStopTime']
         self.availableTyres = CIRCUIT[circuit]['Tyres']
         self.sigma = mutation_pr
@@ -50,7 +50,7 @@ class GeneticSolver:
         self.numLaps = CIRCUIT[circuit]['Laps']+1
         self.iterations = iterations
         self.car:Car = car
-        self.weather = ['Dry' if random.random() > 0.7 else 'Wet' for i in range(self.numLaps)]
+        self.weather = ['Dry' if random.random() > wet_probability else 'Wet' for i in range(self.numLaps)]
         
         self.mu_decay = 0.99
         self.sigma_decay = 0.99
