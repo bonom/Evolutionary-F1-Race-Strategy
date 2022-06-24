@@ -130,8 +130,4 @@ dmypy.json
 
 .DS_Store
 OLD/
-<<<<<<< HEAD
-=======
-test.py
->>>>>>> 464279e7591385fa1f1e46dc1348bee9e187ec0c
 *.csv
