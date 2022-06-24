@@ -1,418 +1,464 @@
-import math
+from random import SystemRandom
+import pandas as pd
+import numpy as np
 import os
 import pickle
-from typing import Dict, List
-import numpy as np
-from classes.Fuel import Fuel
-from classes.Timing import Timing
-from classes.Tyres import Tyres
-import pandas as pd
+import plotly.express as px
+import math
 
-from classes.Utils import COMPOUNDS, get_basic_logger
-log = get_basic_logger('Cars')
+random = SystemRandom()
 
-def convertMillis(ms):
-    if math.isinf(ms):
-        return f"::. (infinite)"
-    seconds=(ms/1000)%60
-    minutes=(ms/(1000*60))%60
-    hours=(ms/(1000*60*60))%24
-    ms=ms % 1000
+from classes.Utils import get_basic_logger, VISUAL_COMPOUNDS
+
+P0 = {
+    'Soft': (0.1, 270.0),
+    'Medium': (0.075, 330.0),
+    'Hard': (0.06, 455.0),
+    'Inter': (0.05, 800.0),
+    'Wet': (0.04, 800.0)
+}
+
+BOUNDS = {
+    'Soft': ([0.075,250],[0.125,290]),
+    'Medium': ([0.05,305],[0.1,355]),
+    'Hard': ([0.045,430],[0.085,480]),
+    'Inter': ([0.02,600],[1,1000]),
+    'Wet':([0.01,600],[1,1000])
+}
+
+
+log = get_basic_logger('Car')
+
+def lin_exp_fun(x, a, b, c):
+    if x >= 80:
+        return np.exp(a*x) * b
     
-    if int(hours) < 1:
-        return f"{int(minutes)}:{int(seconds)}.{ms}"
-    
-    return f"{int(hours)}:{int(minutes)}:{int(seconds)}.{ms}"
+    return c*x
 
-def emptyTuple(d:dict):
-    for _, val in d.items():
-        if val != (0,0):
-            return False
-    return True
-
-def getKey(dictionary:dict, value:int) -> int:
-    for key, val in dictionary.items():
-        if val == value:
-            return key
-    
-    return None
+def linear_fun(x, a):
+    if isinstance(x, np.ndarray):
+        return a*x
+    return round(a*x)
 
 class Car:
-    def __init__(self,base_path:str=None, car_id:int=None, load_path:str=None):
-        if load_path is None:
-            self.car_id = car_id
-            self.fuel_lose:float = 0.0 # ms lose per kg
-            self.fuel_coeff = (0,0) # coefficients for fuel consumption (should be decreasing => negative)
-            self.wear_coeff = {'Soft':None, 'Medium':None, 'Hard':None, 'Inter':None, 'Wet':None} # coefficients for tyre wear (linear)
-            self.tyre_coeff = {'Soft':None, 'Medium':None, 'Hard':None, 'Inter':None, 'Wet':None} # coefficients for ms lose per wear (exponential)
-            self.fuel:List[Fuel] = list()
-            self.tyres:List[Tyres] = list()
-            self.timing:List[Timing] = list()
+    def __init__(self, data:dict=None, load_path:str=None):
+        self.data = None
+        self.tyre_used:list = []
+        self.drs_lose:int = 0
+        self.fuel_lose:int = 0
+        self.fuel_consume_coeff:dict = {}
+        self.time_diff:dict = {}
+        self.tyre_wear_coeff:dict = {}
+        self.tyre_coeff:dict = {}
+        
+        
+        if data is not None:
+            self.data = data
+            self.drs_lose:int = random.randint(500,800)
+            self.fuel_lose = random.randint(28,32)
+            self.fuel_consume_coeff = {'Dry':0, 'Wet':0}
+            self.time_diff = {'Medium':600, 'Hard':1100, 'Inter':6000, 'Wet':9000}
+            self.tyre_coeff = {'Soft':{'FL':13, 'FR':13, 'RL':14, 'RR':14}, 'Medium':{'FL':11, 'FR':11, 'RL':12, 'RR':12}, 'Hard':{'FL':9, 'FR':9, 'RL':10, 'RR':10}, 'Inter':{'FL':6, 'FR':6, 'RL':5, 'RR':5}, 'Wet':{'FL':4, 'FR':4, 'RL':3, 'RR':3}}
+            for key in ['Soft', 'Medium', 'Hard', 'Inter', 'Wet']:
+                self.tyre_wear_coeff[key] = {'FL':0, 'FR':0, 'RL':0, 'RR':0}
 
-            _base_:dict = {'FL':(0,0), 'FR':(0,0), 'RL':(0,0), 'RR':(0,0)}
-            for key, _ in self.wear_coeff.items():
-                self.wear_coeff[key] = _base_.copy()
-                self.tyre_coeff[key] = _base_.copy()
+            self.extract_tyre_used(data)
+            self.compute_fuel_lose(data)
+            self.compute_fuel_consume_coeff(data)
+            self.compute_drs_lose(data)
+            self.compute_tyre_wear_and_time_lose(data)  
+            self.compute_time_compound(data)
 
-            if base_path is not None:
-                self.add(base_path, car_id)
-        else:
-            data:Car = self.load(load_path)
-            self.car_id:int = data.car_id
-            self.fuel_lose:float = data.fuel_lose
-            self.fuel_coeff:tuple = data.fuel_coeff
-            self.wear_coeff:dict = data.wear_coeff
-            self.tyre_coeff:dict = data.tyre_coeff
-            self.fuel:List[Fuel] = data.fuel
-            self.tyres:List[Tyres] = data.tyres
-            self.timing:List[Timing] = data.timing
-
-    def add(self,base_path:str, car_id:int):
-        folders = os.listdir(base_path)
-        if 'CarSaves' in folders:
-            folders.remove('CarSaves')
-
-        for folder in folders:
-            path = os.path.join(base_path,folder+"/Saves/"+str(car_id))
-            if not os.path.exists(path):
-                print("Car {} does not exist in '{}'".format(car_id, path))
-                return 
-
-            fuel_data = list()
-            tyres_data = list()
-            timing_data = list()
-
-            for file in os.listdir(path):
-                if file.endswith(".json"):
-                    if file.startswith("Fuel"):
-                        fuel_data.append(file)
-                    elif file.startswith("Timing"):
-                        timing_data.append(file)
-                    elif file.startswith("Tyres"):
-                        tyres_data.append(file)
-
-            for file in fuel_data:
-                self.fuel.append(Fuel(load_path=os.path.join(path,file)))
-            for file in timing_data:
-                self.timing.append(Timing(load_path=os.path.join(path,file)))
-            for file in tyres_data:
-                self.tyres.append(Tyres(load_path=os.path.join(path,file)))
-
-
-        self.compute_fuel_coeff()
-        self.compute_wear_coeff()
-        self.compute_fuel_time_lose()
-        self.compute_wear_time_lose()
-
-    def compute_wear_coeff(self,):
-        count = {'Soft':0, 'Medium':0, 'Hard':0, 'Inter':0, 'Wet':0}
-
-        for key, _ in self.wear_coeff.items():
-            for tyre in self.tyres:
-                if tyre.get_visual_compound() == key:
-                    if emptyTuple(self.wear_coeff[key]):
-                        self.wear_coeff[key] = tyre.wear_coeff
-                        count[key] += 1
-                    else:
-                        self.wear_coeff[key]['FL'] = (self.wear_coeff[key]['FL'][0]+tyre.wear_coeff['FL'][0], self.wear_coeff[key]['FL'][1]+tyre.wear_coeff['FL'][1])
-                        self.wear_coeff[key]['FR'] = (self.wear_coeff[key]['FR'][0]+tyre.wear_coeff['FR'][0], self.wear_coeff[key]['FR'][1]+tyre.wear_coeff['FR'][1])
-                        self.wear_coeff[key]['RL'] = (self.wear_coeff[key]['RL'][0]+tyre.wear_coeff['RL'][0], self.wear_coeff[key]['RL'][1]+tyre.wear_coeff['RL'][1])
-                        self.wear_coeff[key]['RR'] = (self.wear_coeff[key]['RR'][0]+tyre.wear_coeff['RR'][0], self.wear_coeff[key]['RR'][1]+tyre.wear_coeff['RR'][1])
-                        count[key] += 1
-                        
-        for key, _ in self.wear_coeff.items():
-            if count[key] > 1:
-                self.wear_coeff[key]['FL'] = (self.wear_coeff[key]['FL'][0]/count[key], self.wear_coeff[key]['FL'][1]/count[key])
-                self.wear_coeff[key]['FR'] = (self.wear_coeff[key]['FR'][0]/count[key], self.wear_coeff[key]['FR'][1]/count[key])
-                self.wear_coeff[key]['RL'] = (self.wear_coeff[key]['RL'][0]/count[key], self.wear_coeff[key]['RL'][1]/count[key])
-                self.wear_coeff[key]['RR'] = (self.wear_coeff[key]['RR'][0]/count[key], self.wear_coeff[key]['RR'][1]/count[key])
-                
-        for key, val in self.wear_coeff.items():
-            if emptyTuple(val):
-                idx = getKey(COMPOUNDS, key)
-                
-                if idx is not None and idx < len(COMPOUNDS)-1 and not emptyTuple(self.wear_coeff[COMPOUNDS[idx-1]]) and not emptyTuple(self.wear_coeff[COMPOUNDS[idx+1]]):
-                    self.wear_coeff[key]['FL'] = ((self.wear_coeff[COMPOUNDS[idx-1]]['FL'][0]+self.wear_coeff[COMPOUNDS[idx+1]]['FL'][0])/2, (self.wear_coeff[COMPOUNDS[idx-1]]['FL'][1]+self.wear_coeff[COMPOUNDS[idx+1]]['FL'][1])/2)
-                    self.wear_coeff[key]['FR'] = ((self.wear_coeff[COMPOUNDS[idx-1]]['FR'][0]+self.wear_coeff[COMPOUNDS[idx+1]]['FR'][0])/2, (self.wear_coeff[COMPOUNDS[idx-1]]['FR'][1]+self.wear_coeff[COMPOUNDS[idx+1]]['FR'][1])/2)
-                    self.wear_coeff[key]['RL'] = ((self.wear_coeff[COMPOUNDS[idx-1]]['RL'][0]+self.wear_coeff[COMPOUNDS[idx+1]]['RL'][0])/2, (self.wear_coeff[COMPOUNDS[idx-1]]['RL'][1]+self.wear_coeff[COMPOUNDS[idx+1]]['RL'][1])/2)
-                    self.wear_coeff[key]['RR'] = ((self.wear_coeff[COMPOUNDS[idx-1]]['RR'][0]+self.wear_coeff[COMPOUNDS[idx+1]]['RR'][0])/2, (self.wear_coeff[COMPOUNDS[idx-1]]['RR'][1]+self.wear_coeff[COMPOUNDS[idx+1]]['RR'][1])/2)                   
+        if load_path is not None:
+            data = self.load(load_path)
+            self.data = data.data
+            self.tyre_used = data.tyre_used
+            self.drs_lose = data.drs_lose
+            self.fuel_lose = data.fuel_lose
+            self.fuel_consume_coeff = data.fuel_consume_coeff
+            self.tyre_wear_coeff = data.tyre_wear_coeff
+            self.tyre_coeff = data.tyre_coeff
+            self.time_diff = data.time_diff
     
-    def compute_wear_time_lose(self,):
-        count = {'Soft':0, 'Medium':0, 'Hard':0, 'Inter':0, 'Wet':0}
-        for time, fuel, tyre in zip(self.timing, self.fuel, self.tyres):       
-            laps = list(time.lap_frames.keys())[1:-1]
-            deltas = []
-            stint = tyre.get_visual_compound()
+    def extract_tyre_used(self, data:dict):
+        for key in data.keys():
+            self.tyre_used.append(key)
 
-            for lap, delta in enumerate(time.Deltas):
-                lf = self.fuel_lose * fuel.FuelInTank[fuel.get_frame(lap)]
-                if math.isnan(lf):
-                    lf = self.fuel_lose * fuel.predict_fuelload(lap)
-                deltas.append(delta-lf)
+    def compute_fuel_lose(self, data:dict):
+        for _, val in data.items():
+            if len(val) > 1:
+                fuel_lists = []
+                time_list = []
+                drs = []
+                for idx, t_data in enumerate(val):
+                    fuel_lists.append(t_data['Fuel'].values)
+                    time_list.append(t_data['LapTime'].values)
+                    if any(t_data['DRS'] == True):
+                        drs.append(idx)
+                
+                for i, fi_data in enumerate(fuel_lists):
+                    for j, fj_data in enumerate(fuel_lists[i:]):
+                        if round(fi_data[0]) != round(fj_data[0]):
+                            time_diff = []
+                            for x in range(min(len(time_list[i]), len(time_list[j]))):
+                                if (i in drs and j not in drs) or (j in drs and i not in drs):
+                                    time_diff.append(time_list[i][x]-time_list[j][x]-self.drs_lose)
+                                else:
+                                    time_diff.append(time_list[i][x]-time_list[j][x])
+                                    
+                            fuel_diff = [fi_data[x] - fj_data[x] for x in range(min(len(fi_data), len(fj_data)))]
+                
+                            if self.fuel_lose == 0:
+                                self.fuel_lose = np.mean(time_diff)/np.mean(fuel_diff) #Check formula
+                            else:
+                                old_fuel_lose = self.fuel_lose
+                                self.fuel_lose = round((old_fuel_lose+(np.mean(time_diff)/np.mean(fuel_diff)))/2)
 
+    def compute_drs_lose(self, data:dict):
+        for _, val in data.items():
+            if len(val) > 1:
+                drs = []
+                no_drs = []
+                for t_data in val:
+                    if any(t_data['DRS'] == True):
+                        drs = t_data[t_data['DRS'] == True]
+                    if any(t_data['DRS'] == False): 
+                        no_drs = t_data[t_data['DRS'] == False]
 
-            if len(deltas) != len(laps):
-                if len(deltas) < len(laps):
-                    laps = laps[:len(deltas)]
+                if len(drs) > 0 and len(no_drs) > 0:
+                    max_len = min(len(drs['LapTime'].values), len(no_drs['LapTime'].values))
+
+                    ### Remove the time lost due to fuel component
+                    drs_time = [x-self.predict_fuel_time_lose(fuel) for x, fuel in zip(drs['LapTime'].values[:max_len], drs['Fuel'].values[:max_len])]
+                    no_drs_time = [x-self.predict_fuel_time_lose(fuel) for x, fuel in zip(no_drs['LapTime'].values[:max_len], no_drs['Fuel'].values[:max_len])]
+                    
+                    self.drs_lose = abs(round(np.mean(np.array(drs_time)-np.array(no_drs_time))))
+    
+    def compute_fuel_consume_coeff(self, data:dict):
+        fuel_consume = {'Dry':[], 'Wet':[]}
+        for tyre, val in data.items():
+            if tyre in ['Soft', 'Medium', 'Hard']:
+                for t_data in val:
+                    fuel_consume['Dry'].append(t_data['Fuel'].values)
+            elif tyre in ['Inter', 'Wet']:
+                for t_data in val:
+                    fuel_consume['Wet'].append(t_data['Fuel'].values)
+
+        for key, vals in fuel_consume.items():
+            for consume in vals:
+                coefficients = np.polyfit(np.arange(1,len(consume)+1), consume, 1)
+                
+                if self.fuel_consume_coeff[key] == 0:
+                    self.fuel_consume_coeff[key] = coefficients[0]
                 else:
-                    deltas = deltas[:len(laps)]
+                    old_coeff = self.fuel_consume_coeff[key]
+                    self.fuel_consume_coeff[key] = (old_coeff+coefficients[0])/2
 
-            x_FL = [self.getTyreWear(stint,lap)['FL'] for lap in laps]
-            x_FR = [self.getTyreWear(stint,lap)['FR'] for lap in laps]
-            x_RL = [self.getTyreWear(stint,lap)['RL'] for lap in laps]
-            x_RR = [self.getTyreWear(stint,lap)['RR'] for lap in laps]
-            
-            deltas_min = min(deltas)
+    def compute_missing_wear_coeff(self,):
+        tyres = ['Soft', 'Medium', 'Hard', 'Inter', 'Wet']
+        all_filled = [False for _ in tyres]
+        while not all(all_filled):
+            for idx, tyre in enumerate(tyres):
+                if any([self.tyre_wear_coeff[tyre][x] == 0 for x in ['FL', 'FR', 'RL', 'RR']]):
+                    ### Check if data are available, otherwise we will compute them afterwards the next while cycle
+                    if idx > 0:
+                        if all([self.tyre_wear_coeff[tyres[idx-1]][x] != 0 for x in ['FL', 'FR', 'RL', 'RR']]):
+                            for x in ['FL', 'FR', 'RL', 'RR']:
+                                self.tyre_wear_coeff[tyre][x] = self.tyre_wear_coeff[tyres[idx-1]][x]*np.exp(-idx-1)+1
+                                all_filled[idx] = True
+                        if idx < len(tyres) and tyre != 'Inter':
+                            if all([self.tyre_wear_coeff[tyres[idx+1]][x] != 0 for x in ['FL', 'FR', 'RL', 'RR']]):
+                                for x in ['FL', 'FR', 'RL', 'RR']:
+                                    self.tyre_wear_coeff[tyre][x] = self.tyre_wear_coeff[tyres[idx+1]][x]*np.log(idx+1.25)
+                                    all_filled[idx] = True
+                    else:
+                        if all([self.tyre_wear_coeff[tyres[idx+1]][x] != 0 for x in ['FL', 'FR', 'RL', 'RR']]):
+                            for x in ['FL', 'FR', 'RL', 'RR']:
+                                self.tyre_wear_coeff[tyre][x] = self.tyre_wear_coeff[tyres[idx+1]][x]*np.log(idx+1.25)
+                                all_filled[idx] = True
+                else:
+                    all_filled[idx] = True
 
-            time_lose = []
+    def compute_tyre_wear_and_time_lose(self, data:dict):
+        tyre_wear = {}    
+        for key in ['Soft', 'Medium', 'Hard', 'Inter', 'Wet']:
+            tyre_wear[key] = {'FL':[], 'FR':[], 'RL':[], 'RR':[]}
 
-            for delta in deltas:
-                val = round(delta+abs(deltas_min))
-                time_lose.append(val if val != 0 else 1)
-            
-            ### z is the contribution of the wear to the time loss
-            z_FL = []
-            z_FR = []
-            z_RL = []
-            z_RR = []
-            
-            for fl, fr, rl, rr in zip(x_FL, x_FR, x_RL, x_RR):
-                total_wear = fl + fr + rl + rr
-                z_FL.append(round(fl/total_wear,2))
-                z_FR.append(round(fr/total_wear,2))
-                z_RL.append(round(rl/total_wear,2))
-                z_RR.append(round(rr/total_wear,2))
+        for tyre, val in data.items():
+            for t_data in val:
+                tyre_wear[tyre] = {'FL':[], 'FR':[], 'RL':[], 'RR':[]}
+                for fl, fr, rl, rr in t_data[['FLWear', 'FRWear', 'RLWear', 'RRWear']].values:
+                    tyre_wear[tyre]['FL'].append(fl)
+                    tyre_wear[tyre]['FR'].append(fr) 
+                    tyre_wear[tyre]['RL'].append(rl) 
+                    tyre_wear[tyre]['RR'].append(rr) 
                 
-            ### y is the time loss due to wear
-            y_FL = [tl*z_FL[ydx] for ydx, tl in enumerate(time_lose)]
-            y_FR = [tl*z_FR[ydx] for ydx, tl in enumerate(time_lose)]
-            y_RL = [tl*z_RL[ydx] for ydx, tl in enumerate(time_lose)]
-            y_RR = [tl*z_RR[ydx] for ydx, tl in enumerate(time_lose)]
+                t_wear_coeff = {'FL':0, 'FR':0, 'RL':0, 'RR':0}
+                if len(self.tyre_wear_coeff[tyre]) > 0: # 
+                    t_wear_coeff['FL'] = self.tyre_wear_coeff[tyre]['FL']
+                    t_wear_coeff['FR'] = self.tyre_wear_coeff[tyre]['FR']
+                    t_wear_coeff['RL'] = self.tyre_wear_coeff[tyre]['RL']
+                    t_wear_coeff['RR'] = self.tyre_wear_coeff[tyre]['RR']
 
-            FL_wear_lose = np.polyfit(x_FL, np.log(y_FL), 1, w=np.sqrt(y_FL))
-            FR_wear_lose = np.polyfit(x_FR, np.log(y_FR), 1, w=np.sqrt(y_FR))
-            RL_wear_lose = np.polyfit(x_RL, np.log(y_RL), 1, w=np.sqrt(y_RL))
-            RR_wear_lose = np.polyfit(x_RR, np.log(y_RR), 1, w=np.sqrt(y_RR))
+                weighted_times = {'FL':[], 'FR':[], 'RL':[], 'RR':[]}
+                drs = any(t_data['DRS'] == True)
+                if not drs:
+                    times = [x-self.predict_fuel_time_lose(fuel) for x, fuel in zip(t_data['LapTime'].values, t_data['Fuel'].values)]
+                else:
+                    times = [x-self.predict_fuel_time_lose(fuel)-self.drs_lose for x, fuel in zip(t_data['LapTime'].values, t_data['Fuel'].values)]
+                best_time = min(times)
+                
+                for i,time in enumerate(times):
+                    wear_sum = 0
+                    for key in ['FL', 'FR', 'RL', 'RR']:
+                        wear_sum += tyre_wear[tyre][key][i]
 
-            if self.tyre_coeff[stint] == 0:
-                self.tyre_coeff[stint] = {'FL':(FL_wear_lose[1],FL_wear_lose[0]), 'FR':(FR_wear_lose[1],FR_wear_lose[0]), 'RL':RL_wear_lose, 'RR':RR_wear_lose}
+                    for key in ['FL', 'FR', 'RL', 'RR']:
+                        weighted_times[key].append(round((time-best_time)*tyre_wear[tyre][key][i]/wear_sum))
+                   
+
+                for key in ['FL', 'FR', 'RL', 'RR']:
+                    old_coeff = 0
+                    if self.tyre_wear_coeff[tyre][key] != 0:
+                        old_coeff = self.tyre_wear_coeff[tyre][key]
+                    new_coeff = np.polyfit(np.arange(1,len(tyre_wear[tyre][key])+1), tyre_wear[tyre][key], 1)
+                    self.tyre_wear_coeff[tyre][key] = new_coeff[0] if old_coeff == 0 else (old_coeff+new_coeff[0])/2
+
+                    old_coeff = 0
+                    if self.tyre_coeff[tyre][key] != 0:
+                        old_coeff = self.tyre_coeff[tyre][key]
+                    
+                    mu = 0
+                    sigma = 0
+                    _w = [0]
+                    for idx, time in enumerate(weighted_times[key][1:-1]):
+                        mu = round((weighted_times[key][idx] + weighted_times[key][idx+2])/2)
+                        sigma = abs(mu-time)
+                        weight = abs(1 - (sigma/100))/100 * pow(idx+1, 1.1)
+                        _w.append(weight)
+
+                    last_w = abs((weighted_times[key][-1]-weighted_times[key][-2])/100)/100*pow(len(weighted_times[key]), 1.5)
+                    _w.append(last_w if last_w > 0 else 0)
+                    new_coeff = abs(np.polyfit(tyre_wear[tyre][key], weighted_times[key], 1, w=_w))
+                    
+                    self.tyre_coeff[tyre][key] = new_coeff[0] if old_coeff == 0 else (old_coeff+new_coeff[0])/2
+                    
+        self.compute_missing_wear_coeff()
+    
+    def compute_time_compound(self, data:pd.DataFrame):
+        soft = data['Soft']
+        best = {'Soft':np.inf, 'Medium':np.inf, 'Hard':np.inf, 'Inter':np.inf, 'Wet':np.inf}
+        for df in soft:
+            times = [x-self.predict_fuel_time_lose(fuel)-self.predict_tyre_time_lose('Soft',lap)['Total'] for x, fuel, lap in zip(df['LapTime'].values, df['Fuel'].values, df['Lap'].values)]
+            if all(df['DRS'] == False):
+                times = [x-self.drs_lose for x in times]
+            best['Soft'] = min(times) if math.isinf(best['Soft']) else (best['Soft']+min(times))/2
+        
+        for tyre, val in data.items():
+            if tyre != 'Soft':
+                for t_data in val:
+                    times = [x-self.predict_fuel_time_lose(fuel)-self.predict_tyre_time_lose(tyre,lap)['Total'] for x, fuel, lap in zip(t_data['LapTime'].values, t_data['Fuel'].values, t_data['Lap'].values)]
+                    if all(t_data['DRS'] == False) and tyre not in ['Wet', 'Inter']:
+                        times = [x-self.drs_lose for x in times]
+                    best[tyre] = min(times) if math.isinf(best[tyre]) else (best[tyre]+min(times))/2
+        
+        for tyre, bestLap in best.items():
+            if tyre == "Soft":
+                self.time_diff[tyre] = bestLap
             else:
-                FL_coeff_0, FL_coeff_1 = self.tyre_coeff[stint]['FL']
-                FR_coeff_0, FR_coeff_1 = self.tyre_coeff[stint]['FR']
-                RL_coeff_0, RL_coeff_1 = self.tyre_coeff[stint]['RL']
-                RR_coeff_0, RR_coeff_1 = self.tyre_coeff[stint]['RR']
-                self.tyre_coeff[stint]['FL'] = (FL_coeff_0+FL_wear_lose[1],FL_coeff_1+FL_wear_lose[0])
-                self.tyre_coeff[stint]['FR'] = (FR_coeff_0+FR_wear_lose[1],FR_coeff_1+FR_wear_lose[0])
-                self.tyre_coeff[stint]['RL'] = (RL_coeff_0+RL_wear_lose[1],RL_coeff_1+RL_wear_lose[0])
-                self.tyre_coeff[stint]['RR'] = (RR_coeff_0+RR_wear_lose[1],RR_coeff_1+RR_wear_lose[0])
-            
-            count[stint] += 1
-
-        for stint, val in count.items():
-            if val > 0:
-                FL_coeff_0, FL_coeff_1 = self.tyre_coeff[stint]['FL']
-                FR_coeff_0, FR_coeff_1 = self.tyre_coeff[stint]['FR']
-                RL_coeff_0, RL_coeff_1 = self.tyre_coeff[stint]['RL']
-                RR_coeff_0, RR_coeff_1 = self.tyre_coeff[stint]['RR']
-
-                self.tyre_coeff[stint]['FL'] = (FL_coeff_0/val, FL_coeff_1/val)
-                self.tyre_coeff[stint]['FR'] = (FR_coeff_0/val, FR_coeff_1/val)
-                self.tyre_coeff[stint]['RL'] = (RL_coeff_0/val, RL_coeff_1/val)
-                self.tyre_coeff[stint]['RR'] = (RR_coeff_0/val, RR_coeff_1/val)
-            
-            if val == 0:
-                idx = getKey(COMPOUNDS, stint)
-                if idx is not None and idx < len(COMPOUNDS)-1 and not emptyTuple(self.tyre_coeff[COMPOUNDS[idx-1]]) and not emptyTuple(self.tyre_coeff[COMPOUNDS[idx+1]]):
-                    self.tyre_coeff[stint]['FL'] = ((self.tyre_coeff[COMPOUNDS[idx-1]]['FL'][0]+self.tyre_coeff[COMPOUNDS[idx+1]]['FL'][0])/2, (self.tyre_coeff[COMPOUNDS[idx-1]]['FL'][1]+self.tyre_coeff[COMPOUNDS[idx+1]]['FL'][1])/2)
-                    self.tyre_coeff[stint]['FR'] = ((self.tyre_coeff[COMPOUNDS[idx-1]]['FR'][0]+self.tyre_coeff[COMPOUNDS[idx+1]]['FR'][0])/2, (self.tyre_coeff[COMPOUNDS[idx-1]]['FR'][1]+self.tyre_coeff[COMPOUNDS[idx+1]]['FR'][1])/2)
-                    self.tyre_coeff[stint]['RL'] = ((self.tyre_coeff[COMPOUNDS[idx-1]]['RL'][0]+self.tyre_coeff[COMPOUNDS[idx+1]]['RL'][0])/2, (self.tyre_coeff[COMPOUNDS[idx-1]]['RL'][1]+self.tyre_coeff[COMPOUNDS[idx+1]]['RL'][1])/2)
-                    self.tyre_coeff[stint]['RR'] = ((self.tyre_coeff[COMPOUNDS[idx-1]]['RR'][0]+self.tyre_coeff[COMPOUNDS[idx+1]]['RR'][0])/2, (self.tyre_coeff[COMPOUNDS[idx-1]]['RR'][1]+self.tyre_coeff[COMPOUNDS[idx+1]]['RR'][1])/2)                   
-                ### TODO: check if I have a different stint to use (wet, inter)
-                # else:
-                #     self.tyre_coeff[stint]['FL'] = (self.tyre_coeff[COMPOUNDS[idx-1]]['FL'][0]+2, self.tyre_coeff[COMPOUNDS[idx-1]]['FL'][1]-1)
-                #     self.tyre_coeff[stint]['FR'] = (self.tyre_coeff[COMPOUNDS[idx-1]]['FR'][0]+2, self.tyre_coeff[COMPOUNDS[idx-1]]['FR'][1]-1)
-                #     self.tyre_coeff[stint]['RL'] = (self.tyre_coeff[COMPOUNDS[idx-1]]['RL'][0]+2, self.tyre_coeff[COMPOUNDS[idx-1]]['RL'][1]-1)
-                #     self.tyre_coeff[stint]['RR'] = (self.tyre_coeff[COMPOUNDS[idx-1]]['RR'][0]+2, self.tyre_coeff[COMPOUNDS[idx-1]]['RR'][1]-1)
-
-    def compute_fuel_coeff(self,):
-        fuel_coeff = [-abs(fuel.coeff[0]) for fuel in self.fuel]
-        self.fuel_coeff = min(fuel_coeff)
-
-    def compute_fuel_time_lose(self,):
-        time_lose = 0
-        fuel_diff = 0
-        idx_1, idx_2 = self.getSameTyres()
+                self.time_diff[tyre] = bestLap-best['Soft']
         
-        if idx_1 is not None and idx_2 is not None:
-            try:    
-                timing_1 = self.timing[idx_1].LapTimes
-                timing_2 = self.timing[idx_2].LapTimes
-
-                fuel_1_df = pd.DataFrame(self.fuel[idx_1].consumption())
-                fuel_2_df = pd.DataFrame(self.fuel[idx_2].consumption())
-
-                for row in fuel_1_df.index:
-                    try:
-                        fuel_1_df.at[row,'Lap'] = round(fuel_1_df.at[row,'Lap'])
-                    except KeyError:
-                        pass
-                
-                for row in fuel_2_df.index:
-                    try:
-                        fuel_2_df.at[row,'Lap'] = round(fuel_2_df.at[row,'Lap'])
-                    except KeyError:
-                        pass
-                
-                fuel_1_df.drop_duplicates(subset=['Lap'], keep='first', inplace=True)
-                fuel_2_df.drop_duplicates(subset=['Lap'], keep='first', inplace=True)
-
-                fuel_1 = list()
-                fuel_2 = list()
-
-                for lap in fuel_1_df['Lap'].values:
-                    value = fuel_1_df.loc[fuel_1_df['Lap'] == lap]['Fuel'].values[0]
-                    fuel_1.append(value if not math.isnan(value) else fuel_1_df.loc[fuel_1_df['Lap'] == lap+1]['Fuel'].values[0])
-                
-                for lap in fuel_2_df['Lap'].values:
-                    value = fuel_2_df.loc[fuel_2_df['Lap'] == lap]['Fuel'].values[0]
-                    fuel_2.append(value if not math.isnan(value) else 0)
-
-                for i in range(min([len(fuel_1), len(fuel_2), len(timing_1), len(timing_2)])):
-                    time_lose += abs(timing_1[i] - timing_2[i])
-                    fuel_diff += abs(fuel_1[i] - fuel_2[i])
-                
-                self.fuel_lose = round(time_lose/fuel_diff)
-                return
-            except:
-                pass
+    def plot_tyres_time_lose(self,):
+        lim_max = 51
+        df = pd.DataFrame(columns=['Lap', 'Compound', 'TimeLost'])
+        for tyre in ['Soft', 'Medium', 'Hard', 'Inter', 'Wet']:
+            for lap in range(1,lim_max):
+                df.loc[len(df)] = [lap, tyre, self.predict_tyre_time_lose(tyre, lap)['Total']]
         
-        log.warning("No same tyres found, using standard fuel time lose coefficient (30 ms/kg)")
-        self.fuel_lose = 30
+        fig = px.line(df, x="Lap", y="TimeLost", color="Compound", title="Tyre Time Loss")
+        fig.show()
 
-    def getBestLapTime(self,):
-        return min(self.timing, key=lambda x: x.BestLapTime).BestLapTime
-
-    def getTyreWear(self, tyre_compound:str, lap:int) -> dict:
-        if lap == 0:
-            return {'FL':0, 'FR':0, 'RL':0, 'RR':0}
-
-        wear_FL = self.wear_coeff[tyre_compound]['FL'][0]*lap + self.wear_coeff[tyre_compound]['FL'][1]
-        wear_FR = self.wear_coeff[tyre_compound]['FR'][0]*lap + self.wear_coeff[tyre_compound]['FR'][1]
-        wear_RL = self.wear_coeff[tyre_compound]['RL'][0]*lap + self.wear_coeff[tyre_compound]['RL'][1]
-        wear_RR = self.wear_coeff[tyre_compound]['RR'][0]*lap + self.wear_coeff[tyre_compound]['RR'][1]
-
-        return {'FL':wear_FL, 'FR':wear_FR, 'RL':wear_RL, 'RR':wear_RR}
+    def predict_starting_fuel(self, conditions:list):
+        time = 0
+        for condition in conditions:
+            time += abs(self.fuel_consume_coeff[condition])
         
-    def getWearTimeLose(self, tyre_compound:str, lap:int):
-        coeff1_FL, coeff2_FL = self.tyre_coeff[tyre_compound]['FL']
-        coeff1_FL = np.exp(coeff1_FL)
-        y_FL = coeff1_FL * np.exp(coeff2_FL*lap) 
-        
-        coeff1_FR, coeff2_FR = self.tyre_coeff[tyre_compound]['FR']
-        coeff1_FR = np.exp(coeff1_FR)
-        y_FR = coeff1_FR * np.exp(coeff2_FR*lap)
-
-        coeff1_RL, coeff2_RL = self.tyre_coeff[tyre_compound]['RL']
-        coeff1_RL = np.exp(coeff1_RL)
-        y_RL = coeff1_RL * np.exp(coeff2_RL*lap)
-
-        coeff1_RR, coeff2_RR = self.tyre_coeff[tyre_compound]['RR']
-        coeff1_RR = np.exp(coeff1_RR)
-        y_RR = coeff1_RR * np.exp(coeff2_RR*lap)
-
-        return y_FL + y_FR + y_RL + y_RR
+        return time
     
-    def getInitialFuelLoad(self, total_laps:int) -> float:
-        return abs(self.fuel_coeff*total_laps)
-    
-    def getFuelLoad(self, lap:int, initial_fuel:float) -> float:
-        return initial_fuel-abs(self.fuel_coeff*lap)
+    def predict_fuel_weight(self, init_fuel:float, conditions:list):
+        weight = init_fuel
+        for condition in conditions:
+            weight -= abs(self.fuel_consume_coeff[condition])
+        
+        return weight
+        
+    def predict_fuel_time_lose(self, fuel):
+        return round(self.fuel_lose * fuel)
 
-    def getFuelTimeLose(self, lap:int):
-        return self.fuel_lose*lap
+    def predict_tyre_wear(self, tyre:str, lap:int):
+        fl = round(self.tyre_wear_coeff[tyre]['FL'] * lap)
+        fr = round(self.tyre_wear_coeff[tyre]['FR'] * lap)
+        rl = round(self.tyre_wear_coeff[tyre]['RL'] * lap)
+        rr = round(self.tyre_wear_coeff[tyre]['RR'] * lap)
 
-    def getSameTyres(self,):
-        for i in range(len(self.tyres)-1):
-            for j in range(i+1, len(self.tyres)):
-                if self.tyres[i].get_visual_compound() == self.tyres[j].get_visual_compound():
-                    return i, j
+        return {'FL':fl, 'FR':fr, 'RL':rl, 'RR':rr}
 
-        return None, None
+    def predict_tyre_time_lose(self, tyre:str, lap:int=0, wear:dict=None):
+        if wear is None:
+            wear = self.predict_tyre_wear(tyre, lap)
+            
+        fl = round(self.tyre_coeff[tyre]['FL'] * wear['FL'])
+        fr = round(self.tyre_coeff[tyre]['FR'] * wear['FR'])
+        rl = round(self.tyre_coeff[tyre]['RL'] * wear['RL'])
+        rr = round(self.tyre_coeff[tyre]['RR'] * wear['RR'])
 
-    def save(self, save_path:str='', id:int=0) -> None:
-        save_path = os.path.join(save_path,'Car_'+str(id)+'.json')
-        with open(save_path, 'wb') as f:
+        return {'FL':fl, 'FR':fr, 'RL':rl, 'RR':rr, 'Total':fl+fr+rl+rr}
+
+    def predict_laptime(self, tyre:str, tyre_age:int, lap:int, start_fuel:float, conditions:list, drs:bool=False):
+        compound_time_lose = self.time_diff[tyre] if tyre != "Soft" else 0
+        fuel_time_lose = self.predict_fuel_time_lose(self.predict_fuel_weight(start_fuel, conditions))
+        tyre_wear_time_lose = self.predict_tyre_time_lose(tyre_age, lap)['Total']
+        drs_lose = self.drs_lose if drs else 0
+
+        return round(self.time_diff['Soft'] + compound_time_lose + fuel_time_lose + tyre_wear_time_lose + drs_lose)
+
+    def save(self, path:str):
+        with open(os.path.join(path,"Car.json"), 'wb') as f:
             pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
     
-    def load(self, path:str=''):
-        with open(path, 'rb') as f:
-            return pickle.load(f)
+    def load(self, path:str):
+        with open(os.path.join(path,"Car.json"), 'rb') as f:
+            data = pickle.load(f)
+        return data
 
-def get_cars(path:str=None, load_path:str=None, car_idx:int = None) -> dict:
-    cars:Dict[int,Car] = dict()
+def get_nearest_frame(df, frameList):
+    framesReturn = []
+    for frame in frameList:
+        if frame in df['FrameIdentifier'].values:
+            framesReturn.append(frame)
+        else:
+            notFound = True
+            add = 1
+            while notFound:
+                if (frame + add) in df['FrameIdentifier'].values:
+                    framesReturn.append(frame + add)
+                    notFound = False
+                add += 1
 
-    files = []
-    if load_path is not None and os.path.exists(load_path):
-        files = os.listdir(load_path)
-        if '.DS_Store' in files:
-            files.remove('.DS_Store')
+    return framesReturn
+
+def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[]):
+    lap = pd.read_csv(os.path.join(folder, "Lap.csv"))
+    lap = lap.loc[lap["CarIndex"] == 19, ['CurrentLapNum', 'FrameIdentifier', 'LastLapTimeInMS']].drop_duplicates(['FrameIdentifier'], keep="last")
+    lap = lap.drop_duplicates(['CurrentLapNum','LastLapTimeInMS'], keep='first').sort_values(by=['FrameIdentifier']).set_index("FrameIdentifier")
+
+    to_drop = ignore_frames
+    if to_drop == []:
+        if os.path.isfile(os.path.join(folder, "to_drop.txt")):
+            with open(os.path.join(folder, "to_drop.txt"), "r") as f:
+                to_drop = [int(x) for x in f.read().split(",")[:-1]]
+        
+        else:
+            to_drop = input(f"Lap DataFrame is the following:\n{lap}\nIf there are some wrong frames, insert now separated by comma or press ENTER if None: ")
+            if to_drop:
+                to_drop = np.array(to_drop.split(','), dtype=int)
+
+            with open(os.path.join(folder, "to_drop.txt"), "w") as f:
+                for frame in to_drop:
+                    f.write(f"{frame},")
+
+    for index in to_drop:
+        if index in lap.index:
+            lap = lap.drop(index)
+
+    sub = min(lap['CurrentLapNum'])-1
+    for i in lap.index:
+        lap.at[i,'CurrentLapNum'] = int(lap.at[i,'CurrentLapNum'])-sub
+
+    lap_frames = lap.index.values
     
+    telemetry = pd.read_csv(os.path.join(folder, "Telemetry.csv"))
+    telemetry = telemetry.loc[telemetry["CarIndex"] == 19, ['FrameIdentifier', 'DRS']].drop_duplicates(['FrameIdentifier'], keep="last")
+    telemetry_frames = get_nearest_frame(telemetry, lap_frames)
+    telemetry = telemetry.loc[telemetry['FrameIdentifier'].isin(telemetry_frames)].sort_values(by=['FrameIdentifier']).set_index("FrameIdentifier")
 
-    if load_path is not None and len(files) > 0:
-        log.info("Loading Car(s) Data from '{}'.".format(load_path))
-        if car_idx is None:
-            for idx in range(0,20):
-                try:    
-                    cars[idx] = Car(load_path=os.path.join(load_path,'Car_'+str(idx)+'.json'))
-                    log.info("Car {} loaded successfully.".format(idx))
-                except FileNotFoundError:
-                    log.info("Car {} not found.".format(idx))
-                    cars[idx] = Car()
-        else:
-            return Car(load_path=os.path.join(load_path,'Car_'+str(car_idx)+'.json'))
-    elif path is not None:
-        path = os.path.abspath(path)
-        if os.name == 'posix' and path.split('/')[-2] != 'Data':
-            path = path.split('/')
-            while path[-2] != 'Data':
-                path = path[:-1]
-            new_path = ''
-            for p in path:
-                new_path += p + '/'
-            path = new_path
-        elif os.name == 'nt' and path.split('\\')[-2] != 'Data':
-            path = path.split('\\')
-            while path[-2] != 'Data':
-                path = path[:-1]
-            new_path = ''
-            for p in path:
-                new_path += p + '\\'
-            path = new_path
-        
-        
-        save_path = os.path.join(path,'CarSaves')
-        if not os.path.exists(save_path):
-            os.makedirs(save_path)
+    concatData = pd.concat([lap, telemetry], axis=1)
 
-        log.info("Ready to create Car(s) Data, will be saved in '{}'.".format(save_path))
-        
-        if car_idx is None:
-            for idx in range(0,20):
-                log.info("Creating Car {}...".format(idx))
-                if cars.get(idx) is None:
-                    cars[idx] = Car()
-                cars[idx].add(path, idx)
-                cars[idx].save(save_path, idx)
-        else:
-            car = Car()
-            car.add(path, car_idx)
-            car.save(save_path, car_idx)
+    status = pd.read_csv(os.path.join(folder, "Status.csv"))
+    status = status.loc[status["CarIndex"] == 19, ['FrameIdentifier','FuelInTank','VisualTyreCompound']].drop_duplicates(['FrameIdentifier'], keep="last")
+    status_frames = get_nearest_frame(status, lap_frames)
+    status = status.loc[status['FrameIdentifier'].isin(status_frames), :].sort_values(by=['FrameIdentifier']).set_index("FrameIdentifier")
+    
+    for i in status.index:
+        status.at[i,'VisualTyreCompound'] = VISUAL_COMPOUNDS[status.at[i,'VisualTyreCompound']]
+
+    lap.index = status_frames
+    concatData = pd.concat([concatData, status], axis=1)
+
+    damage = pd.read_csv(os.path.join(folder, "Damage.csv"))
+    damage = damage.loc[damage["CarIndex"] == 19, ['FrameIdentifier', 'TyresWearFL','TyresWearFR','TyresWearRL','TyresWearRR',]].drop_duplicates(['FrameIdentifier'], keep="last")
+    damage_frames = get_nearest_frame(damage, lap_frames)
+    damage = damage.loc[damage['FrameIdentifier'].isin(damage_frames), :].sort_values(by=['FrameIdentifier']).set_index("FrameIdentifier")
+
+    concatData.index = damage_frames
+    concatData = pd.concat([concatData, damage], axis=1)
+    
+    concatData.rename(columns={"CurrentLapNum": "Lap", "LastLapTimeInMS": "LapTime", 'FuelInTank':'Fuel', 'VisualTyreCompound':'Compound','TyresWearFL':'FLWear', 'TyresWearFR':'FRWear', 'TyresWearRL':'RLWear', 'TyresWearRR':'RRWear'}, inplace=True)
+
+    tyres = concatData['Compound'].unique()
+
+    ret = {}
+    if add_data is not None:
+        ret = add_data
+
+    for tyre in tyres:
+        if tyre not in ret.keys():
+            ret[tyre] = []
+        data = concatData.loc[concatData['Compound'] == tyre, :]
+        sub = min(data['Lap'])-1
+        if sub > 0:
+            for i in data.index:
+                data.at[i,'Lap'] = int(data.at[i,'Lap'])-sub
+
+        ret[tyre].append(data)
+
+    return ret
+
+
+def get_car_data(path:str):
+    car = None
+    if os.path.isfile(os.path.join(path, 'Car.json')):
+        car = Car(load_path=path)
+    else:    
+        if os.path.isfile(os.path.join(path, 'Data.json')):
+            with open(os.path.join(path, 'Data.json'), 'rb') as f:
+                data = pickle.load(f)
+
+        else:   
+            fp1_folder = os.path.join(path, 'FP1\Acquired_data')
+            fp2_folder = os.path.join(path, 'FP2\Acquired_data')
+            fp3_folder = os.path.join(path, 'FP3\Acquired_data')
             
-            log.info("Car Data created and saved successfully.")
+            fp1 = get_data(fp1_folder, add_data=None)
+            fp2 = get_data(fp2_folder, add_data=fp1)
+            fp3 = get_data(fp3_folder, add_data=fp2)
 
-            return car
+            concatenated = None
+            for _, item in fp3.items():
+                for i in item:
+                    if concatenated is None:
+                        concatenated = i
+                    else:
+                        concatenated = pd.concat([concatenated, i])
+            
+            concatenated.to_csv(os.path.join(path, 'FullData.csv'), index=False)
 
-        log.info("Cars Data created and saved successfully.")
+            with open(os.path.join(path, 'Data.json'), 'wb') as f:
+                pickle.dump(fp3, f, pickle.HIGHEST_PROTOCOL)
 
-    return cars
+            data = fp3.copy()
 
+        car = Car(data=data)
+        car.save(path)
+        
+    return car

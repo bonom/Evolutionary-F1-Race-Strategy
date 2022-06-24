@@ -1,5 +1,4 @@
 import math
-from typing import Dict
 import numpy as np
 from classes.Car import Car
 from random import SystemRandom
@@ -43,9 +42,6 @@ def changeTyre(tyresWear:dict):
 
 class GeneticSolver:
     def __init__(self, population:int=2, mutation_pr:float=0.0, crossover_pr:float=0.0, iterations:int=1, car:Car=None, circuit:str='') -> None:
-        self.bestLapTime = car.getBestLapTime()
-        self.fuel_coeff = car.fuel_lose
-        self.coeff = car.wear_coeff
         self.pitStopTime = CIRCUIT[circuit]['PitStopTime']
         self.availableTyres = CIRCUIT[circuit]['Tyres']
         self.sigma = mutation_pr
@@ -54,7 +50,7 @@ class GeneticSolver:
         self.numLaps = CIRCUIT[circuit]['Laps']+1
         self.iterations = iterations
         self.car:Car = car
-        #self.numPitStop = 0
+        self.weather = ['Dry' if random.random() > 0.7 else 'Wet' for i in range(self.numLaps)]
         
         self.mu_decay = 0.99
         self.sigma_decay = 0.99
@@ -72,30 +68,34 @@ class GeneticSolver:
         return string
     
     def getTyreWear(self, compound:str, lap:int):
-        wear = self.car.getTyreWear(compound, lap)
+        wear = self.car.predict_tyre_wear(compound, lap)
         
         for key, val in wear.items():
             wear[key] = val/100
         
         return wear
     
-    def getFuelLoad(self, lap:int, initial_fuel:float) :
-        return self.car.getFuelLoad(lap, initial_fuel)
+    def getBestLapTime(self,):
+        return self.car.time_diff['Soft']
+
+    def getFuelLoad(self, initial_fuel:float, conditions:list) :
+        return self.car.predict_fuel_weight(initial_fuel, conditions)
     
-    def getInitialFuelLoad(self,):
-        return self.car.getInitialFuelLoad(self.numLaps)
+    def getInitialFuelLoad(self, conditions:list):
+        return self.car.predict_starting_fuel(conditions)
 
     def getWearTimeLose(self, compound:str, lap:int):
-        return self.car.getWearTimeLose(compound, lap)
+        return self.car.predict_tyre_time_lose(compound, lap)
         
-    def getFuelTimeLose(self, lap:int):
-        return self.car.getFuelTimeLose(lap)
+    def getFuelTimeLose(self, lap:int=0, fuel_load:float=0, initial_fuel:float=0, conditions:list=None):
+        if fuel_load == 0:
+            fuel_load = self.getFuelLoad(lap, initial_fuel, conditions)
+        
+        return self.car.predict_fuel_time_lose(fuel_load)
+    
+    def getLapTime(self, compound:str, compoundAge:int, lap:int, fuel_load:float, conditions:list, drs:bool, pitStop:bool) -> int:
+        time = self.car.predict_laptime(compound, compoundAge, lap, fuel_load, conditions, drs)
 
-    def lapTime(self, compound:str, compoundAge:int, lap:int, fuel_load:float, pitStop:bool) -> int:
-        if fuel_load < 0:
-            fuel_load = 0
-
-        time = self.bestLapTime + self.getWearTimeLose(compound, compoundAge) + self.getFuelTimeLose(lap)
         if pitStop:
             time += self.pitStopTime
         return round(time) 
@@ -302,7 +302,7 @@ class GeneticSolver:
         strategy['TyreWear'].append(self.getTyreWear(compound, tyresAge))
 
         ### The fuel load can be inferred by the coefficient of the fuel consumption, we add a random value between -10 and 10 to get a little variation
-        initialFuelLoad = self.getInitialFuelLoad()+random.randint(-10,10)
+        initialFuelLoad = self.getInitialFuelLoad(conditions=self.weather)+random.randint(-10,10)
         strategy['FuelLoad'].append(initialFuelLoad)
 
         ### At first lap the pit stop is not made (PitStop list means that at lap i^th the pit stop is made at the beginning of the lap)
@@ -317,7 +317,7 @@ class GeneticSolver:
         ### For every lap we repeat the whole process
         for lap in range(1,self.numLaps):
             ### The fuel does not depend on the compound and/or pit stops => we compute it and leave it here
-            fuelLoad = self.getFuelLoad(lap=lap, initial_fuel=initialFuelLoad)
+            fuelLoad = self.getFuelLoad(initial_fuel=initialFuelLoad, conditions=self.weather)
             strategy['FuelLoad'].append(fuelLoad)
 
             ### With probability of the tyre wear we make a pit stop (if tyre wear low we have low probability, else high)
@@ -425,3 +425,19 @@ class GeneticSolver:
         
         return best, best_eval, {key+1:val for key, val in enumerate(fitness_values)}
     
+
+    def basicTiming(self,):
+        pitStoplap = 25
+        time = 0
+        fuel_load=self.getInitialFuelLoad()
+        for i in range(self.numLaps):
+            if i == 0:
+                time += self.lapTime(compound='Medium', compoundAge=i, lap=i, fuel_load=fuel_load, pitStop=False)
+            elif i < pitStoplap:
+                time += self.lapTime(compound='Medium', compoundAge=i, lap=i, fuel_load=self.getFuelLoad(i, fuel_load), pitStop=False)
+            elif i == pitStoplap:
+                time += self.lapTime(compound='Hard', compoundAge=i-pitStoplap, lap=i, fuel_load=self.getInitialFuelLoad(), pitStop=True)
+            else:
+                time += self.lapTime(compound='Hard', compoundAge=i-pitStoplap, lap=i, fuel_load=self.getInitialFuelLoad(), pitStop=False)
+        
+        return ms_to_time(time)
