@@ -451,9 +451,9 @@ def get_car_data(path:str):
                 data = pickle.load(f)
 
         else:   
-            fp1_folder = os.path.join(path, 'FP1\Acquired_data')
-            fp2_folder = os.path.join(path, 'FP2\Acquired_data')
-            fp3_folder = os.path.join(path, 'FP3\Acquired_data')
+            fp1_folder = os.path.join(path, 'FP1')
+            fp2_folder = os.path.join(path, 'FP2')
+            fp3_folder = os.path.join(path, 'FP3')
             
             fp1 = get_data(fp1_folder, add_data=None)
             fp2 = get_data(fp2_folder, add_data=fp1)

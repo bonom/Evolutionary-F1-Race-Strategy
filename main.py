@@ -23,7 +23,7 @@ def main():
     
     for circuit in circuits:
         car:Car = get_car_data(circuit)
-        genetic = GeneticSolver(car)
+        #genetic = GeneticSolver(car)
 
 if __name__ == "__main__":
     main()
