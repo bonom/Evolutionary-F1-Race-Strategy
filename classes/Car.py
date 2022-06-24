@@ -8,32 +8,7 @@ import math
 
 random = SystemRandom()
 
-from classes.Utils import get_basic_logger, VISUAL_COMPOUNDS
-
-P0 = {
-    'Soft': (0.1, 270.0),
-    'Medium': (0.075, 330.0),
-    'Hard': (0.06, 455.0),
-    'Inter': (0.05, 800.0),
-    'Wet': (0.04, 800.0)
-}
-
-BOUNDS = {
-    'Soft': ([0.075,250],[0.125,290]),
-    'Medium': ([0.05,305],[0.1,355]),
-    'Hard': ([0.045,430],[0.085,480]),
-    'Inter': ([0.02,600],[1,1000]),
-    'Wet':([0.01,600],[1,1000])
-}
-
-
-log = get_basic_logger('Car')
-
-def lin_exp_fun(x, a, b, c):
-    if x >= 80:
-        return np.exp(a*x) * b
-    
-    return c*x
+from classes.Utils import VISUAL_COMPOUNDS
 
 def linear_fun(x, a):
     if isinstance(x, np.ndarray):
