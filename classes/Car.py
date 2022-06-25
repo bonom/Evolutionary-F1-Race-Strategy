@@ -241,7 +241,8 @@ class Car:
             if tyre == "Soft":
                 self.time_diff[tyre] = bestLap
             else:
-                self.time_diff[tyre] = bestLap-best['Soft']
+                if not math.isinf(bestLap):
+                    self.time_diff[tyre] = (self.time_diff[tyre] + (bestLap-best['Soft']))/2
         
     def plot_tyres_time_lose(self,):
         lim_max = 51
@@ -292,7 +293,7 @@ class Car:
     def predict_laptime(self, tyre:str, tyre_age:int, lap:int, start_fuel:float, conditions:list, drs:bool=False):
         compound_time_lose = self.time_diff[tyre] if tyre != "Soft" else 0
         fuel_time_lose = self.predict_fuel_time_lose(self.predict_fuel_weight(start_fuel, conditions))
-        tyre_wear_time_lose = self.predict_tyre_time_lose(tyre_age, lap)['Total']
+        tyre_wear_time_lose = self.predict_tyre_time_lose(tyre, lap)['Total']
         drs_lose = self.drs_lose if drs else 0
 
         return round(self.time_diff['Soft'] + compound_time_lose + fuel_time_lose + tyre_wear_time_lose + drs_lose)

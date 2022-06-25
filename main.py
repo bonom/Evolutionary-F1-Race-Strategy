@@ -19,11 +19,20 @@ def main():
         if '.DS_Store' in circuits:
             circuits.remove('.DS_Store')
     else:
-        circuits = [os.path.abspath(os.path.join('Data', args.c))]
+        if 'Data' in args.c.split('/').plit("\\"):
+            path = os.path.abspath(args.c)
+        else:
+            path = os.path.abspath(os.path.join('Data', args.c))
+        if os.path.isdir(path):
+            circuits = [path]
+        else:
+            circuits = []
+            print(f"Invalid circuit path: {path}")
     
     for circuit in circuits:
         car:Car = get_car_data(circuit)
-        #genetic = GeneticSolver(car)
+        genetic = GeneticSolver(car=car, population=4,circuit=circuit.split("\\")[-1])
+        genetic.startSolver()
 
 if __name__ == "__main__":
     main()
