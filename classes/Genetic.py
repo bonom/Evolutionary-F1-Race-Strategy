@@ -5,9 +5,7 @@ from random import SystemRandom
 import copy
 random = SystemRandom()
 
-from classes.Utils import CIRCUIT, get_basic_logger, COMPOUNDS, ms_to_time
-
-log = get_basic_logger('Genetic')
+from classes.Utils import CIRCUIT, ms_to_time
 
 DRY_COMPOUNDS:list = ['Soft', 'Medium', 'Hard']
 PITSTOP = [True, False]
@@ -142,7 +140,7 @@ class GeneticSolver:
                         temp_best, temp_best_eval = pop[i], scores[i]
                 
                 # select parents
-                selected = self.selection(population=pop,percentage=1)
+                selected = self.selection(population=pop,percentage=0.4)
                
                 # create the next generation
                 children = [parent for parent in selected]
@@ -152,14 +150,15 @@ class GeneticSolver:
                 if len(selected) > self.population:
                     selected = selected[:self.population]
 
-                for i in range(0, len(selected), 2): # why not 1? I know there will be 2*population length - 2 but maybe it is good
-                    # get selected parents in pairs
-                    p1, p2 = selected[i], selected[i+1]
-                    # crossover and mutation
-                    for c in self.crossover(p1, p2):
-                        # mutation
-                        for l in self.mutation(c):
-                            children.append(l)
+                if len(selected) > 1:
+                    for i in range(0, len(selected)-2, 2): # why not 1? I know there will be 2*population length - 2 but maybe it is good
+                        # get selected parents in pairs
+                        p1, p2 = selected[i], selected[i+1]
+                        # crossover and mutation
+                        for c in self.crossover(p1, p2):
+                            # mutation
+                            for l in self.mutation(c):
+                                children.append(l)
                         
                 # add children to the population if the population is not full
                 for _ in range(self.population-len(children)):
@@ -174,7 +173,7 @@ class GeneticSolver:
                 fitness_values.append(temp_best_eval)
 
                 #if gen%10:
-                log.info(f'Generation {gen+1}/{self.iterations} best overall: {ms_to_time(best_eval)}, best of generation: {ms_to_time(temp_best_eval)}, valid individuals: {round(len(selected)/self.population,2)}%')
+                print(f'Generation {gen+1}/{self.iterations} best overall: {ms_to_time(best_eval)}, best of generation: {ms_to_time(temp_best_eval)}, valid individuals: {round(len(selected)/self.population,2)}%')
                 
         except KeyboardInterrupt:
             pass 

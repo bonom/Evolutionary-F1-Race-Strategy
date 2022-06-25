@@ -31,7 +31,7 @@ def main():
     
     for circuit in circuits:
         car:Car = get_car_data(circuit)
-        genetic = GeneticSolver(car=car, population=4,circuit=circuit.split("\\")[-1])
+        genetic = GeneticSolver(car=car, population=300, iterations=1000,circuit=circuit.split("\\")[-1])
         genetic.startSolver()
 
 if __name__ == "__main__":
