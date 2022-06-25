@@ -2,6 +2,7 @@ import math
 import numpy as np
 from classes.Car import Car
 from random import SystemRandom
+import copy
 random = SystemRandom()
 
 from classes.Utils import CIRCUIT, get_basic_logger, COMPOUNDS, ms_to_time
@@ -188,7 +189,7 @@ class GeneticSolver:
         return strategies
 
     def randomChild(self):
-        strategy = {'TyresAvailability': self.availableTyres.copy(), 'TyreCompound': [], 'TyreStatus':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'LapsCompound':[], 'Weather':self.weather.copy(), 'TotalTime': np.inf}
+        strategy = {'TyresAvailability': copy.deepcopy(self.availableTyres), 'TyreCompound': [], 'TyreStatus':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'LapsCompound':[], 'Weather':self.weather.copy(), 'TotalTime': np.inf}
 
         weather = [strategy['Weather'][0]]
 
