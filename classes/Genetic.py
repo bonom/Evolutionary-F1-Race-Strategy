@@ -58,10 +58,10 @@ class GeneticSolver:
         available_tyres = {'Soft':{'Used': 0, 'New': 0}, 'Medium':{'Used': 0, 'New': 0}, 'Hard':{'Used': 0, 'New': 0}, 'Inter':{'Used': 0, 'New': 0}, 'Wet':{'Used': 0, 'New': 0}}
         print(f"Please insert tyres available for '{circuit}':")
         for tyre in ['Soft', 'Medium', 'Hard', 'Inter', 'Wet']:
-            #available_tyres[tyre]['Used'] = int(input(f"\t\t\t {tyre} Used: "))
-            #available_tyres[tyre]['New'] = int(input(f"\t\t\t {tyre} New: "))
-            available_tyres[tyre]['Used'] += 1
-            available_tyres[tyre]['New'] += 1
+            available_tyres[tyre]['Used'] = int(input(f"\t\t\t {tyre} Used: "))
+            available_tyres[tyre]['New'] = int(input(f"\t\t\t {tyre} New: "))
+            #available_tyres[tyre]['Used'] += 1
+            #available_tyres[tyre]['New'] += 1
         
         return available_tyres
 
@@ -121,7 +121,7 @@ class GeneticSolver:
 
         # initial population of random bitstring
         pop = self.initSolver()
-        
+        #print(pop)
         # keep track of best solution
         best, best_eval = pop[0], pop[0]['TotalTime']
         
@@ -254,8 +254,9 @@ class GeneticSolver:
         allCompounds = set(strategy['TyreCompound'])
         if len(allCompounds) > 0 and strategy['FuelLoad'][-1] >= 1:
             strategy['TotalTime'] = sum(strategy['LapTime'])
-        
-        return strategy
+            return strategy
+        else:
+            return self.randomChild()
 
     def randomCompound(self,weather:str):
         if weather == 'Wet':
