@@ -257,14 +257,24 @@ class Car:
     def predict_starting_fuel(self, conditions:list):
         time = 0
         for condition in conditions:
-            time += abs(self.fuel_consume_coeff[condition])
+            if condition == "Dry/Wet":
+                time += abs((self.fuel_consume_coeff["Dry"] + self.fuel_consume_coeff["Wet"])/2)
+            elif condition == "VWet":
+                time += self.fuel_consume_coeff["Wet"]
+            else:
+                time += abs(self.fuel_consume_coeff[condition])
         
         return time
     
     def predict_fuel_weight(self, init_fuel:float, conditions:list):
         weight = init_fuel
         for condition in conditions:
-            weight -= abs(self.fuel_consume_coeff[condition])
+            if condition == "Dry/Wet":
+                weight-= abs((self.fuel_consume_coeff["Dry"] + self.fuel_consume_coeff["Wet"])/2)
+            elif condition == "VWet":
+                weight-= self.fuel_consume_coeff["Wet"]
+            else:
+                weight-= abs(self.fuel_consume_coeff[condition])
         
         return weight
         
