@@ -1,6 +1,7 @@
 import sys, os
 from classes.Genetic import GeneticSolver
 from classes.Car import get_car_data, Car
+from classes.Race import RaceData
 from classes.Utils import ms_to_time
 
 import argparse
@@ -19,7 +20,7 @@ def main():
         if '.DS_Store' in circuits:
             circuits.remove('.DS_Store')
     else:
-        if 'Data' in args.c.split('/').plit("\\"):
+        if 'Data' in args.c.split('\\'):#.split("\\"):
             path = os.path.abspath(args.c)
         else:
             path = os.path.abspath(os.path.join('Data', args.c))
@@ -31,7 +32,11 @@ def main():
     
     for circuit in circuits:
         car:Car = get_car_data(circuit)
+        #race_data:RaceData = RaceData(circuit)
+        #race_data.plot(path=circuit)
+        
         genetic = GeneticSolver(car=car, population=300, iterations=1000,circuit=circuit.split("\\")[-1])
+        #genetic.lower_bound()
         genetic.startSolver()
 
 if __name__ == "__main__":

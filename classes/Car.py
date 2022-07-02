@@ -8,7 +8,7 @@ import math
 
 random = SystemRandom()
 
-from classes.Utils import VISUAL_COMPOUNDS
+from classes.Utils import VISUAL_COMPOUNDS, ms_to_time
 
 def linear_fun(x, a):
     if isinstance(x, np.ndarray):
@@ -327,12 +327,13 @@ def get_nearest_frame(df, frameList):
 
     return framesReturn, toRemove
 
-def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[]):
+def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[], race=False):
     if not os.path.isdir(folder):
         return add_data
 
     lap = pd.read_csv(os.path.join(folder, "Lap.csv"))
-    lap = lap.loc[lap["CarIndex"] == 19, ['CurrentLapNum', 'FrameIdentifier', 'LastLapTimeInMS']].drop_duplicates(['FrameIdentifier'], keep="last")
+    car_index = lap['PlayerCarIndex'].unique()[0]
+    lap = lap.loc[lap["CarIndex"] == car_index, ['CurrentLapNum', 'FrameIdentifier', 'LastLapTimeInMS']].drop_duplicates(['FrameIdentifier'], keep="last")
     lap = lap.drop_duplicates(['CurrentLapNum','LastLapTimeInMS'], keep='first').sort_values(by=['FrameIdentifier']).set_index("FrameIdentifier")
 
     to_drop = ignore_frames
@@ -342,7 +343,13 @@ def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[]):
                 to_drop = [int(x) for x in f.read().split(",")[:-1]]
         
         else:
-            to_drop = input(f"Lap DataFrame is the following:\n{lap}\nIf there are some wrong frames, insert now separated by comma or press ENTER if None: ")
+            laps = lap['CurrentLapNum']
+            duplicated_laps = lap[laps.isin(laps[laps.duplicated()])].sort_values("FrameIdentifier")
+            print(f"Lap DataFrame is the following:")
+            for idx, row in lap.iterrows():
+                print(f"{idx}, {row['CurrentLapNum']} -> {ms_to_time(row['LastLapTimeInMS'])}")
+            print(f"\nDuplicated ones are:\n{duplicated_laps}")
+            to_drop = input("If there are some wrong frames, insert now separated by comma or press ENTER if None: ")
             if to_drop:
                 to_drop = np.array(to_drop.split(','), dtype=int)
 
@@ -360,7 +367,7 @@ def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[]):
 
     lap_frames = lap.index.values
     telemetry = pd.read_csv(os.path.join(folder, "Telemetry.csv"))
-    telemetry = telemetry.loc[telemetry["CarIndex"] == 19, ['FrameIdentifier', 'DRS']].drop_duplicates(['FrameIdentifier'], keep="last")
+    telemetry = telemetry.loc[telemetry["CarIndex"] == car_index, ['FrameIdentifier', 'DRS']].drop_duplicates(['FrameIdentifier'], keep="last")
     telemetry_frames, remove_frames = get_nearest_frame(telemetry, lap_frames)
     for frame in remove_frames:
         lap = lap.drop(frame)
@@ -371,7 +378,7 @@ def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[]):
     concatData = pd.concat([lap, telemetry], axis=1)
 
     status = pd.read_csv(os.path.join(folder, "Status.csv"))
-    status = status.loc[status["CarIndex"] == 19, ['FrameIdentifier','FuelInTank','VisualTyreCompound']].drop_duplicates(['FrameIdentifier'], keep="last")
+    status = status.loc[status["CarIndex"] == car_index, ['FrameIdentifier','FuelInTank','VisualTyreCompound']].drop_duplicates(['FrameIdentifier'], keep="last")
     status_frames, remove_frames = get_nearest_frame(status, concatData.index.values)
     for frame in remove_frames:
         concatData = concatData.drop(frame)
@@ -385,7 +392,7 @@ def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[]):
     concatData = pd.concat([concatData, status], axis=1)
 
     damage = pd.read_csv(os.path.join(folder, "Damage.csv"))
-    damage = damage.loc[damage["CarIndex"] == 19, ['FrameIdentifier', 'TyresWearFL','TyresWearFR','TyresWearRL','TyresWearRR',]].drop_duplicates(['FrameIdentifier'], keep="last")
+    damage = damage.loc[damage["CarIndex"] == car_index, ['FrameIdentifier', 'TyresWearFL','TyresWearFR','TyresWearRL','TyresWearRR',]].drop_duplicates(['FrameIdentifier'], keep="last")
     damage_frames, remove_frames = get_nearest_frame(damage, concatData.index.values)
     for frame in remove_frames:
         concatData = concatData.drop(frame)
@@ -398,6 +405,12 @@ def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[]):
     concatData.rename(columns={"CurrentLapNum": "Lap", "LastLapTimeInMS": "LapTime", 'FuelInTank':'Fuel', 'VisualTyreCompound':'Compound','TyresWearFL':'FLWear', 'TyresWearFR':'FRWear', 'TyresWearRL':'RLWear', 'TyresWearRR':'RRWear'}, inplace=True)
 
     tyres = concatData['Compound'].unique()
+
+    for idx in concatData.index:
+        concatData.at[idx, 'StringLapTime'] = ms_to_time(concatData.at[idx, 'LapTime'])
+
+    if race:
+        return concatData
 
     ret = {}
     if add_data is not None:

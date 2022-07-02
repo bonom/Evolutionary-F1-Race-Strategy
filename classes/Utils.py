@@ -177,11 +177,24 @@ class MultiPlot:
         self.fig.update_layout(title_text=title)
 
 
-def ms_to_time(ms:int) -> str:
-    if math.isinf(ms):
-        return 'Inf'
-    date = datetime.fromtimestamp(ms/1000 - 3600) # - 3600 for UTC (I think)
-    return date.strftime("%H:%M:%S.%f")[:-3]
+def ms_to_time(ms):
+    milliseconds = str(ms)[-3:]
+    ms = ms-int(milliseconds)
+    seconds = int((ms/1000)%60)
+    minutes = int((ms/(1000*60))%60)
+    hours = int((ms/(1000*60*60))%24)
+
+    if seconds < 10:
+        seconds = f"0{int(seconds)}"
+    if minutes < 10:
+        minutes = f"0{int(minutes)}"
+    if hours < 10 and hours > 0:
+        hours = f"0{int(hours)}"
+    
+    if int(hours) < 1:
+        return f"{minutes}:{seconds}.{milliseconds}"
+    
+    return f"{hours}:{minutes}:{seconds}.{milliseconds}"
 
 def get_car_name(id:int=19, path:str=None) -> str:
     data_path = os.path.join(path,'ConcatData/Names.csv')

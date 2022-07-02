@@ -12,14 +12,23 @@
             "console": "integratedTerminal",
             "justMyCode": true
         },
-        // {
-        //     "name": "Austria",
-        //     "type": "python",
-        //     "request": "launch",
-        //     "program": "d:\\Projects\\Bio-F1\\main.py",
-        //     "console": "integratedTerminal",
-        //     "justMyCode": true,
-        //     "args": ["--c", "Austria"],
-        // }
+        {
+            "name": "Austria",
+            "type": "python",
+            "request": "launch",
+            "program": "d:\\Projects\\Bio-F1\\main.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--c", "Spielberg"],
+        },
+        {
+            "name": "Monza",
+            "type": "python",
+            "request": "launch",
+            "program": "d:\\Projects\\Bio-F1\\main.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--c", "Monza"],
+        },
     ]
 }
