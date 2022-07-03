@@ -401,21 +401,21 @@ class GeneticSolver:
 
     def correct_strategy_pitstop(self, strategy:dict, indexPitStop: int):
         if indexPitStop == 0:
-            strategy['Compound'][0] = strategy['Compound'][1]
-            strategy['TyreWear'][0] = self.getTyreWear(strategy['Compound'][i], 0)
-            strategy['LapTime'][0] = self.getLapTime(strategy['Compound'][i], 0, strategy['FuelLoad'][0], False)
+            strategy['TyreCompound'][0] = strategy['TyreCompound'][1]
+            strategy['TyreWear'][0] = self.getTyreWear(strategy['TyreCompound'][i], 0)
+            strategy['LapTime'][0] = self.getLapTime(strategy['TyreCompound'][i], 0, strategy['FuelLoad'][0], False)
             for j in range(1, self.numLaps -1):
                 if strategy['PitStop'][j] == False:
-                    strategy['Compound'][j] = strategy['Compound'][j-1]
-                    strategy['TyreWear'][j] = self.getTyreWear(strategy['Compound'][j], j)
-                    strategy['LapTime'][j] = self.getLapTime(strategy['Compound'][j], j, strategy['FuelLoad'][j], False)
+                    strategy['TyreCompound'][j] = strategy['TyreCompound'][j-1]
+                    strategy['TyreWear'][j] = self.getTyreWear(strategy['TyreCompound'][j], j)
+                    strategy['LapTime'][j] = self.getLapTime(strategy['TyreCompound'][j], j, strategy['FuelLoad'][j], False)
         else:
             tyresAge = 0
             for i in range(indexPitStop, self.numLaps-1):
                     if strategy['PitStop'][i] == False:
-                        strategy['Compound'][i] = strategy['Compound'][i-1]
-                        strategy['TyreWear'][i] = self.getTyreWear(strategy['Compound'][i], tyresAge)
-                        strategy['LapTime'][i] = self.getLapTime(strategy['Compound'][i], i, strategy['FuelLoad'][i], False)
+                        strategy['TyreCompound'][i] = strategy['TyreCompound'][i-1]
+                        strategy['TyreWear'][i] = self.getTyreWear(strategy['TyreCompound'][i], tyresAge)
+                        strategy['LapTime'][i] = self.getLapTime(strategy['TyreCompound'][i], i, strategy['FuelLoad'][i], False)
                 
 
         strategy['numPitStop'] = sum([x for x in strategy['PitStop'] if x])#self.count_pitstop(strategy)
