@@ -23,6 +23,13 @@ def overLimit(values, limit):
     
     return False
 
+def checkTyreAvailability(compound, tyres):
+    if tyres[compound]['Used'] == 0 and tyres[compound]['New'] == 0:
+        return None
+    elif tyres[compound]['New'] == 0:
+        return "Used"
+    return "New"
+
 def changeTyre(tyresWear:dict):
     if all([x < 0.4 for x in tyresWear.values()]):
         return False
@@ -58,8 +65,8 @@ class GeneticSolver:
         for tyre in ['Soft', 'Medium', 'Hard', 'Inter', 'Wet']:
             #available_tyres[tyre]['Used'] = int(input(f"\t\t\t {tyre} Used: "))
             #available_tyres[tyre]['New'] = int(input(f"\t\t\t {tyre} New: "))
-            available_tyres[tyre]['Used'] = 0
-            available_tyres[tyre]['New'] = 0
+            available_tyres[tyre]['Used'] = 2
+            available_tyres[tyre]['New'] = 4
         
         return available_tyres
 
@@ -186,19 +193,19 @@ class GeneticSolver:
         return strategies
 
     def randomChild(self):
-        strategy = {'TyresAvailability': copy.deepcopy(self.availableTyres), 'TyreAge':[], 'TyreCompound': [], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'LapsCompound':[], 'Weather':self.weather.copy(), 'TotalTime': np.inf}
+        strategy = {'TyresAvailability': copy.deepcopy(self.availableTyres), 'TyreCompound': [], 'TyreStatus':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'LapsCompound':[], 'Weather':self.weather.copy(), 'TotalTime': np.inf}
 
         weather = [strategy['Weather'][0]]
 
         ### Get a random compound and verify that we can use it, if so we update the used compounds list and add the compound to the strategy
-        compound = self.randomCompound(weather[0])
+        compound, tyreState = self.checkCompound(availableTyres=strategy['TyresAvailability'], weather=weather)
         strategy['TyreCompound'].append(compound)
+        strategy['TyreStatus'].append(tyreState)
 
         ### If the compound is used we put a tyre wear of 2 laps (if it is used but available the compound has been used for 2/3 laps.
         ### However, 2 laps out of 3 are done very slowly and the wear is not as the same of 3 laps)
         ### If the compound is new tyre wear = 0
-        tyresAge = 0 
-        strategy['TyreAge'].append(tyresAge)
+        tyresAge = 0 if tyreState == 'New' else 2
         strategy['TyreWear'].append(self.getTyreWear(compound, tyresAge))
 
         ### The fuel load can be inferred by the coefficient of the fuel consumption, we add a random value between -10 and 10 to get a little variation
@@ -225,17 +232,22 @@ class GeneticSolver:
             ### With probability of the tyre wear we make a pit stop (if tyre wear low we have low probability, else high)
             if changeTyre(strategy['TyreWear'][lap-1]):
                 ### We have the case of the pitStop => new tyre (can be the same compound type of before!!!)
-                compound = self.randomCompound(weather[lap])
-                tyresAge = 0
+                compound, tyreState = self.checkCompound(availableTyres=strategy['TyresAvailability'], weather=weather)
+                
+                if compound is None and tyreState is None:
+                    return self.fillRemainings(lap, strategy)
+
+                tyresAge = 0 if tyreState == 'New' else 2
                 pitStop = True
                 strategy['NumPitStop'] += 1
             else:
                 ### No pitstop => same tyres of lap before
                 compound = strategy['TyreCompound'][lap-1]
+                tyreState = "Used"
                 tyresAge += 1
                 pitStop = False
                 
-            strategy['TyreAge'].append(tyresAge)
+            strategy['TyreStatus'].append(tyreState)
             strategy['TyreCompound'].append(compound)
             strategy['TyreWear'].append(self.getTyreWear(compound, tyresAge))
             strategy['PitStop'].append(pitStop)
@@ -260,39 +272,39 @@ class GeneticSolver:
             return random.choice(['Soft', 'Medium', 'Hard', 'Inter'])
         return random.choice(['Soft', 'Medium', 'Hard'])
     
-    # def checkCompound(self, compound:str=None, availableTyres:dict={}, weather:str="Dry"):
-    #     if compound is not None:
-    #         return checkTyreAvailability(compound,availableTyres)
+    def checkCompound(self, compound:str=None, availableTyres:dict={}, weather:str="Dry"):
+        if compound is not None:
+            return checkTyreAvailability(compound,availableTyres)
         
-    #     compound = self.randomCompound(weather)
-    #     tyreState = checkTyreAvailability(compound,availableTyres)
+        compound = self.randomCompound(weather)
+        tyreState = checkTyreAvailability(compound,availableTyres)
         
-    #     if tyreState is None:
-    #         count = 0
-    #         for tyres, states in availableTyres.items():
-    #             if "Dry" in weather[-1] and tyres in ['Soft', 'Medium', 'Hard']:
-    #                 for _, val in states.items():
-    #                     if val > 0:
-    #                         count += val
-    #             if "Wet" in weather[-1] and tyres == 'Inter':# ['Inter', 'Wet']:
-    #                 for _, val in states.items():
-    #                     if val > 0:
-    #                         count += val
-    #             if weather[-1] == "VWet" and tyres == 'Wet':
-    #                 for _, val in states.items():
-    #                     if val > 0:
-    #                         count += val
+        if tyreState is None:
+            count = 0
+            for tyres, states in availableTyres.items():
+                if "Dry" in weather[-1] and tyres in ['Soft', 'Medium', 'Hard']:
+                    for _, val in states.items():
+                        if val > 0:
+                            count += val
+                if "Wet" in weather[-1] and tyres == 'Inter':# ['Inter', 'Wet']:
+                    for _, val in states.items():
+                        if val > 0:
+                            count += val
+                if weather[-1] == "VWet" and tyres == 'Wet':
+                    for _, val in states.items():
+                        if val > 0:
+                            count += val
 
-    #         if count == 0:
-    #             return None, None
+            if count == 0:
+                return None, None
                 
-    #     while tyreState is None:
-    #         compound = self.randomCompound(weather)
-    #         tyreState = checkTyreAvailability(compound,availableTyres)
+        while tyreState is None:
+            compound = self.randomCompound(weather)
+            tyreState = checkTyreAvailability(compound,availableTyres)
 
-    #     availableTyres[compound][tyreState] -= 1
+        availableTyres[compound][tyreState] -= 1
 
-    #     return compound, 'New' if tyreState == 'New' else 'Used'
+        return compound, 'New' if tyreState == 'New' else 'Used'
 
     def selection(self,population, percentage:float=0.4):
         sortedPopulation = sorted(population, key=lambda x: x['TotalTime'])
@@ -304,14 +316,19 @@ class GeneticSolver:
         
         return selected
 
-    def mutation_compound(self, child:dict, ):
+    def mutation_compound(self, child:dict):
+        mutationCompound, tyreSate = self.checkCompound(availableTyres=child['TyresAvailability'])
+        
+        ### We do not have compounds available => we get a random child
+        if mutationCompound is None:
+            return self.randomChild()
+
         ### Initialize lap from which we will mutate
         lap = random.randint(1,self.numLaps-1)
-        mutationCompound = self.randomCompound(child['Weather'][lap])
 
         ### Until new pitStop we change the compound and then correct strategy will make everything ok
         pitStop = child['PitStop'][lap]
-        while not pitStop and lap < self.numLaps-1:
+        while pitStop == False and lap < self.numLaps-1:
             child['TyreCompound'][lap] = mutationCompound
             pitStop = child['PitStop'][lap+1]
             lap += 1
@@ -329,6 +346,22 @@ class GeneticSolver:
             return child
         
         numRandomPitStop = random.randint(1,childPitNum)
+
+        # if numRandomPitStop == childPitNum:
+        #     return child
+        
+        # numPitStops = 0
+        # startLap = 0
+        
+        # while numPitStops < numRandomPitStop:
+        #     if child['PitStop'][startLap] == True:
+        #         numPitStops += 1
+        #     startLap += 1
+        
+        # compound = child['TyreCompound'][startLap]
+        # for lap in range(startLap, self.numLaps):
+        #     child['PitStop'][lap] = False
+        #     child['TyreCompound'][lap] = compound
         numPitStops = 0
         index = 0
         for lap in range(1, self.numLaps):
@@ -341,6 +374,31 @@ class GeneticSolver:
 
         return self.correct_strategy_pitstop(strategy=child, indexPitStop=index)
 
+    # def count_pitstop(self, strategy:dict):
+    #     num_pitstop = 0
+    #     for i in range(self.numLaps -1):
+    #         if strategy['PitStop'][i] == True:
+    #             num_pitstop +=1
+    #     return num_pitstop
+    
+    # def countLapsStint(self, strategy: dict):
+    #     if len(strategy['TyreAge']) == 0:
+    #         strategy['TyreAge'].append(1)
+    #         for i in range(1, self.numLaps-1):
+    #             if strategy['Compound'][i] == strategy['Compound'][i-1]:
+    #                 strategy['TyreAge'].append(strategy['TyreAge'][i-1] + 1)
+    #             else:
+    #                 strategy['TyreAge'].append(1)
+    #     #print(strategy['TyreAge'])
+    #     else:
+    #         strategy['TyreAge'][0] = 1
+    #         for i in range(1, self.numLaps-1):
+    #             if strategy['Compound'][i] == strategy['Compound'][i-1]:
+    #                 strategy['TyreAge'][i] = strategy['TyreAge'][i-1] + 1
+    #             else:
+    #                 strategy['TyreAge'][i] = 1
+    #     return strategy
+
     def correct_strategy_pitstop(self, strategy:dict, indexPitStop: int):
         tyresAge = 0
         if indexPitStop == 0:
@@ -350,7 +408,6 @@ class GeneticSolver:
             for i in range(1, self.numLaps):
                     if strategy['PitStop'][i] == False:
                         tyresAge += 1
-                        strategy['TyreAge'][i] = tyresAge
                         strategy['TyreCompound'][i] = strategy['TyreCompound'][i-1]
                         strategy['TyreWear'][i] = self.getTyreWear(strategy['TyreCompound'][i], tyresAge)
                         strategy['LapTime'][i] = self.getLapTime(strategy['TyreCompound'][i], tyresAge, i, strategy['FuelLoad'][i], strategy['Weather'][:i], False, False)
@@ -364,15 +421,17 @@ class GeneticSolver:
             for i in range(indexPitStop, self.numLaps):
                     if strategy['PitStop'][i] == False:
                         tyresAge += 1
-                        strategy['TyreAge'][i] = tyresAge
                         strategy['TyreCompound'][i] = strategy['TyreCompound'][i-1]
                         strategy['TyreWear'][i] = self.getTyreWear(strategy['TyreCompound'][i], tyresAge)
                         strategy['LapTime'][i] = self.getLapTime(strategy['TyreCompound'][i], tyresAge, i, strategy['FuelLoad'][i], strategy['Weather'][:i], False, False)
+
                     else:
                         tyresAge = 0
 
-        strategy['NumPitStop'] = sum([x for x in strategy['PitStop'] if x])
-        
+                
+
+        strategy['NumPitStop'] = sum([x for x in strategy['PitStop'] if x])#self.count_pitstop(strategy)
+        #self.countLapsStint(strategy)
         stints = set(strategy['TyreCompound'])
         if len(stints) > 0 and strategy['FuelLoad'][-1] >= 1:
             strategy['TotalTime'] = sum(strategy['LapTime'])
@@ -406,8 +465,8 @@ class GeneticSolver:
             # perform crossover
 
             ### {'TyresAvailability': self.availableTyres.copy(), 'TyreCompound': [], 'TyreStatus':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'LapsCompound':[], 'Weather':[], 'TotalTime': np.inf}
-            c1 = {'TyresAvailability': copy.deepcopy(self.availableTyres),'TyreCompound': p1['TyreCompound'][:pt]+p2['TyreCompound'][pt:], 'TyreAge':p1['TyreAge'][:pt]+p2['TyreAge'][pt:], 'TyreWear': p1['TyreWear'][:pt]+p2['TyreWear'][pt:], 'FuelLoad': p1['FuelLoad'][:pt]+p2['FuelLoad'][pt:], 'PitStop': p1['PitStop'][:pt]+p2['PitStop'][pt:], 'LapTime': p1['LapTime'][:pt]+p2['LapTime'][pt:], 'LapsCompound': p1['LapsCompound'][:pt]+p2['LapsCompound'][pt:], 'Weather':p1['Weather'], 'NumPitStop': p1['NumPitStop'], 'TotalTime': p1['TotalTime']}
-            c2 = {'TyresAvailability': copy.deepcopy(self.availableTyres),'TyreCompound': p2['TyreCompound'][:pt]+p1['TyreCompound'][pt:], 'TyreAge':p2['TyreAge'][:pt]+p1['TyreAge'][pt:], 'TyreWear': p2['TyreWear'][:pt]+p1['TyreWear'][pt:], 'FuelLoad': p2['FuelLoad'][:pt]+p1['FuelLoad'][pt:], 'PitStop': p2['PitStop'][:pt]+p1['PitStop'][pt:], 'LapTime': p2['LapTime'][:pt]+p1['LapTime'][pt:], 'LapsCompound': p2['LapsCompound'][:pt]+p1['LapsCompound'][pt:], 'Weather':p2['Weather'], 'NumPitStop': p2['NumPitStop'], 'TotalTime': p2['TotalTime']}
+            c1 = {'TyresAvailability': copy.deepcopy(self.availableTyres),'TyreCompound': p1['TyreCompound'][:pt]+p2['TyreCompound'][pt:], 'TyreStatus':p1['TyreStatus'][:pt]+p2['TyreStatus'][pt:], 'TyreWear': p1['TyreWear'][:pt]+p2['TyreWear'][pt:], 'FuelLoad': p1['FuelLoad'][:pt]+p2['FuelLoad'][pt:], 'PitStop': p1['PitStop'][:pt]+p2['PitStop'][pt:], 'LapTime': p1['LapTime'][:pt]+p2['LapTime'][pt:], 'LapsCompound': p1['LapsCompound'][:pt]+p2['LapsCompound'][pt:], 'Weather':p1['Weather'], 'NumPitStop': p1['NumPitStop'], 'TotalTime': p1['TotalTime']}
+            c2 = {'TyresAvailability': copy.deepcopy(self.availableTyres),'TyreCompound': p2['TyreCompound'][:pt]+p1['TyreCompound'][pt:], 'TyreStatus':p2['TyreStatus'][:pt]+p1['TyreStatus'][pt:], 'TyreWear': p2['TyreWear'][:pt]+p1['TyreWear'][pt:], 'FuelLoad': p2['FuelLoad'][:pt]+p1['FuelLoad'][pt:], 'PitStop': p2['PitStop'][:pt]+p1['PitStop'][pt:], 'LapTime': p2['LapTime'][:pt]+p1['LapTime'][pt:], 'LapsCompound': p2['LapsCompound'][:pt]+p1['LapsCompound'][pt:], 'Weather':p2['Weather'], 'NumPitStop': p2['NumPitStop'], 'TotalTime': p2['TotalTime']}
             
             return [self.correct_strategy(c1), self.correct_strategy(c2)]
         
@@ -415,6 +474,15 @@ class GeneticSolver:
 
     def correct_strategy(self, strategy:dict):
         initialFuelLoad = strategy['FuelLoad'][0]
+        tyresAge = strategy['LapsCompound'][0]
+        compound = strategy['TyreCompound'][0]
+        
+        tyreState = checkTyreAvailability(compound, strategy['TyresAvailability'])
+
+        if tyreState is None:
+            return self.randomChild()
+
+        strategy['TyresAvailability'][compound][tyreState] -= 1
         pitStopCounter = 0
         
         for lap in range(1, self.numLaps):
@@ -424,23 +492,41 @@ class GeneticSolver:
 
             ### Get if a pitstop is made and compound lap'
             pitStop = strategy['PitStop'][lap]
-            old_compound = strategy['TyreCompound'][lap-1]
             compound = strategy['TyreCompound'][lap]
-            tyresAge = strategy['TyreAge'][lap]
             
             ### We have two options: either there is a pitstop or the compound has changes, if so we have to recalculate all
-            if pitStop or old_compound != compound or any([x >= 0.8 for x in strategy['TyreWear'][lap-1].values()]):
-                tyresAge = 0
-                pitStop = True
+            if pitStop or compound != strategy['TyreCompound'][lap-1] or any(strategy['TyreWear'][lap-1].values()) >= 0.8:
+                strategy['PitStop'][lap] = True
+                pitStopCounter += 1
+                
+                ### Checking availability of the compound int the set, if not available it will get random strategy
+                if compound is not None:
+                    tyreState = self.checkCompound(compound=compound, availableTyres=strategy['TyresAvailability'])
+                else:
+                    tyreState = None
+                
+                if tyreState is None:
+                    compound, tyreState = self.checkCompound(availableTyres=strategy['TyresAvailability'])
+                    
+                    ### If there are no tyres available, the strategy is not correct => replace it with a new randomic one
+                    if compound is None and tyreState is None:
+                        return self.randomChild()
+                else:
+                    key = checkTyreAvailability(compound, strategy['TyresAvailability'])
+                    if key is None:
+                        return self.randomChild()
+                    strategy['TyresAvailability'][compound][key] -= 1
+
+                tyresAge = 0 if tyreState == 'New' else 2
             else:
                 tyresAge += 1
+                tyreState = 'Used'
                 
             tyreWear = self.getTyreWear(compound=compound, lap=tyresAge)
-            strategy['PitStop'][lap] = pitStop
             strategy['TyreWear'][lap] = tyreWear
-            strategy['TyreAge'][lap] = tyresAge
+            strategy['TyreStatus'][lap] = tyreState
             strategy['LapsCompound'][lap] = tyresAge
-            weather = strategy['Weather'][:lap]
+            weather = strategy['Weather'][:lap+1]
             strategy['LapTime'][lap] = self.getLapTime(compound=compound, compoundAge=tyresAge, lap=lap, fuel_load=fuelLoad,conditions=weather, drs=False, pitStop=pitStop)
             pass
 
@@ -457,7 +543,7 @@ class GeneticSolver:
         compound = strategy['TyreCompound'][lap-1]
         fuelLoad = strategy['FuelLoad'][lap-1]
         for _ in range(lap, self.numLaps):
-            strategy['TyreAge'].append(1)
+            strategy['TyreStatus'].append('Used')
             strategy['TyreCompound'].append(compound)
             strategy['TyreWear'].append({'FL':1.0, 'FR':1.0, 'RL':1.0, 'RR':1.0})
             strategy['FuelLoad'].append(1000)
@@ -466,6 +552,23 @@ class GeneticSolver:
             strategy['LapTime'].append(0)
 
         return strategy
+
+    
+    def basicTiming(self,):
+        pitStoplap = 25
+        time = 0
+        fuel_load=self.getInitialFuelLoad()
+        for i in range(self.numLaps):
+            if i == 0:
+                time += self.lapTime(compound='Medium', compoundAge=i, lap=i, fuel_load=fuel_load, pitStop=False)
+            elif i < pitStoplap:
+                time += self.lapTime(compound='Medium', compoundAge=i, lap=i, fuel_load=self.getFuelLoad(i, fuel_load), pitStop=False)
+            elif i == pitStoplap:
+                time += self.lapTime(compound='Hard', compoundAge=i-pitStoplap, lap=i, fuel_load=self.getInitialFuelLoad(), pitStop=True)
+            else:
+                time += self.lapTime(compound='Hard', compoundAge=i-pitStoplap, lap=i, fuel_load=self.getInitialFuelLoad(), pitStop=False)
+        
+        return ms_to_time(time)
 
     def build_tree(self, tree:list, temp_tree:list, tyres_age, start_fuel, lap):
         if lap == self.numLaps:
@@ -516,13 +619,13 @@ class GeneticSolver:
         start = time.time()
         
         if self.weather[0] == "Dry":
-            for compound in ['Hard', 'Medium', 'Soft']:
+            for index, compound in enumerate(['Hard', 'Medium', 'Soft']):
                 temp_tree.append({'Compound':compound, 'TyresAge':0, 'FuelLoad':start_fuel, 'PitStop':False, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=0, fuel_load=start_fuel, conditions=[self.weather[0]], drs=False, pitStop=False)})
                 self.build_tree(tree, temp_tree, 0, start_fuel, 1)
                 print(f"{compound} done in {time.time()-start}")
                 temp_tree.pop()
         else:
-            for compound in ['Inter', 'Wet']:
+            for index, compound in enumerate(['Inter', 'Wet']):
                 temp_tree.append({'Compound':compound, 'TyresAge':0, 'FuelLoad':start_fuel, 'PitStop':False, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=0, fuel_load=start_fuel, conditions=[self.weather[0]], drs=False, pitStop=False)})
                 self.build_tree(tree, temp_tree, 0, start_fuel, 1)
                 print(f"{compound} done in {time.time()-start}")
