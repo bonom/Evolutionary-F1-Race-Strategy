@@ -157,7 +157,17 @@ class GeneticSolver:
                             # mutation
                             for l in self.mutation(c):
                                 children.append(l)
-                        
+
+                to_pop = []
+                for i in range(0, len(children)-1):
+                    for j in range(i+1, len(children)):
+                        if children[i] == children[j] and j not in to_pop:
+                            to_pop.append(j)
+                
+                to_pop.reverse()
+                for i in to_pop:
+                    children.pop(i)
+                    
                 # add children to the population if the population is not full
                 for _ in range(self.population-len(children)):
                     children.append(self.randomChild())
