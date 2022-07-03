@@ -20,7 +20,7 @@ def main():
         if '.DS_Store' in circuits:
             circuits.remove('.DS_Store')
     else:
-        if 'Data' in args.c.split('\\'):#.split("\\"):
+        if 'Data' in args.c.split('/'):#.split("\\"):
             path = os.path.abspath(args.c)
         else:
             path = os.path.abspath(os.path.join('Data', args.c))
@@ -35,7 +35,7 @@ def main():
         #race_data:RaceData = RaceData(circuit)
         #race_data.plot(path=circuit)
         
-        genetic = GeneticSolver(car=car, population=300, iterations=1000,circuit=circuit.split("\\")[-1])
+        genetic = GeneticSolver(car=car, population=300, iterations=1000,circuit=circuit.split("/")[-1])
         #genetic.lower_bound()
         genetic.startSolver()
 

@@ -4,13 +4,23 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
         {
-            "name": "Python: Current File",
+            "name": "Python: Main.py",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "d:\\Projects\\Bio-F1\\main.py",
             "console": "integratedTerminal",
             "justMyCode": true
+        },
+        {
+            "name": "Austria",
+            "type": "python",
+            "request": "launch",
+            "program": "d:\\Projects\\Bio-F1\\main.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--c", "Spielberg"]
         },
         {
             "name": "Monza",
