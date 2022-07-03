@@ -3,7 +3,8 @@ import os
 import plotly.express as px
 import plotly.graph_objects as go
 import pickle
-
+import pandas as pd
+import numpy as np
 from classes.Utils import ms_to_time
 
 class RaceData():
@@ -131,3 +132,47 @@ class RaceData():
         with open(os.path.join(path,"RaceData.json"), 'rb') as f:
             data = pickle.load(f)
         return data
+
+
+def plot_best(values:list, folder:str):
+    folder = os.path.join(folder,"Race")
+    if not os.path.isdir(folder):
+        return 
+
+    data = pd.DataFrame(columns=['Car', 'TotalLapTime'])
+
+    for car_index in range(22):
+        lap = pd.read_csv(os.path.join(folder, "Lap.csv"))
+        lap = lap.loc[lap["CarIndex"] == car_index, ['CurrentLapNum', 'FrameIdentifier', 'LastLapTimeInMS']].drop_duplicates(['FrameIdentifier'], keep="last")
+        lap = lap.drop_duplicates(['CurrentLapNum','LastLapTimeInMS'], keep='first').sort_values(by=['FrameIdentifier']).set_index("FrameIdentifier")
+
+        to_drop = []
+        if os.path.isfile(os.path.join(folder, "to_drop.txt")):
+            with open(os.path.join(folder, "to_drop.txt"), "r") as f:
+                to_drop = [int(x) for x in f.read().split(",")[:-1]]
+        
+        else:
+            laps = lap['CurrentLapNum']
+            duplicated_laps = lap[laps.isin(laps[laps.duplicated()])].sort_values("FrameIdentifier")
+            print(f"Lap DataFrame is the following:")
+            for idx, row in lap.iterrows():
+                print(f"{idx}, {row['CurrentLapNum']} -> {ms_to_time(row['LastLapTimeInMS'])}")
+            print(f"\nDuplicated ones are:\n{duplicated_laps}")
+            to_drop = input("If there are some wrong frames, insert now separated by comma or press ENTER if None: ")
+            if to_drop:
+                to_drop = np.array(to_drop.split(','), dtype=int)
+            with open(os.path.join(folder, "to_drop.txt"), "w") as f:
+                for frame in to_drop:
+                    f.write(f"{frame},")
+
+        for index in to_drop:
+            if index in lap.index:
+                lap = lap.drop(index)
+
+        sub = min(lap['CurrentLapNum'])-1
+        for i in lap.index:
+            lap.at[i,'CurrentLapNum'] = int(lap.at[i,'CurrentLapNum'])-sub
+        
+        data.at[car_index, 'TotalLapTime'] = lap['LastLapTimeInMS'].sum()
+
+    ### MISSING FIGURE MANAGE

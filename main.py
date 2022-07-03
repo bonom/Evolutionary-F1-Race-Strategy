@@ -1,7 +1,7 @@
 import sys, os
 from classes.Genetic import GeneticSolver
 from classes.Car import get_car_data, Car
-from classes.Race import RaceData
+from classes.Race import RaceData, plot_best
 from classes.Utils import ms_to_time
 
 import argparse
@@ -31,14 +31,15 @@ def main():
             print(f"Invalid circuit path: {path}")
     
     for circuit in circuits:
+        #plot_best([0],circuit)
         car:Car = get_car_data(circuit)
         #race_data:RaceData = RaceData(circuit)
         #race_data.plot(path=circuit)
         
         genetic = GeneticSolver(car=car, population=300, iterations=1000,circuit=circuit.split("/")[-1])
-        #genetic.lower_bound()
         genetic.startSolver()
-
+        #genetic.lower_bound()
+        
 if __name__ == "__main__":
     main()
     sys.exit(0)

@@ -34,7 +34,7 @@ def changeTyre(tyresWear:dict):
     return False
 
 class GeneticSolver:
-    def __init__(self, population:int=2, mutation_pr:float=0.8, crossover_pr:float=0.5, iterations:int=1, car:Car=None, circuit:str='') -> None:
+    def __init__(self, population:int=2, mutation_pr:float=0., crossover_pr:float=0., iterations:int=1, car:Car=None, circuit:str='') -> None:
         self.circuit = circuit
         self.pitStopTime = CIRCUIT[circuit]['PitStopTime']
         self.availableTyres:dict = dict()
@@ -245,7 +245,7 @@ class GeneticSolver:
         
         ### Check that all constraints are ok and if so compute the Total Time
         allCompounds = set(strategy['TyreCompound'])
-        if len(allCompounds) > 0 and strategy['FuelLoad'][-1] >= 1:
+        if len(allCompounds) > 1 and strategy['FuelLoad'][-1] >= 1:
             strategy['TotalTime'] = sum(strategy['LapTime'])
             return strategy
         else:
@@ -259,40 +259,6 @@ class GeneticSolver:
         elif weather == 'Dry/Wet':
             return random.choice(['Soft', 'Medium', 'Hard', 'Inter'])
         return random.choice(['Soft', 'Medium', 'Hard'])
-    
-    # def checkCompound(self, compound:str=None, availableTyres:dict={}, weather:str="Dry"):
-    #     if compound is not None:
-    #         return checkTyreAvailability(compound,availableTyres)
-        
-    #     compound = self.randomCompound(weather)
-    #     tyreState = checkTyreAvailability(compound,availableTyres)
-        
-    #     if tyreState is None:
-    #         count = 0
-    #         for tyres, states in availableTyres.items():
-    #             if "Dry" in weather[-1] and tyres in ['Soft', 'Medium', 'Hard']:
-    #                 for _, val in states.items():
-    #                     if val > 0:
-    #                         count += val
-    #             if "Wet" in weather[-1] and tyres == 'Inter':# ['Inter', 'Wet']:
-    #                 for _, val in states.items():
-    #                     if val > 0:
-    #                         count += val
-    #             if weather[-1] == "VWet" and tyres == 'Wet':
-    #                 for _, val in states.items():
-    #                     if val > 0:
-    #                         count += val
-
-    #         if count == 0:
-    #             return None, None
-                
-    #     while tyreState is None:
-    #         compound = self.randomCompound(weather)
-    #         tyreState = checkTyreAvailability(compound,availableTyres)
-
-    #     availableTyres[compound][tyreState] -= 1
-
-    #     return compound, 'New' if tyreState == 'New' else 'Used'
 
     def selection(self,population, percentage:float=0.4):
         sortedPopulation = sorted(population, key=lambda x: x['TotalTime'])
@@ -383,16 +349,13 @@ class GeneticSolver:
     def mutation(self,child:dict) -> list:
         childCompound = child
         childPitStop = child
-        children = list()
+        children = []
 
         if random.random() < self.sigma:
             children.append(self.mutation_compound(childCompound))
         
         if random.random() < self.sigma:
             children.append(self.mutation_pitstop(childPitStop))
-        
-        if len(children) == 0:
-            children.append(child)
         
         return children
     
@@ -411,7 +374,7 @@ class GeneticSolver:
             
             return [self.correct_strategy(c1), self.correct_strategy(c2)]
         
-        return [c1, c2]
+        return []
 
     def correct_strategy(self, strategy:dict):
         initialFuelLoad = strategy['FuelLoad'][0]
