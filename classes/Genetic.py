@@ -34,7 +34,7 @@ def changeTyre(tyresWear:dict):
     return False
 
 class GeneticSolver:
-    def __init__(self, population:int=2, mutation_pr:float=0., crossover_pr:float=0., iterations:int=1, car:Car=None, circuit:str='') -> None:
+    def __init__(self, population:int=2, mutation_pr:float=0.75, crossover_pr:float=0.5, iterations:int=1, car:Car=None, circuit:str='') -> None:
         self.circuit = circuit
         self.pitStopTime = CIRCUIT[circuit]['PitStopTime']
         self.availableTyres:dict = dict()
@@ -126,12 +126,22 @@ class GeneticSolver:
         # enumerate generations
         try:
             for gen in range(self.iterations):
+                to_pop = []
+                for i in range(0, len(pop)-1):
+                    for j in range(i+1, len(pop)):
+                        if pop[i] == pop[j] and j not in to_pop:
+                            to_pop.append(j)
+                
+                to_pop = sorted(to_pop, reverse=True)
+                for i in to_pop:
+                    pop.pop(i)
+
                 temp_best, temp_best_eval = 0, pop[0]['TotalTime']
 
                 # evaluate all candidates in the population
                 scores = [c['TotalTime'] for c in pop]
                 # check for new best solution
-                for i in range(self.population):
+                for i in range((len(pop))):
                     if scores[i] < best_eval:
                         best, best_eval = pop[i], scores[i]
                     if scores[i] < temp_best_eval:
@@ -157,16 +167,6 @@ class GeneticSolver:
                             # mutation
                             for l in self.mutation(c):
                                 children.append(l)
-
-                to_pop = []
-                for i in range(0, len(children)-1):
-                    for j in range(i+1, len(children)):
-                        if children[i] == children[j] and j not in to_pop:
-                            to_pop.append(j)
-                
-                to_pop.reverse()
-                for i in to_pop:
-                    children.pop(i)
                     
                 # add children to the population if the population is not full
                 for _ in range(self.population-len(children)):
