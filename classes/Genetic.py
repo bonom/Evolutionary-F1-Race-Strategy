@@ -299,7 +299,7 @@ class GeneticSolver:
             penalty.append(p['TotalTime'] - sortedPopulation[0]['TotalTime'])
 
         treshold_first_quantile = np.quantile(penalty, 0.25)
-        treshold_second_quantile = np.quantile(penalty, 0.25)
+        treshold_second_quantile = np.quantile(penalty, 0.50)
         print('PENALTY -> The best value is : ', penalty[0], ' and then ', penalty[1], ', The treshold is : ', treshold_second_quantile, ', while the max value is ',penalty[-1] )
         for i in range(0, len(penalty)):
             if penalty[i] < treshold_second_quantile:
