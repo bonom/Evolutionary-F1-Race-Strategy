@@ -133,8 +133,12 @@ class GeneticSolver:
                             to_pop.append(j)
                 
                 to_pop = sorted(to_pop, reverse=True)
+                #print(to_pop)
                 for i in to_pop:
                     pop.pop(i)
+
+                print(len(pop))
+                #print(pop)
 
                 temp_best, temp_best_eval = 0, pop[0]['TotalTime']
 
@@ -148,8 +152,11 @@ class GeneticSolver:
                         temp_best, temp_best_eval = pop[i], scores[i]
                 
                 # select parents
-                selected = self.selection(population=pop,percentage=0.4)
-               
+                #selected = self.selection(population=pop,percentage=0.4)
+                selected = self.selection_dynamic_penalty(population=pop)
+
+                print(len(selected))
+
                 # create the next generation
                 children = [parent for parent in selected]
                 #for i in range(0, len(selected)-1):
@@ -278,6 +285,22 @@ class GeneticSolver:
         if len(selected) >= int(len(population)*percentage):
             return selected[:int(len(population)*percentage)]
         
+        return selected
+
+    def selection_dynamic_penalty(sel, population):
+        sortedPopulation = sorted(population, key=lambda x: x['TotalTime'])
+        penalty= []
+        selected = []
+
+        for p in sortedPopulation:
+            penalty.append(p['TotalTime'] - sortedPopulation[0]['TotalTime'])
+
+        treshold = np.quantile(penalty, 0.5)
+        print('PENALTY -> The best value is : ', penalty[0], ' and then ', penalty[1], ', The treshold is : ', treshold, ', while the max value is ',penalty[-1] )
+        for i in range(0, len(penalty)):
+            if penalty[i] < treshold:
+                selected.append(sortedPopulation[i])    
+
         return selected
 
     def mutation_compound(self, child:dict, ):
