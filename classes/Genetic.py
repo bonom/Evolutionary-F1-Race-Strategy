@@ -137,7 +137,7 @@ class GeneticSolver:
                 for i in to_pop:
                     pop.pop(i)
 
-                print(len(pop))
+                #print(len(pop))
                 #print(pop)
 
                 temp_best, temp_best_eval = 0, pop[0]['TotalTime']
@@ -155,7 +155,7 @@ class GeneticSolver:
                 #selected = self.selection(population=pop,percentage=0.4)
                 selected = self.selection_dynamic_penalty(population=pop)
 
-                print(len(selected))
+                #print(len(selected))
 
                 # create the next generation
                 children = [parent for parent in selected]
@@ -165,6 +165,7 @@ class GeneticSolver:
                 if len(selected) > self.population:
                     selected = selected[:self.population]
 
+                print(len(children))
                 if len(selected) > 1:
                     for i in range(0, len(selected)-2, 2): # why not 1? I know there will be 2*population length - 2 but maybe it is good
                         # get selected parents in pairs
@@ -174,7 +175,8 @@ class GeneticSolver:
                             # mutation
                             for l in self.mutation(c):
                                 children.append(l)
-                    
+                        
+                print(len(children))
                 # add children to the population if the population is not full
                 for _ in range(self.population-len(children)):
                     children.append(self.randomChild())
@@ -290,18 +292,28 @@ class GeneticSolver:
     def selection_dynamic_penalty(sel, population):
         sortedPopulation = sorted(population, key=lambda x: x['TotalTime'])
         penalty= []
-        selected = []
+        selected_first_quantile = []
+        selected_second_quantile = []
 
         for p in sortedPopulation:
             penalty.append(p['TotalTime'] - sortedPopulation[0]['TotalTime'])
 
-        treshold = np.quantile(penalty, 0.5)
-        print('PENALTY -> The best value is : ', penalty[0], ' and then ', penalty[1], ', The treshold is : ', treshold, ', while the max value is ',penalty[-1] )
+        treshold_first_quantile = np.quantile(penalty, 0.25)
+        treshold_second_quantile = np.quantile(penalty, 0.25)
+        print('PENALTY -> The best value is : ', penalty[0], ' and then ', penalty[1], ', The treshold is : ', treshold_second_quantile, ', while the max value is ',penalty[-1] )
         for i in range(0, len(penalty)):
-            if penalty[i] < treshold:
-                selected.append(sortedPopulation[i])    
+            if penalty[i] < treshold_second_quantile:
+                selected_second_quantile.append(sortedPopulation[i])    
+            if penalty[i] < treshold_first_quantile:
+                selected_first_quantile.append(sortedPopulation[i])
 
-        return selected
+        if len(selected_second_quantile) > len(population)*0.5:
+            print('solo primo quantile')
+            return selected_first_quantile
+        else: 
+            print('anche secondo quantile')
+            return selected_second_quantile
+
 
     def mutation_compound(self, child:dict, ):
         ### Initialize lap from which we will mutate
