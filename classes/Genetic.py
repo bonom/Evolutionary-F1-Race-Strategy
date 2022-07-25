@@ -151,6 +151,7 @@ class GeneticSolver:
                     for j in range(i+1, len(population)):
                         if population[i] == population[j] and j not in to_pop:
                             to_pop.append(j)
+
                 # Removing duplicates by sorted indexes would return an error (we are changing length of the list) so we remove them in reversed order
                 to_pop = sorted(to_pop, reverse=True)
                 for i in to_pop:
@@ -418,26 +419,34 @@ class GeneticSolver:
 
         penalty= [delta/max_delta for delta in deltas]
 
-        quantile = np.quantile(penalty, threshold_quantile)
-
-        alpha = np.exp(0.005*step)
+        alpha = np.exp(1+(1/self.iterations)*step)
         penalty = [p*alpha for p in penalty]
+
+        quantile = np.quantile(penalty, threshold_quantile)
 
         for p, pop in zip(penalty, sortedPopulation):
             if pop['NumPitStop'] < 1:
-                p *= np.exp(alpha)
+                p *= alpha
                 if p == 0.0:
                     p = np.exp(alpha)
             if pop['FuelLoad'][-1] < 1:
-                p *= np.exp(1-pop['FuelLoad'][-1])
+                p *= np.exp(2-pop['FuelLoad'][-1])
                 if p == 0.0:
-                    p = np.exp(1-pop['FuelLoad'][-1])
+                    p = np.exp(2-pop['FuelLoad'][-1])
         
-        
-        selected = [x for idx, x in enumerate(sortedPopulation) if penalty[idx] < quantile]
+        #sortedPenalty, sortedPopulation = [x for _, x in sorted(zip(penalty, sortedPopulation))]
+        #selected = [x for idx, x in enumerate(sortedPopulation) if penalty[idx] < quantile]
+        for idx, x in enumerate(sortedPopulation):
+            x['Penalty'] = penalty[idx]
+        sortedPopulation = sorted(sortedPopulation, key=lambda x: x['Penalty'])
+        selected = [x for idx, x in enumerate(sortedPopulation) if x['Penalty'] < quantile]
+        for x in sortedPopulation:
+            x.pop('Penalty')
+
         if len(selected) <= 1:
             threshold_quantile+=0.01
             return self.selection_dynamic_penalty(step, population, threshold_quantile)
+        
         
         return selected
 
@@ -463,10 +472,16 @@ class GeneticSolver:
         mutationCompound = self.randomCompound(child['Weather'][lap])
 
         ### Until new pitStop we change the compound and then correct strategy will make everything ok
+        #pitStop = child['PitStop'][lap]
+        child['TyreCompound'][lap] = mutationCompound
+        lap += 1
+        if lap == self.numLaps:
+            return self.correct_strategy(child)
+             
         pitStop = child['PitStop'][lap]
         while not pitStop and lap < self.numLaps-1:
             child['TyreCompound'][lap] = mutationCompound
-            pitStop = child['PitStop'][lap+1]
+            pitStop = child['PitStop'][lap +1 ]
             lap += 1
         
         return self.correct_strategy(child)
@@ -478,7 +493,8 @@ class GeneticSolver:
         if childPitNum < 1:
             return self.randomChild()
         
-        if childPitNum == 1:
+        #There should be at least 1 pitstop
+        if childPitNum == 1: 
             return child
         
         numRandomPitStop = random.randint(1,childPitNum)
@@ -511,9 +527,10 @@ class GeneticSolver:
                         tyresAge = 0
         else:
             i = indexPitStop
-            while strategy['TyreCompound'][i] == strategy['TyreCompound'][i-1] and i > 1:
-                tyresAge += 1
-                i -= 1
+            # while strategy['TyreCompound'][i] == strategy['TyreCompound'][i-1] and i > 1:
+            #     tyresAge += 1
+            #     i -= 1
+            tyresAge = strategy['TyreAge'][i-1]
             for i in range(indexPitStop, self.numLaps):
                     if strategy['PitStop'][i] == False:
                         tyresAge += 1
@@ -527,7 +544,7 @@ class GeneticSolver:
         strategy['NumPitStop'] = sum([x for x in strategy['PitStop'] if x])
         
         stints = set(strategy['TyreCompound'])
-        if len(stints) > 0 and strategy['FuelLoad'][-1] >= 1:
+        if len(stints) > 1 and strategy['FuelLoad'][-1] >= 1:
             strategy['TotalTime'] = sum(strategy['LapTime'])
             return strategy
         
