@@ -14,6 +14,19 @@ from classes.Utils import CIRCUIT, ms_to_time
 DRY_COMPOUNDS:list = ['Soft', 'Medium', 'Hard']
 PITSTOP = [True, False]
 
+def orderOfMagnitude(number):
+    order = 0
+    if number < 1 and number > 0:
+        while number<1.0:
+            order-=1
+            number*=10
+    elif number > 0:
+        while number>1.0:
+            order+=1
+            number/=10
+
+    return order
+
 def overLimit(values, limit):
     if not isinstance(values, list):
         values = list(values)
@@ -50,29 +63,32 @@ class GeneticSolver:
         self.mu_decay = 0.99
         self.sigma_decay = 0.99
 
-        self.availableTyres = self.get_available_tyres(circuit)
+        #self.availableTyres = self.get_available_tyres(circuit) #DISCONTINUED
 
-    def get_available_tyres(self, circuit:str):
-        available_tyres = {'Soft':{'Used': 0, 'New': 0}, 'Medium':{'Used': 0, 'New': 0}, 'Hard':{'Used': 0, 'New': 0}, 'Inter':{'Used': 0, 'New': 0}, 'Wet':{'Used': 0, 'New': 0}}
-        print(f"Please insert tyres available for '{circuit}':")
-        for tyre in ['Soft', 'Medium', 'Hard', 'Inter', 'Wet']:
-            #available_tyres[tyre]['Used'] = int(input(f"\t\t\t {tyre} Used: "))
-            #available_tyres[tyre]['New'] = int(input(f"\t\t\t {tyre} New: "))
-            available_tyres[tyre]['Used'] = 0
-            available_tyres[tyre]['New'] = 0
+
+    ### DISCONTINUED
+    # def get_available_tyres(self, circuit:str):
+    #     available_tyres = {'Soft':{'Used': 0, 'New': 0}, 'Medium':{'Used': 0, 'New': 0}, 'Hard':{'Used': 0, 'New': 0}, 'Inter':{'Used': 0, 'New': 0}, 'Wet':{'Used': 0, 'New': 0}}
+    #     print(f"Please insert tyres available for '{circuit}':")
+    #     for tyre in ['Soft', 'Medium', 'Hard', 'Inter', 'Wet']:
+    #         #available_tyres[tyre]['Used'] = int(input(f"\t\t\t {tyre} Used: "))
+    #         #available_tyres[tyre]['New'] = int(input(f"\t\t\t {tyre} New: "))
+    #         available_tyres[tyre]['Used'] = 0
+    #         available_tyres[tyre]['New'] = 0
         
-        return available_tyres
+    #     return available_tyres
 
-    def print(self) -> str:
-        string = ''
-        for i in range(self.population):
-            string+=f"---------- Individual {i+1} ----------\n"
-            for lap in range(self.numLaps):
-                string+=f"{lap+1}º LapTime: {ms_to_time(self.strategies[i]['LapTime'][lap])} | TyreCompound: {self.strategies[i]['TyreCompound'][lap]} | TyreWear: {self.strategies[i]['TyreWear'][lap]} | FuelLoad: {self.strategies[i]['FuelLoad'][lap]} | PitStop: {self.strategies[i]['PitStop'][lap]} | LapsCompound: {self.strategies[i]['LapsCompound'][lap]}\n"
-            string+=f"TotalTime: {ms_to_time(self.strategies[i]['TotalTime'])}\n"
-            string+="\n"
+    # DISCONTINUED OR MUST BE REWRITTEN
+    # def print(self) -> str:
+    #     string = ''
+    #     for i in range(self.population):
+    #         string+=f"---------- Individual {i+1} ----------\n"
+    #         for lap in range(self.numLaps):
+    #             string+=f"{lap+1}º LapTime: {ms_to_time(self.strategies[i]['LapTime'][lap])} | TyreCompound: {self.strategies[i]['TyreCompound'][lap]} | TyreWear: {self.strategies[i]['TyreWear'][lap]} | FuelLoad: {self.strategies[i]['FuelLoad'][lap]} | PitStop: {self.strategies[i]['PitStop'][lap]} | LapsCompound: {self.strategies[i]['LapsCompound'][lap]}\n"
+    #         string+=f"TotalTime: {ms_to_time(self.strategies[i]['TotalTime'])}\n"
+    #         string+="\n"
 
-        return string
+    #     return string
     
     def getTyreWear(self, compound:str, lap:int):
         if lap == 0:
@@ -116,81 +132,100 @@ class GeneticSolver:
 
     def startSolver(self,):
         fitness_values = list()
+        threshold_quantile = 0.3
+        counter = -1
 
         # initial population of random bitstring
-        pop = self.initSolver()
-        #print(pop)
+        population = self.initSolver()
+        
         # keep track of best solution
-        best, best_eval = pop[0], pop[0]['TotalTime']
+        best, best_eval = population[0], population[0]['TotalTime']
         
         # enumerate generations
         try:
             for gen in range(self.iterations):
+                
+                # Checking if there are duplicates, if so, we remove them
                 to_pop = []
-                for i in range(0, len(pop)-1):
-                    for j in range(i+1, len(pop)):
-                        if pop[i] == pop[j] and j not in to_pop:
+                for i in range(0, len(population)-1):
+                    for j in range(i+1, len(population)):
+                        if population[i] == population[j] and j not in to_pop:
                             to_pop.append(j)
-                
+                # Removing duplicates by sorted indexes would return an error (we are changing length of the list) so we remove them in reversed order
                 to_pop = sorted(to_pop, reverse=True)
-                #print(to_pop)
                 for i in to_pop:
-                    pop.pop(i)
+                    population.pop(i)
 
-                #print(len(pop))
-                #print(pop)
+                # Gathering the first solution from population at gen^th generation
+                temp_best, temp_best_eval = 0, population[0]['TotalTime']
 
-                temp_best, temp_best_eval = 0, pop[0]['TotalTime']
+                # Evaluate all candidates in the population
+                scores = [c['TotalTime'] for c in population]
 
-                # evaluate all candidates in the population
-                scores = [c['TotalTime'] for c in pop]
-                # check for new best solution
-                for i in range((len(pop))):
+                # Check for new best solution
+                counter += 1
+                for i in range((len(population))):
                     if scores[i] < best_eval:
-                        best, best_eval = pop[i], scores[i]
+                        best, best_eval = population[i], scores[i]
+                        counter = 0
                     if scores[i] < temp_best_eval:
-                        temp_best, temp_best_eval = pop[i], scores[i]
+                        temp_best, temp_best_eval = population[i], scores[i]
                 
-                # select parents
-                #selected = self.selection(population=pop,percentage=0.4)
-                selected = self.selection_dynamic_penalty(population=pop)
+                # Select parents
+                #selected = self.selection(population=population,percentage=0.4)
+                #selected = self.selection_dynamic_penalty(population=population)
 
-                #print(len(selected))
+                selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=threshold_quantile)
+                
 
-                # create the next generation
+                # Create the next generation
                 children = [parent for parent in selected]
-                #for i in range(0, len(selected)-1):
-                #    children.append(selected[i])
 
                 if len(selected) > self.population:
                     selected = selected[:self.population]
 
-                print(len(children))
                 if len(selected) > 1:
                     for i in range(0, len(selected)-2, 2): # why not 1? I know there will be 2*population length - 2 but maybe it is good
-                        # get selected parents in pairs
+                        # Get selected parents in pairs
                         p1, p2 = selected[i], selected[i+1]
-                        # crossover and mutation
+                        # Crossover 
                         for c in self.crossover(p1, p2):
-                            # mutation
+                            # Mutation
                             for l in self.mutation(c):
                                 children.append(l)
-                        
-                print(len(children))
-                # add children to the population if the population is not full
+
+                non_random_pop = len(children)
+
+                # Add random children to the population if the population is not full
                 for _ in range(self.population-len(children)):
                     children.append(self.randomChild())
                 
-                # replace population
-                pop = children
-                
-                #self.sigma = self.sigma * self.sigma_decay
-                #self.mu = self.mu * self.mu_decay
+                # Replace population
+                population = children
 
                 fitness_values.append(temp_best_eval)
 
                 #if gen%10:
-                print(f'Generation {gen+1}/{self.iterations} best overall: {ms_to_time(best_eval)}, best of generation: {ms_to_time(temp_best_eval)}, valid individuals: {round(len(selected)/self.population,2)}%')
+                print(f'Generation {gen+1}/{self.iterations} best overall: {ms_to_time(best_eval)}, best of generation: {ms_to_time(temp_best_eval)}, valid individuals: {round(non_random_pop/self.population,2)}% and threshold is {threshold_quantile} and counter = {counter}/{(self.iterations)//75}')
+                #threshold_quantile = round(threshold_quantile - 0.01,2)
+                if counter >= 100:
+                    print("Stopping because of counter (Stuck in local minima or global optimum found)")
+                    break
+                if counter >= (self.iterations)//75:
+                    #threshold_quantile = round(random.random(),2)
+                    half_pop = self.population//2
+                    population = population[:self.population]
+                    idx = random.randint(1, half_pop)
+                    for i in range(half_pop+idx, self.population):
+                        population[i] = self.randomChild()
+                
+                if threshold_quantile <= 0.01:
+                    while threshold_quantile <= 0.05:
+                        threshold_quantile = round(random.random(),2)
+
+                if non_random_pop/self.population == 0.0 or non_random_pop == 1:
+                    print(f"No valid individuals for generating new genetic material({non_random_pop}), stopping")
+                    break
                 
         except KeyboardInterrupt:
             pass 
@@ -204,8 +239,74 @@ class GeneticSolver:
 
         return strategies
 
+    # def randomChild(self):
+    #     strategy = {'TyreCompound': [], 'TyreAge':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'LapsCompound':[], 'Weather':self.weather.copy(), 'TotalTime': np.inf}
+
+    #     weather = [strategy['Weather'][0]]
+
+    #     ### Get a random compound and verify that we can use it, if so we update the used compounds list and add the compound to the strategy
+    #     compound = self.randomCompound(weather[0])
+    #     strategy['TyreCompound'].append(compound)
+
+    #     ### If the compound is used we put a tyre wear of 2 laps (if it is used but available the compound has been used for 2/3 laps.
+    #     ### However, 2 laps out of 3 are done very slowly and the wear is not as the same of 3 laps)
+    #     ### If the compound is new tyre wear = 0
+    #     tyresAge = 0 
+    #     strategy['TyreAge'].append(tyresAge)
+    #     strategy['TyreWear'].append(self.getTyreWear(compound, tyresAge))
+
+    #     ### The fuel load can be inferred by the coefficient of the fuel consumption, we add a random value between -10 and 10 to get a little variation
+    #     initialFuelLoad = self.getInitialFuelLoad(conditions=self.weather)+random.randint(-10,10)
+    #     strategy['FuelLoad'].append(initialFuelLoad)
+
+    #     ### At first lap the pit stop is not made (PitStop list means that at lap i^th the pit stop is made at the beginning of the lap)
+    #     strategy['PitStop'].append(False)
+
+    #     ### Compute lapTime
+    #     strategy['LapTime'].append(self.getLapTime(compound=compound, compoundAge=tyresAge, lap=0, fuel_load=initialFuelLoad, conditions=weather, drs=False, pitStop=False))
+
+    #     ### Add the laps counter of the compound on the car (+1 for all lap we complete with the compound, set to 0 when changing compound)
+    #     strategy['LapsCompound'].append(tyresAge)
+
+    #     ### For every lap we repeat the whole process
+    #     for lap in range(1,self.numLaps):
+    #         weather = strategy['Weather'][:lap+1]
+
+    #         ### The fuel does not depend on the compound and/or pit stops => we compute it and leave it here
+    #         fuelLoad = self.getFuelLoad(initial_fuel=initialFuelLoad, conditions=weather)
+    #         strategy['FuelLoad'].append(fuelLoad)
+
+    #         ### With probability of the tyre wear we make a pit stop (if tyre wear low we have low probability, else high)
+    #         if changeTyre(strategy['TyreWear'][lap-1]):
+    #             ### We have the case of the pitStop => new tyre (can be the same compound type of before!!!)
+    #             compound = self.randomCompound(weather[lap])
+    #             tyresAge = 0
+    #             pitStop = True
+    #             strategy['NumPitStop'] += 1
+    #         else:
+    #             ### No pitstop => same tyres of lap before
+    #             compound = strategy['TyreCompound'][lap-1]
+    #             tyresAge += 1
+    #             pitStop = False
+                
+    #         strategy['TyreAge'].append(tyresAge)
+    #         strategy['TyreCompound'].append(compound)
+    #         strategy['TyreWear'].append(self.getTyreWear(compound, tyresAge))
+    #         strategy['PitStop'].append(pitStop)
+    #         strategy['LapTime'].append(self.getLapTime(compound=compound, compoundAge=tyresAge, lap=lap, fuel_load=fuelLoad, conditions=weather, drs=False, pitStop=pitStop))
+    #         strategy['LapsCompound'].append(tyresAge)
+            
+        
+    #     ### Check that all constraints are ok and if so compute the Total Time
+    #     allCompounds = set(strategy['TyreCompound'])
+    #     if len(allCompounds) > 1 and strategy['FuelLoad'][-1] >= 1:
+    #         strategy['TotalTime'] = sum(strategy['LapTime'])
+    #         return strategy
+    #     else:
+    #         return strategy
+
     def randomChild(self):
-        strategy = {'TyresAvailability': copy.deepcopy(self.availableTyres), 'TyreAge':[], 'TyreCompound': [], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'LapsCompound':[], 'Weather':self.weather.copy(), 'TotalTime': np.inf}
+        strategy = {'TyreCompound': [], 'TyreAge':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'LapsCompound':[], 'Weather':self.weather.copy(), 'TotalTime': np.inf}
 
         weather = [strategy['Weather'][0]]
 
@@ -242,7 +343,7 @@ class GeneticSolver:
             strategy['FuelLoad'].append(fuelLoad)
 
             ### With probability of the tyre wear we make a pit stop (if tyre wear low we have low probability, else high)
-            if changeTyre(strategy['TyreWear'][lap-1]):
+            if random.random() > 0.5: #changeTyre(strategy['TyreWear'][lap-1]):
                 ### We have the case of the pitStop => new tyre (can be the same compound type of before!!!)
                 compound = self.randomCompound(weather[lap])
                 tyresAge = 0
@@ -261,14 +362,8 @@ class GeneticSolver:
             strategy['LapTime'].append(self.getLapTime(compound=compound, compoundAge=tyresAge, lap=lap, fuel_load=fuelLoad, conditions=weather, drs=False, pitStop=pitStop))
             strategy['LapsCompound'].append(tyresAge)
             
-        
-        ### Check that all constraints are ok and if so compute the Total Time
-        allCompounds = set(strategy['TyreCompound'])
-        if len(allCompounds) > 1 and strategy['FuelLoad'][-1] >= 1:
-            strategy['TotalTime'] = sum(strategy['LapTime'])
-            return strategy
-        else:
-            return self.randomChild()
+        strategy['TotalTime'] = sum(strategy['LapTime'])
+        return strategy
 
     def randomCompound(self,weather:str):
         if weather == 'Wet':
@@ -289,31 +384,78 @@ class GeneticSolver:
         
         return selected
 
-    def selection_dynamic_penalty(sel, population):
+    # def selection_dynamic_penalty(sel, population):
+    #     sortedPopulation = sorted(population, key=lambda x: x['TotalTime'])
+    #     penalty= []
+    #     selected_first_quantile = []
+    #     selected_second_quantile = []
+
+    #     for p in sortedPopulation:
+    #         penalty.append(p['TotalTime'] - sortedPopulation[0]['TotalTime'])
+
+    #     treshold_first_quantile = np.quantile(penalty, 0.25)
+    #     treshold_second_quantile = np.quantile(penalty, 0.50)
+    #     print('PENALTY -> The best value is : ', penalty[0], ' and then ', penalty[1], ', The treshold is : ', treshold_second_quantile, ', while the max value is ',penalty[-1] )
+    #     for i in range(0, len(penalty)):
+    #         if penalty[i] < treshold_second_quantile:
+    #             selected_second_quantile.append(sortedPopulation[i])    
+    #         if penalty[i] < treshold_first_quantile:
+    #             selected_first_quantile.append(sortedPopulation[i])
+
+    #     if len(selected_second_quantile) > len(population)*0.5:
+    #         print('solo primo quantile')
+    #         return selected_first_quantile
+    #     else: 
+    #         print('anche secondo quantile')
+    #         return selected_second_quantile
+    
+    def selection_dynamic_penalty(self, step:int, population:list, threshold_quantile:float):
         sortedPopulation = sorted(population, key=lambda x: x['TotalTime'])
-        penalty= []
-        selected_first_quantile = []
-        selected_second_quantile = []
+        best = sortedPopulation[0]['TotalTime']
+        
+        deltas = [x['TotalTime'] - best for x in sortedPopulation]
+        max_delta = max(deltas)
 
-        for p in sortedPopulation:
-            penalty.append(p['TotalTime'] - sortedPopulation[0]['TotalTime'])
+        penalty= [delta/max_delta for delta in deltas]
 
-        treshold_first_quantile = np.quantile(penalty, 0.25)
-        treshold_second_quantile = np.quantile(penalty, 0.50)
-        print('PENALTY -> The best value is : ', penalty[0], ' and then ', penalty[1], ', The treshold is : ', treshold_second_quantile, ', while the max value is ',penalty[-1] )
-        for i in range(0, len(penalty)):
-            if penalty[i] < treshold_second_quantile:
-                selected_second_quantile.append(sortedPopulation[i])    
-            if penalty[i] < treshold_first_quantile:
-                selected_first_quantile.append(sortedPopulation[i])
+        quantile = np.quantile(penalty, threshold_quantile)
 
-        if len(selected_second_quantile) > len(population)*0.5:
-            print('solo primo quantile')
-            return selected_first_quantile
-        else: 
-            print('anche secondo quantile')
-            return selected_second_quantile
+        alpha = np.exp(0.005*step)
+        penalty = [p*alpha for p in penalty]
 
+        for p, pop in zip(penalty, sortedPopulation):
+            if pop['NumPitStop'] < 1:
+                p *= np.exp(alpha)
+                if p == 0.0:
+                    p = np.exp(alpha)
+            if pop['FuelLoad'][-1] < 1:
+                p *= np.exp(1-pop['FuelLoad'][-1])
+                if p == 0.0:
+                    p = np.exp(1-pop['FuelLoad'][-1])
+        
+        
+        selected = [x for idx, x in enumerate(sortedPopulation) if penalty[idx] < quantile]
+        if len(selected) <= 1:
+            threshold_quantile+=0.01
+            return self.selection_dynamic_penalty(step, population, threshold_quantile)
+        
+        return selected
+
+    def mutation_fuel_load(self, child:dict, ):
+        new_fuel = child['FuelLoad'][0]+random.randint(-10,10)
+
+        child['FuelLoad'][0] = new_fuel
+        child['LapTime'][0] = self.getLapTime(compound=child['TyreCompound'][0], compoundAge=child['TyreAge'][0], lap=0, fuel_load=new_fuel, conditions=[child['Weather'][0]], drs=False, pitStop=child['PitStop'][0])
+        
+        for lap in range(1,len(child['FuelLoad'])):
+            fuel = self.getFuelLoad(initial_fuel=new_fuel, conditions=child['Weather'][:lap])
+            timing = self.getLapTime(compound=child['TyreCompound'][lap], compoundAge=child['TyreAge'][lap], lap=lap, fuel_load=fuel, conditions=child['Weather'][:lap], drs=False, pitStop=child['PitStop'][lap])
+            
+            child['FuelLoad'][lap] = fuel
+            child['LapTime'][lap] = timing
+
+        child['TotalTime'] = sum(child['LapTime'])
+        return child
 
     def mutation_compound(self, child:dict, ):
         ### Initialize lap from which we will mutate
@@ -392,8 +534,9 @@ class GeneticSolver:
         return self.randomChild()
 
     def mutation(self,child:dict) -> list:
-        childCompound = child
-        childPitStop = child
+        childCompound = copy.deepcopy(child)
+        childPitStop = copy.deepcopy(child)
+        childFuelLoad = copy.deepcopy(child)
         children = []
 
         if random.random() < self.sigma:
@@ -401,6 +544,9 @@ class GeneticSolver:
         
         if random.random() < self.sigma:
             children.append(self.mutation_pitstop(childPitStop))
+
+        if random.random() < self.sigma:
+            children.append(self.mutation_fuel_load(childFuelLoad))
         
         return children
     
@@ -456,7 +602,7 @@ class GeneticSolver:
 
         ### Check that all constraints are ok and if so compute the Total Time
         allCompounds = set(strategy['TyreCompound'])
-        if len(allCompounds) > 0 and strategy['FuelLoad'][-1] >= 1:
+        if len(allCompounds) > 1 and strategy['FuelLoad'][-1] >= 1:
             strategy['TotalTime'] = sum(strategy['LapTime'])
 
         return strategy
