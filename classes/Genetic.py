@@ -175,10 +175,31 @@ class GeneticSolver:
                 for i in to_pop:
                     population.pop(i)
                 
+                # Gathering the first solution from population at gen^th generation
+                if gen == 0:
+                    best, best_eval = self.getBest(population)
+                    prev = {}
+                else:
+                    best, best_eval = self.getBest(population, best)
+
+                _, temp_best_eval = self.getBest(population)
+
+                if gen != 0 and prev_temp < temp_best_eval:
+                    print("Something is wrong")
+
+                prev_temp = temp_best_eval
+
+                if prev == best_eval:
+                    counter += 1
+                else:
+                    counter = 0
+                
+                prev = best_eval
+
                 # Select parents
                 #selected = self.selection(population=population,percentage=0.4)
                 #selected = self.selection_dynamic_penalty(population=population)
-                selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=threshold_quantile)
+                selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=threshold_quantile, best = best_eval)
                 
                 # Create the next generation
                 children = [parent for parent in selected]
@@ -205,33 +226,15 @@ class GeneticSolver:
                 # Replace population
                 population = copy.deepcopy(children)
 
-                # Gathering the first solution from population at gen^th generation
-                if gen == 0:
-                    best, best_eval = self.getBest(population)
-                    prev = {}
-                else:
-                    best, best_eval = self.getBest(population, best)
-
-                _, temp_best_eval = self.getBest(population)
-
-                if gen != 0 and prev_temp < temp_best_eval:
-                    print("Something is wrong")
-
-                prev_temp = temp_best_eval
-
-                if prev == best_eval:
-                    counter += 1
-                else:
-                    counter = 0
-                
-                prev = best_eval
-
                 # Check for new best solution
                 fitness_values.append(temp_best_eval)
 
                 #if gen%10:
-                print(f'Generation {gen+1}/{self.iterations} best overall: {ms_to_time(best_eval)}, best of generation: {ms_to_time(temp_best_eval)}, valid individuals: {round(non_random_pop/self.population,2)}% and threshold is {threshold_quantile} and counter = {counter}/{(self.iterations)//75}')
-                #threshold_quantile = round(threshold_quantile - 0.01,2)
+                print(f'Generation {gen+1}/{self.iterations} best overall: {ms_to_time(best_eval)}, best of generation: {ms_to_time(temp_best_eval)}, non random individuals: {round(non_random_pop/self.population,2)}% and threshold is {threshold_quantile} and counter = {counter}/{(self.iterations)//75}')
+
+                if (counter/((self.iterations)//75)) > 1:
+                    threshold_quantile = round(threshold_quantile - 0.01,2)
+
                 if counter >= 100:
                     print("Stopping because of counter (Stuck in local minima or global optimum found)")
                     break
@@ -245,7 +248,7 @@ class GeneticSolver:
                 
                 if threshold_quantile <= 0.01:
                     while threshold_quantile <= 0.05:
-                        threshold_quantile = round(random.random(),2)
+                        threshold_quantile = 0.3
 
                 if non_random_pop/self.population == 0.0 or non_random_pop == 1:
                     print(f"No valid individuals for generating new genetic material({non_random_pop}), stopping")
@@ -435,11 +438,11 @@ class GeneticSolver:
     #         print('anche secondo quantile')
     #         return selected_second_quantile
     
-    def selection_dynamic_penalty(self, step:int, population:list, threshold_quantile:float):
+    def selection_dynamic_penalty(self, step:int, population:list, threshold_quantile:float, best:int):
         sortedPopulation = sorted(population, key=lambda x: x['TotalTime'])
-        best = sortedPopulation[0]['TotalTime']
+        #best = sortedPopulation[0]['TotalTime']
         
-        deltas = [x['TotalTime'] - best for x in sortedPopulation]
+        deltas = [abs(x['TotalTime'] - best) for x in sortedPopulation]
         max_delta = max(deltas)
 
         penalty= [delta/max_delta for delta in deltas]
@@ -470,7 +473,7 @@ class GeneticSolver:
 
         if len(selected) <= 1:
             threshold_quantile+=0.01
-            return self.selection_dynamic_penalty(step, population, threshold_quantile)
+            return self.selection_dynamic_penalty(step, population, threshold_quantile, best)
         
         
         return selected
