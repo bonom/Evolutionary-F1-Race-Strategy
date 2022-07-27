@@ -210,11 +210,12 @@ class GeneticSolver:
                 if len(selected) > 1:
                     for i in range(0, len(selected)-2, 2): # why not 1? I know there will be 2*population length - 2 but maybe it is good
                         # Get selected parents in pairs
-                        p1, p2 = selected[i], selected[i+1]
+                        #p1, p2 = selected[i], selected[i+1]
                         # Crossover 
-                        for c in self.crossover(p1, p2):
+                        #for c in self.crossover(p1, p2):
                             # Mutation
-                            for l in self.mutation(c):
+                            for l in self.mutation(selected[i]):
+                            #for l in self.mutation(c):
                                 children.append(l)
 
                 non_random_pop = len(children)
@@ -234,6 +235,8 @@ class GeneticSolver:
 
                 if (counter/((self.iterations)//75)) > 1:
                     threshold_quantile = round(threshold_quantile - 0.01,2)
+                if counter == 0:
+                    threshold_quantile = 0.3
 
                 if counter >= 100:
                     print("Stopping because of counter (Stuck in local minima or global optimum found)")
@@ -582,8 +585,9 @@ class GeneticSolver:
         return self.correct_strategy_pitstop(strategy=child, indexPitStop=index)
 
     def correct_strategy_pitstop(self, strategy:dict, indexPitStop: int):
-        tyresAge = 0
+        
         if indexPitStop == 0:
+            tyresAge = 0
             strategy['TyreCompound'][0] = strategy['TyreCompound'][1]
             strategy['TyreWear'][0] = self.getTyreWear(strategy['TyreCompound'][0], 0)
             strategy['LapTime'][0] = self.getLapTime(strategy['TyreCompound'][0], tyresAge, i, strategy['FuelLoad'][0], [strategy['Weather'][0]], False, False)
@@ -595,7 +599,8 @@ class GeneticSolver:
                         strategy['TyreWear'][i] = self.getTyreWear(strategy['TyreCompound'][i], tyresAge)
                         strategy['LapTime'][i] = self.getLapTime(strategy['TyreCompound'][i], tyresAge, i, strategy['FuelLoad'][i], strategy['Weather'][:i], False, False)
                     else:
-                        tyresAge = 0
+                        #tyresAge = 0
+                        break
         else:
             i = indexPitStop
             # while strategy['TyreCompound'][i] == strategy['TyreCompound'][i-1] and i > 1:
@@ -610,9 +615,10 @@ class GeneticSolver:
                         strategy['TyreWear'][i] = self.getTyreWear(strategy['TyreCompound'][i], tyresAge)
                         strategy['LapTime'][i] = self.getLapTime(strategy['TyreCompound'][i], tyresAge, i, strategy['FuelLoad'][i], strategy['Weather'][:i], False, False)
                     else:
-                        tyresAge = 0
+                        #tyresAge = 0
+                        break
 
-        strategy['NumPitStop'] = sum([x for x in strategy['PitStop'] if x])
+        #strategy['NumPitStop'] = sum([x for x in strategy['PitStop'] if x])
         
         stints = set(strategy['TyreCompound'])
         if len(stints) > 1 and strategy['FuelLoad'][-1] >= 1:
