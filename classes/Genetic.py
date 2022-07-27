@@ -210,13 +210,18 @@ class GeneticSolver:
                 if len(selected) > 1:
                     for i in range(0, len(selected)-2, 2): # why not 1? I know there will be 2*population length - 2 but maybe it is good
                         # Get selected parents in pairs
-                        #p1, p2 = selected[i], selected[i+1]
+                        p1, p2 = copy.deepcopy(selected[i]), copy.deepcopy(selected[i+1])
                         # Crossover 
-                        #for c in self.crossover(p1, p2):
+                        for c in self.crossover(p1, p2):
                             # Mutation
-                            for l in self.mutation(selected[i]):
-                            #for l in self.mutation(c):
-                                children.append(l)
+                            children.append(c)
+
+                        # Mutation
+                        for l in self.mutation(selected[i]):
+                            children.append(l)
+
+                        for l in self.mutation(selected[i+1]):
+                            children.append(l)
 
                 non_random_pop = len(children)
 
@@ -375,17 +380,30 @@ class GeneticSolver:
             strategy['FuelLoad'].append(fuelLoad)
 
             ### With probability of the tyre wear we make a pit stop (if tyre wear low we have low probability, else high)
-            if random.random() > 0.5: #changeTyre(strategy['TyreWear'][lap-1]):
-                ### We have the case of the pitStop => new tyre (can be the same compound type of before!!!)
+            #if random.random() > 0.5: #changeTyre(strategy['TyreWear'][lap-1]):
+            #    ### We have the case of the pitStop => new tyre (can be the same compound type of before!!!)
+            #    compound = self.randomCompound(weather[lap])
+            #    tyresAge = 0
+            #    pitStop = True
+            #    strategy['NumPitStop'] += 1
+            #else:
+            #    ### No pitstop => same tyres of lap before
+            #    compound = strategy['TyreCompound'][lap-1]
+            #    tyresAge += 1
+            #    pitStop = False
+
+            newTyre = random.randint(0,1)
+
+            if newTyre == 0:
                 compound = self.randomCompound(weather[lap])
                 tyresAge = 0
                 pitStop = True
                 strategy['NumPitStop'] += 1
-            else:
-                ### No pitstop => same tyres of lap before
+            else: 
                 compound = strategy['TyreCompound'][lap-1]
                 tyresAge += 1
                 pitStop = False
+            
                 
             strategy['TyreAge'].append(tyresAge)
             strategy['TyreCompound'].append(compound)
@@ -644,20 +662,47 @@ class GeneticSolver:
         
         return children
     
+    #def crossover(self, p1:dict, p2:dict,):
+    #    # children are copies of parents by default
+    #    c1, c2 = p1.copy(), p2.copy()
+    #    # check for recombination
+    #    if random.random() < self.mu:
+    #        # select crossover point that is not on the end of the string
+    #        pt = random.randint(1, len(p1['TyreCompound'])-2)
+    #        # perform crossover
+#
+    #        ### {'TyresAvailability': self.availableTyres.copy(), 'TyreCompound': [], 'TyreStatus':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'LapsCompound':[], 'Weather':[], 'TotalTime': np.inf}
+    #        c1 = {'TyresAvailability': copy.deepcopy(self.availableTyres),'TyreCompound': p1['TyreCompound'][:pt]+p2['TyreCompound'][pt:], 'TyreAge':p1['TyreAge'][:pt]+p2['TyreAge'][pt:], 'TyreWear': p1['TyreWear'][:pt]+p2['TyreWear'][pt:], 'FuelLoad': p1['FuelLoad'][:pt]+p2['FuelLoad'][pt:], 'PitStop': p1['PitStop'][:pt]+p2['PitStop'][pt:], 'LapTime': p1['LapTime'][:pt]+p2['LapTime'][pt:], 'LapsCompound': p1['LapsCompound'][:pt]+p2['LapsCompound'][pt:], 'Weather':p1['Weather'], 'NumPitStop': p1['NumPitStop'], 'TotalTime': p1['TotalTime']}
+    #        c2 = {'TyresAvailability': copy.deepcopy(self.availableTyres),'TyreCompound': p2['TyreCompound'][:pt]+p1['TyreCompound'][pt:], 'TyreAge':p2['TyreAge'][:pt]+p1['TyreAge'][pt:], 'TyreWear': p2['TyreWear'][:pt]+p1['TyreWear'][pt:], 'FuelLoad': p2['FuelLoad'][:pt]+p1['FuelLoad'][pt:], 'PitStop': p2['PitStop'][:pt]+p1['PitStop'][pt:], 'LapTime': p2['LapTime'][:pt]+p1['LapTime'][pt:], 'LapsCompound': p2['LapsCompound'][:pt]+p1['LapsCompound'][pt:], 'Weather':p2['Weather'], 'NumPitStop': p2['NumPitStop'], 'TotalTime': p2['TotalTime']}
+    #        
+    #        return [self.correct_strategy(c1), self.correct_strategy(c2)]
+    #    
+    #    return []
+
+    def crossover_fuel(self, p1:dict, p2:dict):
+        fuelLoad_p1 = p1['FuelLoad'][0]
+        fuelLoad_p2 = p2['FuelLoad'][0]
+
+        p1['FuelLoad'][0] = fuelLoad_p2
+        p2['FuelLoad'][0] = fuelLoad_p1
+
+        
+        for lap in range(0, self.numLaps):
+            fuelLoad_p1 = self.getFuelLoad(initial_fuel=fuelLoad_p2, conditions=p1['Weather'][:lap])
+            fuelLoad_p2 = self.getFuelLoad(initial_fuel=fuelLoad_p1, conditions=p2['Weather'][:lap])
+            p1['FuelLoad'][lap] = fuelLoad_p2
+            p2['FuelLoad'][lap] = fuelLoad_p1
+               
+        
+
     def crossover(self, p1:dict, p2:dict,):
         # children are copies of parents by default
         c1, c2 = p1.copy(), p2.copy()
         # check for recombination
         if random.random() < self.mu:
-            # select crossover point that is not on the end of the string
-            pt = random.randint(1, len(p1['TyreCompound'])-2)
-            # perform crossover
-
-            ### {'TyresAvailability': self.availableTyres.copy(), 'TyreCompound': [], 'TyreStatus':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'LapsCompound':[], 'Weather':[], 'TotalTime': np.inf}
-            c1 = {'TyresAvailability': copy.deepcopy(self.availableTyres),'TyreCompound': p1['TyreCompound'][:pt]+p2['TyreCompound'][pt:], 'TyreAge':p1['TyreAge'][:pt]+p2['TyreAge'][pt:], 'TyreWear': p1['TyreWear'][:pt]+p2['TyreWear'][pt:], 'FuelLoad': p1['FuelLoad'][:pt]+p2['FuelLoad'][pt:], 'PitStop': p1['PitStop'][:pt]+p2['PitStop'][pt:], 'LapTime': p1['LapTime'][:pt]+p2['LapTime'][pt:], 'LapsCompound': p1['LapsCompound'][:pt]+p2['LapsCompound'][pt:], 'Weather':p1['Weather'], 'NumPitStop': p1['NumPitStop'], 'TotalTime': p1['TotalTime']}
-            c2 = {'TyresAvailability': copy.deepcopy(self.availableTyres),'TyreCompound': p2['TyreCompound'][:pt]+p1['TyreCompound'][pt:], 'TyreAge':p2['TyreAge'][:pt]+p1['TyreAge'][pt:], 'TyreWear': p2['TyreWear'][:pt]+p1['TyreWear'][pt:], 'FuelLoad': p2['FuelLoad'][:pt]+p1['FuelLoad'][pt:], 'PitStop': p2['PitStop'][:pt]+p1['PitStop'][pt:], 'LapTime': p2['LapTime'][:pt]+p1['LapTime'][pt:], 'LapsCompound': p2['LapsCompound'][:pt]+p1['LapsCompound'][pt:], 'Weather':p2['Weather'], 'NumPitStop': p2['NumPitStop'], 'TotalTime': p2['TotalTime']}
-            
-            return [self.correct_strategy(c1), self.correct_strategy(c2)]
+            self.crossover_fuel(c1, c2)
+            return [c1, c2]
+            #return [self.correct_strategy(c1), self.correct_strategy(c2)]
         
         return []
 
