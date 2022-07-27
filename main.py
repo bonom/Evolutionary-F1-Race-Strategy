@@ -40,7 +40,7 @@ def main():
         _circuit = circuit.split("\\")[-1] if os.name == 'nt' else circuit.split("/")[-1]
 
         genetic = GeneticSolver(car=car, population=300, iterations=1000,circuit=_circuit)
-        bruteforce_strategy = genetic.lower_bound()
+        #bruteforce_strategy = genetic.lower_bound()
         #printStrategy(bruteforce_strategy)
 
         best, best_eval, fitness_values = genetic.startSolver()

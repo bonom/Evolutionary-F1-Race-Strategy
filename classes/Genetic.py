@@ -130,16 +130,34 @@ class GeneticSolver:
 
         return round(time) 
 
+    def getBest(self, population:list, best={'TotalTime':np.inf}):
+        if math.isinf(best['TotalTime']):
+            best = {'TotalTime':np.inf}
+        idx = -1
+        best_idx = -1
+        for strategy in population:
+            idx += 1
+            if strategy['TotalTime'] < best['TotalTime']:
+                #Check strategy is good
+                all_compounds = set(strategy['TyreCompound'])
+                if len(all_compounds) > 1 and strategy['FuelLoad'][-1] >= 1:
+                    best_idx = idx 
+                    best = strategy
+        
+        print(f"Best strategy index: {best_idx}")
+        return best, best['TotalTime']
+
+
     def startSolver(self,):
         fitness_values = list()
         threshold_quantile = 0.3
-        counter = -1
+        counter = 0
 
         # initial population of random bitstring
         population = self.initSolver()
         
         # keep track of best solution
-        best, best_eval = population[0], population[0]['TotalTime']
+        #best, best_eval = self.getBest(population)
         
         # enumerate generations
         try:
@@ -156,29 +174,12 @@ class GeneticSolver:
                 to_pop = sorted(to_pop, reverse=True)
                 for i in to_pop:
                     population.pop(i)
-
-                # Gathering the first solution from population at gen^th generation
-                temp_best, temp_best_eval = 0, population[0]['TotalTime']
-
-                # Evaluate all candidates in the population
-                scores = [c['TotalTime'] for c in population]
-
-                # Check for new best solution
-                counter += 1
-                for i in range((len(population))):
-                    if scores[i] < best_eval:
-                        best, best_eval = population[i], scores[i]
-                        counter = 0
-                    if scores[i] < temp_best_eval:
-                        temp_best, temp_best_eval = population[i], scores[i]
                 
                 # Select parents
                 #selected = self.selection(population=population,percentage=0.4)
                 #selected = self.selection_dynamic_penalty(population=population)
-
                 selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=threshold_quantile)
                 
-
                 # Create the next generation
                 children = [parent for parent in selected]
 
@@ -202,8 +203,30 @@ class GeneticSolver:
                     children.append(self.randomChild())
                 
                 # Replace population
-                population = children
+                population = copy.deepcopy(children)
 
+                # Gathering the first solution from population at gen^th generation
+                if gen == 0:
+                    best, best_eval = self.getBest(population)
+                    prev = {}
+                else:
+                    best, best_eval = self.getBest(population, best)
+
+                _, temp_best_eval = self.getBest(population)
+
+                if gen != 0 and prev_temp < temp_best_eval:
+                    print("Something is wrong")
+
+                prev_temp = temp_best_eval
+
+                if prev == best_eval:
+                    counter += 1
+                else:
+                    counter = 0
+                
+                prev = best_eval
+
+                # Check for new best solution
                 fitness_values.append(temp_best_eval)
 
                 #if gen%10:
@@ -227,6 +250,8 @@ class GeneticSolver:
                 if non_random_pop/self.population == 0.0 or non_random_pop == 1:
                     print(f"No valid individuals for generating new genetic material({non_random_pop}), stopping")
                     break
+
+                prev_pop = copy.deepcopy(population)
                 
         except KeyboardInterrupt:
             pass 
