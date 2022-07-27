@@ -494,23 +494,66 @@ class GeneticSolver:
         child['TotalTime'] = sum(child['LapTime'])
         return child
 
+    #def mutation_compound(self, child:dict, ):
+    #    ### Initialize lap from which we will mutate
+    #    lap = random.randint(1,self.numLaps-1)
+    #    mutationCompound = self.randomCompound(child['Weather'][lap])
+#
+    #    ### Until new pitStop we change the compound and then correct strategy will make everything ok
+    #    #pitStop = child['PitStop'][lap]
+    #    child['TyreCompound'][lap] = mutationCompound
+    #    lap += 1
+    #    if lap == self.numLaps:
+    #        return self.correct_strategy(child)
+    #         
+    #    pitStop = child['PitStop'][lap]
+    #    while not pitStop and lap < self.numLaps-1:
+    #        child['TyreCompound'][lap] = mutationCompound
+    #        pitStop = child['PitStop'][lap + 1]
+    #        lap += 1
+    #    
+    #    return self.correct_strategy(child)
+
     def mutation_compound(self, child:dict, ):
         ### Initialize lap from which we will mutate
-        lap = random.randint(1,self.numLaps-1)
-        mutationCompound = self.randomCompound(child['Weather'][lap])
+        #lap = random.randint(1,self.numLaps-1)
+        #mutationCompound = self.randomCompound(child['Weather'][lap])
 
+        usedTyres = dict()
+        usedTyres[0] = child['TyreCompound'][0]
+        for lap in range(1, self.numLaps):
+             if child['TyreCompound'][lap] != child['TyreCompound'][lap - 1]:
+                usedTyres[lap] = child['TyreCompound'][lap]
+
+        lapRandom = random.randint(0, len(usedTyres)-1)
+        
+        lap = list(usedTyres.keys())[lapRandom]
+        oldCompound = usedTyres[lap]
+
+        compoundRandom = self.randomCompound(child['Weather'][lap])
+
+        while oldCompound == compoundRandom:
+            compoundRandom = self.randomCompound(child['Weather'][lap])
+        
+        child['TyreCompound'][lap] = compoundRandom
+
+        for i in range(lap + 1, self.numLaps):
+            if not child['PitStop'][lap]:
+                child['TyreCompound'][i] = compoundRandom
+            else:
+                return self.correct_strategy(child)
         ### Until new pitStop we change the compound and then correct strategy will make everything ok
         #pitStop = child['PitStop'][lap]
-        child['TyreCompound'][lap] = mutationCompound
-        lap += 1
-        if lap == self.numLaps:
-            return self.correct_strategy(child)
-             
-        pitStop = child['PitStop'][lap]
-        while not pitStop and lap < self.numLaps-1:
-            child['TyreCompound'][lap] = mutationCompound
-            pitStop = child['PitStop'][lap +1 ]
-            lap += 1
+        #child['TyreCompound'][lap] = mutationCompound
+        #lap += 1
+        #if lap == self.numLaps:
+        #    return self.correct_strategy(child)
+        #     
+        #pitStop = child['PitStop'][lap]
+        #while not pitStop and lap < self.numLaps-1:
+        #    child['TyreCompound'][lap] = mutationCompound
+        #    pitStop = child['PitStop'][lap + 1]
+        #    lap += 1
         
         return self.correct_strategy(child)
 
@@ -527,14 +570,14 @@ class GeneticSolver:
         
         numRandomPitStop = random.randint(1,childPitNum)
         numPitStops = 0
-        index = 0
-        for lap in range(1, self.numLaps):
-            if child['PitStop'][lap-1] == True:
+        index = -1
+        for lap in range(0, self.numLaps):
+            if child['PitStop'][lap] == True:
                 numPitStops +=1
                 if numPitStops == numRandomPitStop:
-                    child['PitStop'][lap-1] = False
+                    child['PitStop'][lap] = False
                     child['NumPitStop'] -= 1
-                    index = lap-1
+                    index = lap
 
         return self.correct_strategy_pitstop(strategy=child, indexPitStop=index)
 
