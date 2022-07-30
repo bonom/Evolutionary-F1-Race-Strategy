@@ -40,7 +40,7 @@
             "name": "[WIN] Monza",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "d:\\Projects\\Bio-F1\\main.py",
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": ["--c", "Monza"]

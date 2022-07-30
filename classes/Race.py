@@ -14,15 +14,20 @@ class RaceData():
             self.data = loaded.data
             self.total_time = loaded.total_time
         else:
-            self.data = gd(os.path.join(path, 'Race'), None, [], True)
-            for index in self.data.index:
-                self.data.at[index, 'StringLapTime'] = ms_to_time(self.data.at[index, 'LapTime'])
-            
-            self.total_time = ms_to_time(self.data['LapTime'].sum())
-            self.save(path)
-            
+            if os.path.exists(os.path.join(path, 'Race')):
+                self.data = gd(os.path.join(path, 'Race'), None, [], True)
+                for index in self.data.index:
+                    self.data.at[index, 'StringLapTime'] = ms_to_time(self.data.at[index, 'LapTime'])
+
+                self.total_time = ms_to_time(self.data['LapTime'].sum())
+                self.save(path)
+            else:
+                print(f"No race data in {path}, skipping step")
 
     def plot(self, path):
+        if not os.path.exists(os.path.join(path, 'Race')):
+            return
+
         circuit_name = path.split("\\")[-1]
         fig = px.line(data_frame=self.data, x='Lap', y='LapTime', title=circuit_name + ' -> Total time: '+self.total_time, text='StringLapTime', color="Compound", color_discrete_map={'Soft': 'Red', 'Medium':'Yellow', 'Hard':'White', 'Inter':'Green', 'Wet':'Blue'})#, template="simple_white")
         

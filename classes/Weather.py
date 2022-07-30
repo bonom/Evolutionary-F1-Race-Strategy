@@ -6,8 +6,8 @@ from classes.Utils import CIRCUIT
 
 
 class Weather:
-    def __init__(self, circuit) -> None:
-        self.numLaps = CIRCUIT[circuit]['Laps']+1
+    def __init__(self, circuit, laps) -> None:
+        self.numLaps = laps
         self.weather = {i:0 for i in  range(1, self.numLaps + 1)}
 
         ### HARDCODED FOR DEBUG PURPOSES:
