@@ -83,10 +83,11 @@ def main():
             with open(bruteforce_save_path, "r") as f:
                 for line in f:
                     print(line, end="")
+            print("")
         else:
             bruteforce_strategy = genetic.lower_bound()
             with open(bruteforce_save_path, "a") as f:
-                laps = genetic.numLaps-1
+                laps = genetic.numLaps
                 strategy, timing = bruteforce_strategy
                 for lap in range(laps):
                     f.write(f"Lap {lap+1}/{laps} -> Compound: '{strategy[lap]['Compound']}', TyresAge: {strategy[lap]['TyresAge']} Laps, TyresWear: {strategy[lap]['TyresWear']}, FuelLoad: {strategy[lap]['FuelLoad']} Kg, PitStop: {'Yes' if strategy[lap]['PitStop'] else 'No'}, LapTime: {ms_to_time(strategy[lap]['LapTime'])} (hh:)mm:ss.ms\n")

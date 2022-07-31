@@ -112,11 +112,9 @@ class GeneticSolver:
             if strategy['TotalTime'] < best['TotalTime']:
                 #Check strategy is good
                 all_compounds = set(strategy['TyreCompound'])
-                last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
-                if len(all_compounds) > 1 and last_lap_fuel_load >= 0:
+                if len(all_compounds) > 1 and strategy['FuelLoad'][-1] >= 0:
                     best = strategy
-        if best['FuelLoad'][-1] < 0:
-            print(f"ERROR!!!!!")
+        
         return best, best['TotalTime']
 
 
@@ -333,16 +331,13 @@ class GeneticSolver:
                 p *= alpha
                 if p == 0.0:
                     p = np.exp(alpha)
-            last_lap_fuel_load = self.getFuelLoad(initial_fuel=pop['FuelLoad'][0], conditions=pop['Weather'])
-            if last_lap_fuel_load < 0:
-                last_lap_fuel_load = abs(last_lap_fuel_load)
-                # if last_lap_fuel_load > 500:
-                #     p = np.inf
-                # else:
-                p *= np.exp(last_lap_fuel_load)
-                if p == 0.0:
-                    p = np.exp(last_lap_fuel_load)
-                
+            if pop['FuelLoad'][-1] < 0:
+                try:
+                    p *= np.exp(abs(pop['FuelLoad'][-1]))
+                    if p == 0.0:
+                        p = np.exp(abs(pop['FuelLoad'][-1]))
+                except OverflowError:
+                    p = np.inf
         
         for idx, x in enumerate(population):
             x['Penalty'] = penalty[idx]
@@ -489,13 +484,12 @@ class GeneticSolver:
         p2['FuelLoad'][0] = fuelLoad_p1
 
         
-        for lap in range(1, self.numLaps):
+        for lap in range(0, self.numLaps):
             fuelLoad_p1 = self.getFuelLoad(initial_fuel=fuelLoad_p2, conditions=p1['Weather'][:lap])
             fuelLoad_p2 = self.getFuelLoad(initial_fuel=fuelLoad_p1, conditions=p2['Weather'][:lap])
             p1['FuelLoad'][lap] = fuelLoad_p2
             p2['FuelLoad'][lap] = fuelLoad_p1
-        
-        return self.correct_strategy(p1), self.correct_strategy(p2)
+               
         
 
     def crossover(self, p1:dict, p2:dict,):
@@ -503,7 +497,7 @@ class GeneticSolver:
         c1, c2 = p1.copy(), p2.copy()
         # check for recombination
         if random.random() < self.mu:
-            c1, c2 = self.crossover_fuel(c1, c2)
+            self.crossover_fuel(c1, c2)
             return [c1, c2]
             #return [self.correct_strategy(c1), self.correct_strategy(c2)]
         
