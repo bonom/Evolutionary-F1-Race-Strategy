@@ -112,9 +112,11 @@ class GeneticSolver:
             if strategy['TotalTime'] < best['TotalTime']:
                 #Check strategy is good
                 all_compounds = set(strategy['TyreCompound'])
-                if len(all_compounds) > 1 and strategy['FuelLoad'][-1] >= 0:
+                last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
+                if len(all_compounds) > 1 and last_lap_fuel_load >= 0:
                     best = strategy
-        
+        if best['FuelLoad'][-1] < 0:
+            print(f"ERROR!!!!!")
         return best, best['TotalTime']
 
 
@@ -331,13 +333,16 @@ class GeneticSolver:
                 p *= alpha
                 if p == 0.0:
                     p = np.exp(alpha)
-            if pop['FuelLoad'][-1] < 0:
-                try:
-                    p *= np.exp(abs(pop['FuelLoad'][-1]))
-                    if p == 0.0:
-                        p = np.exp(abs(pop['FuelLoad'][-1]))
-                except OverflowError:
-                    p = np.inf
+            last_lap_fuel_load = self.getFuelLoad(initial_fuel=pop['FuelLoad'][0], conditions=pop['Weather'])
+            if last_lap_fuel_load < 0:
+                last_lap_fuel_load = abs(last_lap_fuel_load)
+                # if last_lap_fuel_load > 500:
+                #     p = np.inf
+                # else:
+                p *= np.exp(last_lap_fuel_load)
+                if p == 0.0:
+                    p = np.exp(last_lap_fuel_load)
+                
         
         for idx, x in enumerate(population):
             x['Penalty'] = penalty[idx]
@@ -484,12 +489,13 @@ class GeneticSolver:
         p2['FuelLoad'][0] = fuelLoad_p1
 
         
-        for lap in range(0, self.numLaps):
+        for lap in range(1, self.numLaps):
             fuelLoad_p1 = self.getFuelLoad(initial_fuel=fuelLoad_p2, conditions=p1['Weather'][:lap])
             fuelLoad_p2 = self.getFuelLoad(initial_fuel=fuelLoad_p1, conditions=p2['Weather'][:lap])
             p1['FuelLoad'][lap] = fuelLoad_p2
             p2['FuelLoad'][lap] = fuelLoad_p1
-               
+        
+        return self.correct_strategy(p1), self.correct_strategy(p2)
         
 
     def crossover(self, p1:dict, p2:dict,):
@@ -497,7 +503,7 @@ class GeneticSolver:
         c1, c2 = p1.copy(), p2.copy()
         # check for recombination
         if random.random() < self.mu:
-            self.crossover_fuel(c1, c2)
+            c1, c2 = self.crossover_fuel(c1, c2)
             return [c1, c2]
             #return [self.correct_strategy(c1), self.correct_strategy(c2)]
         
@@ -596,7 +602,7 @@ class GeneticSolver:
             for index, compound in enumerate(['Soft', 'Medium', 'Hard']):
                 if compound == temp_tree[-1]['Compound']:
                     for pitStop in [True, False]:
-                        node = {'Compound':compound, 'TyresWear': self.getTyreWear(compound, tyres_age+1 if not pitStop else 0), 'TyresAge':tyres_age+1 if not pitStop else 0, 'FuelLoad':fuel_load, 'PitStop':pitStop, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=lap, fuel_load=fuel_load, conditions=self.weather[:lap], drs=False, pitStop=pitStop)}
+                        node = {'Compound':compound, 'TyresWear': self.getTyreWear(compound, tyres_age+1 if not pitStop else 0), 'TyresAge':tyres_age+1 if not pitStop else 0, 'FuelLoad':fuel_load, 'PitStop':pitStop, 'LapTime': self.getLapTime(compound=compound, compoundAge=tyres_age+1 if not pitStop else 0, lap=lap, fuel_load=fuel_load, conditions=self.weather[:lap], drs=False, pitStop=pitStop)}
                         temp_tree.append(node)
                         self.build_tree(temp_tree,tyres_age+1 if not pitStop else 0, lap+1)
                         temp_tree.pop()
@@ -627,7 +633,6 @@ class GeneticSolver:
         temp_tree = []
         global START_FUEL
         START_FUEL = self.getInitialFuelLoad(self.weather)
-        time_list = []
         timer_start = time.time()
         
         if self.weather[0] == "Dry":
