@@ -1,12 +1,12 @@
 import math
-from tarfile import LENGTH_LINK
 import time
 import numpy as np
-from classes.Car import Car
+import pandas as pd
+import plotly.express as px
 from random import SystemRandom
 import copy
-from multiprocessing import Process, Manager
 
+from classes.Car import Car
 from classes.Weather import Weather
 random = SystemRandom()
 
@@ -15,6 +15,30 @@ from classes.Utils import CIRCUIT, ms_to_time
 MIN_LAP_TIME = np.inf
 START_FUEL = 0
 STRATEGY = None
+
+def boxplot_insert(df:pd.DataFrame, pop_size:int, generation:int, population:list):
+    fitnesses = list()
+    
+    for idx in range(pop_size):
+        if idx < len(population):
+            strategy = population[idx]
+            if strategy['Valid']:
+                fitnesses.append(strategy['TotalTime'])
+            else:
+                fitnesses.append(np.nan)
+        else:
+            fitnesses.append(np.nan)
+
+    #for strategy in population:
+    #    if strategy['Valid']:
+    #        fitnesses.append(strategy['TotalTime'])
+            
+    to_add = pd.DataFrame({generation : fitnesses})
+    new_df = to_add
+    if df is not None:
+        new_df = pd.concat([df, to_add], axis=1)
+        
+    return new_df
 
 def orderOfMagnitude(number):
     order = 0
@@ -105,16 +129,28 @@ class GeneticSolver:
 
         return round(time) 
 
+    def checkValidity(self, strategy:dict):
+        all_compounds = set(strategy['TyreCompound'])
+        last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
+        
+        if len(all_compounds) > 1 and last_lap_fuel_load >= 0:
+            strategy['Valid'] = True
+            return True
+        
+        strategy['Valid'] = False 
+        return False
+            
+
     def getBest(self, population:list, best={'TotalTime':np.inf}):
         idx = -1
         for strategy in population:
             idx += 1
-            if strategy['TotalTime'] < best['TotalTime']:
-                #Check strategy is good
-                all_compounds = set(strategy['TyreCompound'])
-                last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
-                if len(all_compounds) > 1 and last_lap_fuel_load >= 0:
+            self.checkValidity(strategy)
+            
+            if strategy['Valid']:
+                if strategy['TotalTime'] < best['TotalTime']:
                     best = strategy
+                
         if best['FuelLoad'][-1] < 0:
             print(f"ERROR!!!!!")
         return best, best['TotalTime']
@@ -124,6 +160,7 @@ class GeneticSolver:
         fitness_values = list()
         threshold_quantile = 0.3
         counter = 0
+        boxplot_df = None
 
         # initial population of random bitstring
         population = self.initSolver()
@@ -143,6 +180,10 @@ class GeneticSolver:
                 to_pop = sorted(to_pop, reverse=True)
                 for i in to_pop:
                     population.pop(i)
+
+                # Storing data for boxplot
+                boxplot_df = boxplot_insert(boxplot_df, self.population, gen, population)
+               
                 
                 # Gathering the first solution from population at gen^th generation
                 if gen == 0:
@@ -209,12 +250,14 @@ class GeneticSolver:
 
                 if (counter/((self.iterations)//75)) > 1:
                     threshold_quantile = round(threshold_quantile - 0.01,2)
+
                 if counter == 0:
                     threshold_quantile = 0.3
 
                 if counter >= 100:
                     print("Stopping because of counter (Stuck in local minima or global optimum found)")
                     break
+
                 if counter >= (self.iterations)//75:
                     half_pop = self.population//2
                     population = population[:self.population]
@@ -229,8 +272,22 @@ class GeneticSolver:
                     print(f"No valid individuals for generating new genetic material({non_random_pop}), stopping")
                     break
                 
+                if gen > 0:
+                    break
         except KeyboardInterrupt:
             pass 
+    
+        fig = px.box(boxplot_df, title="Boxplot fitnesses of every generation")
+        fig.update_layout(
+            xaxis_title = 'Generation', 
+            yaxis_title = 'Fitness',
+        )
+        #fig.show()
+
+        df = pd.DataFrame()
+        for col in boxplot_df.columns:
+            data = boxplot_df[col].values
+            
         
         return best, best_eval, {key+1:val for key, val in enumerate(fitness_values)}  
 
@@ -242,7 +299,7 @@ class GeneticSolver:
         return strategies
 
     def randomChild(self):
-        strategy = {'TyreCompound': [], 'TyreAge':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'Weather':self.weather.copy(), 'TotalTime': np.inf}
+        strategy = {'TyreCompound': [], 'TyreAge':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'Weather':self.weather.copy(), 'Valid':False, 'TotalTime': np.inf}
 
         weather = [strategy['Weather'][0]]
 
@@ -293,8 +350,8 @@ class GeneticSolver:
             strategy['TyreWear'].append(self.getTyreWear(compound, tyresAge))
             strategy['PitStop'].append(pitStop)
             strategy['LapTime'].append(self.getLapTime(compound=compound, compoundAge=tyresAge, lap=lap, fuel_load=fuelLoad, conditions=weather, drs=False, pitStop=pitStop))
-            #strategy['LapsCompound'].append(tyresAge)
-            
+        
+        self.checkValidity(strategy)    
         strategy['TotalTime'] = sum(strategy['LapTime'])
         return strategy
 
@@ -329,19 +386,20 @@ class GeneticSolver:
         quantile = np.quantile(penalty, threshold_quantile)
 
         for p, pop in zip(penalty, population):
-            if pop['NumPitStop'] < 1:
-                p *= alpha
-                if p == 0.0:
-                    p = np.exp(alpha)
-            last_lap_fuel_load = self.getFuelLoad(initial_fuel=pop['FuelLoad'][0], conditions=pop['Weather'])
-            if last_lap_fuel_load < 0:
-                last_lap_fuel_load = abs(last_lap_fuel_load)
-                # if last_lap_fuel_load > 500:
-                #     p = np.inf
-                # else:
-                p *= np.exp(last_lap_fuel_load)
-                if p == 0.0:
-                    p = np.exp(last_lap_fuel_load)
+            if not pop['Valid']:
+                if pop['NumPitStop'] < 1:
+                    p *= alpha
+                    if p == 0.0:
+                        p = np.exp(alpha)
+                last_lap_fuel_load = self.getFuelLoad(initial_fuel=pop['FuelLoad'][0], conditions=pop['Weather'])
+                if last_lap_fuel_load < 0:
+                    last_lap_fuel_load = abs(last_lap_fuel_load)
+                    # if last_lap_fuel_load > 500:
+                    #     p = np.inf
+                    # else:
+                    p *= np.exp(last_lap_fuel_load)
+                    if p == 0.0:
+                        p = np.exp(last_lap_fuel_load)
                 
         
         for idx, x in enumerate(population):
@@ -557,6 +615,7 @@ class GeneticSolver:
 
         strategy['NumPitStop'] = pitStopCounter
         strategy['TotalTime'] = sum(strategy['LapTime'])
+        self.checkValidity(strategy)
 
         return strategy
 
