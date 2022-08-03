@@ -153,7 +153,8 @@ def main():
         
         fit_line.write_html(os.path.join(circuit, "Line_plot_fitnesses.html"))
 
-        if input(f"\nDo you want to see the plots for {circuit}? (Y/n) ").lower() == "y":
+        if input(f"\nDo you want to see the plots for {_circuit}? (Y/n) ").lower() == "y":
+            print(f"Plotting for {_circuit}...")
             fit_gen_boxplot.show()
             fit_boxplot.show()
             fit_line.show()

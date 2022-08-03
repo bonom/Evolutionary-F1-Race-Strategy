@@ -291,9 +291,6 @@ class GeneticSolver:
                     print(string)
                     self.log.write(string+"\n")
                     break
-                    
-                if gen > 0:
-                    break
                 
         except KeyboardInterrupt:
             pass 
