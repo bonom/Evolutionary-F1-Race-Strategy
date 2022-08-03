@@ -110,6 +110,27 @@ def gray_to_int(n:str) -> int:
     """
     return int(tobinarystr(n), 2)
 
+class Log():
+    def __init__(self, path:str):
+        self.path = os.path.join(path, 'log.txt')
+
+        if os.path.exists(self.path):
+            print(f"Log file already exists at {self.path}, are you sure you want to overwrite it? [Y/n]", end=" ")
+            if input().lower() == 'y':
+                os.remove(self.path)
+            else:
+                sys.exit(0)
+        
+        if not os.path.exists(os.path.dirname(self.path)):
+            os.makedirs(os.path.dirname(self.path))
+
+
+    def write(self, msg:str):
+        with open(self.path, 'a') as f:
+            f.write(msg)
+        #f.close()
+
+
 
 class CustomFormatter(logging.Formatter):
 
@@ -175,7 +196,21 @@ class MultiPlot:
     
     def set_title(self,title:str):
         self.fig.update_layout(title_text=title)
+        
 
+def time_to_ms(string):
+    values = string.split(':')
+    seconds, milliseconds = values[-1].split('.')[0], values[-1].split('.')[1]
+
+    if len(values) > 2:
+        minutes = values[1]
+        hours = values[0]
+    else:
+        minutes = values[0]
+        hours = None
+    
+    return int(hours)*3600000 + int(minutes)*60000 + int(seconds)*1000 + int(milliseconds)
+    #print(hours, minutes, seconds, milliseconds)
 
 def ms_to_time(ms):
     milliseconds = str(ms)[-3:]

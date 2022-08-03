@@ -2,7 +2,7 @@ import math
 import time
 import numpy as np
 import pandas as pd
-import plotly.express as px
+import os
 from random import SystemRandom
 import copy
 
@@ -10,15 +10,24 @@ from classes.Car import Car
 from classes.Weather import Weather
 random = SystemRandom()
 
-from classes.Utils import CIRCUIT, ms_to_time
+from classes.Utils import CIRCUIT, Log, ms_to_time
 
 MIN_LAP_TIME = np.inf
 START_FUEL = 0
 STRATEGY = None
 
-def boxplot_insert(df:pd.DataFrame, pop_size:int, generation:int, population:list):
+def boxplot_insert(df:dict, pop_size:int, generation:int, population:list):
     fitnesses = list()
+
+    # for strategy in population:
+    #     if strategy['Valid']:
+    #         fitnesses.append(strategy['TotalTime'])
     
+    # dictionary['Generation'].append(generation)
+    # dictionary['Fitness'].append(np.array(fitnesses))
+        
+    # return dictionary
+
     for idx in range(pop_size):
         if idx < len(population):
             strategy = population[idx]
@@ -28,15 +37,11 @@ def boxplot_insert(df:pd.DataFrame, pop_size:int, generation:int, population:lis
                 fitnesses.append(np.nan)
         else:
             fitnesses.append(np.nan)
-
-    #for strategy in population:
-    #    if strategy['Valid']:
-    #        fitnesses.append(strategy['TotalTime'])
             
     to_add = pd.DataFrame({generation : fitnesses})
     new_df = to_add
     if df is not None:
-        new_df = pd.concat([df, to_add], axis=1)
+        new_df = pd.concat([df, to_add], axis=1).copy()
         
     return new_df
 
@@ -85,6 +90,10 @@ class GeneticSolver:
         self.car:Car = car
         weather = Weather(circuit, self.numLaps)
         self.weather = weather.get_weather_list()
+
+        # For the log.txt
+        path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.log = Log(os.path.join(path,'Data', circuit))
         
         self.mu_decay = 0.99
         self.sigma_decay = 0.99
@@ -160,6 +169,8 @@ class GeneticSolver:
         fitness_values = list()
         threshold_quantile = 0.3
         counter = 0
+        stuck_value = 0
+        #boxplot_dict = {'Generation':list(), 'Fitness':list()}
         boxplot_df = None
 
         # initial population of random bitstring
@@ -207,8 +218,6 @@ class GeneticSolver:
                 prev = best_eval
 
                 # Select parents
-                #selected = self.selection(population=population,percentage=0.4)
-                #selected = self.selection_dynamic_penalty(population=population)
                 selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=threshold_quantile, best = best_eval)
                 
                 # Create the next generation
@@ -246,50 +255,62 @@ class GeneticSolver:
                 fitness_values.append(temp_best_eval)
 
                 #if gen%10:
-                print(f'Generation {gen+1}/{self.iterations} best overall: {ms_to_time(best_eval)}, best of generation: {ms_to_time(temp_best_eval)}, non random individuals: {round(non_random_pop/self.population,2)}% and threshold is {threshold_quantile} and counter = {counter}/{(self.iterations)//75}')
-
-                if (counter/((self.iterations)//75)) > 1:
-                    threshold_quantile = round(threshold_quantile - 0.01,2)
+                string = f'Generation {gen+1} -> best overall: {ms_to_time(best_eval)} - best of generation: {ms_to_time(temp_best_eval)} - population size ratio {round(len(population)/self.population,2)}% | threshold is {threshold_quantile} - counter = {counter}/{(self.iterations)//100} - stuck value = {stuck_value}'
+                print(string)
+                self.log.write(string+"\n")
+                #if (counter/((self.iterations)//100)) > 1:
+                #    threshold_quantile = round(threshold_quantile + 0.01,2)
 
                 if counter == 0:
                     threshold_quantile = 0.3
+                    stuck_value = 0
 
-                if counter >= 100:
-                    print("Stopping because of counter (Stuck in local minima or global optimum found)")
+                if stuck_value >= 5 and gen > self.iterations//4:
+                    string = "Stopping because stucked (Stuck in local minima or global optimum found)"
+                    print(string)
+                    self.log.write(string+"\n")
                     break
 
-                if counter >= (self.iterations)//75:
-                    half_pop = self.population//2
+                if counter >= (self.iterations)//100:
+                    counter = 0
+                    stuck_value += 1
+                    quarter_pop = self.population//4
                     population = population[:self.population]
-                    idx = random.randint(1, half_pop)
-                    for i in range(half_pop+idx, self.population):
+                    idx = random.randint(1, quarter_pop)
+                    threshold_quantile = round(threshold_quantile + 0.05,2)
+                    for i in range(3*quarter_pop+idx, self.population):
                         population[i] = self.randomChild()
                 
                 if threshold_quantile <= 0.01:
                     threshold_quantile = 0.3
+                elif threshold_quantile >= 0.99:
+                    threshold_quantile = 0.3
 
                 if non_random_pop/self.population == 0.0 or non_random_pop == 1:
-                    print(f"No valid individuals for generating new genetic material({non_random_pop}), stopping")
+                    string = f"No valid individuals for generating new genetic material({non_random_pop}), stopping"
+                    print(string)
+                    self.log.write(string+"\n")
                     break
-                
+                    
                 if gen > 0:
                     break
+                
         except KeyboardInterrupt:
             pass 
-    
-        fig = px.box(boxplot_df, title="Boxplot fitnesses of every generation")
-        fig.update_layout(
-            xaxis_title = 'Generation', 
-            yaxis_title = 'Fitness',
-        )
-        #fig.show()
-
-        df = pd.DataFrame()
-        for col in boxplot_df.columns:
-            data = boxplot_df[col].values
-            
         
-        return best, best_eval, {key+1:val for key, val in enumerate(fitness_values)}  
+        fit_dict = {'Generation' : range(len(fitness_values)), 'Fitness' : fitness_values}
+        
+        string = f"\n\nBest Strategy:\n\n"
+        print(string)
+        self.log.write(string+"\n")
+
+
+        for lap in range(len(best['TyreCompound'])):
+            string = f"Lap {lap+1} -> Compound '{best['TyreCompound'][lap]}', Wear '{round(best['TyreWear'][lap]['FL'],2)}'% | '{round(best['TyreWear'][lap]['FR'],2)}'% | '{round(best['TyreWear'][lap]['RL'],2)}'% | '{round(best['TyreWear'][lap]['RR'],2)}'%, Fuel '{round(best['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if best['PitStop'][lap] else 'No'}', Time '{ms_to_time(best['LapTime'][lap])}' ms"
+            print(string)
+            self.log.write(string+"\n")
+
+        return best, best_eval, boxplot_df, fit_dict
 
     def initSolver(self,):
         strategies = []
@@ -376,7 +397,7 @@ class GeneticSolver:
 
     def selection_dynamic_penalty(self, step:int, population:list, threshold_quantile:float, best:int):
         deltas = [abs(x['TotalTime'] - best) for x in population]
-        max_delta = max(deltas)
+        max_delta = max(1,max(deltas))
 
         penalty= [delta/max_delta for delta in deltas]
 
@@ -394,9 +415,6 @@ class GeneticSolver:
                 last_lap_fuel_load = self.getFuelLoad(initial_fuel=pop['FuelLoad'][0], conditions=pop['Weather'])
                 if last_lap_fuel_load < 0:
                     last_lap_fuel_load = abs(last_lap_fuel_load)
-                    # if last_lap_fuel_load > 500:
-                    #     p = np.inf
-                    # else:
                     p *= np.exp(last_lap_fuel_load)
                     if p == 0.0:
                         p = np.exp(last_lap_fuel_load)
