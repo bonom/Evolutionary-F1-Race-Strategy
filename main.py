@@ -89,6 +89,8 @@ def main():
                 for lap in range(laps):
                     f.write(f"Lap {lap+1}/{laps} -> Compound: '{strategy[lap]['Compound']}', TyresAge: {strategy[lap]['TyresAge']} Laps, TyresWear: {strategy[lap]['TyresWear']}, FuelLoad: {strategy[lap]['FuelLoad']} Kg, PitStop: {'Yes' if strategy[lap]['PitStop'] else 'No'}, LapTime: {ms_to_time(strategy[lap]['LapTime'])} (hh:)mm:ss.ms\n")
                 f.write(f"Total time: {ms_to_time(timing)}")
+                t = f"{int(timing):,}".replace(",", " ")
+                f.write(f"Fitness: {t}")
 
         best, best_eval, boxplot_data, fitness_data = genetic.startSolver() 
 
