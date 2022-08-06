@@ -77,7 +77,7 @@ def main():
         
         _circuit = circuit.split("\\")[-1] if os.name == 'nt' else circuit.split("/")[-1]
 
-        genetic = GeneticSolver(car=car, population=100, iterations=1000,circuit=_circuit)
+        genetic = GeneticSolver(car=car, population=500, iterations=1000,circuit=_circuit)
         bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.txt")
         if os.path.isfile(bruteforce_save_path):
             print(f"Bruteforce results for {_circuit} are already calculated in '{bruteforce_save_path}'.\nSkipping...\n")

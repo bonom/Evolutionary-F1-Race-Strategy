@@ -1,0 +1,311 @@
+Generation 1 -> best overall: 01:22:10.453 - best of generation: 01:22:10.453 - population size ratio 1.48% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 2 -> best overall: 01:21:31.503 - best of generation: 01:21:31.503 - population size ratio 1.64% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 3 -> best overall: 01:21:20.722 - best of generation: 01:21:20.722 - population size ratio 1.85% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 4 -> best overall: 01:20:53.480 - best of generation: 01:20:53.480 - population size ratio 2.06% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 5 -> best overall: 01:20:28.652 - best of generation: 01:20:28.652 - population size ratio 2.38% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 6 -> best overall: 01:20:04.162 - best of generation: 01:20:04.162 - population size ratio 2.65% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 7 -> best overall: 01:19:39.278 - best of generation: 01:19:39.278 - population size ratio 2.95% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 8 -> best overall: 01:19:25.834 - best of generation: 01:19:25.834 - population size ratio 3.37% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 9 -> best overall: 01:18:53.607 - best of generation: 01:18:53.607 - population size ratio 3.79% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 10 -> best overall: 01:18:25.656 - best of generation: 01:18:25.656 - population size ratio 4.23% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 11 -> best overall: 01:18:12.816 - best of generation: 01:18:12.816 - population size ratio 4.83% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 12 -> best overall: 01:17:47.383 - best of generation: 01:17:47.383 - population size ratio 5.06% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 13 -> best overall: 01:17:29.826 - best of generation: 01:17:29.826 - population size ratio 5.22% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 14 -> best overall: 01:17:08.627 - best of generation: 01:17:08.627 - population size ratio 5.17% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 15 -> best overall: 01:16:39.128 - best of generation: 01:16:39.128 - population size ratio 5.19% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 16 -> best overall: 01:16:23.755 - best of generation: 01:16:23.755 - population size ratio 5.24% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 17 -> best overall: 01:16:18.482 - best of generation: 01:16:18.482 - population size ratio 5.11% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 18 -> best overall: 01:16:18.482 - best of generation: 01:16:18.482 - population size ratio 5.13% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+Generation 19 -> best overall: 01:15:56.417 - best of generation: 01:15:56.417 - population size ratio 5.13% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 20 -> best overall: 01:15:56.417 - best of generation: 01:15:56.417 - population size ratio 5.25% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+Generation 21 -> best overall: 01:15:36.823 - best of generation: 01:15:36.823 - population size ratio 5.16% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 22 -> best overall: 01:15:36.823 - best of generation: 01:15:36.823 - population size ratio 5.16% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+Generation 23 -> best overall: 01:15:36.823 - best of generation: 01:15:36.823 - population size ratio 5.15% | threshold is 0.3 - counter = 2/10 - stuck value = 0
+Generation 24 -> best overall: 01:15:36.823 - best of generation: 01:15:36.823 - population size ratio 5.26% | threshold is 0.3 - counter = 3/10 - stuck value = 0
+Generation 25 -> best overall: 01:15:36.823 - best of generation: 01:15:36.823 - population size ratio 5.16% | threshold is 0.3 - counter = 4/10 - stuck value = 0
+Generation 26 -> best overall: 01:15:36.823 - best of generation: 01:15:36.823 - population size ratio 5.15% | threshold is 0.3 - counter = 5/10 - stuck value = 0
+Generation 27 -> best overall: 01:15:36.823 - best of generation: 01:15:36.823 - population size ratio 5.19% | threshold is 0.3 - counter = 6/10 - stuck value = 0
+Generation 28 -> best overall: 01:15:36.823 - best of generation: 01:15:36.823 - population size ratio 5.09% | threshold is 0.3 - counter = 7/10 - stuck value = 0
+Generation 29 -> best overall: 01:15:36.823 - best of generation: 01:15:36.823 - population size ratio 5.2% | threshold is 0.3 - counter = 8/10 - stuck value = 0
+Generation 30 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 5.15% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 31 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 5.11% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+Generation 32 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 5.16% | threshold is 0.3 - counter = 2/10 - stuck value = 0
+Generation 33 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 5.09% | threshold is 0.3 - counter = 3/10 - stuck value = 0
+Generation 34 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 5.11% | threshold is 0.3 - counter = 4/10 - stuck value = 0
+Generation 35 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 5.15% | threshold is 0.3 - counter = 5/10 - stuck value = 0
+Generation 36 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 5.0% | threshold is 0.3 - counter = 6/10 - stuck value = 0
+Generation 37 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 5.03% | threshold is 0.3 - counter = 7/10 - stuck value = 0
+Generation 38 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 5.05% | threshold is 0.3 - counter = 8/10 - stuck value = 0
+Generation 39 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 5.1% | threshold is 0.3 - counter = 9/10 - stuck value = 0
+Generation 40 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 5.1% | threshold is 0.3 - counter = 10/10 - stuck value = 0
+Generation 41 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 1.7% | threshold is 0.35 - counter = 1/10 - stuck value = 1
+Generation 42 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 2.08% | threshold is 0.35 - counter = 2/10 - stuck value = 1
+Generation 43 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 2.52% | threshold is 0.35 - counter = 3/10 - stuck value = 1
+Generation 44 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 3.08% | threshold is 0.35 - counter = 4/10 - stuck value = 1
+Generation 45 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 3.82% | threshold is 0.35 - counter = 5/10 - stuck value = 1
+Generation 46 -> best overall: 01:15:36.443 - best of generation: 01:15:36.443 - population size ratio 4.78% | threshold is 0.35 - counter = 6/10 - stuck value = 1
+Generation 47 -> best overall: 01:15:36.187 - best of generation: 01:15:36.187 - population size ratio 5.12% | threshold is 0.35 - counter = 0/10 - stuck value = 1
+Generation 48 -> best overall: 01:15:36.187 - best of generation: 01:15:36.187 - population size ratio 5.05% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+Generation 49 -> best overall: 01:15:36.187 - best of generation: 01:15:36.187 - population size ratio 3.91% | threshold is 0.3 - counter = 2/10 - stuck value = 0
+Generation 50 -> best overall: 01:15:36.187 - best of generation: 01:15:36.187 - population size ratio 4.05% | threshold is 0.3 - counter = 3/10 - stuck value = 0
+Generation 51 -> best overall: 01:15:36.187 - best of generation: 01:15:36.187 - population size ratio 4.34% | threshold is 0.3 - counter = 4/10 - stuck value = 0
+Generation 52 -> best overall: 01:15:36.187 - best of generation: 01:15:36.187 - population size ratio 4.43% | threshold is 0.3 - counter = 5/10 - stuck value = 0
+Generation 53 -> best overall: 01:15:36.187 - best of generation: 01:15:36.187 - population size ratio 4.59% | threshold is 0.3 - counter = 6/10 - stuck value = 0
+Generation 54 -> best overall: 01:15:36.187 - best of generation: 01:15:36.187 - population size ratio 4.21% | threshold is 0.3 - counter = 7/10 - stuck value = 0
+Generation 55 -> best overall: 01:15:36.187 - best of generation: 01:15:36.187 - population size ratio 4.48% | threshold is 0.3 - counter = 8/10 - stuck value = 0
+Generation 56 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.36% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 57 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.18% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+Generation 58 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.33% | threshold is 0.3 - counter = 2/10 - stuck value = 0
+Generation 59 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 3.95% | threshold is 0.3 - counter = 3/10 - stuck value = 0
+Generation 60 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.08% | threshold is 0.3 - counter = 4/10 - stuck value = 0
+Generation 61 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.09% | threshold is 0.3 - counter = 5/10 - stuck value = 0
+Generation 62 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 3.39% | threshold is 0.3 - counter = 6/10 - stuck value = 0
+Generation 63 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 3.41% | threshold is 0.3 - counter = 7/10 - stuck value = 0
+Generation 64 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 2.91% | threshold is 0.3 - counter = 8/10 - stuck value = 0
+Generation 65 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 3.01% | threshold is 0.3 - counter = 9/10 - stuck value = 0
+Generation 66 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 3.03% | threshold is 0.3 - counter = 10/10 - stuck value = 0
+Generation 67 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 1.44% | threshold is 0.35 - counter = 1/10 - stuck value = 1
+Generation 68 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 1.72% | threshold is 0.35 - counter = 2/10 - stuck value = 1
+Generation 69 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 2.02% | threshold is 0.35 - counter = 3/10 - stuck value = 1
+Generation 70 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 2.38% | threshold is 0.35 - counter = 4/10 - stuck value = 1
+Generation 71 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 2.78% | threshold is 0.35 - counter = 5/10 - stuck value = 1
+Generation 72 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 3.31% | threshold is 0.35 - counter = 6/10 - stuck value = 1
+Generation 73 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 3.9% | threshold is 0.35 - counter = 7/10 - stuck value = 1
+Generation 74 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.64% | threshold is 0.35 - counter = 8/10 - stuck value = 1
+Generation 75 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.07% | threshold is 0.35 - counter = 9/10 - stuck value = 1
+Generation 76 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.1% | threshold is 0.35 - counter = 10/10 - stuck value = 1
+Generation 77 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 1.83% | threshold is 0.4 - counter = 1/10 - stuck value = 2
+Generation 78 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 2.5% | threshold is 0.4 - counter = 2/10 - stuck value = 2
+Generation 79 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 3.37% | threshold is 0.4 - counter = 3/10 - stuck value = 2
+Generation 80 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.6% | threshold is 0.4 - counter = 4/10 - stuck value = 2
+Generation 81 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.33% | threshold is 0.4 - counter = 5/10 - stuck value = 2
+Generation 82 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.51% | threshold is 0.4 - counter = 6/10 - stuck value = 2
+Generation 83 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.52% | threshold is 0.4 - counter = 7/10 - stuck value = 2
+Generation 84 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.44% | threshold is 0.4 - counter = 8/10 - stuck value = 2
+Generation 85 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.52% | threshold is 0.4 - counter = 9/10 - stuck value = 2
+Generation 86 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.51% | threshold is 0.4 - counter = 10/10 - stuck value = 2
+Generation 87 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 1.49% | threshold is 0.45 - counter = 1/10 - stuck value = 3
+Generation 88 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 2.34% | threshold is 0.45 - counter = 2/10 - stuck value = 3
+Generation 89 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 3.56% | threshold is 0.45 - counter = 3/10 - stuck value = 3
+Generation 90 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.14% | threshold is 0.45 - counter = 4/10 - stuck value = 3
+Generation 91 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.64% | threshold is 0.45 - counter = 5/10 - stuck value = 3
+Generation 92 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.81% | threshold is 0.45 - counter = 6/10 - stuck value = 3
+Generation 93 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.91% | threshold is 0.45 - counter = 7/10 - stuck value = 3
+Generation 94 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.93% | threshold is 0.45 - counter = 8/10 - stuck value = 3
+Generation 95 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.95% | threshold is 0.45 - counter = 9/10 - stuck value = 3
+Generation 96 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.87% | threshold is 0.45 - counter = 10/10 - stuck value = 3
+Generation 97 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 2.4% | threshold is 0.5 - counter = 1/10 - stuck value = 4
+Generation 98 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.0% | threshold is 0.5 - counter = 2/10 - stuck value = 4
+Generation 99 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.38% | threshold is 0.5 - counter = 3/10 - stuck value = 4
+Generation 100 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.0% | threshold is 0.5 - counter = 4/10 - stuck value = 4
+Generation 101 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.18% | threshold is 0.5 - counter = 5/10 - stuck value = 4
+Generation 102 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.21% | threshold is 0.5 - counter = 6/10 - stuck value = 4
+Generation 103 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.36% | threshold is 0.5 - counter = 7/10 - stuck value = 4
+Generation 104 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.24% | threshold is 0.5 - counter = 8/10 - stuck value = 4
+Generation 105 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.25% | threshold is 0.5 - counter = 9/10 - stuck value = 4
+Generation 106 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.26% | threshold is 0.5 - counter = 10/10 - stuck value = 4
+Generation 107 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 3.8% | threshold is 0.55 - counter = 1/10 - stuck value = 5
+Generation 108 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.47% | threshold is 0.55 - counter = 2/10 - stuck value = 5
+Generation 109 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.13% | threshold is 0.55 - counter = 3/10 - stuck value = 5
+Generation 110 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.52% | threshold is 0.55 - counter = 4/10 - stuck value = 5
+Generation 111 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.6% | threshold is 0.55 - counter = 5/10 - stuck value = 5
+Generation 112 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.63% | threshold is 0.55 - counter = 6/10 - stuck value = 5
+Generation 113 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.62% | threshold is 0.55 - counter = 7/10 - stuck value = 5
+Generation 114 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.66% | threshold is 0.55 - counter = 8/10 - stuck value = 5
+Generation 115 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.62% | threshold is 0.55 - counter = 9/10 - stuck value = 5
+Generation 116 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.63% | threshold is 0.55 - counter = 10/10 - stuck value = 5
+Generation 117 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.85% | threshold is 0.6 - counter = 1/10 - stuck value = 6
+Generation 118 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.89% | threshold is 0.6 - counter = 2/10 - stuck value = 6
+Generation 119 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.55% | threshold is 0.6 - counter = 3/10 - stuck value = 6
+Generation 120 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.83% | threshold is 0.6 - counter = 4/10 - stuck value = 6
+Generation 121 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.06% | threshold is 0.6 - counter = 5/10 - stuck value = 6
+Generation 122 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.22% | threshold is 0.6 - counter = 6/10 - stuck value = 6
+Generation 123 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.28% | threshold is 0.6 - counter = 7/10 - stuck value = 6
+Generation 124 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.25% | threshold is 0.6 - counter = 8/10 - stuck value = 6
+Generation 125 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.19% | threshold is 0.6 - counter = 9/10 - stuck value = 6
+Generation 126 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.19% | threshold is 0.6 - counter = 10/10 - stuck value = 6
+Generation 127 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.87% | threshold is 0.65 - counter = 1/10 - stuck value = 7
+Generation 128 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.07% | threshold is 0.65 - counter = 2/10 - stuck value = 7
+Generation 129 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.75% | threshold is 0.65 - counter = 3/10 - stuck value = 7
+Generation 130 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.21% | threshold is 0.65 - counter = 4/10 - stuck value = 7
+Generation 131 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.5% | threshold is 0.65 - counter = 5/10 - stuck value = 7
+Generation 132 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.69% | threshold is 0.65 - counter = 6/10 - stuck value = 7
+Generation 133 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.87% | threshold is 0.65 - counter = 7/10 - stuck value = 7
+Generation 134 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.0% | threshold is 0.65 - counter = 8/10 - stuck value = 7
+Generation 135 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.98% | threshold is 0.65 - counter = 9/10 - stuck value = 7
+Generation 136 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.13% | threshold is 0.65 - counter = 10/10 - stuck value = 7
+Generation 137 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.84% | threshold is 0.7 - counter = 1/10 - stuck value = 8
+Generation 138 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.14% | threshold is 0.7 - counter = 2/10 - stuck value = 8
+Generation 139 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.08% | threshold is 0.7 - counter = 3/10 - stuck value = 8
+Generation 140 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.77% | threshold is 0.7 - counter = 4/10 - stuck value = 8
+Generation 141 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.16% | threshold is 0.7 - counter = 5/10 - stuck value = 8
+Generation 142 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.44% | threshold is 0.7 - counter = 6/10 - stuck value = 8
+Generation 143 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.61% | threshold is 0.7 - counter = 7/10 - stuck value = 8
+Generation 144 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.79% | threshold is 0.7 - counter = 8/10 - stuck value = 8
+Generation 145 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.86% | threshold is 0.7 - counter = 9/10 - stuck value = 8
+Generation 146 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.98% | threshold is 0.7 - counter = 10/10 - stuck value = 8
+Generation 147 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.58% | threshold is 0.75 - counter = 1/10 - stuck value = 9
+Generation 148 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.3% | threshold is 0.75 - counter = 2/10 - stuck value = 9
+Generation 149 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.13% | threshold is 0.75 - counter = 3/10 - stuck value = 9
+Generation 150 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.04% | threshold is 0.75 - counter = 4/10 - stuck value = 9
+Generation 151 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.72% | threshold is 0.75 - counter = 5/10 - stuck value = 9
+Generation 152 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 9.23% | threshold is 0.75 - counter = 6/10 - stuck value = 9
+Generation 153 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 9.61% | threshold is 0.75 - counter = 7/10 - stuck value = 9
+Generation 154 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 9.86% | threshold is 0.75 - counter = 8/10 - stuck value = 9
+Generation 155 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 10.04% | threshold is 0.75 - counter = 9/10 - stuck value = 9
+Generation 156 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 10.17% | threshold is 0.75 - counter = 10/10 - stuck value = 9
+Generation 157 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 3.96% | threshold is 0.8 - counter = 1/10 - stuck value = 10
+Generation 158 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.07% | threshold is 0.8 - counter = 2/10 - stuck value = 10
+Generation 159 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.42% | threshold is 0.8 - counter = 3/10 - stuck value = 10
+Generation 160 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.45% | threshold is 0.8 - counter = 4/10 - stuck value = 10
+Generation 161 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.83% | threshold is 0.8 - counter = 5/10 - stuck value = 10
+Generation 162 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 9.69% | threshold is 0.8 - counter = 6/10 - stuck value = 10
+Generation 163 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 10.33% | threshold is 0.8 - counter = 7/10 - stuck value = 10
+Generation 164 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 10.82% | threshold is 0.8 - counter = 8/10 - stuck value = 10
+Generation 165 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 11.23% | threshold is 0.8 - counter = 9/10 - stuck value = 10
+Generation 166 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 11.49% | threshold is 0.8 - counter = 10/10 - stuck value = 10
+Generation 167 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.9% | threshold is 0.85 - counter = 1/10 - stuck value = 11
+Generation 168 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.73% | threshold is 0.85 - counter = 2/10 - stuck value = 11
+Generation 169 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.09% | threshold is 0.85 - counter = 3/10 - stuck value = 11
+Generation 170 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 9.16% | threshold is 0.85 - counter = 4/10 - stuck value = 11
+Generation 171 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 10.0% | threshold is 0.85 - counter = 5/10 - stuck value = 11
+Generation 172 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 10.78% | threshold is 0.85 - counter = 6/10 - stuck value = 11
+Generation 173 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 10.91% | threshold is 0.85 - counter = 7/10 - stuck value = 11
+Generation 174 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 11.76% | threshold is 0.85 - counter = 8/10 - stuck value = 11
+Generation 175 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 12.43% | threshold is 0.85 - counter = 9/10 - stuck value = 11
+Generation 176 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 13.04% | threshold is 0.85 - counter = 10/10 - stuck value = 11
+Generation 177 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.44% | threshold is 0.9 - counter = 1/10 - stuck value = 12
+Generation 178 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.69% | threshold is 0.9 - counter = 2/10 - stuck value = 12
+Generation 179 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.41% | threshold is 0.9 - counter = 3/10 - stuck value = 12
+Generation 180 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 9.63% | threshold is 0.9 - counter = 4/10 - stuck value = 12
+Generation 181 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 10.79% | threshold is 0.9 - counter = 5/10 - stuck value = 12
+Generation 182 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 11.73% | threshold is 0.9 - counter = 6/10 - stuck value = 12
+Generation 183 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 12.51% | threshold is 0.9 - counter = 7/10 - stuck value = 12
+Generation 184 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 13.39% | threshold is 0.9 - counter = 8/10 - stuck value = 12
+Generation 185 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 14.13% | threshold is 0.9 - counter = 9/10 - stuck value = 12
+Generation 186 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 14.8% | threshold is 0.9 - counter = 10/10 - stuck value = 12
+Generation 187 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.72% | threshold is 0.95 - counter = 1/10 - stuck value = 13
+Generation 188 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 7.03% | threshold is 0.95 - counter = 2/10 - stuck value = 13
+Generation 189 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 8.73% | threshold is 0.95 - counter = 3/10 - stuck value = 13
+Generation 190 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 10.34% | threshold is 0.95 - counter = 4/10 - stuck value = 13
+Generation 191 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 11.62% | threshold is 0.95 - counter = 5/10 - stuck value = 13
+Generation 192 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 12.67% | threshold is 0.95 - counter = 6/10 - stuck value = 13
+Generation 193 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 13.83% | threshold is 0.95 - counter = 7/10 - stuck value = 13
+Generation 194 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 14.86% | threshold is 0.95 - counter = 8/10 - stuck value = 13
+Generation 195 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 15.77% | threshold is 0.95 - counter = 9/10 - stuck value = 13
+Generation 196 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 16.81% | threshold is 0.95 - counter = 10/10 - stuck value = 13
+Generation 197 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.54% | threshold is 0.3 - counter = 1/10 - stuck value = 14
+Generation 198 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.88% | threshold is 0.3 - counter = 2/10 - stuck value = 14
+Generation 199 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.05% | threshold is 0.3 - counter = 3/10 - stuck value = 14
+Generation 200 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.12% | threshold is 0.3 - counter = 4/10 - stuck value = 14
+Generation 201 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.14% | threshold is 0.3 - counter = 5/10 - stuck value = 14
+Generation 202 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.12% | threshold is 0.3 - counter = 6/10 - stuck value = 14
+Generation 203 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.12% | threshold is 0.3 - counter = 7/10 - stuck value = 14
+Generation 204 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.19% | threshold is 0.3 - counter = 8/10 - stuck value = 14
+Generation 205 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.24% | threshold is 0.3 - counter = 9/10 - stuck value = 14
+Generation 206 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.28% | threshold is 0.3 - counter = 10/10 - stuck value = 14
+Generation 207 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.35% | threshold is 0.35 - counter = 1/10 - stuck value = 15
+Generation 208 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.0% | threshold is 0.35 - counter = 2/10 - stuck value = 15
+Generation 209 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.17% | threshold is 0.35 - counter = 3/10 - stuck value = 15
+Generation 210 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.3% | threshold is 0.35 - counter = 4/10 - stuck value = 15
+Generation 211 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.2% | threshold is 0.35 - counter = 5/10 - stuck value = 15
+Generation 212 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.16% | threshold is 0.35 - counter = 6/10 - stuck value = 15
+Generation 213 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.19% | threshold is 0.35 - counter = 7/10 - stuck value = 15
+Generation 214 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.15% | threshold is 0.35 - counter = 8/10 - stuck value = 15
+Generation 215 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.21% | threshold is 0.35 - counter = 9/10 - stuck value = 15
+Generation 216 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.25% | threshold is 0.35 - counter = 10/10 - stuck value = 15
+Generation 217 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.89% | threshold is 0.4 - counter = 1/10 - stuck value = 16
+Generation 218 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.35% | threshold is 0.4 - counter = 2/10 - stuck value = 16
+Generation 219 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.48% | threshold is 0.4 - counter = 3/10 - stuck value = 16
+Generation 220 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.49% | threshold is 0.4 - counter = 4/10 - stuck value = 16
+Generation 221 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.52% | threshold is 0.4 - counter = 5/10 - stuck value = 16
+Generation 222 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.44% | threshold is 0.4 - counter = 6/10 - stuck value = 16
+Generation 223 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.33% | threshold is 0.4 - counter = 7/10 - stuck value = 16
+Generation 224 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.41% | threshold is 0.4 - counter = 8/10 - stuck value = 16
+Generation 225 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.51% | threshold is 0.4 - counter = 9/10 - stuck value = 16
+Generation 226 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.43% | threshold is 0.4 - counter = 10/10 - stuck value = 16
+Generation 227 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.44% | threshold is 0.45 - counter = 1/10 - stuck value = 17
+Generation 228 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.28% | threshold is 0.45 - counter = 2/10 - stuck value = 17
+Generation 229 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.52% | threshold is 0.45 - counter = 3/10 - stuck value = 17
+Generation 230 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.71% | threshold is 0.45 - counter = 4/10 - stuck value = 17
+Generation 231 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.77% | threshold is 0.45 - counter = 5/10 - stuck value = 17
+Generation 232 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.75% | threshold is 0.45 - counter = 6/10 - stuck value = 17
+Generation 233 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.75% | threshold is 0.45 - counter = 7/10 - stuck value = 17
+Generation 234 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.74% | threshold is 0.45 - counter = 8/10 - stuck value = 17
+Generation 235 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.7% | threshold is 0.45 - counter = 9/10 - stuck value = 17
+Generation 236 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.87% | threshold is 0.45 - counter = 10/10 - stuck value = 17
+Generation 237 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.41% | threshold is 0.5 - counter = 1/10 - stuck value = 18
+Generation 238 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.55% | threshold is 0.5 - counter = 2/10 - stuck value = 18
+Generation 239 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.04% | threshold is 0.5 - counter = 3/10 - stuck value = 18
+Generation 240 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.08% | threshold is 0.5 - counter = 4/10 - stuck value = 18
+Generation 241 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.27% | threshold is 0.5 - counter = 5/10 - stuck value = 18
+Generation 242 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.26% | threshold is 0.5 - counter = 6/10 - stuck value = 18
+Generation 243 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.2% | threshold is 0.5 - counter = 7/10 - stuck value = 18
+Generation 244 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.12% | threshold is 0.5 - counter = 8/10 - stuck value = 18
+Generation 245 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.12% | threshold is 0.5 - counter = 9/10 - stuck value = 18
+Generation 246 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.14% | threshold is 0.5 - counter = 10/10 - stuck value = 18
+Generation 247 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 4.18% | threshold is 0.55 - counter = 1/10 - stuck value = 19
+Generation 248 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 5.6% | threshold is 0.55 - counter = 2/10 - stuck value = 19
+Generation 249 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.16% | threshold is 0.55 - counter = 3/10 - stuck value = 19
+Generation 250 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.42% | threshold is 0.55 - counter = 4/10 - stuck value = 19
+Generation 251 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.56% | threshold is 0.55 - counter = 5/10 - stuck value = 19
+Generation 252 -> best overall: 01:15:36.077 - best of generation: 01:15:36.077 - population size ratio 6.55% | threshold is 0.55 - counter = 6/10 - stuck value = 19
+Stopping because stucked (Stuck in local minima or global optimum found)
+
+
+Best Strategy:
+
+
+Lap 1 -> Compound 'Hard', Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '100.19' Kg, PitStop 'No', Time '01:29.419' ms
+Lap 2 -> Compound 'Hard', Wear '0.03'% | '0.03'% | '0.02'% | '0.02'%, Fuel '98.3' Kg, PitStop 'No', Time '01:27.386' ms
+Lap 3 -> Compound 'Hard', Wear '0.04'% | '0.04'% | '0.03'% | '0.03'%, Fuel '96.41' Kg, PitStop 'No', Time '01:27.309' ms
+Lap 4 -> Compound 'Hard', Wear '0.06'% | '0.05'% | '0.05'% | '0.04'%, Fuel '94.52' Kg, PitStop 'No', Time '01:27.219' ms
+Lap 5 -> Compound 'Hard', Wear '0.07'% | '0.07'% | '0.06'% | '0.05'%, Fuel '92.64' Kg, PitStop 'No', Time '01:27.143' ms
+Lap 6 -> Compound 'Hard', Wear '0.08'% | '0.08'% | '0.07'% | '0.06'%, Fuel '90.75' Kg, PitStop 'No', Time '01:27.058' ms
+Lap 7 -> Compound 'Hard', Wear '0.1'% | '0.1'% | '0.08'% | '0.07'%, Fuel '88.86' Kg, PitStop 'No', Time '01:26.970' ms
+Lap 8 -> Compound 'Hard', Wear '0.11'% | '0.11'% | '0.09'% | '0.08'%, Fuel '86.97' Kg, PitStop 'No', Time '01:26.891' ms
+Lap 9 -> Compound 'Hard', Wear '0.13'% | '0.12'% | '0.1'% | '0.09'%, Fuel '85.08' Kg, PitStop 'No', Time '01:26.802' ms
+Lap 10 -> Compound 'Hard', Wear '0.14'% | '0.14'% | '0.11'% | '0.1'%, Fuel '83.19' Kg, PitStop 'No', Time '01:26.718' ms
+Lap 11 -> Compound 'Hard', Wear '0.16'% | '0.15'% | '0.12'% | '0.11'%, Fuel '81.3' Kg, PitStop 'No', Time '01:26.633' ms
+Lap 12 -> Compound 'Hard', Wear '0.17'% | '0.16'% | '0.14'% | '0.12'%, Fuel '79.42' Kg, PitStop 'No', Time '01:26.551' ms
+Lap 13 -> Compound 'Hard', Wear '0.18'% | '0.18'% | '0.15'% | '0.13'%, Fuel '77.53' Kg, PitStop 'No', Time '01:26.469' ms
+Lap 14 -> Compound 'Hard', Wear '0.2'% | '0.19'% | '0.16'% | '0.13'%, Fuel '75.64' Kg, PitStop 'No', Time '01:26.385' ms
+Lap 15 -> Compound 'Hard', Wear '0.21'% | '0.2'% | '0.17'% | '0.14'%, Fuel '73.75' Kg, PitStop 'No', Time '01:26.294' ms
+Lap 16 -> Compound 'Hard', Wear '0.23'% | '0.22'% | '0.18'% | '0.15'%, Fuel '71.86' Kg, PitStop 'No', Time '01:26.205' ms
+Lap 17 -> Compound 'Hard', Wear '0.24'% | '0.23'% | '0.19'% | '0.16'%, Fuel '69.97' Kg, PitStop 'No', Time '01:26.127' ms
+Lap 18 -> Compound 'Hard', Wear '0.25'% | '0.24'% | '0.2'% | '0.17'%, Fuel '68.08' Kg, PitStop 'No', Time '01:26.037' ms
+Lap 19 -> Compound 'Hard', Wear '0.27'% | '0.26'% | '0.21'% | '0.18'%, Fuel '66.19' Kg, PitStop 'No', Time '01:25.949' ms
+Lap 20 -> Compound 'Hard', Wear '0.28'% | '0.27'% | '0.23'% | '0.19'%, Fuel '64.31' Kg, PitStop 'No', Time '01:25.871' ms
+Lap 21 -> Compound 'Hard', Wear '0.3'% | '0.29'% | '0.24'% | '0.2'%, Fuel '62.42' Kg, PitStop 'No', Time '01:25.787' ms
+Lap 22 -> Compound 'Hard', Wear '0.31'% | '0.3'% | '0.25'% | '0.21'%, Fuel '60.53' Kg, PitStop 'No', Time '01:25.709' ms
+Lap 23 -> Compound 'Hard', Wear '0.32'% | '0.31'% | '0.26'% | '0.22'%, Fuel '58.64' Kg, PitStop 'No', Time '01:25.621' ms
+Lap 24 -> Compound 'Medium', Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '56.75' Kg, PitStop 'Yes', Time '01:49.934' ms
+Lap 25 -> Compound 'Medium', Wear '0.02'% | '0.02'% | '0.02'% | '0.02'%, Fuel '54.86' Kg, PitStop 'No', Time '01:24.866' ms
+Lap 26 -> Compound 'Medium', Wear '0.03'% | '0.03'% | '0.03'% | '0.02'%, Fuel '52.97' Kg, PitStop 'No', Time '01:24.810' ms
+Lap 27 -> Compound 'Medium', Wear '0.05'% | '0.04'% | '0.04'% | '0.03'%, Fuel '51.09' Kg, PitStop 'No', Time '01:24.742' ms
+Lap 28 -> Compound 'Medium', Wear '0.06'% | '0.06'% | '0.05'% | '0.04'%, Fuel '49.2' Kg, PitStop 'No', Time '01:24.674' ms
+Lap 29 -> Compound 'Medium', Wear '0.07'% | '0.07'% | '0.05'% | '0.05'%, Fuel '47.31' Kg, PitStop 'No', Time '01:24.608' ms
+Lap 30 -> Compound 'Medium', Wear '0.08'% | '0.08'% | '0.06'% | '0.05'%, Fuel '45.42' Kg, PitStop 'No', Time '01:24.540' ms
+Lap 31 -> Compound 'Medium', Wear '0.09'% | '0.09'% | '0.07'% | '0.06'%, Fuel '43.53' Kg, PitStop 'No', Time '01:24.448' ms
+Lap 32 -> Compound 'Medium', Wear '0.1'% | '0.1'% | '0.08'% | '0.07'%, Fuel '41.64' Kg, PitStop 'No', Time '01:24.382' ms
+Lap 33 -> Compound 'Medium', Wear '0.11'% | '0.11'% | '0.09'% | '0.08'%, Fuel '39.75' Kg, PitStop 'No', Time '01:24.324' ms
+Lap 34 -> Compound 'Medium', Wear '0.13'% | '0.12'% | '0.1'% | '0.09'%, Fuel '37.87' Kg, PitStop 'No', Time '01:24.258' ms
+Lap 35 -> Compound 'Medium', Wear '0.14'% | '0.13'% | '0.11'% | '0.09'%, Fuel '35.98' Kg, PitStop 'No', Time '01:24.190' ms
+Lap 36 -> Compound 'Medium', Wear '0.15'% | '0.14'% | '0.12'% | '0.1'%, Fuel '34.09' Kg, PitStop 'No', Time '01:24.122' ms
+Lap 37 -> Compound 'Medium', Wear '0.16'% | '0.15'% | '0.13'% | '0.11'%, Fuel '32.2' Kg, PitStop 'No', Time '01:24.054' ms
+Lap 38 -> Compound 'Medium', Wear '0.17'% | '0.17'% | '0.14'% | '0.12'%, Fuel '30.31' Kg, PitStop 'No', Time '01:23.988' ms
+Lap 39 -> Compound 'Medium', Wear '0.18'% | '0.18'% | '0.15'% | '0.12'%, Fuel '28.42' Kg, PitStop 'No', Time '01:23.920' ms
+Lap 40 -> Compound 'Medium', Wear '0.19'% | '0.19'% | '0.16'% | '0.13'%, Fuel '26.53' Kg, PitStop 'No', Time '01:23.852' ms
+Lap 41 -> Compound 'Medium', Wear '0.21'% | '0.2'% | '0.16'% | '0.14'%, Fuel '24.65' Kg, PitStop 'No', Time '01:23.784' ms
+Lap 42 -> Compound 'Medium', Wear '0.22'% | '0.21'% | '0.17'% | '0.15'%, Fuel '22.76' Kg, PitStop 'No', Time '01:23.718' ms
+Lap 43 -> Compound 'Medium', Wear '0.23'% | '0.22'% | '0.18'% | '0.16'%, Fuel '20.87' Kg, PitStop 'No', Time '01:23.638' ms
+Lap 44 -> Compound 'Medium', Wear '0.24'% | '0.23'% | '0.19'% | '0.16'%, Fuel '18.98' Kg, PitStop 'No', Time '01:23.570' ms
+Lap 45 -> Compound 'Medium', Wear '0.25'% | '0.24'% | '0.2'% | '0.17'%, Fuel '17.09' Kg, PitStop 'No', Time '01:23.492' ms
+Lap 46 -> Compound 'Medium', Wear '0.26'% | '0.25'% | '0.21'% | '0.18'%, Fuel '15.2' Kg, PitStop 'No', Time '01:23.434' ms
+Lap 47 -> Compound 'Medium', Wear '0.27'% | '0.26'% | '0.22'% | '0.19'%, Fuel '13.31' Kg, PitStop 'No', Time '01:23.378' ms
+Lap 48 -> Compound 'Medium', Wear '0.29'% | '0.28'% | '0.23'% | '0.19'%, Fuel '11.43' Kg, PitStop 'No', Time '01:23.312' ms
+Lap 49 -> Compound 'Medium', Wear '0.3'% | '0.29'% | '0.24'% | '0.2'%, Fuel '9.54' Kg, PitStop 'No', Time '01:23.232' ms
+Lap 50 -> Compound 'Medium', Wear '0.31'% | '0.3'% | '0.25'% | '0.21'%, Fuel '7.65' Kg, PitStop 'No', Time '01:23.164' ms
+Lap 51 -> Compound 'Medium', Wear '0.32'% | '0.31'% | '0.26'% | '0.22'%, Fuel '5.76' Kg, PitStop 'No', Time '01:23.098' ms
+Lap 52 -> Compound 'Medium', Wear '0.33'% | '0.32'% | '0.27'% | '0.23'%, Fuel '3.87' Kg, PitStop 'No', Time '01:23.030' ms
+Lap 53 -> Compound 'Medium', Wear '0.34'% | '0.33'% | '0.27'% | '0.23'%, Fuel '1.98' Kg, PitStop 'No', Time '01:22.962' ms
