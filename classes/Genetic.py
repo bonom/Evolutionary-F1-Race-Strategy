@@ -68,13 +68,14 @@ def overLimit(values, limit):
     return False
 
 def changeTyre(tyresWear:dict):
-    if all([x < 0.4 for x in tyresWear.values()]):
+    if all([x < 0.3 for x in tyresWear.values()]):
         return False
 
     boundary = random.random()
+    #valutare di prendere la media dei valori e fare il controllo con il random solo su quella
     for wear in tyresWear.values():
-        if wear > 0.4:
-            if boundary < wear:
+        #if wear > 0.3:
+            if boundary < wear*2:
                 return True
     return False
 
@@ -501,23 +502,29 @@ class GeneticSolver:
         #return self.correct_strategy_pitstop(strategy=child, indexPitStop=index)
 
     def mutation_pitstop_add(self, child:dict):
+        #print(child)
         for lap in range(0, self.numLaps):
+            #print(lap)
             if changeTyre(child['TyreWear'][lap]) and child['PitStop'][lap] == False:
                 compound = self.randomCompound(child['Weather'][lap])
+                #print("Sono entrato in add pitstop : giro ", lap, "vecchio compound ", child['TyreCompound'][lap], "nuovo compund ", compound)
                 tyre_age = 0
                 child['PitStop'][lap] = True
                 child['TyreWear'][lap] = tyre_age
                 child['TyreCompound'][lap] = compound
                 child['NumPitStop'] += 1
-                remaining = lap
-                while remaining < self.numLaps and child['PitStop'][remaining] == True:
+                remaining = lap + 1
+                tyre_age += 1
+                while remaining < self.numLaps and child['PitStop'][remaining] == False:
                     child['TyreWear'][remaining] = self.getTyreWear(compound=compound, lap=tyre_age)#, conditions=child['Weather'][:remaining])
                     child['TyreCompound'][remaining] = compound
                     child['TyreAge'][remaining] = tyre_age
                     child['LapTime'][remaining] = self.getLapTime(compound=compound, compoundAge=tyre_age, lap=remaining, fuel_load=child['FuelLoad'][remaining], conditions=child['Weather'][:remaining], drs=False, pitStop=child['PitStop'][remaining])
                     remaining += 1
+                    tyre_age += 1
                 child['TotalTime'] = sum(child['LapTime'])
-
+                #print(child)
+                return child
         return child
             
     def mutation(self,child:dict) -> list:
