@@ -73,8 +73,9 @@ def changeTyre(tyresWear:dict):
 
     boundary = random.random()
     for wear in tyresWear.values():
-        if boundary < wear:
-            return True
+        if wear > 0.4:
+            if boundary < wear:
+                return True
     return False
 
 class GeneticSolver:
@@ -523,17 +524,22 @@ class GeneticSolver:
         childCompound = copy.deepcopy(child)
         childPitStop = copy.deepcopy(child)
         childFuelLoad = copy.deepcopy(child)
+        childAllMutated = copy.deepcopy(child)
         children = []
 
         if random.random() < self.sigma:
             children.append(self.mutation_compound(childCompound))
+            childAllMutated = self.mutation_compound(childAllMutated)
         
         if random.random() < self.sigma:
             children.append(self.mutation_pitstop(childPitStop))
             children.append(self.mutation_pitstop_add(childPitStop))
+            childAllMutated = self.mutation_pitstop(childAllMutated)
+            childAllMutated = self.mutation_pitstop_add(childAllMutated)
 
         if random.random() < self.sigma:
             children.append(self.mutation_fuel_load(childFuelLoad))
+            childAllMutated = self.mutation_fuel_load(childAllMutated)
         
         return children
     
