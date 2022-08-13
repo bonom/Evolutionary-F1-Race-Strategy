@@ -277,7 +277,7 @@ class GeneticSolver:
                 #if (counter/((self.iterations)//100)) > 1:
                 #    threshold_quantile = round(threshold_quantile + 0.01,2)
 
-                if best_eval == bf_time:
+                if best_eval <= bf_time:
                     print(f"Found the best possible solution in {gen+1} generations")
                     break
 
@@ -297,7 +297,7 @@ class GeneticSolver:
                     quarter_pop = self.population//4
                     population = population[:self.population]
                     idx = random.randint(1, quarter_pop)
-                    threshold_quantile = round(threshold_quantile + 0.05,2)
+                    threshold_quantile = round(threshold_quantile - 0.05,2)
                     for i in range(3*quarter_pop+idx, self.population):
                         population[i] = self.randomChild()
                 
@@ -317,14 +317,14 @@ class GeneticSolver:
         
         fit_dict = {'Generation' : range(len(fitness_values)), 'Fitness' : fitness_values}
         
-        string = f"\n\nBest Strategy:\n\n"
+        string = f"\n\nBest Strategy: {ms_to_time(best_eval)} vs {ms_to_time(bf_time)}"
         print(string)
         self.log.write(string+"\n")
 
 
         for lap in range(len(best['TyreCompound'])):
             string = f"Lap {lap+1} -> Compound '{best['TyreCompound'][lap]}', Wear '{round(best['TyreWear'][lap]['FL'],2)}'% | '{round(best['TyreWear'][lap]['FR'],2)}'% | '{round(best['TyreWear'][lap]['RL'],2)}'% | '{round(best['TyreWear'][lap]['RR'],2)}'%, Fuel '{round(best['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if best['PitStop'][lap] else 'No'}', Time '{ms_to_time(best['LapTime'][lap])}' ms"
-            #print(string)
+            print(string)
             self.log.write(string+"\n")
 
         return best, best_eval, boxplot_df, fit_dict

@@ -48,11 +48,7 @@ def display_top(snapshot, key_type='lineno', limit=3):
         print("%s other: %.1f KiB" % (len(other), size / 1024))
     total = sum(stat.size for stat in top_stats)
     print("Total allocated size: %.1f KiB" % (total / 1024))
-
-def printStrategy(strategy):
-    for lap in range(len(strategy['TyreCompound'])):
-        print(f"Lap {lap+1} -> Compound '{strategy['TyreCompound'][lap]}', Wear '{round(strategy['TyreWear'][lap]['FL'],2)}'% | '{round(strategy['TyreWear'][lap]['FR'],2)}'% | '{round(strategy['TyreWear'][lap]['RL'],2)}'% | '{round(strategy['TyreWear'][lap]['RR'],2)}'%, Fuel '{round(strategy['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if strategy['PitStop'][lap] else 'No'}', Time '{ms_to_time(strategy['LapTime'][lap])}' ms")
-
+    
 def main():
     print(f"\n---------------START----------------\n")
     if args.c is None:
@@ -96,16 +92,15 @@ def main():
             lines = f.readlines()
         
         bf_time = lines[-1].split(" ")
+        bf_time_in_ms = time_to_ms(bf_time[-1])
 
-        best, best_eval, boxplot_data, fitness_data = genetic.startSolver(bf_time = bf_time) 
+        best, best_eval, boxplot_data, fitness_data = genetic.startSolver(bf_time = bf_time_in_ms) 
         
-        printStrategy(best)
         print(f"\n------------------------------------\n")
         print(f"EA timing: {ms_to_time(best_eval)}")
         print(f"Bruteforce give timing: {bf_time[-1]}")
         print(f"\n------------------------------------\n")
 
-        bf_time_in_ms = time_to_ms(bf_time[-1])
         print(f"\n------------------------------------\n")
         ea = f"{int(best_eval):,}".replace(",", " ")
         bf = f"{int(bf_time_in_ms):,}".replace(",", " ")
