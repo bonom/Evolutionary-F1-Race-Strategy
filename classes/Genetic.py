@@ -607,7 +607,7 @@ class GeneticSolver:
 
     def crossover(self, p1:dict, p2:dict,):
         # children are copies of parents by default
-        c1, c2 = p1.copy(), p2.copy()
+        c1, c2 = copy.deepcopy(p1), copy.deepcopy(p2)
         # check for recombination
         if random.random() < self.mu:
             c1, c2 = self.crossover_fuel(c1, c2)
