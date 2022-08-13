@@ -567,6 +567,8 @@ class GeneticSolver:
             children.append(self.mutation_fuel_load(copy.deepcopy(child)))
             childAllMutated = self.mutation_fuel_load(childAllMutated)
         
+        children.append(childAllMutated)
+        
         return children
     
     #def crossover(self, p1:dict, p2:dict,):
