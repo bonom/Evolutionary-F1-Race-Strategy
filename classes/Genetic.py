@@ -15,6 +15,7 @@ from classes.Utils import CIRCUIT, Log, ms_to_time
 MIN_LAP_TIME = np.inf
 START_FUEL = 0
 STRATEGY = None
+TYRE_WEAR_THRESHOLD = 0.3
 
 def boxplot_insert(df:dict, pop_size:int, generation:int, population:list):
     fitnesses = list()
@@ -68,7 +69,7 @@ def overLimit(values, limit):
     return False
 
 def changeTyre(tyresWear:dict):
-    if all([x < 0.3 for x in tyresWear.values()]):
+    if all([x < TYRE_WEAR_THRESHOLD for x in tyresWear.values()]):
         return False
 
     boundary = random.random()
@@ -503,6 +504,7 @@ class GeneticSolver:
 
     def mutation_pitstop_add(self, child:dict):
         #print(child)
+        
         for lap in range(0, self.numLaps):
             #print(lap)
             if changeTyre(child['TyreWear'][lap]) and child['PitStop'][lap] == False:
@@ -510,7 +512,8 @@ class GeneticSolver:
                 #print("Sono entrato in add pitstop : giro ", lap, "vecchio compound ", child['TyreCompound'][lap], "nuovo compund ", compound)
                 tyre_age = 0
                 child['PitStop'][lap] = True
-                child['TyreWear'][lap] = tyre_age
+                child['TyreAge'][lap] = tyre_age
+                child['TyreWear'][lap] = self.getTyreWear(compound=compound, lap=tyre_age)
                 child['TyreCompound'][lap] = compound
                 child['NumPitStop'] += 1
                 remaining = lap + 1
@@ -528,24 +531,22 @@ class GeneticSolver:
         return child
             
     def mutation(self,child:dict) -> list:
-        childCompound = copy.deepcopy(child)
-        childPitStop = copy.deepcopy(child)
-        childFuelLoad = copy.deepcopy(child)
         childAllMutated = copy.deepcopy(child)
         children = []
 
         if random.random() < self.sigma:
-            children.append(self.mutation_compound(childCompound))
+            children.append(self.mutation_compound(copy.deepcopy(child)))
             childAllMutated = self.mutation_compound(childAllMutated)
         
         if random.random() < self.sigma:
-            children.append(self.mutation_pitstop(childPitStop))
-            children.append(self.mutation_pitstop_add(childPitStop))
+            children.append(self.mutation_pitstop(copy.deepcopy(child)))
+            children.append(self.mutation_pitstop_add(copy.deepcopy(child)))
+        
             childAllMutated = self.mutation_pitstop(childAllMutated)
             childAllMutated = self.mutation_pitstop_add(childAllMutated)
 
         if random.random() < self.sigma:
-            children.append(self.mutation_fuel_load(childFuelLoad))
+            children.append(self.mutation_fuel_load(copy.deepcopy(child)))
             childAllMutated = self.mutation_fuel_load(childAllMutated)
         
         return children
