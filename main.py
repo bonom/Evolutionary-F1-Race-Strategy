@@ -77,7 +77,7 @@ def main():
         
         _circuit = circuit.split("\\")[-1] if os.name == 'nt' else circuit.split("/")[-1]
 
-        genetic = GeneticSolver(car=car, population=500, iterations=1000,circuit=_circuit)
+        genetic = GeneticSolver(population=50, mutation_pr=0.9, crossover_pr=0.4, iterations=1000, car=car, circuit=_circuit)
         bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.txt")
         if os.path.isfile(bruteforce_save_path):
             print(f"Bruteforce results for {_circuit} are already calculated in '{bruteforce_save_path}'.\nSkipping...\n")
@@ -120,8 +120,8 @@ def main():
         fit_gen_boxplot.update_layout(xaxis_title="Generation", yaxis_title="Fitness")
         fit_gen_boxplot.write_html(os.path.join(circuit, "Boxplot_fitnesses.html"))
 
-        fit_boxplot = px.box(fitness_data, y="Fitness", title="Fitnesses boxplot")
-        fit_boxplot.write_html(os.path.join(circuit, "Fitnesses_boxplot.html"))
+        #fit_boxplot = px.box(fitness_data, y="Fitness", title="Fitnesses boxplot")
+        #fit_boxplot.write_html(os.path.join(circuit, "Fitnesses_boxplot.html"))
 
         y_values = []
         minutes_worst = int(max(fitness_data["Fitness"])/1000)//60 - 59
@@ -156,7 +156,7 @@ def main():
         if input(f"\nDo you want to see the plots for {_circuit}? (Y/n) ").lower() == "y":
             print(f"Plotting for {_circuit}...")
             fit_gen_boxplot.show()
-            fit_boxplot.show()
+            #fit_boxplot.show()
             fit_line.show()
         
     

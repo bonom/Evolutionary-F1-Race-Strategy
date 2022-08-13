@@ -139,19 +139,7 @@ class GeneticSolver:
         if lap == 0:
             time += 2000
 
-        return round(time) 
-
-    def checkValidity(self, strategy:dict):
-        all_compounds = set(strategy['TyreCompound'])
-        last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
-        
-        if len(all_compounds) > 1 and last_lap_fuel_load >= 0:
-            strategy['Valid'] = True
-            return True
-        
-        strategy['Valid'] = False 
-        return False
-            
+        return round(time)     
 
     def getBest(self, population:list, best={'TotalTime':np.inf}):
         idx = -1
@@ -163,17 +151,24 @@ class GeneticSolver:
                 if strategy['TotalTime'] < best['TotalTime']:
                     best = strategy
                 
-        if best['FuelLoad'][-1] < 0:
-            print(f"ERROR!!!!!")
         return best, best['TotalTime']
 
+    def checkValidity(self, strategy:dict):
+        all_compounds = set(strategy['TyreCompound'])
+        last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
+        
+        if len(all_compounds) > 1 and last_lap_fuel_load >= 0:
+            strategy['Valid'] = True
+            return True
+        
+        strategy['Valid'] = False 
+        return False
 
     def startSolver(self,):
         fitness_values = list()
         threshold_quantile = 0.3
         counter = 0
         stuck_value = 0
-        #boxplot_dict = {'Generation':list(), 'Fitness':list()}
         boxplot_df = None
 
         # initial population of random bitstring
@@ -225,6 +220,24 @@ class GeneticSolver:
                 
                 # Create the next generation
                 children = [parent for parent in selected]
+
+                ###################### TyresAge CHECK ###########################
+
+                for strategy in children:
+                    for idx, value in enumerate(strategy['TyreAge']):
+                        if idx == 0:
+                            continue
+                        elif idx > 0 and value > strategy['TyreAge'][idx-1]:
+                            continue
+                        elif idx > 0 and value == 0 and strategy['PitStop'][idx] == True:
+                            continue
+                        else:
+                            print(f"Possible error? idx = {idx} and value {value}\n{strategy}")
+                            exit(-1)
+
+
+                ################### END TyresAge CHECK ##########################
+
 
                 if len(selected) > self.population:
                     selected = selected[:self.population]
@@ -307,7 +320,7 @@ class GeneticSolver:
 
         for lap in range(len(best['TyreCompound'])):
             string = f"Lap {lap+1} -> Compound '{best['TyreCompound'][lap]}', Wear '{round(best['TyreWear'][lap]['FL'],2)}'% | '{round(best['TyreWear'][lap]['FR'],2)}'% | '{round(best['TyreWear'][lap]['RL'],2)}'% | '{round(best['TyreWear'][lap]['RR'],2)}'%, Fuel '{round(best['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if best['PitStop'][lap] else 'No'}', Time '{ms_to_time(best['LapTime'][lap])}' ms"
-            print(string)
+            #print(string)
             self.log.write(string+"\n")
 
         return best, best_eval, boxplot_df, fit_dict
@@ -515,6 +528,7 @@ class GeneticSolver:
                 child['TyreAge'][lap] = tyre_age
                 child['TyreWear'][lap] = self.getTyreWear(compound=compound, lap=tyre_age)
                 child['TyreCompound'][lap] = compound
+                child['LapTime'][lap] = self.getLapTime(compound=compound, compoundAge=tyre_age, lap=lap, fuel_load=child['FuelLoad'][lap], conditions=child['Weather'][:lap], drs=False, pitStop=child['PitStop'][lap])
                 child['NumPitStop'] += 1
                 remaining = lap + 1
                 tyre_age += 1

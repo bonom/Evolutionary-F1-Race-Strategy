@@ -115,6 +115,8 @@ class Log():
         self.path = os.path.join(path, 'log.txt')
 
         if os.path.exists(self.path):
+            os.remove(self.path)
+            return
             print(f"Log file already exists at {self.path}, are you sure you want to overwrite it? [Y/n]", end=" ")
             if input().lower() == 'y':
                 os.remove(self.path)
