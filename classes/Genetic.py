@@ -164,7 +164,7 @@ class GeneticSolver:
         strategy['Valid'] = False 
         return False
 
-    def startSolver(self,):
+    def startSolver(self,bf_time:int=0):
         fitness_values = list()
         threshold_quantile = 0.3
         counter = 0
@@ -277,15 +277,19 @@ class GeneticSolver:
                 #if (counter/((self.iterations)//100)) > 1:
                 #    threshold_quantile = round(threshold_quantile + 0.01,2)
 
+                if best_eval == bf_time:
+                    print(f"Found the best possible solution in {gen+1} generations")
+                    break
+
                 if counter == 0:
                     threshold_quantile = 0.3
                     stuck_value = 0
 
-                if stuck_value >= 5 and gen > self.iterations//4:
-                    string = "Stopping because stucked (Stuck in local minima or global optimum found)"
-                    print(string)
-                    self.log.write(string+"\n")
-                    break
+                # if stuck_value >= 5 and gen > self.iterations//4:
+                #     string = "Stopping because stucked (Stuck in local minima or global optimum found)"
+                #     print(string)
+                #     self.log.write(string+"\n")
+                #     break
 
                 if counter >= (self.iterations)//100:
                     counter = 0

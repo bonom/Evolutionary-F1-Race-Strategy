@@ -92,14 +92,13 @@ def main():
                 f.write(f"\nFitness: {t}\n")
                 f.write(f"Total time: {ms_to_time(timing)}")
 
-        best, best_eval, boxplot_data, fitness_data = genetic.startSolver() 
-
         with open(bruteforce_save_path, 'r') as f:
             lines = f.readlines()
         
         bf_time = lines[-1].split(" ")
-        
 
+        best, best_eval, boxplot_data, fitness_data = genetic.startSolver(bf_time = bf_time) 
+        
         printStrategy(best)
         print(f"\n------------------------------------\n")
         print(f"EA timing: {ms_to_time(best_eval)}")
