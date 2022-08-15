@@ -14,6 +14,7 @@ CIRCUIT: dict = {
     'Monza': {'Laps': 53, 'PitStopTime':25000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
     'Spielberg' : {'Laps': 71, 'PitStopTime':21000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
     'Montreal' : {'Laps': 70, 'PitStopTime':24000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+    'Portimao' : {'Laps': 66, 'PitStopTime':22000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
 }
 
 COMPOUNDS: dict = {
@@ -115,8 +116,6 @@ class Log():
         self.path = os.path.join(path, 'log.txt')
 
         if os.path.exists(self.path):
-            os.remove(self.path)
-            return
             print(f"Log file already exists at {self.path}, are you sure you want to overwrite it? [Y/n]", end=" ")
             if input().lower() == 'y':
                 os.remove(self.path)

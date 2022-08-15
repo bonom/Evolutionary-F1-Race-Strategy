@@ -139,20 +139,22 @@ class Car:
                     if idx > 0:
                         if all([self.tyre_wear_coeff[tyres[idx-1]][x] != 0 for x in ['FL', 'FR', 'RL', 'RR']]):
                             for x in ['FL', 'FR', 'RL', 'RR']:
-                                self.tyre_wear_coeff[tyre][x] = self.tyre_wear_coeff[tyres[idx-1]][x]*np.exp(-idx-1)+1
-                                all_filled[idx] = True
-                        if idx+1 < len(tyres) and tyre != 'Inter':
-                            if all([self.tyre_wear_coeff[tyres[idx+1]][x] != 0 for x in ['FL', 'FR', 'RL', 'RR']]):
-                                for x in ['FL', 'FR', 'RL', 'RR']:
-                                    self.tyre_wear_coeff[tyre][x] = self.tyre_wear_coeff[tyres[idx+1]][x]*np.log(idx+1.25)
-                                    all_filled[idx] = True
+                                self.tyre_wear_coeff[tyre][x] = self.tyre_wear_coeff[tyres[idx-1]][x]*35/40#np.exp(-idx-1)+1
+                            all_filled[idx] = True
+                        #if idx+1 < len(tyres) and tyre != 'Inter':
+                        #    if all([self.tyre_wear_coeff[tyres[idx+1]][x] != 0 for x in ['FL', 'FR', 'RL', 'RR']]):
+                        #        for x in ['FL', 'FR', 'RL', 'RR']:
+                        #            self.tyre_wear_coeff[tyre][x] = self.tyre_wear_coeff[tyres[idx+1]][x]*np.log(idx+1.25)
+                        #        all_filled[idx] = True
                     else:
                         if all([self.tyre_wear_coeff[tyres[idx+1]][x] != 0 for x in ['FL', 'FR', 'RL', 'RR']]):
                             for x in ['FL', 'FR', 'RL', 'RR']:
-                                self.tyre_wear_coeff[tyre][x] = self.tyre_wear_coeff[tyres[idx+1]][x]*np.log(idx+1.25)
-                                all_filled[idx] = True
+                                self.tyre_wear_coeff[tyre][x] = self.tyre_wear_coeff[tyres[idx+1]][x]*40/35#np.log(idx+1.25)
+                            all_filled[idx] = True
                 else:
                     all_filled[idx] = True
+        
+        pass
 
     def compute_tyre_wear_and_time_lose(self, data:dict):
         tyre_wear = {}    
@@ -292,11 +294,11 @@ class Car:
     def predict_tyre_time_lose(self, tyre:str, lap:int=0, wear:dict=None):
         if wear is None:
             wear = self.predict_tyre_wear(tyre, lap)
-            
-        fl = round(self.tyre_coeff[tyre]['FL'] * wear['FL'])
-        fr = round(self.tyre_coeff[tyre]['FR'] * wear['FR'])
-        rl = round(self.tyre_coeff[tyre]['RL'] * wear['RL'])
-        rr = round(self.tyre_coeff[tyre]['RR'] * wear['RR'])
+
+        fl = round(self.tyre_coeff[tyre]['FL'] * wear['FL'] * (2*wear['FL']*wear['FL']*1/100*1/100+1))#np.exp((wear['FL']/100)*lap))
+        fr = round(self.tyre_coeff[tyre]['FR'] * wear['FR'] * (2*wear['FR']*wear['FR']*1/100*1/100+1))#np.exp((wear['FR']/100)*lap))
+        rl = round(self.tyre_coeff[tyre]['RL'] * wear['RL'] * (2*wear['RL']*wear['RL']*1/100*1/100+1))#np.exp((wear['RL']/100)*lap))
+        rr = round(self.tyre_coeff[tyre]['RR'] * wear['RR'] * (2*wear['RR']*wear['RR']*1/100*1/100+1))#np.exp((wear['RR']/100)*lap))
 
         return {'FL':fl, 'FR':fr, 'RL':rl, 'RR':rr, 'Total':fl+fr+rl+rr}
 
@@ -326,8 +328,12 @@ def get_nearest_frame(df, frameList):
         else:
             notFound = True
             add = 1
+            if frame > 40508:
+                pass
             while notFound and ((frame + add) < max(df['FrameIdentifier'].values)):
-                if (frame + add) in df['FrameIdentifier'].values:
+                if (frame + add) in framesReturn:
+                    pass
+                elif (frame + add) in df['FrameIdentifier'].values:
                     framesReturn.append(frame + add)
                     notFound = False
                 add += 1
@@ -343,9 +349,42 @@ def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[], race
 
     lap = pd.read_csv(os.path.join(folder, "Lap.csv"))
     car_index = lap['PlayerCarIndex'].unique()[0]
-    lap = lap.loc[lap["CarIndex"] == car_index, ['CurrentLapNum', 'FrameIdentifier', 'LastLapTimeInMS']].drop_duplicates(['FrameIdentifier'], keep="last")
+
+    lap = lap.loc[(lap["CarIndex"] == car_index) & (lap['DriverStatus'] > 0) & (lap['LastLapTimeInMS'] > 0), ['CurrentLapNum', 'FrameIdentifier', 'LastLapTimeInMS']].drop_duplicates(['FrameIdentifier'], keep="last")#,'DriverStatus'
+    if False:
+        inserting = False
+        temp = None
+        runs = list()
+
+        for frame in lap['FrameIdentifier'].values:
+            val = lap.loc[lap['FrameIdentifier'] == frame, 'DriverStatus'].values[0]
+            timing = lap.loc[lap['FrameIdentifier'] == frame, 'LastLapTimeInMS'].values[0]
+            if val == 0:
+                if inserting:
+                    begin = temp
+                    if frame-begin > 1000:
+                        runs.append([begin, frame])
+                    inserting = False
+            else:
+                if temp is None and timing != 0:
+                    temp = frame
+                    inserting = True
+                elif not inserting and timing != 0:
+                    temp = frame
+                    inserting = True
+
     lap = lap.drop_duplicates(['CurrentLapNum','LastLapTimeInMS'], keep='first').sort_values(by=['FrameIdentifier']).set_index("FrameIdentifier")
 
+    ### DEBUG ###
+
+    #status = pd.read_csv(os.path.join(folder, "Status.csv"))
+    #status = status.loc[status["CarIndex"] == car_index, ['FrameIdentifier','FuelInTank','VisualTyreCompound']].drop_duplicates(['FrameIdentifier'], keep="last")
+    #(px.line(status, x="FrameIdentifier", y="FuelInTank", title="Fuel", color="VisualTyreCompound", color_discrete_sequence=px.colors.sequential.RdBu)).show()
+    
+    pass
+    ### DEBUG ###
+    
+    
     to_drop = ignore_frames
     if to_drop == []:
         if os.path.isfile(os.path.join(folder, "to_drop.txt")):
@@ -411,11 +450,11 @@ def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[], race
 
     concatData.index = damage_frames
     concatData = pd.concat([concatData, damage], axis=1)
-    
+
     concatData.rename(columns={"CurrentLapNum": "Lap", "LastLapTimeInMS": "LapTime", 'FuelInTank':'Fuel', 'VisualTyreCompound':'Compound','TyresWearFL':'FLWear', 'TyresWearFR':'FRWear', 'TyresWearRL':'RLWear', 'TyresWearRR':'RRWear'}, inplace=True)
 
     tyres = concatData['Compound'].unique()
-
+    
     for idx in concatData.index:
         concatData.at[idx, 'StringLapTime'] = ms_to_time(concatData.at[idx, 'LapTime'])
 
@@ -437,6 +476,7 @@ def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[], race
 
         ret[tyre].append(data)
 
+    #print(ret)
     return ret
 
 
@@ -466,13 +506,14 @@ def get_car_data(path:str):
                     else:
                         concatenated = pd.concat([concatenated, i])
             
+            print(concatenated)
             concatenated.to_csv(os.path.join(path, 'FullData.csv'), index=False)
 
             with open(os.path.join(path, 'Data.json'), 'wb') as f:
                 pickle.dump(fp3, f, pickle.HIGHEST_PROTOCOL)
 
             data = fp3.copy()
-
+            
         car = Car(data=data)
         car.save(path)
         

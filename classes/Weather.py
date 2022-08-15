@@ -14,6 +14,7 @@ class Weather:
         for lap in range(1, self.numLaps + 1):
             self.weather[lap] = 0
         return 
+        ###
         if input(f"Do you want to insert manually the weather data for '{circuit}'? (y/n) ") in ['y', 'Y', 'S', 's']:
             if input(f"Do you want the race to be completely sunny or completely wet? (y/n) ") in ['y', 'Y', 'S', 's']:
                 if input(f"Do you want a total SUNNY race? (y/n) ") in ['y', 'Y', 'S', 's']:

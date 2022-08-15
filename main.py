@@ -1,11 +1,12 @@
-from genericpath import isfile
+import copy
 import sys, os
 
+import pandas as pd
 import numpy as np
 from classes.Genetic import GeneticSolver
 from classes.Car import get_car_data, Car
 from classes.Race import RaceData, plot_best
-from classes.Utils import CIRCUIT, ms_to_time, time_to_ms
+from classes.Utils import ms_to_time, time_to_ms
 import plotly.express as px
 import linecache
 import os
@@ -74,6 +75,10 @@ def main():
         _circuit = circuit.split("\\")[-1] if os.name == 'nt' else circuit.split("/")[-1]
 
         genetic = GeneticSolver(population=50, mutation_pr=0.9, crossover_pr=0.4, iterations=1000, car=car, circuit=_circuit)
+        
+        #genetic.fixed_strategy(compund_list=['Medium','Soft'], stop_lap=45)
+        #exit()
+        
         bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.txt")
         if os.path.isfile(bruteforce_save_path):
             print(f"Bruteforce results for {_circuit} are already calculated in '{bruteforce_save_path}'.\nSkipping...\n")
@@ -109,8 +114,7 @@ def main():
 
 
         # Plots
-        new_data = boxplot_data.copy()
-        fit_gen_boxplot = px.box(new_data, title="Boxplot fitnesses of every generation")
+        fit_gen_boxplot = px.box(boxplot_data, title="Boxplot fitnesses of every generation")
         fit_gen_boxplot.update_layout(xaxis_title="Generation", yaxis_title="Fitness")
         fit_gen_boxplot.write_html(os.path.join(circuit, "Boxplot_fitnesses.html"))
 

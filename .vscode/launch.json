@@ -20,6 +20,22 @@
             "args": ["--c", "Monza"]
         },
         {
+            "name": "[MAC] Montreal",
+            "type": "python",
+            "request": "launch",
+            "program": "/Users/andreabonomi/GitHub/Bio-F1/main.py",
+            "justMyCode": true,
+            "args": ["--c", "Montreal"]
+        },
+        {
+            "name": "[USB] Montreal",
+            "type": "python",
+            "request": "launch",
+            "program": "/Volumes/NO NAME/Bio-F1/main.py",
+            "justMyCode": true,
+            "args": ["--c", "Montreal"]
+        },
+        {
             "name": "[WIN] Python: Main.py",
             "type": "python",
             "request": "launch",
@@ -44,6 +60,24 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": ["--c", "Monza"]
+        },
+        {
+            "name": "[WIN] Montreal",
+            "type": "python",
+            "request": "launch",
+            "program": "d:\\Projects\\Bio-F1\\main.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--c", "Montreal"]
+        },
+        {
+            "name": "[WIN] Portimao",
+            "type": "python",
+            "request": "launch",
+            "program": "d:\\Projects\\Bio-F1\\main.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--c", "Portimao"]
         }
     ]
 }
