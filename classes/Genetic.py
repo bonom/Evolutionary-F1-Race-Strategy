@@ -166,7 +166,8 @@ class GeneticSolver:
         
         # enumerate generations
         try:
-            for gen in tqdm(range(self.iterations)):
+            bar = tqdm(range(self.iterations))
+            for gen in bar:
                 
                 # Checking if there are duplicates, if so, we remove them
                 to_pop = []
@@ -260,8 +261,10 @@ class GeneticSolver:
                 fitness_values.append(temp_best_eval)
 
                 #if gen%10:
+                bar.set_description(f"{gen}/{self.iterations} - BF: {ms_to_time(bf_time)}, Best: {ms_to_time(best_eval)}, Threshold: {threshold_quantile}, Stuck: {stuck_value}, Non-random: {round(len(population)/self.population,2)}%")
+                bar.refresh()
                 string = f'[EA] Generation {gen+1} - Bruteforce solution: {ms_to_time(bf_time)} -> best overall: {ms_to_time(best_eval)} - best of generation: {ms_to_time(temp_best_eval)} - population size ratio {round(len(population)/self.population,2)}% | threshold is {threshold_quantile} - counter = {counter}/{(self.iterations)//100} - stuck value = {stuck_value}'
-                print(string)
+                #print("\n"+string)
                 self.log.write(string+"\n")
 
                 if best_eval <= bf_time:

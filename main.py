@@ -81,7 +81,7 @@ def main():
         
         bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.txt")
         if os.path.isfile(bruteforce_save_path):
-            print(f"Bruteforce results for {_circuit} are already calculated in '{bruteforce_save_path}'.\nSkipping...\n")
+            print(f"Bruteforce results for {_circuit} are already calculated in '{bruteforce_save_path}'.\n")
         else:
             bruteforce_strategy = genetic.lower_bound()
             with open(bruteforce_save_path, "a") as f:
