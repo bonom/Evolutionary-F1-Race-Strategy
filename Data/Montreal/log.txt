@@ -1,137 +1,115 @@
-Generation 1 -> best overall: 01:36:46.345 - best of generation: 01:36:46.345 - population size ratio 1.9% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 2 -> best overall: 01:36:20.230 - best of generation: 01:36:20.230 - population size ratio 2.88% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 3 -> best overall: 01:35:39.020 - best of generation: 01:35:39.020 - population size ratio 4.32% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 4 -> best overall: 01:35:01.192 - best of generation: 01:35:01.192 - population size ratio 6.3% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 5 -> best overall: 01:34:37.360 - best of generation: 01:34:37.360 - population size ratio 6.7% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 6 -> best overall: 01:34:11.049 - best of generation: 01:34:11.049 - population size ratio 6.88% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 7 -> best overall: 01:33:50.831 - best of generation: 01:33:50.831 - population size ratio 6.92% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 8 -> best overall: 01:33:27.167 - best of generation: 01:33:27.167 - population size ratio 6.92% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 9 -> best overall: 01:33:05.143 - best of generation: 01:33:05.143 - population size ratio 7.08% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 10 -> best overall: 01:32:33.085 - best of generation: 01:32:33.085 - population size ratio 7.2% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 11 -> best overall: 01:32:12.495 - best of generation: 01:32:12.495 - population size ratio 7.08% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 12 -> best overall: 01:31:49.914 - best of generation: 01:31:49.914 - population size ratio 7.08% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 13 -> best overall: 01:31:30.003 - best of generation: 01:31:30.003 - population size ratio 7.16% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 14 -> best overall: 01:31:14.197 - best of generation: 01:31:14.197 - population size ratio 6.84% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 15 -> best overall: 01:31:14.197 - best of generation: 01:31:14.197 - population size ratio 7.16% | threshold is 0.3 - counter = 1/10 - stuck value = 0
-Generation 16 -> best overall: 01:30:46.454 - best of generation: 01:30:46.454 - population size ratio 7.0% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 17 -> best overall: 01:30:18.534 - best of generation: 01:30:18.534 - population size ratio 7.14% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 18 -> best overall: 01:30:17.840 - best of generation: 01:30:17.840 - population size ratio 7.08% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 19 -> best overall: 01:29:56.631 - best of generation: 01:29:56.631 - population size ratio 6.84% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 20 -> best overall: 01:29:56.631 - best of generation: 01:29:56.631 - population size ratio 7.0% | threshold is 0.3 - counter = 1/10 - stuck value = 0
-Generation 21 -> best overall: 01:29:56.631 - best of generation: 01:29:56.631 - population size ratio 7.12% | threshold is 0.3 - counter = 2/10 - stuck value = 0
-Generation 22 -> best overall: 01:29:31.389 - best of generation: 01:29:31.389 - population size ratio 7.28% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 23 -> best overall: 01:28:58.721 - best of generation: 01:28:58.721 - population size ratio 7.2% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 24 -> best overall: 01:28:32.905 - best of generation: 01:28:32.905 - population size ratio 7.4% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 25 -> best overall: 01:27:59.357 - best of generation: 01:27:59.357 - population size ratio 7.16% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 26 -> best overall: 01:27:33.170 - best of generation: 01:27:33.170 - population size ratio 7.04% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 27 -> best overall: 01:27:06.479 - best of generation: 01:27:06.479 - population size ratio 7.1% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 28 -> best overall: 01:26:51.373 - best of generation: 01:26:51.373 - population size ratio 7.14% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 29 -> best overall: 01:26:51.373 - best of generation: 01:26:51.373 - population size ratio 7.3% | threshold is 0.3 - counter = 1/10 - stuck value = 0
-Generation 30 -> best overall: 01:26:27.373 - best of generation: 01:26:27.373 - population size ratio 7.02% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 31 -> best overall: 01:26:03.373 - best of generation: 01:26:03.373 - population size ratio 6.96% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 32 -> best overall: 01:25:58.393 - best of generation: 01:25:58.393 - population size ratio 7.1% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 33 -> best overall: 01:25:58.393 - best of generation: 01:25:58.393 - population size ratio 7.06% | threshold is 0.3 - counter = 1/10 - stuck value = 0
-Generation 34 -> best overall: 01:25:57.280 - best of generation: 01:25:57.280 - population size ratio 7.14% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 35 -> best overall: 01:25:57.280 - best of generation: 01:25:57.280 - population size ratio 7.32% | threshold is 0.3 - counter = 1/10 - stuck value = 0
-Generation 36 -> best overall: 01:25:57.280 - best of generation: 01:25:57.280 - population size ratio 7.02% | threshold is 0.3 - counter = 2/10 - stuck value = 0
-Generation 37 -> best overall: 01:25:47.367 - best of generation: 01:25:47.367 - population size ratio 7.0% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 38 -> best overall: 01:25:47.367 - best of generation: 01:25:47.367 - population size ratio 7.04% | threshold is 0.3 - counter = 1/10 - stuck value = 0
-Generation 39 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.22% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-Generation 40 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.38% | threshold is 0.3 - counter = 1/10 - stuck value = 0
-Generation 41 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.0% | threshold is 0.3 - counter = 2/10 - stuck value = 0
-Generation 42 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.14% | threshold is 0.3 - counter = 3/10 - stuck value = 0
-Generation 43 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.18% | threshold is 0.3 - counter = 4/10 - stuck value = 0
-Generation 44 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.16% | threshold is 0.3 - counter = 5/10 - stuck value = 0
-Generation 45 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.24% | threshold is 0.3 - counter = 6/10 - stuck value = 0
-Generation 46 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.14% | threshold is 0.3 - counter = 7/10 - stuck value = 0
-Generation 47 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.24% | threshold is 0.3 - counter = 8/10 - stuck value = 0
-Generation 48 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.14% | threshold is 0.3 - counter = 9/10 - stuck value = 0
-Generation 49 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.18% | threshold is 0.3 - counter = 10/10 - stuck value = 0
-Generation 50 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 2.16% | threshold is 0.35 - counter = 1/10 - stuck value = 1
-Generation 51 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 4.32% | threshold is 0.35 - counter = 2/10 - stuck value = 1
-Generation 52 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 6.62% | threshold is 0.35 - counter = 3/10 - stuck value = 1
-Generation 53 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.2% | threshold is 0.35 - counter = 4/10 - stuck value = 1
-Generation 54 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.46% | threshold is 0.35 - counter = 5/10 - stuck value = 1
-Generation 55 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.86% | threshold is 0.35 - counter = 6/10 - stuck value = 1
-Generation 56 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.74% | threshold is 0.35 - counter = 7/10 - stuck value = 1
-Generation 57 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.82% | threshold is 0.35 - counter = 8/10 - stuck value = 1
-Generation 58 -> best overall: 01:25:42.904 - best of generation: 01:25:42.904 - population size ratio 7.74% | threshold is 0.35 - counter = 9/10 - stuck value = 1
-Generation 59 -> best overall: 01:25:42.378 - best of generation: 01:25:42.378 - population size ratio 7.78% | threshold is 0.35 - counter = 0/10 - stuck value = 1
-Generation 60 -> best overall: 01:25:42.378 - best of generation: 01:25:42.378 - population size ratio 7.46% | threshold is 0.3 - counter = 1/10 - stuck value = 0
-Generation 61 -> best overall: 01:25:42.378 - best of generation: 01:25:42.378 - population size ratio 7.34% | threshold is 0.3 - counter = 2/10 - stuck value = 0
-Generation 62 -> best overall: 01:25:42.378 - best of generation: 01:25:42.378 - population size ratio 7.3% | threshold is 0.3 - counter = 3/10 - stuck value = 0
-Generation 63 -> best overall: 01:25:42.378 - best of generation: 01:25:42.378 - population size ratio 7.18% | threshold is 0.3 - counter = 4/10 - stuck value = 0
-Generation 64 -> best overall: 01:25:42.378 - best of generation: 01:25:42.378 - population size ratio 7.4% | threshold is 0.3 - counter = 5/10 - stuck value = 0
+Generation 1 -> best overall: 01:39:31.003 - best of generation: 01:39:31.003 - population size ratio 1.92% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 2 -> best overall: 01:39:07.049 - best of generation: 01:39:07.049 - population size ratio 2.86% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 3 -> best overall: 01:38:39.570 - best of generation: 01:38:39.570 - population size ratio 4.22% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 4 -> best overall: 01:38:19.199 - best of generation: 01:38:19.199 - population size ratio 6.3% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 5 -> best overall: 01:37:55.682 - best of generation: 01:37:55.682 - population size ratio 6.76% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 6 -> best overall: 01:37:14.301 - best of generation: 01:37:14.301 - population size ratio 6.84% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 7 -> best overall: 01:36:47.066 - best of generation: 01:36:47.066 - population size ratio 7.1% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 8 -> best overall: 01:36:23.004 - best of generation: 01:36:23.004 - population size ratio 6.98% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 9 -> best overall: 01:35:54.354 - best of generation: 01:35:54.354 - population size ratio 7.16% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 10 -> best overall: 01:35:30.354 - best of generation: 01:35:30.354 - population size ratio 7.18% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 11 -> best overall: 01:35:02.860 - best of generation: 01:35:02.860 - population size ratio 7.02% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 12 -> best overall: 01:34:38.233 - best of generation: 01:34:38.233 - population size ratio 7.14% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 13 -> best overall: 01:34:23.277 - best of generation: 01:34:23.277 - population size ratio 6.94% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 14 -> best overall: 01:33:30.172 - best of generation: 01:33:30.172 - population size ratio 7.2% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 15 -> best overall: 01:33:06.172 - best of generation: 01:33:06.172 - population size ratio 7.0% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 16 -> best overall: 01:32:35.517 - best of generation: 01:32:35.517 - population size ratio 7.02% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 17 -> best overall: 01:32:09.721 - best of generation: 01:32:09.721 - population size ratio 7.18% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 18 -> best overall: 01:31:45.094 - best of generation: 01:31:45.094 - population size ratio 7.18% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 19 -> best overall: 01:31:17.166 - best of generation: 01:31:17.166 - population size ratio 7.34% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 20 -> best overall: 01:30:57.192 - best of generation: 01:30:57.192 - population size ratio 7.3% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 21 -> best overall: 01:30:30.920 - best of generation: 01:30:30.920 - population size ratio 7.24% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 22 -> best overall: 01:30:06.920 - best of generation: 01:30:06.920 - population size ratio 7.2% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 23 -> best overall: 01:29:42.920 - best of generation: 01:29:42.920 - population size ratio 7.06% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 24 -> best overall: 01:29:18.920 - best of generation: 01:29:18.920 - population size ratio 7.28% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 25 -> best overall: 01:28:38.742 - best of generation: 01:28:38.742 - population size ratio 7.08% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 26 -> best overall: 01:28:15.363 - best of generation: 01:28:15.363 - population size ratio 7.2% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 27 -> best overall: 01:27:47.440 - best of generation: 01:27:47.440 - population size ratio 7.32% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 28 -> best overall: 01:27:47.440 - best of generation: 01:27:47.440 - population size ratio 7.12% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+Generation 29 -> best overall: 01:27:16.221 - best of generation: 01:27:16.221 - population size ratio 7.22% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 30 -> best overall: 01:26:52.221 - best of generation: 01:26:52.221 - population size ratio 7.22% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 31 -> best overall: 01:26:52.221 - best of generation: 01:26:52.221 - population size ratio 7.04% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+Generation 32 -> best overall: 01:26:28.221 - best of generation: 01:26:28.221 - population size ratio 7.32% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 33 -> best overall: 01:26:28.160 - best of generation: 01:26:28.160 - population size ratio 7.24% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 34 -> best overall: 01:26:23.383 - best of generation: 01:26:23.383 - population size ratio 7.16% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 35 -> best overall: 01:26:23.383 - best of generation: 01:26:23.383 - population size ratio 7.16% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+Generation 36 -> best overall: 01:26:23.383 - best of generation: 01:26:23.383 - population size ratio 7.24% | threshold is 0.3 - counter = 2/10 - stuck value = 0
+Generation 37 -> best overall: 01:26:23.383 - best of generation: 01:26:23.383 - population size ratio 7.16% | threshold is 0.3 - counter = 3/10 - stuck value = 0
+Generation 38 -> best overall: 01:26:23.383 - best of generation: 01:26:23.383 - population size ratio 7.06% | threshold is 0.3 - counter = 4/10 - stuck value = 0
+Generation 39 -> best overall: 01:26:23.289 - best of generation: 01:26:23.289 - population size ratio 7.14% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+Generation 40 -> best overall: 01:26:23.289 - best of generation: 01:26:23.289 - population size ratio 6.98% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+Generation 41 -> best overall: 01:26:23.289 - best of generation: 01:26:23.289 - population size ratio 7.24% | threshold is 0.3 - counter = 2/10 - stuck value = 0
+Generation 42 -> best overall: 01:26:23.289 - best of generation: 01:26:23.289 - population size ratio 7.1% | threshold is 0.3 - counter = 3/10 - stuck value = 0
 
 
-Best Strategy: 01:25:42.378 vs 01:25:08.990
-Lap 1 -> Compound 'Soft', Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '189.82' Kg, PitStop 'No', Time '01:19.336' ms
-Lap 2 -> Compound 'Soft', Wear '0.02'% | '0.02'% | '0.02'% | '0.02'%, Fuel '187.11' Kg, PitStop 'No', Time '01:17.279' ms
-Lap 3 -> Compound 'Soft', Wear '0.03'% | '0.03'% | '0.02'% | '0.02'%, Fuel '184.4' Kg, PitStop 'No', Time '01:17.140' ms
-Lap 4 -> Compound 'Soft', Wear '0.03'% | '0.03'% | '0.03'% | '0.03'%, Fuel '181.69' Kg, PitStop 'No', Time '01:16.997' ms
-Lap 5 -> Compound 'Soft', Wear '0.04'% | '0.04'% | '0.03'% | '0.03'%, Fuel '178.98' Kg, PitStop 'No', Time '01:16.858' ms
-Lap 6 -> Compound 'Soft', Wear '0.05'% | '0.04'% | '0.04'% | '0.04'%, Fuel '176.28' Kg, PitStop 'No', Time '01:16.718' ms
-Lap 7 -> Compound 'Soft', Wear '0.05'% | '0.05'% | '0.04'% | '0.04'%, Fuel '173.57' Kg, PitStop 'No', Time '01:16.578' ms
-Lap 8 -> Compound 'Soft', Wear '0.06'% | '0.05'% | '0.05'% | '0.05'%, Fuel '170.86' Kg, PitStop 'No', Time '01:16.436' ms
-Lap 9 -> Compound 'Soft', Wear '0.06'% | '0.06'% | '0.05'% | '0.05'%, Fuel '168.15' Kg, PitStop 'No', Time '01:16.311' ms
-Lap 10 -> Compound 'Soft', Wear '0.07'% | '0.07'% | '0.06'% | '0.06'%, Fuel '165.44' Kg, PitStop 'No', Time '01:16.156' ms
-Lap 11 -> Compound 'Soft', Wear '0.08'% | '0.07'% | '0.06'% | '0.06'%, Fuel '162.73' Kg, PitStop 'No', Time '01:16.031' ms
-Lap 12 -> Compound 'Soft', Wear '0.08'% | '0.08'% | '0.07'% | '0.06'%, Fuel '160.02' Kg, PitStop 'No', Time '01:15.875' ms
-Lap 13 -> Compound 'Soft', Wear '0.09'% | '0.08'% | '0.07'% | '0.07'%, Fuel '157.31' Kg, PitStop 'No', Time '01:15.763' ms
-Lap 14 -> Compound 'Soft', Wear '0.09'% | '0.09'% | '0.08'% | '0.07'%, Fuel '154.6' Kg, PitStop 'No', Time '01:15.609' ms
-Lap 15 -> Compound 'Soft', Wear '0.1'% | '0.09'% | '0.08'% | '0.08'%, Fuel '151.89' Kg, PitStop 'No', Time '01:15.467' ms
-Lap 16 -> Compound 'Soft', Wear '0.1'% | '0.1'% | '0.09'% | '0.08'%, Fuel '149.18' Kg, PitStop 'No', Time '01:15.326' ms
-Lap 17 -> Compound 'Soft', Wear '0.11'% | '0.1'% | '0.09'% | '0.09'%, Fuel '146.47' Kg, PitStop 'No', Time '01:15.186' ms
-Lap 18 -> Compound 'Soft', Wear '0.12'% | '0.11'% | '0.1'% | '0.09'%, Fuel '143.76' Kg, PitStop 'No', Time '01:15.046' ms
-Lap 19 -> Compound 'Soft', Wear '0.12'% | '0.12'% | '0.1'% | '0.1'%, Fuel '141.06' Kg, PitStop 'No', Time '01:14.905' ms
-Lap 20 -> Compound 'Soft', Wear '0.13'% | '0.12'% | '0.11'% | '0.1'%, Fuel '138.35' Kg, PitStop 'No', Time '01:14.765' ms
-Lap 21 -> Compound 'Soft', Wear '0.13'% | '0.13'% | '0.11'% | '0.11'%, Fuel '135.64' Kg, PitStop 'No', Time '01:14.638' ms
-Lap 22 -> Compound 'Soft', Wear '0.14'% | '0.13'% | '0.12'% | '0.11'%, Fuel '132.93' Kg, PitStop 'No', Time '01:14.496' ms
-Lap 23 -> Compound 'Soft', Wear '0.14'% | '0.14'% | '0.12'% | '0.12'%, Fuel '130.22' Kg, PitStop 'No', Time '01:14.357' ms
-Lap 24 -> Compound 'Soft', Wear '0.15'% | '0.14'% | '0.13'% | '0.12'%, Fuel '127.51' Kg, PitStop 'No', Time '01:14.216' ms
-Lap 25 -> Compound 'Soft', Wear '0.16'% | '0.15'% | '0.13'% | '0.12'%, Fuel '124.8' Kg, PitStop 'No', Time '01:14.076' ms
-Lap 26 -> Compound 'Soft', Wear '0.16'% | '0.15'% | '0.14'% | '0.13'%, Fuel '122.09' Kg, PitStop 'No', Time '01:13.934' ms
-Lap 27 -> Compound 'Soft', Wear '0.17'% | '0.16'% | '0.14'% | '0.13'%, Fuel '119.38' Kg, PitStop 'No', Time '01:13.795' ms
-Lap 28 -> Compound 'Soft', Wear '0.17'% | '0.16'% | '0.15'% | '0.14'%, Fuel '116.67' Kg, PitStop 'No', Time '01:13.653' ms
-Lap 29 -> Compound 'Soft', Wear '0.18'% | '0.17'% | '0.15'% | '0.14'%, Fuel '113.96' Kg, PitStop 'No', Time '01:13.515' ms
-Lap 30 -> Compound 'Soft', Wear '0.19'% | '0.18'% | '0.16'% | '0.15'%, Fuel '111.25' Kg, PitStop 'No', Time '01:13.373' ms
-Lap 31 -> Compound 'Soft', Wear '0.19'% | '0.18'% | '0.16'% | '0.15'%, Fuel '108.55' Kg, PitStop 'No', Time '01:13.235' ms
-Lap 32 -> Compound 'Soft', Wear '0.2'% | '0.19'% | '0.17'% | '0.16'%, Fuel '105.84' Kg, PitStop 'No', Time '01:13.094' ms
-Lap 33 -> Compound 'Soft', Wear '0.2'% | '0.19'% | '0.17'% | '0.16'%, Fuel '103.13' Kg, PitStop 'No', Time '01:12.980' ms
-Lap 34 -> Compound 'Soft', Wear '0.21'% | '0.2'% | '0.18'% | '0.17'%, Fuel '100.42' Kg, PitStop 'No', Time '01:12.812' ms
-Lap 35 -> Compound 'Soft', Wear '0.21'% | '0.2'% | '0.18'% | '0.17'%, Fuel '97.71' Kg, PitStop 'No', Time '01:12.699' ms
-Lap 36 -> Compound 'Soft', Wear '0.22'% | '0.21'% | '0.19'% | '0.18'%, Fuel '95.0' Kg, PitStop 'No', Time '01:12.531' ms
-Lap 37 -> Compound 'Soft', Wear '0.23'% | '0.21'% | '0.19'% | '0.18'%, Fuel '92.29' Kg, PitStop 'No', Time '01:12.418' ms
-Lap 38 -> Compound 'Soft', Wear '0.23'% | '0.22'% | '0.2'% | '0.18'%, Fuel '89.58' Kg, PitStop 'No', Time '01:12.250' ms
-Lap 39 -> Compound 'Soft', Wear '0.24'% | '0.23'% | '0.2'% | '0.19'%, Fuel '86.87' Kg, PitStop 'No', Time '01:12.137' ms
-Lap 40 -> Compound 'Soft', Wear '0.24'% | '0.23'% | '0.21'% | '0.19'%, Fuel '84.16' Kg, PitStop 'No', Time '01:11.983' ms
-Lap 41 -> Compound 'Soft', Wear '0.25'% | '0.24'% | '0.21'% | '0.2'%, Fuel '81.45' Kg, PitStop 'No', Time '01:11.842' ms
-Lap 42 -> Compound 'Soft', Wear '0.26'% | '0.24'% | '0.22'% | '0.2'%, Fuel '78.74' Kg, PitStop 'No', Time '01:11.715' ms
-Lap 43 -> Compound 'Soft', Wear '0.26'% | '0.25'% | '0.22'% | '0.21'%, Fuel '76.04' Kg, PitStop 'No', Time '01:11.561' ms
-Lap 44 -> Compound 'Soft', Wear '0.27'% | '0.25'% | '0.23'% | '0.21'%, Fuel '73.33' Kg, PitStop 'No', Time '01:11.433' ms
-Lap 45 -> Compound 'Soft', Wear '0.27'% | '0.26'% | '0.23'% | '0.22'%, Fuel '70.62' Kg, PitStop 'No', Time '01:11.293' ms
-Lap 46 -> Compound 'Soft', Wear '0.28'% | '0.26'% | '0.24'% | '0.22'%, Fuel '67.91' Kg, PitStop 'No', Time '01:11.153' ms
-Lap 47 -> Compound 'Medium', Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '65.2' Kg, PitStop 'Yes', Time '01:36.559' ms
-Lap 48 -> Compound 'Medium', Wear '0.02'% | '0.02'% | '0.02'% | '0.02'%, Fuel '62.49' Kg, PitStop 'No', Time '01:12.437' ms
-Lap 49 -> Compound 'Medium', Wear '0.03'% | '0.03'% | '0.03'% | '0.03'%, Fuel '59.78' Kg, PitStop 'No', Time '01:12.326' ms
-Lap 50 -> Compound 'Medium', Wear '0.04'% | '0.04'% | '0.04'% | '0.04'%, Fuel '57.07' Kg, PitStop 'No', Time '01:12.204' ms
-Lap 51 -> Compound 'Medium', Wear '0.05'% | '0.05'% | '0.05'% | '0.05'%, Fuel '54.36' Kg, PitStop 'No', Time '01:12.082' ms
-Lap 52 -> Compound 'Medium', Wear '0.06'% | '0.06'% | '0.06'% | '0.06'%, Fuel '51.65' Kg, PitStop 'No', Time '01:11.960' ms
-Lap 53 -> Compound 'Soft', Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '48.94' Kg, PitStop 'Yes', Time '01:34.183' ms
-Lap 54 -> Compound 'Soft', Wear '0.03'% | '0.03'% | '0.02'% | '0.02'%, Fuel '46.23' Kg, PitStop 'No', Time '01:10.029' ms
-Lap 55 -> Compound 'Soft', Wear '0.03'% | '0.03'% | '0.03'% | '0.03'%, Fuel '43.52' Kg, PitStop 'No', Time '01:09.902' ms
-Lap 56 -> Compound 'Soft', Wear '0.04'% | '0.04'% | '0.03'% | '0.03'%, Fuel '40.82' Kg, PitStop 'No', Time '01:09.748' ms
-Lap 57 -> Compound 'Soft', Wear '0.05'% | '0.04'% | '0.04'% | '0.04'%, Fuel '38.11' Kg, PitStop 'No', Time '01:09.622' ms
-Lap 58 -> Compound 'Soft', Wear '0.05'% | '0.05'% | '0.04'% | '0.04'%, Fuel '35.4' Kg, PitStop 'No', Time '01:09.467' ms
-Lap 59 -> Compound 'Soft', Wear '0.06'% | '0.05'% | '0.05'% | '0.05'%, Fuel '32.69' Kg, PitStop 'No', Time '01:09.355' ms
-Lap 60 -> Compound 'Soft', Wear '0.06'% | '0.06'% | '0.05'% | '0.05'%, Fuel '29.98' Kg, PitStop 'No', Time '01:09.187' ms
-Lap 61 -> Compound 'Soft', Wear '0.07'% | '0.07'% | '0.06'% | '0.06'%, Fuel '27.27' Kg, PitStop 'No', Time '01:09.073' ms
-Lap 62 -> Compound 'Soft', Wear '0.08'% | '0.07'% | '0.06'% | '0.06'%, Fuel '24.56' Kg, PitStop 'No', Time '01:08.905' ms
-Lap 63 -> Compound 'Soft', Wear '0.08'% | '0.08'% | '0.07'% | '0.06'%, Fuel '21.85' Kg, PitStop 'No', Time '01:08.793' ms
-Lap 64 -> Compound 'Soft', Wear '0.09'% | '0.08'% | '0.07'% | '0.07'%, Fuel '19.14' Kg, PitStop 'No', Time '01:08.651' ms
-Lap 65 -> Compound 'Soft', Wear '0.09'% | '0.09'% | '0.08'% | '0.07'%, Fuel '16.43' Kg, PitStop 'No', Time '01:08.498' ms
-Lap 66 -> Compound 'Soft', Wear '0.1'% | '0.09'% | '0.08'% | '0.08'%, Fuel '13.72' Kg, PitStop 'No', Time '01:08.371' ms
-Lap 67 -> Compound 'Soft', Wear '0.1'% | '0.1'% | '0.09'% | '0.08'%, Fuel '11.01' Kg, PitStop 'No', Time '01:08.218' ms
-Lap 68 -> Compound 'Soft', Wear '0.11'% | '0.1'% | '0.09'% | '0.09'%, Fuel '8.31' Kg, PitStop 'No', Time '01:08.090' ms
-Lap 69 -> Compound 'Soft', Wear '0.12'% | '0.11'% | '0.1'% | '0.09'%, Fuel '5.6' Kg, PitStop 'No', Time '01:07.937' ms
-Lap 70 -> Compound 'Soft', Wear '0.12'% | '0.12'% | '0.1'% | '0.1'%, Fuel '2.89' Kg, PitStop 'No', Time '01:07.810' ms
+Best Strategy: 01:26:23.289 vs 01:26:15.568
+Lap 1 -> Compound 'Soft', Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '103.37' Kg, PitStop 'No', Time '01:15.739' ms
+Lap 2 -> Compound 'Soft', Wear '0.12'% | '0.11'% | '0.12'% | '0.12'%, Fuel '101.89' Kg, PitStop 'No', Time '01:13.868' ms
+Lap 3 -> Compound 'Soft', Wear '0.14'% | '0.12'% | '0.14'% | '0.14'%, Fuel '100.41' Kg, PitStop 'No', Time '01:13.951' ms
+Lap 4 -> Compound 'Soft', Wear '0.16'% | '0.14'% | '0.16'% | '0.15'%, Fuel '98.94' Kg, PitStop 'No', Time '01:14.015' ms
+Lap 5 -> Compound 'Soft', Wear '0.17'% | '0.16'% | '0.18'% | '0.17'%, Fuel '97.46' Kg, PitStop 'No', Time '01:14.099' ms
+Lap 6 -> Compound 'Soft', Wear '0.19'% | '0.18'% | '0.2'% | '0.19'%, Fuel '95.99' Kg, PitStop 'No', Time '01:14.183' ms
+Lap 7 -> Compound 'Soft', Wear '0.21'% | '0.19'% | '0.23'% | '0.21'%, Fuel '94.51' Kg, PitStop 'No', Time '01:14.266' ms
+Lap 8 -> Compound 'Soft', Wear '0.23'% | '0.21'% | '0.25'% | '0.23'%, Fuel '93.04' Kg, PitStop 'No', Time '01:14.331' ms
+Lap 9 -> Compound 'Soft', Wear '0.25'% | '0.23'% | '0.27'% | '0.25'%, Fuel '91.56' Kg, PitStop 'No', Time '01:14.392' ms
+Lap 10 -> Compound 'Soft', Wear '0.27'% | '0.25'% | '0.29'% | '0.27'%, Fuel '90.09' Kg, PitStop 'No', Time '01:14.454' ms
+Lap 11 -> Compound 'Soft', Wear '0.29'% | '0.26'% | '0.31'% | '0.29'%, Fuel '88.61' Kg, PitStop 'No', Time '01:14.539' ms
+Lap 12 -> Compound 'Soft', Wear '0.31'% | '0.28'% | '0.33'% | '0.31'%, Fuel '87.14' Kg, PitStop 'No', Time '01:14.625' ms
+Lap 13 -> Compound 'Soft', Wear '0.33'% | '0.3'% | '0.35'% | '0.33'%, Fuel '85.66' Kg, PitStop 'No', Time '01:14.708' ms
+Lap 14 -> Compound 'Soft', Wear '0.35'% | '0.32'% | '0.37'% | '0.35'%, Fuel '84.18' Kg, PitStop 'No', Time '01:14.793' ms
+Lap 15 -> Compound 'Soft', Wear '0.37'% | '0.33'% | '0.39'% | '0.37'%, Fuel '82.71' Kg, PitStop 'No', Time '01:14.878' ms
+Lap 16 -> Compound 'Soft', Wear '0.39'% | '0.35'% | '0.41'% | '0.39'%, Fuel '81.23' Kg, PitStop 'No', Time '01:14.940' ms
+Lap 17 -> Compound 'Soft', Wear '0.41'% | '0.37'% | '0.43'% | '0.41'%, Fuel '79.76' Kg, PitStop 'No', Time '01:15.024' ms
+Lap 18 -> Compound 'Soft', Wear '0.43'% | '0.39'% | '0.45'% | '0.43'%, Fuel '78.28' Kg, PitStop 'No', Time '01:15.108' ms
+Lap 19 -> Compound 'Soft', Wear '0.45'% | '0.4'% | '0.47'% | '0.45'%, Fuel '76.81' Kg, PitStop 'No', Time '01:15.192' ms
+Lap 20 -> Compound 'Soft', Wear '0.47'% | '0.42'% | '0.49'% | '0.46'%, Fuel '75.33' Kg, PitStop 'No', Time '01:15.254' ms
+Lap 21 -> Compound 'Soft', Wear '0.48'% | '0.44'% | '0.51'% | '0.48'%, Fuel '73.86' Kg, PitStop 'No', Time '01:15.339' ms
+Lap 22 -> Compound 'Soft', Wear '0.5'% | '0.46'% | '0.53'% | '0.5'%, Fuel '72.38' Kg, PitStop 'No', Time '01:15.421' ms
+Lap 23 -> Compound 'Hard', Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '70.9' Kg, PitStop 'Yes', Time '01:38.282' ms
+Lap 24 -> Compound 'Hard', Wear '0.01'% | '0.01'% | '0.01'% | '0.01'%, Fuel '69.43' Kg, PitStop 'No', Time '01:14.239' ms
+Lap 25 -> Compound 'Hard', Wear '0.02'% | '0.02'% | '0.02'% | '0.02'%, Fuel '67.95' Kg, PitStop 'No', Time '01:14.198' ms
+Lap 26 -> Compound 'Hard', Wear '0.03'% | '0.03'% | '0.03'% | '0.03'%, Fuel '66.48' Kg, PitStop 'No', Time '01:14.155' ms
+Lap 27 -> Compound 'Hard', Wear '0.04'% | '0.04'% | '0.04'% | '0.04'%, Fuel '65.0' Kg, PitStop 'No', Time '01:14.102' ms
+Lap 28 -> Compound 'Hard', Wear '0.05'% | '0.05'% | '0.05'% | '0.05'%, Fuel '63.53' Kg, PitStop 'No', Time '01:14.060' ms
+Lap 29 -> Compound 'Hard', Wear '0.06'% | '0.05'% | '0.06'% | '0.06'%, Fuel '62.05' Kg, PitStop 'No', Time '01:14.019' ms
+Lap 30 -> Compound 'Hard', Wear '0.07'% | '0.06'% | '0.07'% | '0.07'%, Fuel '60.58' Kg, PitStop 'No', Time '01:13.976' ms
+Lap 31 -> Compound 'Hard', Wear '0.08'% | '0.07'% | '0.08'% | '0.08'%, Fuel '59.1' Kg, PitStop 'No', Time '01:13.936' ms
+Lap 32 -> Compound 'Hard', Wear '0.09'% | '0.08'% | '0.09'% | '0.09'%, Fuel '57.63' Kg, PitStop 'No', Time '01:13.894' ms
+Lap 33 -> Compound 'Hard', Wear '0.1'% | '0.09'% | '0.1'% | '0.1'%, Fuel '56.15' Kg, PitStop 'No', Time '01:13.838' ms
+Lap 34 -> Compound 'Hard', Wear '0.11'% | '0.1'% | '0.11'% | '0.1'%, Fuel '54.67' Kg, PitStop 'No', Time '01:13.784' ms
+Lap 35 -> Compound 'Hard', Wear '0.12'% | '0.11'% | '0.12'% | '0.11'%, Fuel '53.2' Kg, PitStop 'No', Time '01:13.743' ms
+Lap 36 -> Compound 'Hard', Wear '0.13'% | '0.12'% | '0.13'% | '0.12'%, Fuel '51.72' Kg, PitStop 'No', Time '01:13.700' ms
+Lap 37 -> Compound 'Hard', Wear '0.14'% | '0.13'% | '0.14'% | '0.13'%, Fuel '50.25' Kg, PitStop 'No', Time '01:13.647' ms
+Lap 38 -> Compound 'Hard', Wear '0.15'% | '0.14'% | '0.15'% | '0.14'%, Fuel '48.77' Kg, PitStop 'No', Time '01:13.617' ms
+Lap 39 -> Compound 'Hard', Wear '0.16'% | '0.14'% | '0.16'% | '0.15'%, Fuel '47.3' Kg, PitStop 'No', Time '01:13.577' ms
+Lap 40 -> Compound 'Hard', Wear '0.17'% | '0.15'% | '0.17'% | '0.16'%, Fuel '45.82' Kg, PitStop 'No', Time '01:13.536' ms
+Lap 41 -> Compound 'Hard', Wear '0.18'% | '0.16'% | '0.18'% | '0.17'%, Fuel '44.35' Kg, PitStop 'No', Time '01:13.492' ms
+Lap 42 -> Compound 'Hard', Wear '0.19'% | '0.17'% | '0.19'% | '0.18'%, Fuel '42.87' Kg, PitStop 'No', Time '01:13.451' ms
+Lap 43 -> Compound 'Hard', Wear '0.2'% | '0.18'% | '0.2'% | '0.19'%, Fuel '41.39' Kg, PitStop 'No', Time '01:13.408' ms
+Lap 44 -> Compound 'Hard', Wear '0.21'% | '0.19'% | '0.21'% | '0.2'%, Fuel '39.92' Kg, PitStop 'No', Time '01:13.367' ms
+Lap 45 -> Compound 'Hard', Wear '0.22'% | '0.2'% | '0.22'% | '0.21'%, Fuel '38.44' Kg, PitStop 'No', Time '01:13.326' ms
+Lap 46 -> Compound 'Hard', Wear '0.23'% | '0.21'% | '0.23'% | '0.22'%, Fuel '36.97' Kg, PitStop 'No', Time '01:13.285' ms
+Lap 47 -> Compound 'Hard', Wear '0.24'% | '0.22'% | '0.24'% | '0.23'%, Fuel '35.49' Kg, PitStop 'No', Time '01:13.230' ms
+Lap 48 -> Compound 'Hard', Wear '0.25'% | '0.23'% | '0.25'% | '0.24'%, Fuel '34.02' Kg, PitStop 'No', Time '01:13.189' ms
+Lap 49 -> Compound 'Hard', Wear '0.26'% | '0.23'% | '0.26'% | '0.25'%, Fuel '32.54' Kg, PitStop 'No', Time '01:13.146' ms
+Lap 50 -> Compound 'Hard', Wear '0.27'% | '0.24'% | '0.27'% | '0.26'%, Fuel '31.07' Kg, PitStop 'No', Time '01:13.103' ms
+Lap 51 -> Compound 'Hard', Wear '0.28'% | '0.25'% | '0.28'% | '0.27'%, Fuel '29.59' Kg, PitStop 'No', Time '01:13.062' ms
+Lap 52 -> Compound 'Hard', Wear '0.29'% | '0.26'% | '0.29'% | '0.28'%, Fuel '28.11' Kg, PitStop 'No', Time '01:13.021' ms
+Lap 53 -> Compound 'Hard', Wear '0.3'% | '0.27'% | '0.3'% | '0.29'%, Fuel '26.64' Kg, PitStop 'No', Time '01:12.979' ms
+Lap 54 -> Compound 'Hard', Wear '0.31'% | '0.28'% | '0.31'% | '0.3'%, Fuel '25.16' Kg, PitStop 'No', Time '01:12.925' ms
+Lap 55 -> Compound 'Hard', Wear '0.32'% | '0.29'% | '0.32'% | '0.3'%, Fuel '23.69' Kg, PitStop 'No', Time '01:12.882' ms
+Lap 56 -> Compound 'Hard', Wear '0.32'% | '0.3'% | '0.33'% | '0.31'%, Fuel '22.21' Kg, PitStop 'No', Time '01:12.841' ms
+Lap 57 -> Compound 'Hard', Wear '0.33'% | '0.31'% | '0.34'% | '0.32'%, Fuel '20.74' Kg, PitStop 'No', Time '01:12.786' ms
+Lap 58 -> Compound 'Hard', Wear '0.34'% | '0.32'% | '0.35'% | '0.33'%, Fuel '19.26' Kg, PitStop 'No', Time '01:12.745' ms
+Lap 59 -> Compound 'Hard', Wear '0.35'% | '0.32'% | '0.36'% | '0.34'%, Fuel '17.79' Kg, PitStop 'No', Time '01:12.704' ms
+Lap 60 -> Compound 'Hard', Wear '0.36'% | '0.33'% | '0.38'% | '0.35'%, Fuel '16.31' Kg, PitStop 'No', Time '01:12.661' ms
+Lap 61 -> Compound 'Hard', Wear '0.37'% | '0.34'% | '0.39'% | '0.36'%, Fuel '14.84' Kg, PitStop 'No', Time '01:12.620' ms
+Lap 62 -> Compound 'Hard', Wear '0.38'% | '0.35'% | '0.4'% | '0.37'%, Fuel '13.36' Kg, PitStop 'No', Time '01:12.577' ms
+Lap 63 -> Compound 'Hard', Wear '0.39'% | '0.36'% | '0.41'% | '0.38'%, Fuel '11.88' Kg, PitStop 'No', Time '01:12.536' ms
+Lap 64 -> Compound 'Hard', Wear '0.4'% | '0.37'% | '0.42'% | '0.39'%, Fuel '10.41' Kg, PitStop 'No', Time '01:12.494' ms
+Lap 65 -> Compound 'Hard', Wear '0.41'% | '0.38'% | '0.43'% | '0.4'%, Fuel '8.93' Kg, PitStop 'No', Time '01:12.452' ms
+Lap 66 -> Compound 'Hard', Wear '0.42'% | '0.39'% | '0.44'% | '0.41'%, Fuel '7.46' Kg, PitStop 'No', Time '01:12.411' ms
+Lap 67 -> Compound 'Hard', Wear '0.43'% | '0.4'% | '0.45'% | '0.42'%, Fuel '5.98' Kg, PitStop 'No', Time '01:12.356' ms
+Lap 68 -> Compound 'Hard', Wear '0.44'% | '0.41'% | '0.46'% | '0.43'%, Fuel '4.51' Kg, PitStop 'No', Time '01:12.314' ms
+Lap 69 -> Compound 'Hard', Wear '0.45'% | '0.41'% | '0.47'% | '0.44'%, Fuel '3.03' Kg, PitStop 'No', Time '01:12.273' ms
+Lap 70 -> Compound 'Hard', Wear '0.46'% | '0.42'% | '0.48'% | '0.45'%, Fuel '1.56' Kg, PitStop 'No', Time '01:12.231' ms
