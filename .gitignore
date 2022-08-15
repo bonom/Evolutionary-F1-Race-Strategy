@@ -132,3 +132,4 @@ dmypy.json
 OLD/
 *.csv
 *.html
+*.txt
