@@ -129,6 +129,7 @@ dmypy.json
 .pyre/
 
 .DS_Store
+._.DS_Store
 OLD/
 *.csv
 *.html
