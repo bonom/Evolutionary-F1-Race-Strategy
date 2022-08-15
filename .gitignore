@@ -133,4 +133,8 @@ dmypy.json
 OLD/
 *.csv
 *.html
-*.txt
+log.txt
+FP1/
+FP2/
+FP3/
+Race/
