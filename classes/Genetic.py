@@ -260,16 +260,11 @@ class GeneticSolver:
                 # Check for new best solution
                 fitness_values.append(temp_best_eval)
 
-                #if gen%10:
-                bar.set_description(f"{gen}/{self.iterations} - BF: {ms_to_time(bf_time)}, Best: {ms_to_time(best_eval)}, Threshold: {threshold_quantile}, Stuck: {stuck_value}, Non-random: {round(len(population)/self.population,2)}%")
+                bar.set_description(f"{gen}/{self.iterations} - BF: {ms_to_time(bf_time)}, Best: {ms_to_time(best_eval)}, Difference: {ms_to_time(best_eval-bf_time)}, Threshold: {threshold_quantile}, Stuck: {stuck_value}, Non-random: {round(len(population)/self.population,2)}%")
                 bar.refresh()
                 string = f'[EA] Generation {gen+1} - Bruteforce solution: {ms_to_time(bf_time)} -> best overall: {ms_to_time(best_eval)} - best of generation: {ms_to_time(temp_best_eval)} - population size ratio {round(len(population)/self.population,2)}% | threshold is {threshold_quantile} - counter = {counter}/{(self.iterations)//100} - stuck value = {stuck_value}'
                 #print("\n"+string)
                 self.log.write(string+"\n")
-
-                if best_eval <= bf_time:
-                    print(f"Found the best possible solution in {gen+1} generations")
-                    break
 
                 if counter == 0:
                     threshold_quantile = 0.3
@@ -290,7 +285,13 @@ class GeneticSolver:
 
                 if non_random_pop/self.population == 0.0 or non_random_pop == 1:
                     string = f"No valid individuals for generating new genetic material({non_random_pop}), stopping"
-                    print(string)
+                    print("\n"+string)
+                    self.log.write(string+"\n")
+                    break
+                    
+                if best_eval <= bf_time:
+                    string = f"Found the best possible solution in {gen+1} generations"
+                    print("\n"+string)
                     self.log.write(string+"\n")
                     break
                 
@@ -718,7 +719,7 @@ class GeneticSolver:
 
         return 
 
-    def lower_bound(self):
+    def lower_bound(self,):
         ### Build the solution space as a tree
         temp_tree = []
         global START_FUEL
@@ -729,14 +730,14 @@ class GeneticSolver:
             for compound in ['Soft','Medium','Hard']:  
                 start_t = time.time()
                 print(f"[Bruteforce] Started computing for '{compound}'...")
-                temp_tree.append({'Compound':compound, 'TyresWear': self.getTyreWear(compound, 0), 'TyresAge':0, 'FuelLoad':START_FUEL, 'PitStop':False, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=0, fuel_load=START_FUEL, conditions=[self.weather[0]], drs=False, pitStop=False)})
+                temp_tree.append({'Compound':compound, 'TyresWear': self.getTyreWear(compound, 0), 'TyresAge':0, 'FuelLoad':START_FUEL, 'PitStop':False, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=0, fuel_load=START_FUEL, conditions=[self.weather[0]],drs=False, pitStop=False)})
                 self.build_tree(temp_tree, 0, 1)
-                print(f"[Bruteforce] {compound} done in {ms_to_time(round(1000*(time.time()-start_t)))}")
+                print(f"\033[A\033[K[Bruteforce] {compound} done in {ms_to_time(round(1000*(time.time()-start_t)))}")
                 temp_tree.pop()
         else:
             for compound in ['Inter', 'Wet']:
                 start_t = time.time()
-                print(f"[Bruteforce] Started computing for {compound}...")
+                print(f"[Bruteforce] Started computing for '{compound}'...",end="\r")
                 temp_tree.append({'Compound':compound, 'TyresWear': self.getTyreWear(compound, 0), 'TyresAge':0, 'FuelLoad':START_FUEL, 'PitStop':False, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=0, fuel_load=START_FUEL, conditions=[self.weather[0]], drs=False, pitStop=False)})
                 self.build_tree(temp_tree, 0, 1)
                 print(f"[Bruteforce] {compound} done in {ms_to_time(round(1000*(time.time()-start_t)))}")

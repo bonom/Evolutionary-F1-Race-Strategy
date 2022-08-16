@@ -13,6 +13,11 @@ import os
 import tracemalloc
 import argparse
 
+### To suppress plotly warnings
+import warnings
+warnings.filterwarnings('ignore')
+###
+
 #
 # For tracing RAM usage:
 # tracemalloc.start()
@@ -51,7 +56,7 @@ def display_top(snapshot, key_type='lineno', limit=3):
     print("Total allocated size: %.1f KiB" % (total / 1024))
     
 def main():
-    print(f"\n---------------START----------------\n")
+    print(f"\n---------------------START----------------------\n")
     if args.c is None:
         circuits = [os.path.abspath(os.path.join('Data', path)) for path in os.listdir(os.path.abspath('Data'))]
         if '.DS_Store' in circuits:
@@ -69,6 +74,33 @@ def main():
     
     for circuit in circuits:
         car:Car = get_car_data(circuit)
+
+        #_circuit = circuit.split("\\")[-1] if os.name == 'nt' else circuit.split("/")[-1]
+        # _lap_ = 5
+
+        # print(f"Soft time at lap {_lap_} {ms_to_time(car.predict_laptime('Soft', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
+        # print(f"Medium time at lap {_lap_} {ms_to_time(car.predict_laptime('Medium', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
+        # print(f"Hard time at lap {_lap_} {ms_to_time(car.predict_laptime('Hard', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}\n")
+
+        # _lap_ = 10
+
+        # print(f"Soft time at lap {_lap_} {ms_to_time(car.predict_laptime('Soft', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
+        # print(f"Medium time at lap {_lap_} {ms_to_time(car.predict_laptime('Medium', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
+        # print(f"Hard time at lap {_lap_} {ms_to_time(car.predict_laptime('Hard', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}\n")
+
+        # _lap_ = 20
+
+        # print(f"Soft time at lap {_lap_} {ms_to_time(car.predict_laptime('Soft', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
+        # print(f"Medium time at lap {_lap_} {ms_to_time(car.predict_laptime('Medium', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
+        # print(f"Hard time at lap {_lap_} {ms_to_time(car.predict_laptime('Hard', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}\n")
+
+        # _lap_ = 30
+
+        # print(f"Soft time at lap {_lap_} {ms_to_time(car.predict_laptime('Soft', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
+        # print(f"Medium time at lap {_lap_} {ms_to_time(car.predict_laptime('Medium', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
+        # print(f"Hard time at lap {_lap_} {ms_to_time(car.predict_laptime('Hard', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}\n")
+
+        # sys.exit(0)
         #race_data:RaceData = RaceData(circuit)
         #race_data.plot(path=circuit)
         
@@ -76,9 +108,9 @@ def main():
 
         genetic = GeneticSolver(population=50, mutation_pr=0.9, crossover_pr=0.4, iterations=1000, car=car, circuit=_circuit)
         
-        #genetic.fixed_strategy(compund_list=['Medium','Soft'], stop_lap=45)
+        #genetic.fixed_strategy(compund_list=['Soft','Medium',], stop_lap=19)
         #exit()
-        
+
         bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.txt")
         if os.path.isfile(bruteforce_save_path):
             print(f"Bruteforce results for {_circuit} are already calculated in '{bruteforce_save_path}'.\n")
@@ -101,16 +133,16 @@ def main():
 
         best, best_eval, boxplot_data, fitness_data = genetic.startSolver(bf_time = bf_time_in_ms) 
         
-        print(f"\n------------------------------------\n")
+        print(f"\n------------------------------------------------\n")
         print(f"EA timing: {ms_to_time(best_eval)}")
         print(f"Bruteforce give timing: {bf_time[-1]}")
-        print(f"\n------------------------------------\n")
+        print(f"\n------------------------------------------------\n")
 
-        print(f"\n------------------------------------\n")
+        print(f"\n------------------------------------------------\n")
         ea = f"{int(best_eval):,}".replace(",", " ")
         bf = f"{int(bf_time_in_ms):,}".replace(",", " ")
         print(f"EA fitness: {ea}\nBruteforce fitness: {bf}")
-        print(f"\n------------------------------------\n")
+        print(f"\n------------------------------------------------\n")
 
 
         # Plots
@@ -158,9 +190,15 @@ def main():
             fit_line.show()
         
     
-    print(f"\n----------------END-----------------\n")
+    print(f"\n----------------------END-----------------------\n")
     return
 
+def foo2(df):
+    frames = [df]
+    N = len(df)
+    for i in range(N):
+        frames += [pd.Series(df, index=df.index)]
+    return pd.concat(frames, axis=1)
 
 if __name__ == "__main__":
     os.system('cls' if os.name == 'nt' else 'clear')

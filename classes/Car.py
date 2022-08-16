@@ -295,17 +295,17 @@ class Car:
         if wear is None:
             wear = self.predict_tyre_wear(tyre, lap)
 
-        fl = round(self.tyre_coeff[tyre]['FL'] * wear['FL'] * (2*wear['FL']*wear['FL']*1/100*1/100+1))#np.exp((wear['FL']/100)*lap))
-        fr = round(self.tyre_coeff[tyre]['FR'] * wear['FR'] * (2*wear['FR']*wear['FR']*1/100*1/100+1))#np.exp((wear['FR']/100)*lap))
-        rl = round(self.tyre_coeff[tyre]['RL'] * wear['RL'] * (2*wear['RL']*wear['RL']*1/100*1/100+1))#np.exp((wear['RL']/100)*lap))
-        rr = round(self.tyre_coeff[tyre]['RR'] * wear['RR'] * (2*wear['RR']*wear['RR']*1/100*1/100+1))#np.exp((wear['RR']/100)*lap))
+        fl = round(self.tyre_coeff[tyre]['FL'] * wear['FL'] * (wear['FL']*wear['FL']*1/100*1/100+1))
+        fr = round(self.tyre_coeff[tyre]['FR'] * wear['FR'] * (wear['FR']*wear['FR']*1/100*1/100+1))
+        rl = round(self.tyre_coeff[tyre]['RL'] * wear['RL'] * (wear['RL']*wear['RL']*1/100*1/100+1))
+        rr = round(self.tyre_coeff[tyre]['RR'] * wear['RR'] * (wear['RR']*wear['RR']*1/100*1/100+1))
 
         return {'FL':fl, 'FR':fr, 'RL':rl, 'RR':rr, 'Total':fl+fr+rl+rr}
 
     def predict_laptime(self, tyre:str, tyre_age:int, lap:int, start_fuel:float, conditions:list, drs:bool=False):
         compound_time_lose = self.time_diff[tyre] if tyre != "Soft" else 0
         fuel_time_lose = self.predict_fuel_time_lose(self.predict_fuel_weight(start_fuel, conditions))
-        tyre_wear_time_lose = self.predict_tyre_time_lose(tyre, lap)['Total']
+        tyre_wear_time_lose = self.predict_tyre_time_lose(tyre, tyre_age)['Total']
         drs_lose = self.drs_lose if drs else 0
 
         return round(self.time_diff['Soft'] + compound_time_lose + fuel_time_lose + tyre_wear_time_lose + drs_lose)

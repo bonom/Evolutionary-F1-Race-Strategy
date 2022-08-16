@@ -1,107 +1,404 @@
-[EA] Generation 1 - Bruteforce solution: 01:15:32.296 -> best overall: 01:26:38.783 - best of generation: 01:26:38.783 - population size ratio 1.88% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 2 - Bruteforce solution: 01:15:32.296 -> best overall: 01:25:59.984 - best of generation: 01:25:59.984 - population size ratio 2.7% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 3 - Bruteforce solution: 01:15:32.296 -> best overall: 01:25:49.065 - best of generation: 01:25:49.065 - population size ratio 4.02% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 4 - Bruteforce solution: 01:15:32.296 -> best overall: 01:25:35.097 - best of generation: 01:25:35.097 - population size ratio 5.78% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 5 - Bruteforce solution: 01:15:32.296 -> best overall: 01:25:10.153 - best of generation: 01:25:10.153 - population size ratio 6.82% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 6 - Bruteforce solution: 01:15:32.296 -> best overall: 01:24:48.273 - best of generation: 01:24:48.273 - population size ratio 6.96% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 7 - Bruteforce solution: 01:15:32.296 -> best overall: 01:24:23.555 - best of generation: 01:24:23.555 - population size ratio 7.02% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 8 - Bruteforce solution: 01:15:32.296 -> best overall: 01:23:58.667 - best of generation: 01:23:58.667 - population size ratio 6.98% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 9 - Bruteforce solution: 01:15:32.296 -> best overall: 01:22:58.550 - best of generation: 01:22:58.550 - population size ratio 7.14% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 10 - Bruteforce solution: 01:15:32.296 -> best overall: 01:22:33.606 - best of generation: 01:22:33.606 - population size ratio 7.2% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 11 - Bruteforce solution: 01:15:32.296 -> best overall: 01:22:09.595 - best of generation: 01:22:09.595 - population size ratio 7.14% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 12 - Bruteforce solution: 01:15:32.296 -> best overall: 01:21:44.708 - best of generation: 01:21:44.708 - population size ratio 7.24% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 13 - Bruteforce solution: 01:15:32.296 -> best overall: 01:21:19.822 - best of generation: 01:21:19.822 - population size ratio 7.0% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 14 - Bruteforce solution: 01:15:32.296 -> best overall: 01:20:54.880 - best of generation: 01:20:54.880 - population size ratio 7.06% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 15 - Bruteforce solution: 01:15:32.296 -> best overall: 01:20:29.937 - best of generation: 01:20:29.937 - population size ratio 7.22% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 16 - Bruteforce solution: 01:15:32.296 -> best overall: 01:20:09.682 - best of generation: 01:20:09.682 - population size ratio 7.12% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 17 - Bruteforce solution: 01:15:32.296 -> best overall: 01:20:09.682 - best of generation: 01:20:09.682 - population size ratio 7.08% | threshold is 0.3 - counter = 1/10 - stuck value = 0
-[EA] Generation 18 - Bruteforce solution: 01:15:32.296 -> best overall: 01:19:45.474 - best of generation: 01:19:45.474 - population size ratio 7.14% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 19 - Bruteforce solution: 01:15:32.296 -> best overall: 01:19:45.474 - best of generation: 01:19:45.474 - population size ratio 7.1% | threshold is 0.3 - counter = 1/10 - stuck value = 0
-[EA] Generation 20 - Bruteforce solution: 01:15:32.296 -> best overall: 01:19:18.826 - best of generation: 01:19:18.826 - population size ratio 7.16% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 21 - Bruteforce solution: 01:15:32.296 -> best overall: 01:18:53.826 - best of generation: 01:18:53.826 - population size ratio 7.1% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 22 - Bruteforce solution: 01:15:32.296 -> best overall: 01:18:28.826 - best of generation: 01:18:28.826 - population size ratio 7.2% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 23 - Bruteforce solution: 01:15:32.296 -> best overall: 01:18:03.826 - best of generation: 01:18:03.826 - population size ratio 7.02% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 24 - Bruteforce solution: 01:15:32.296 -> best overall: 01:17:23.600 - best of generation: 01:17:23.600 - population size ratio 7.18% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 25 - Bruteforce solution: 01:15:32.296 -> best overall: 01:17:04.456 - best of generation: 01:17:04.456 - population size ratio 7.14% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 26 - Bruteforce solution: 01:15:32.296 -> best overall: 01:16:49.892 - best of generation: 01:16:49.892 - population size ratio 7.24% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 27 - Bruteforce solution: 01:15:32.296 -> best overall: 01:16:24.892 - best of generation: 01:16:24.892 - population size ratio 6.92% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 28 - Bruteforce solution: 01:15:32.296 -> best overall: 01:16:06.878 - best of generation: 01:16:06.878 - population size ratio 7.0% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 29 - Bruteforce solution: 01:15:32.296 -> best overall: 01:16:06.878 - best of generation: 01:16:06.878 - population size ratio 7.1% | threshold is 0.3 - counter = 1/10 - stuck value = 0
-[EA] Generation 30 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:58.031 - best of generation: 01:15:58.031 - population size ratio 7.0% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 31 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:54.711 - best of generation: 01:15:54.711 - population size ratio 7.02% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 32 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:53.265 - best of generation: 01:15:53.265 - population size ratio 7.08% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 33 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:53.265 - best of generation: 01:15:53.265 - population size ratio 7.06% | threshold is 0.3 - counter = 1/10 - stuck value = 0
-[EA] Generation 34 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 7.02% | threshold is 0.3 - counter = 0/10 - stuck value = 0
-[EA] Generation 35 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 7.18% | threshold is 0.3 - counter = 1/10 - stuck value = 0
-[EA] Generation 36 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 7.18% | threshold is 0.3 - counter = 2/10 - stuck value = 0
-[EA] Generation 37 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 7.2% | threshold is 0.3 - counter = 3/10 - stuck value = 0
-[EA] Generation 38 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 7.18% | threshold is 0.3 - counter = 4/10 - stuck value = 0
-[EA] Generation 39 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 7.14% | threshold is 0.3 - counter = 5/10 - stuck value = 0
-[EA] Generation 40 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 7.26% | threshold is 0.3 - counter = 6/10 - stuck value = 0
-[EA] Generation 41 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 7.26% | threshold is 0.3 - counter = 7/10 - stuck value = 0
-[EA] Generation 42 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 7.34% | threshold is 0.3 - counter = 8/10 - stuck value = 0
-[EA] Generation 43 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 7.26% | threshold is 0.3 - counter = 9/10 - stuck value = 0
-[EA] Generation 44 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 7.36% | threshold is 0.3 - counter = 10/10 - stuck value = 0
-[EA] Generation 45 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 1.6% | threshold is 0.25 - counter = 1/10 - stuck value = 1
-[EA] Generation 46 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 1.8% | threshold is 0.25 - counter = 2/10 - stuck value = 1
-[EA] Generation 47 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 2.22% | threshold is 0.25 - counter = 3/10 - stuck value = 1
-[EA] Generation 48 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 3.14% | threshold is 0.25 - counter = 4/10 - stuck value = 1
-[EA] Generation 49 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 3.88% | threshold is 0.25 - counter = 5/10 - stuck value = 1
-[EA] Generation 50 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 5.14% | threshold is 0.25 - counter = 6/10 - stuck value = 1
-[EA] Generation 51 - Bruteforce solution: 01:15:32.296 -> best overall: 01:15:46.098 - best of generation: 01:15:46.098 - population size ratio 6.5% | threshold is 0.25 - counter = 7/10 - stuck value = 1
+[EA] Generation 1 - Bruteforce solution: 01:14:51.116 -> best overall: 01:21:59.903 - best of generation: 01:21:59.903 - population size ratio 1.92% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 2 - Bruteforce solution: 01:14:51.116 -> best overall: 01:21:38.419 - best of generation: 01:21:38.419 - population size ratio 2.9% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 3 - Bruteforce solution: 01:14:51.116 -> best overall: 01:21:14.417 - best of generation: 01:21:14.417 - population size ratio 4.62% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 4 - Bruteforce solution: 01:14:51.116 -> best overall: 01:20:49.453 - best of generation: 01:20:49.453 - population size ratio 6.58% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 5 - Bruteforce solution: 01:14:51.116 -> best overall: 01:20:23.988 - best of generation: 01:20:23.988 - population size ratio 6.98% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 6 - Bruteforce solution: 01:14:51.116 -> best overall: 01:19:59.582 - best of generation: 01:19:59.582 - population size ratio 6.88% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 7 - Bruteforce solution: 01:14:51.116 -> best overall: 01:19:36.512 - best of generation: 01:19:36.512 - population size ratio 6.84% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 8 - Bruteforce solution: 01:14:51.116 -> best overall: 01:19:11.871 - best of generation: 01:19:11.871 - population size ratio 6.92% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 9 - Bruteforce solution: 01:14:51.116 -> best overall: 01:18:41.816 - best of generation: 01:18:41.816 - population size ratio 6.82% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 10 - Bruteforce solution: 01:14:51.116 -> best overall: 01:18:17.806 - best of generation: 01:18:17.806 - population size ratio 6.98% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 11 - Bruteforce solution: 01:14:51.116 -> best overall: 01:17:57.618 - best of generation: 01:17:57.618 - population size ratio 6.96% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 12 - Bruteforce solution: 01:14:51.116 -> best overall: 01:17:35.038 - best of generation: 01:17:35.038 - population size ratio 7.08% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 13 - Bruteforce solution: 01:14:51.116 -> best overall: 01:17:04.628 - best of generation: 01:17:04.628 - population size ratio 7.2% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 14 - Bruteforce solution: 01:14:51.116 -> best overall: 01:16:41.278 - best of generation: 01:16:41.278 - population size ratio 7.14% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 15 - Bruteforce solution: 01:14:51.116 -> best overall: 01:16:16.588 - best of generation: 01:16:16.588 - population size ratio 7.16% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 16 - Bruteforce solution: 01:14:51.116 -> best overall: 01:15:56.118 - best of generation: 01:15:56.118 - population size ratio 7.06% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 17 - Bruteforce solution: 01:14:51.116 -> best overall: 01:15:36.442 - best of generation: 01:15:36.442 - population size ratio 7.16% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 18 - Bruteforce solution: 01:14:51.116 -> best overall: 01:15:36.442 - best of generation: 01:15:36.442 - population size ratio 7.08% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+[EA] Generation 19 - Bruteforce solution: 01:14:51.116 -> best overall: 01:15:22.770 - best of generation: 01:15:22.770 - population size ratio 7.0% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 20 - Bruteforce solution: 01:14:51.116 -> best overall: 01:15:22.082 - best of generation: 01:15:22.082 - population size ratio 6.98% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 21 - Bruteforce solution: 01:14:51.116 -> best overall: 01:15:06.878 - best of generation: 01:15:06.878 - population size ratio 7.1% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 22 - Bruteforce solution: 01:14:51.116 -> best overall: 01:15:06.878 - best of generation: 01:15:06.878 - population size ratio 7.18% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+[EA] Generation 23 - Bruteforce solution: 01:14:51.116 -> best overall: 01:15:06.878 - best of generation: 01:15:06.878 - population size ratio 6.9% | threshold is 0.3 - counter = 2/10 - stuck value = 0
+[EA] Generation 24 - Bruteforce solution: 01:14:51.116 -> best overall: 01:15:06.878 - best of generation: 01:15:06.878 - population size ratio 7.22% | threshold is 0.3 - counter = 3/10 - stuck value = 0
+[EA] Generation 25 - Bruteforce solution: 01:14:51.116 -> best overall: 01:15:06.878 - best of generation: 01:15:06.878 - population size ratio 7.28% | threshold is 0.3 - counter = 4/10 - stuck value = 0
+[EA] Generation 26 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:58.690 - best of generation: 01:14:58.690 - population size ratio 7.3% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 27 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:58.690 - best of generation: 01:14:58.690 - population size ratio 7.32% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+[EA] Generation 28 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:58.690 - best of generation: 01:14:58.690 - population size ratio 7.14% | threshold is 0.3 - counter = 2/10 - stuck value = 0
+[EA] Generation 29 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:58.690 - best of generation: 01:14:58.690 - population size ratio 7.24% | threshold is 0.3 - counter = 3/10 - stuck value = 0
+[EA] Generation 30 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:58.690 - best of generation: 01:14:58.690 - population size ratio 7.18% | threshold is 0.3 - counter = 4/10 - stuck value = 0
+[EA] Generation 31 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:57.232 - best of generation: 01:14:57.232 - population size ratio 7.18% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 32 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:57.232 - best of generation: 01:14:57.232 - population size ratio 7.28% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+[EA] Generation 33 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:57.232 - best of generation: 01:14:57.232 - population size ratio 7.28% | threshold is 0.3 - counter = 2/10 - stuck value = 0
+[EA] Generation 34 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:57.232 - best of generation: 01:14:57.232 - population size ratio 7.1% | threshold is 0.3 - counter = 3/10 - stuck value = 0
+[EA] Generation 35 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:57.232 - best of generation: 01:14:57.232 - population size ratio 7.34% | threshold is 0.3 - counter = 4/10 - stuck value = 0
+[EA] Generation 36 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:57.232 - best of generation: 01:14:57.232 - population size ratio 7.28% | threshold is 0.3 - counter = 5/10 - stuck value = 0
+[EA] Generation 37 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:57.232 - best of generation: 01:14:57.232 - population size ratio 7.28% | threshold is 0.3 - counter = 6/10 - stuck value = 0
+[EA] Generation 38 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:57.232 - best of generation: 01:14:57.232 - population size ratio 7.24% | threshold is 0.3 - counter = 7/10 - stuck value = 0
+[EA] Generation 39 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:57.232 - best of generation: 01:14:57.232 - population size ratio 7.1% | threshold is 0.3 - counter = 8/10 - stuck value = 0
+[EA] Generation 40 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:57.232 - best of generation: 01:14:57.232 - population size ratio 7.2% | threshold is 0.3 - counter = 9/10 - stuck value = 0
+[EA] Generation 41 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 7.22% | threshold is 0.3 - counter = 0/10 - stuck value = 0
+[EA] Generation 42 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 7.22% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+[EA] Generation 43 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 7.34% | threshold is 0.3 - counter = 2/10 - stuck value = 0
+[EA] Generation 44 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 7.32% | threshold is 0.3 - counter = 3/10 - stuck value = 0
+[EA] Generation 45 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 7.5% | threshold is 0.3 - counter = 4/10 - stuck value = 0
+[EA] Generation 46 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 7.34% | threshold is 0.3 - counter = 5/10 - stuck value = 0
+[EA] Generation 47 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 7.46% | threshold is 0.3 - counter = 6/10 - stuck value = 0
+[EA] Generation 48 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 7.42% | threshold is 0.3 - counter = 7/10 - stuck value = 0
+[EA] Generation 49 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 7.22% | threshold is 0.3 - counter = 8/10 - stuck value = 0
+[EA] Generation 50 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 7.48% | threshold is 0.3 - counter = 9/10 - stuck value = 0
+[EA] Generation 51 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 7.26% | threshold is 0.3 - counter = 10/10 - stuck value = 0
+[EA] Generation 52 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 1.58% | threshold is 0.25 - counter = 1/10 - stuck value = 1
+[EA] Generation 53 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 2.1% | threshold is 0.25 - counter = 2/10 - stuck value = 1
+[EA] Generation 54 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 2.86% | threshold is 0.25 - counter = 3/10 - stuck value = 1
+[EA] Generation 55 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.782 - best of generation: 01:14:56.782 - population size ratio 3.9% | threshold is 0.25 - counter = 4/10 - stuck value = 1
+[EA] Generation 56 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 5.18% | threshold is 0.25 - counter = 0/10 - stuck value = 1
+[EA] Generation 57 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.68% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+[EA] Generation 58 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.86% | threshold is 0.3 - counter = 2/10 - stuck value = 0
+[EA] Generation 59 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.06% | threshold is 0.3 - counter = 3/10 - stuck value = 0
+[EA] Generation 60 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.12% | threshold is 0.3 - counter = 4/10 - stuck value = 0
+[EA] Generation 61 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.2% | threshold is 0.3 - counter = 5/10 - stuck value = 0
+[EA] Generation 62 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.24% | threshold is 0.3 - counter = 6/10 - stuck value = 0
+[EA] Generation 63 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.18% | threshold is 0.3 - counter = 7/10 - stuck value = 0
+[EA] Generation 64 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.2% | threshold is 0.3 - counter = 8/10 - stuck value = 0
+[EA] Generation 65 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.38% | threshold is 0.3 - counter = 9/10 - stuck value = 0
+[EA] Generation 66 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.18% | threshold is 0.3 - counter = 10/10 - stuck value = 0
+[EA] Generation 67 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.34% | threshold is 0.25 - counter = 1/10 - stuck value = 1
+[EA] Generation 68 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.68% | threshold is 0.25 - counter = 2/10 - stuck value = 1
+[EA] Generation 69 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 2.16% | threshold is 0.25 - counter = 3/10 - stuck value = 1
+[EA] Generation 70 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 2.94% | threshold is 0.25 - counter = 4/10 - stuck value = 1
+[EA] Generation 71 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 3.86% | threshold is 0.25 - counter = 5/10 - stuck value = 1
+[EA] Generation 72 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 5.44% | threshold is 0.25 - counter = 6/10 - stuck value = 1
+[EA] Generation 73 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.42% | threshold is 0.25 - counter = 7/10 - stuck value = 1
+[EA] Generation 74 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.48% | threshold is 0.25 - counter = 8/10 - stuck value = 1
+[EA] Generation 75 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.8% | threshold is 0.25 - counter = 9/10 - stuck value = 1
+[EA] Generation 76 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.84% | threshold is 0.25 - counter = 10/10 - stuck value = 1
+[EA] Generation 77 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.1% | threshold is 0.2 - counter = 1/10 - stuck value = 2
+[EA] Generation 78 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.06% | threshold is 0.2 - counter = 2/10 - stuck value = 2
+[EA] Generation 79 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.2 - counter = 3/10 - stuck value = 2
+[EA] Generation 80 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.2 - counter = 4/10 - stuck value = 2
+[EA] Generation 81 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.08% | threshold is 0.2 - counter = 5/10 - stuck value = 2
+[EA] Generation 82 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.08% | threshold is 0.2 - counter = 6/10 - stuck value = 2
+[EA] Generation 83 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.12% | threshold is 0.2 - counter = 7/10 - stuck value = 2
+[EA] Generation 84 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.1% | threshold is 0.2 - counter = 8/10 - stuck value = 2
+[EA] Generation 85 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.1% | threshold is 0.2 - counter = 9/10 - stuck value = 2
+[EA] Generation 86 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.1% | threshold is 0.2 - counter = 10/10 - stuck value = 2
+[EA] Generation 87 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.15 - counter = 1/10 - stuck value = 3
+[EA] Generation 88 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.15 - counter = 2/10 - stuck value = 3
+[EA] Generation 89 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.15 - counter = 3/10 - stuck value = 3
+[EA] Generation 90 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.15 - counter = 4/10 - stuck value = 3
+[EA] Generation 91 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.15 - counter = 5/10 - stuck value = 3
+[EA] Generation 92 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.15 - counter = 6/10 - stuck value = 3
+[EA] Generation 93 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.15 - counter = 7/10 - stuck value = 3
+[EA] Generation 94 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.15 - counter = 8/10 - stuck value = 3
+[EA] Generation 95 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.15 - counter = 9/10 - stuck value = 3
+[EA] Generation 96 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.15 - counter = 10/10 - stuck value = 3
+[EA] Generation 97 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.1 - counter = 1/10 - stuck value = 4
+[EA] Generation 98 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.1 - counter = 2/10 - stuck value = 4
+[EA] Generation 99 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.1 - counter = 3/10 - stuck value = 4
+[EA] Generation 100 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.1 - counter = 4/10 - stuck value = 4
+[EA] Generation 101 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.1 - counter = 5/10 - stuck value = 4
+[EA] Generation 102 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.1 - counter = 6/10 - stuck value = 4
+[EA] Generation 103 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.1 - counter = 7/10 - stuck value = 4
+[EA] Generation 104 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.1 - counter = 8/10 - stuck value = 4
+[EA] Generation 105 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.1 - counter = 9/10 - stuck value = 4
+[EA] Generation 106 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.1 - counter = 10/10 - stuck value = 4
+[EA] Generation 107 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.05 - counter = 1/10 - stuck value = 5
+[EA] Generation 108 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.05 - counter = 2/10 - stuck value = 5
+[EA] Generation 109 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.05 - counter = 3/10 - stuck value = 5
+[EA] Generation 110 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.05 - counter = 4/10 - stuck value = 5
+[EA] Generation 111 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.05 - counter = 5/10 - stuck value = 5
+[EA] Generation 112 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.05 - counter = 6/10 - stuck value = 5
+[EA] Generation 113 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.05 - counter = 7/10 - stuck value = 5
+[EA] Generation 114 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.05 - counter = 8/10 - stuck value = 5
+[EA] Generation 115 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.05 - counter = 9/10 - stuck value = 5
+[EA] Generation 116 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.05 - counter = 10/10 - stuck value = 5
+[EA] Generation 117 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 2.66% | threshold is 0.47 - counter = 1/10 - stuck value = 6
+[EA] Generation 118 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.24% | threshold is 0.47 - counter = 2/10 - stuck value = 6
+[EA] Generation 119 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.7% | threshold is 0.47 - counter = 3/10 - stuck value = 6
+[EA] Generation 120 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.4% | threshold is 0.47 - counter = 4/10 - stuck value = 6
+[EA] Generation 121 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.02% | threshold is 0.47 - counter = 5/10 - stuck value = 6
+[EA] Generation 122 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.2% | threshold is 0.47 - counter = 6/10 - stuck value = 6
+[EA] Generation 123 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.16% | threshold is 0.47 - counter = 7/10 - stuck value = 6
+[EA] Generation 124 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.2% | threshold is 0.47 - counter = 8/10 - stuck value = 6
+[EA] Generation 125 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.12% | threshold is 0.47 - counter = 9/10 - stuck value = 6
+[EA] Generation 126 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.38% | threshold is 0.47 - counter = 10/10 - stuck value = 6
+[EA] Generation 127 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 2.56% | threshold is 0.42 - counter = 1/10 - stuck value = 7
+[EA] Generation 128 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 5.76% | threshold is 0.42 - counter = 2/10 - stuck value = 7
+[EA] Generation 129 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.44% | threshold is 0.42 - counter = 3/10 - stuck value = 7
+[EA] Generation 130 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.92% | threshold is 0.42 - counter = 4/10 - stuck value = 7
+[EA] Generation 131 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.18% | threshold is 0.42 - counter = 5/10 - stuck value = 7
+[EA] Generation 132 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.46% | threshold is 0.42 - counter = 6/10 - stuck value = 7
+[EA] Generation 133 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.44% | threshold is 0.42 - counter = 7/10 - stuck value = 7
+[EA] Generation 134 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.46% | threshold is 0.42 - counter = 8/10 - stuck value = 7
+[EA] Generation 135 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.38% | threshold is 0.42 - counter = 9/10 - stuck value = 7
+[EA] Generation 136 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.46% | threshold is 0.42 - counter = 10/10 - stuck value = 7
+[EA] Generation 137 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 2.42% | threshold is 0.37 - counter = 1/10 - stuck value = 8
+[EA] Generation 138 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 4.52% | threshold is 0.37 - counter = 2/10 - stuck value = 8
+[EA] Generation 139 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.72% | threshold is 0.37 - counter = 3/10 - stuck value = 8
+[EA] Generation 140 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.4% | threshold is 0.37 - counter = 4/10 - stuck value = 8
+[EA] Generation 141 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.8% | threshold is 0.37 - counter = 5/10 - stuck value = 8
+[EA] Generation 142 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.8% | threshold is 0.37 - counter = 6/10 - stuck value = 8
+[EA] Generation 143 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.74% | threshold is 0.37 - counter = 7/10 - stuck value = 8
+[EA] Generation 144 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.88% | threshold is 0.37 - counter = 8/10 - stuck value = 8
+[EA] Generation 145 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.88% | threshold is 0.37 - counter = 9/10 - stuck value = 8
+[EA] Generation 146 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.78% | threshold is 0.37 - counter = 10/10 - stuck value = 8
+[EA] Generation 147 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.98% | threshold is 0.32 - counter = 1/10 - stuck value = 9
+[EA] Generation 148 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 3.8% | threshold is 0.32 - counter = 2/10 - stuck value = 9
+[EA] Generation 149 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.22% | threshold is 0.32 - counter = 3/10 - stuck value = 9
+[EA] Generation 150 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.0% | threshold is 0.32 - counter = 4/10 - stuck value = 9
+[EA] Generation 151 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.34% | threshold is 0.32 - counter = 5/10 - stuck value = 9
+[EA] Generation 152 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.54% | threshold is 0.32 - counter = 6/10 - stuck value = 9
+[EA] Generation 153 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.36% | threshold is 0.32 - counter = 7/10 - stuck value = 9
+[EA] Generation 154 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.56% | threshold is 0.32 - counter = 8/10 - stuck value = 9
+[EA] Generation 155 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.54% | threshold is 0.32 - counter = 9/10 - stuck value = 9
+[EA] Generation 156 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.5% | threshold is 0.32 - counter = 10/10 - stuck value = 9
+[EA] Generation 157 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.72% | threshold is 0.27 - counter = 1/10 - stuck value = 10
+[EA] Generation 158 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 2.76% | threshold is 0.27 - counter = 2/10 - stuck value = 10
+[EA] Generation 159 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 3.82% | threshold is 0.27 - counter = 3/10 - stuck value = 10
+[EA] Generation 160 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 5.74% | threshold is 0.27 - counter = 4/10 - stuck value = 10
+[EA] Generation 161 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.78% | threshold is 0.27 - counter = 5/10 - stuck value = 10
+[EA] Generation 162 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.9% | threshold is 0.27 - counter = 6/10 - stuck value = 10
+[EA] Generation 163 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.16% | threshold is 0.27 - counter = 7/10 - stuck value = 10
+[EA] Generation 164 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.98% | threshold is 0.27 - counter = 8/10 - stuck value = 10
+[EA] Generation 165 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.0% | threshold is 0.27 - counter = 9/10 - stuck value = 10
+[EA] Generation 166 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.1% | threshold is 0.27 - counter = 10/10 - stuck value = 10
+[EA] Generation 167 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.38% | threshold is 0.22 - counter = 1/10 - stuck value = 11
+[EA] Generation 168 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.58% | threshold is 0.22 - counter = 2/10 - stuck value = 11
+[EA] Generation 169 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.9% | threshold is 0.22 - counter = 3/10 - stuck value = 11
+[EA] Generation 170 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 2.12% | threshold is 0.22 - counter = 4/10 - stuck value = 11
+[EA] Generation 171 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 2.7% | threshold is 0.22 - counter = 5/10 - stuck value = 11
+[EA] Generation 172 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 3.18% | threshold is 0.22 - counter = 6/10 - stuck value = 11
+[EA] Generation 173 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 3.8% | threshold is 0.22 - counter = 7/10 - stuck value = 11
+[EA] Generation 174 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 4.48% | threshold is 0.22 - counter = 8/10 - stuck value = 11
+[EA] Generation 175 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 5.4% | threshold is 0.22 - counter = 9/10 - stuck value = 11
+[EA] Generation 176 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.52% | threshold is 0.22 - counter = 10/10 - stuck value = 11
+[EA] Generation 177 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.04% | threshold is 0.17 - counter = 1/10 - stuck value = 12
+[EA] Generation 178 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.17 - counter = 2/10 - stuck value = 12
+[EA] Generation 179 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.17 - counter = 3/10 - stuck value = 12
+[EA] Generation 180 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.17 - counter = 4/10 - stuck value = 12
+[EA] Generation 181 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.17 - counter = 5/10 - stuck value = 12
+[EA] Generation 182 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.17 - counter = 6/10 - stuck value = 12
+[EA] Generation 183 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.17 - counter = 7/10 - stuck value = 12
+[EA] Generation 184 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.17 - counter = 8/10 - stuck value = 12
+[EA] Generation 185 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.17 - counter = 9/10 - stuck value = 12
+[EA] Generation 186 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.17 - counter = 10/10 - stuck value = 12
+[EA] Generation 187 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.12 - counter = 1/10 - stuck value = 13
+[EA] Generation 188 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.12 - counter = 2/10 - stuck value = 13
+[EA] Generation 189 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.12 - counter = 3/10 - stuck value = 13
+[EA] Generation 190 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.12 - counter = 4/10 - stuck value = 13
+[EA] Generation 191 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.12 - counter = 5/10 - stuck value = 13
+[EA] Generation 192 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.12 - counter = 6/10 - stuck value = 13
+[EA] Generation 193 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.12 - counter = 7/10 - stuck value = 13
+[EA] Generation 194 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.12 - counter = 8/10 - stuck value = 13
+[EA] Generation 195 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.12 - counter = 9/10 - stuck value = 13
+[EA] Generation 196 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.12 - counter = 10/10 - stuck value = 13
+[EA] Generation 197 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.07 - counter = 1/10 - stuck value = 14
+[EA] Generation 198 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.07 - counter = 2/10 - stuck value = 14
+[EA] Generation 199 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.07 - counter = 3/10 - stuck value = 14
+[EA] Generation 200 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.07 - counter = 4/10 - stuck value = 14
+[EA] Generation 201 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.07 - counter = 5/10 - stuck value = 14
+[EA] Generation 202 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.07 - counter = 6/10 - stuck value = 14
+[EA] Generation 203 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.07 - counter = 7/10 - stuck value = 14
+[EA] Generation 204 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.07 - counter = 8/10 - stuck value = 14
+[EA] Generation 205 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.07 - counter = 9/10 - stuck value = 14
+[EA] Generation 206 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.07 - counter = 10/10 - stuck value = 14
+[EA] Generation 207 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.02 - counter = 1/10 - stuck value = 15
+[EA] Generation 208 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.02 - counter = 2/10 - stuck value = 15
+[EA] Generation 209 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.02 - counter = 3/10 - stuck value = 15
+[EA] Generation 210 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.02 - counter = 4/10 - stuck value = 15
+[EA] Generation 211 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.02 - counter = 5/10 - stuck value = 15
+[EA] Generation 212 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.02 - counter = 6/10 - stuck value = 15
+[EA] Generation 213 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.02 - counter = 7/10 - stuck value = 15
+[EA] Generation 214 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.02 - counter = 8/10 - stuck value = 15
+[EA] Generation 215 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.02 - counter = 9/10 - stuck value = 15
+[EA] Generation 216 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 1.0% | threshold is 0.02 - counter = 10/10 - stuck value = 15
+[EA] Generation 217 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 3.76% | threshold is 0.6 - counter = 1/10 - stuck value = 16
+[EA] Generation 218 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.22% | threshold is 0.6 - counter = 2/10 - stuck value = 16
+[EA] Generation 219 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.72% | threshold is 0.6 - counter = 3/10 - stuck value = 16
+[EA] Generation 220 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.96% | threshold is 0.6 - counter = 4/10 - stuck value = 16
+[EA] Generation 221 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 10.74% | threshold is 0.6 - counter = 5/10 - stuck value = 16
+[EA] Generation 222 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 11.24% | threshold is 0.6 - counter = 6/10 - stuck value = 16
+[EA] Generation 223 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 11.34% | threshold is 0.6 - counter = 7/10 - stuck value = 16
+[EA] Generation 224 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 11.26% | threshold is 0.6 - counter = 8/10 - stuck value = 16
+[EA] Generation 225 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 11.42% | threshold is 0.6 - counter = 9/10 - stuck value = 16
+[EA] Generation 226 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 11.66% | threshold is 0.6 - counter = 10/10 - stuck value = 16
+[EA] Generation 227 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 3.48% | threshold is 0.55 - counter = 1/10 - stuck value = 17
+[EA] Generation 228 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.16% | threshold is 0.55 - counter = 2/10 - stuck value = 17
+[EA] Generation 229 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.84% | threshold is 0.55 - counter = 3/10 - stuck value = 17
+[EA] Generation 230 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.58% | threshold is 0.55 - counter = 4/10 - stuck value = 17
+[EA] Generation 231 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 10.12% | threshold is 0.55 - counter = 5/10 - stuck value = 17
+[EA] Generation 232 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 10.3% | threshold is 0.55 - counter = 6/10 - stuck value = 17
+[EA] Generation 233 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 10.42% | threshold is 0.55 - counter = 7/10 - stuck value = 17
+[EA] Generation 234 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 10.42% | threshold is 0.55 - counter = 8/10 - stuck value = 17
+[EA] Generation 235 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 10.38% | threshold is 0.55 - counter = 9/10 - stuck value = 17
+[EA] Generation 236 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 10.52% | threshold is 0.55 - counter = 10/10 - stuck value = 17
+[EA] Generation 237 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 3.12% | threshold is 0.5 - counter = 1/10 - stuck value = 18
+[EA] Generation 238 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.88% | threshold is 0.5 - counter = 2/10 - stuck value = 18
+[EA] Generation 239 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.32% | threshold is 0.5 - counter = 3/10 - stuck value = 18
+[EA] Generation 240 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.06% | threshold is 0.5 - counter = 4/10 - stuck value = 18
+[EA] Generation 241 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.48% | threshold is 0.5 - counter = 5/10 - stuck value = 18
+[EA] Generation 242 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.58% | threshold is 0.5 - counter = 6/10 - stuck value = 18
+[EA] Generation 243 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.38% | threshold is 0.5 - counter = 7/10 - stuck value = 18
+[EA] Generation 244 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.58% | threshold is 0.5 - counter = 8/10 - stuck value = 18
+[EA] Generation 245 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.76% | threshold is 0.5 - counter = 9/10 - stuck value = 18
+[EA] Generation 246 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.68% | threshold is 0.5 - counter = 10/10 - stuck value = 18
+[EA] Generation 247 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 2.92% | threshold is 0.45 - counter = 1/10 - stuck value = 19
+[EA] Generation 248 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.52% | threshold is 0.45 - counter = 2/10 - stuck value = 19
+[EA] Generation 249 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.96% | threshold is 0.45 - counter = 3/10 - stuck value = 19
+[EA] Generation 250 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.66% | threshold is 0.45 - counter = 4/10 - stuck value = 19
+[EA] Generation 251 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.66% | threshold is 0.45 - counter = 5/10 - stuck value = 19
+[EA] Generation 252 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.9% | threshold is 0.45 - counter = 6/10 - stuck value = 19
+[EA] Generation 253 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.84% | threshold is 0.45 - counter = 7/10 - stuck value = 19
+[EA] Generation 254 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 9.0% | threshold is 0.45 - counter = 8/10 - stuck value = 19
+[EA] Generation 255 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.7% | threshold is 0.45 - counter = 9/10 - stuck value = 19
+[EA] Generation 256 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.96% | threshold is 0.45 - counter = 10/10 - stuck value = 19
+[EA] Generation 257 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 2.32% | threshold is 0.4 - counter = 1/10 - stuck value = 20
+[EA] Generation 258 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 5.4% | threshold is 0.4 - counter = 2/10 - stuck value = 20
+[EA] Generation 259 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.04% | threshold is 0.4 - counter = 3/10 - stuck value = 20
+[EA] Generation 260 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.84% | threshold is 0.4 - counter = 4/10 - stuck value = 20
+[EA] Generation 261 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.08% | threshold is 0.4 - counter = 5/10 - stuck value = 20
+[EA] Generation 262 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.26% | threshold is 0.4 - counter = 6/10 - stuck value = 20
+[EA] Generation 263 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.28% | threshold is 0.4 - counter = 7/10 - stuck value = 20
+[EA] Generation 264 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.28% | threshold is 0.4 - counter = 8/10 - stuck value = 20
+[EA] Generation 265 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.12% | threshold is 0.4 - counter = 9/10 - stuck value = 20
+[EA] Generation 266 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 8.36% | threshold is 0.4 - counter = 10/10 - stuck value = 20
+[EA] Generation 267 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 2.16% | threshold is 0.35 - counter = 1/10 - stuck value = 21
+[EA] Generation 268 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 4.0% | threshold is 0.35 - counter = 2/10 - stuck value = 21
+[EA] Generation 269 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 6.52% | threshold is 0.35 - counter = 3/10 - stuck value = 21
+[EA] Generation 270 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.28% | threshold is 0.35 - counter = 4/10 - stuck value = 21
+[EA] Generation 271 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.58% | threshold is 0.35 - counter = 5/10 - stuck value = 21
+[EA] Generation 272 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.68% | threshold is 0.35 - counter = 6/10 - stuck value = 21
+[EA] Generation 273 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.272 - best of generation: 01:14:56.272 - population size ratio 7.78% | threshold is 0.35 - counter = 7/10 - stuck value = 21
+[EA] Generation 274 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 7.64% | threshold is 0.35 - counter = 0/10 - stuck value = 21
+[EA] Generation 275 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 7.42% | threshold is 0.3 - counter = 1/10 - stuck value = 0
+[EA] Generation 276 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 7.08% | threshold is 0.3 - counter = 2/10 - stuck value = 0
+[EA] Generation 277 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 7.16% | threshold is 0.3 - counter = 3/10 - stuck value = 0
+[EA] Generation 278 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 7.4% | threshold is 0.3 - counter = 4/10 - stuck value = 0
+[EA] Generation 279 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 7.36% | threshold is 0.3 - counter = 5/10 - stuck value = 0
+[EA] Generation 280 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 7.34% | threshold is 0.3 - counter = 6/10 - stuck value = 0
+[EA] Generation 281 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 7.34% | threshold is 0.3 - counter = 7/10 - stuck value = 0
+[EA] Generation 282 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 7.28% | threshold is 0.3 - counter = 8/10 - stuck value = 0
+[EA] Generation 283 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 7.28% | threshold is 0.3 - counter = 9/10 - stuck value = 0
+[EA] Generation 284 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 7.36% | threshold is 0.3 - counter = 10/10 - stuck value = 0
+[EA] Generation 285 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.64% | threshold is 0.25 - counter = 1/10 - stuck value = 1
+[EA] Generation 286 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 2.16% | threshold is 0.25 - counter = 2/10 - stuck value = 1
+[EA] Generation 287 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 2.9% | threshold is 0.25 - counter = 3/10 - stuck value = 1
+[EA] Generation 288 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 4.02% | threshold is 0.25 - counter = 4/10 - stuck value = 1
+[EA] Generation 289 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 5.22% | threshold is 0.25 - counter = 5/10 - stuck value = 1
+[EA] Generation 290 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 6.36% | threshold is 0.25 - counter = 6/10 - stuck value = 1
+[EA] Generation 291 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 6.8% | threshold is 0.25 - counter = 7/10 - stuck value = 1
+[EA] Generation 292 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 6.88% | threshold is 0.25 - counter = 8/10 - stuck value = 1
+[EA] Generation 293 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 6.92% | threshold is 0.25 - counter = 9/10 - stuck value = 1
+[EA] Generation 294 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 6.92% | threshold is 0.25 - counter = 10/10 - stuck value = 1
+[EA] Generation 295 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.06% | threshold is 0.2 - counter = 1/10 - stuck value = 2
+[EA] Generation 296 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.2 - counter = 2/10 - stuck value = 2
+[EA] Generation 297 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.1% | threshold is 0.2 - counter = 3/10 - stuck value = 2
+[EA] Generation 298 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.12% | threshold is 0.2 - counter = 4/10 - stuck value = 2
+[EA] Generation 299 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.28% | threshold is 0.2 - counter = 5/10 - stuck value = 2
+[EA] Generation 300 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.32% | threshold is 0.2 - counter = 6/10 - stuck value = 2
+[EA] Generation 301 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.34% | threshold is 0.2 - counter = 7/10 - stuck value = 2
+[EA] Generation 302 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.36% | threshold is 0.2 - counter = 8/10 - stuck value = 2
+[EA] Generation 303 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.34% | threshold is 0.2 - counter = 9/10 - stuck value = 2
+[EA] Generation 304 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.4% | threshold is 0.2 - counter = 10/10 - stuck value = 2
+[EA] Generation 305 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.15 - counter = 1/10 - stuck value = 3
+[EA] Generation 306 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.15 - counter = 2/10 - stuck value = 3
+[EA] Generation 307 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.15 - counter = 3/10 - stuck value = 3
+[EA] Generation 308 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.15 - counter = 4/10 - stuck value = 3
+[EA] Generation 309 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.15 - counter = 5/10 - stuck value = 3
+[EA] Generation 310 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.15 - counter = 6/10 - stuck value = 3
+[EA] Generation 311 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.15 - counter = 7/10 - stuck value = 3
+[EA] Generation 312 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.15 - counter = 8/10 - stuck value = 3
+[EA] Generation 313 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.15 - counter = 9/10 - stuck value = 3
+[EA] Generation 314 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.15 - counter = 10/10 - stuck value = 3
+[EA] Generation 315 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.1 - counter = 1/10 - stuck value = 4
+[EA] Generation 316 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.1 - counter = 2/10 - stuck value = 4
+[EA] Generation 317 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.1 - counter = 3/10 - stuck value = 4
+[EA] Generation 318 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.1 - counter = 4/10 - stuck value = 4
+[EA] Generation 319 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.1 - counter = 5/10 - stuck value = 4
+[EA] Generation 320 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.1 - counter = 6/10 - stuck value = 4
+[EA] Generation 321 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.1 - counter = 7/10 - stuck value = 4
+[EA] Generation 322 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.1 - counter = 8/10 - stuck value = 4
+[EA] Generation 323 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.1 - counter = 9/10 - stuck value = 4
+[EA] Generation 324 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.1 - counter = 10/10 - stuck value = 4
+[EA] Generation 325 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.05 - counter = 1/10 - stuck value = 5
+[EA] Generation 326 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.05 - counter = 2/10 - stuck value = 5
+[EA] Generation 327 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.05 - counter = 3/10 - stuck value = 5
+[EA] Generation 328 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.05 - counter = 4/10 - stuck value = 5
+[EA] Generation 329 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.05 - counter = 5/10 - stuck value = 5
+[EA] Generation 330 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.05 - counter = 6/10 - stuck value = 5
+[EA] Generation 331 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.05 - counter = 7/10 - stuck value = 5
+[EA] Generation 332 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.05 - counter = 8/10 - stuck value = 5
+[EA] Generation 333 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.05 - counter = 9/10 - stuck value = 5
+[EA] Generation 334 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 1.0% | threshold is 0.05 - counter = 10/10 - stuck value = 5
+[EA] Generation 335 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 5.68% | threshold is 0.93 - counter = 1/10 - stuck value = 6
+[EA] Generation 336 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 9.08% | threshold is 0.93 - counter = 2/10 - stuck value = 6
+[EA] Generation 337 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 12.88% | threshold is 0.93 - counter = 3/10 - stuck value = 6
+[EA] Generation 338 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 16.14% | threshold is 0.93 - counter = 4/10 - stuck value = 6
+[EA] Generation 339 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 18.98% | threshold is 0.93 - counter = 5/10 - stuck value = 6
+[EA] Generation 340 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 21.74% | threshold is 0.93 - counter = 6/10 - stuck value = 6
+[EA] Generation 341 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 24.22% | threshold is 0.93 - counter = 7/10 - stuck value = 6
+[EA] Generation 342 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 26.46% | threshold is 0.93 - counter = 8/10 - stuck value = 6
+[EA] Generation 343 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 28.46% | threshold is 0.93 - counter = 9/10 - stuck value = 6
+[EA] Generation 344 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 30.1% | threshold is 0.93 - counter = 10/10 - stuck value = 6
+[EA] Generation 345 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 5.68% | threshold is 0.88 - counter = 1/10 - stuck value = 7
+[EA] Generation 346 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 9.7% | threshold is 0.88 - counter = 2/10 - stuck value = 7
+[EA] Generation 347 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 12.84% | threshold is 0.88 - counter = 3/10 - stuck value = 7
+[EA] Generation 348 - Bruteforce solution: 01:14:51.116 -> best overall: 01:14:56.258 - best of generation: 01:14:56.258 - population size ratio 15.26% | threshold is 0.88 - counter = 4/10 - stuck value = 7
 
 
-Best Strategy: 01:15:46.098 vs 01:15:32.296
-Lap 1 -> Compound 'Medium', Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '100.45' Kg, PitStop 'No', Time '01:28.462' ms
-Lap 2 -> Compound 'Medium', Wear '0.05'% | '0.04'% | '0.04'% | '0.03'%, Fuel '98.56' Kg, PitStop 'No', Time '01:26.452' ms
-Lap 3 -> Compound 'Medium', Wear '0.06'% | '0.06'% | '0.05'% | '0.04'%, Fuel '96.67' Kg, PitStop 'No', Time '01:26.384' ms
-Lap 4 -> Compound 'Medium', Wear '0.07'% | '0.07'% | '0.05'% | '0.05'%, Fuel '94.79' Kg, PitStop 'No', Time '01:26.306' ms
-Lap 5 -> Compound 'Medium', Wear '0.08'% | '0.08'% | '0.06'% | '0.05'%, Fuel '92.9' Kg, PitStop 'No', Time '01:26.248' ms
-Lap 6 -> Compound 'Medium', Wear '0.09'% | '0.09'% | '0.07'% | '0.06'%, Fuel '91.01' Kg, PitStop 'No', Time '01:26.192' ms
-Lap 7 -> Compound 'Medium', Wear '0.1'% | '0.1'% | '0.08'% | '0.07'%, Fuel '89.12' Kg, PitStop 'No', Time '01:26.116' ms
-Lap 8 -> Compound 'Medium', Wear '0.11'% | '0.11'% | '0.09'% | '0.08'%, Fuel '87.23' Kg, PitStop 'No', Time '01:26.036' ms
-Lap 9 -> Compound 'Medium', Wear '0.13'% | '0.12'% | '0.1'% | '0.09'%, Fuel '85.34' Kg, PitStop 'No', Time '01:25.972' ms
-Lap 10 -> Compound 'Medium', Wear '0.14'% | '0.13'% | '0.11'% | '0.09'%, Fuel '83.45' Kg, PitStop 'No', Time '01:25.906' ms
-Lap 11 -> Compound 'Medium', Wear '0.15'% | '0.14'% | '0.12'% | '0.1'%, Fuel '81.57' Kg, PitStop 'No', Time '01:25.842' ms
-Lap 12 -> Compound 'Medium', Wear '0.16'% | '0.15'% | '0.13'% | '0.11'%, Fuel '79.68' Kg, PitStop 'No', Time '01:25.788' ms
-Lap 13 -> Compound 'Medium', Wear '0.17'% | '0.17'% | '0.14'% | '0.12'%, Fuel '77.79' Kg, PitStop 'No', Time '01:25.712' ms
-Lap 14 -> Compound 'Medium', Wear '0.18'% | '0.18'% | '0.15'% | '0.12'%, Fuel '75.9' Kg, PitStop 'No', Time '01:25.648' ms
-Lap 15 -> Compound 'Medium', Wear '0.19'% | '0.19'% | '0.16'% | '0.13'%, Fuel '74.01' Kg, PitStop 'No', Time '01:25.586' ms
-Lap 16 -> Compound 'Medium', Wear '0.21'% | '0.2'% | '0.16'% | '0.14'%, Fuel '72.12' Kg, PitStop 'No', Time '01:25.538' ms
-Lap 17 -> Compound 'Medium', Wear '0.22'% | '0.21'% | '0.17'% | '0.15'%, Fuel '70.23' Kg, PitStop 'No', Time '01:25.464' ms
-Lap 18 -> Compound 'Medium', Wear '0.23'% | '0.22'% | '0.18'% | '0.16'%, Fuel '68.35' Kg, PitStop 'No', Time '01:25.404' ms
-Lap 19 -> Compound 'Medium', Wear '0.24'% | '0.23'% | '0.19'% | '0.16'%, Fuel '66.46' Kg, PitStop 'No', Time '01:25.346' ms
-Lap 20 -> Compound 'Medium', Wear '0.25'% | '0.24'% | '0.2'% | '0.17'%, Fuel '64.57' Kg, PitStop 'No', Time '01:25.286' ms
-Lap 21 -> Compound 'Medium', Wear '0.26'% | '0.25'% | '0.21'% | '0.18'%, Fuel '62.68' Kg, PitStop 'No', Time '01:25.230' ms
-Lap 22 -> Compound 'Medium', Wear '0.27'% | '0.26'% | '0.22'% | '0.19'%, Fuel '60.79' Kg, PitStop 'No', Time '01:25.160' ms
-Lap 23 -> Compound 'Medium', Wear '0.29'% | '0.28'% | '0.23'% | '0.19'%, Fuel '58.9' Kg, PitStop 'No', Time '01:25.104' ms
-Lap 24 -> Compound 'Hard', Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '57.01' Kg, PitStop 'Yes', Time '01:50.644' ms
-Lap 25 -> Compound 'Hard', Wear '0.01'% | '0.01'% | '0.01'% | '0.01'%, Fuel '55.12' Kg, PitStop 'No', Time '01:25.585' ms
-Lap 26 -> Compound 'Hard', Wear '0.03'% | '0.03'% | '0.02'% | '0.02'%, Fuel '53.24' Kg, PitStop 'No', Time '01:25.509' ms
-Lap 27 -> Compound 'Hard', Wear '0.04'% | '0.04'% | '0.03'% | '0.03'%, Fuel '51.35' Kg, PitStop 'No', Time '01:25.444' ms
-Lap 28 -> Compound 'Hard', Wear '0.06'% | '0.05'% | '0.05'% | '0.04'%, Fuel '49.46' Kg, PitStop 'No', Time '01:25.388' ms
-Lap 29 -> Compound 'Hard', Wear '0.07'% | '0.07'% | '0.06'% | '0.05'%, Fuel '47.57' Kg, PitStop 'No', Time '01:25.327' ms
-Lap 30 -> Compound 'Hard', Wear '0.08'% | '0.08'% | '0.07'% | '0.06'%, Fuel '45.68' Kg, PitStop 'No', Time '01:25.255' ms
-Lap 31 -> Compound 'Hard', Wear '0.1'% | '0.1'% | '0.08'% | '0.07'%, Fuel '43.79' Kg, PitStop 'No', Time '01:25.196' ms
-Lap 32 -> Compound 'Hard', Wear '0.11'% | '0.11'% | '0.09'% | '0.08'%, Fuel '41.9' Kg, PitStop 'No', Time '01:25.138' ms
-Lap 33 -> Compound 'Hard', Wear '0.13'% | '0.12'% | '0.1'% | '0.09'%, Fuel '40.02' Kg, PitStop 'No', Time '01:25.071' ms
-Lap 34 -> Compound 'Hard', Wear '0.14'% | '0.14'% | '0.11'% | '0.1'%, Fuel '38.13' Kg, PitStop 'No', Time '01:25.026' ms
-Lap 35 -> Compound 'Hard', Wear '0.16'% | '0.15'% | '0.12'% | '0.11'%, Fuel '36.24' Kg, PitStop 'No', Time '01:24.962' ms
-Lap 36 -> Compound 'Hard', Wear '0.17'% | '0.16'% | '0.14'% | '0.12'%, Fuel '34.35' Kg, PitStop 'No', Time '01:24.923' ms
-Lap 37 -> Compound 'Hard', Wear '0.18'% | '0.18'% | '0.15'% | '0.13'%, Fuel '32.46' Kg, PitStop 'No', Time '01:24.875' ms
-Lap 38 -> Compound 'Hard', Wear '0.2'% | '0.19'% | '0.16'% | '0.13'%, Fuel '30.57' Kg, PitStop 'No', Time '01:24.815' ms
-Lap 39 -> Compound 'Hard', Wear '0.21'% | '0.2'% | '0.17'% | '0.14'%, Fuel '28.68' Kg, PitStop 'No', Time '01:24.784' ms
-Lap 40 -> Compound 'Hard', Wear '0.23'% | '0.22'% | '0.18'% | '0.15'%, Fuel '26.8' Kg, PitStop 'No', Time '01:24.725' ms
-Lap 41 -> Compound 'Hard', Wear '0.24'% | '0.23'% | '0.19'% | '0.16'%, Fuel '24.91' Kg, PitStop 'No', Time '01:24.658' ms
-Lap 42 -> Compound 'Hard', Wear '0.25'% | '0.24'% | '0.2'% | '0.17'%, Fuel '23.02' Kg, PitStop 'No', Time '01:24.636' ms
-Lap 43 -> Compound 'Hard', Wear '0.27'% | '0.26'% | '0.21'% | '0.18'%, Fuel '21.13' Kg, PitStop 'No', Time '01:24.583' ms
-Lap 44 -> Compound 'Hard', Wear '0.28'% | '0.27'% | '0.23'% | '0.19'%, Fuel '19.24' Kg, PitStop 'No', Time '01:24.564' ms
-Lap 45 -> Compound 'Hard', Wear '0.3'% | '0.29'% | '0.24'% | '0.2'%, Fuel '17.35' Kg, PitStop 'No', Time '01:24.532' ms
-Lap 46 -> Compound 'Hard', Wear '0.31'% | '0.3'% | '0.25'% | '0.21'%, Fuel '15.46' Kg, PitStop 'No', Time '01:24.485' ms
-Lap 47 -> Compound 'Hard', Wear '0.32'% | '0.31'% | '0.26'% | '0.22'%, Fuel '13.58' Kg, PitStop 'No', Time '01:24.459' ms
-Lap 48 -> Compound 'Hard', Wear '0.34'% | '0.33'% | '0.27'% | '0.23'%, Fuel '11.69' Kg, PitStop 'No', Time '01:24.433' ms
-Lap 49 -> Compound 'Hard', Wear '0.35'% | '0.34'% | '0.28'% | '0.24'%, Fuel '9.8' Kg, PitStop 'No', Time '01:24.414' ms
-Lap 50 -> Compound 'Hard', Wear '0.37'% | '0.35'% | '0.29'% | '0.25'%, Fuel '7.91' Kg, PitStop 'No', Time '01:24.393' ms
-Lap 51 -> Compound 'Hard', Wear '0.38'% | '0.37'% | '0.31'% | '0.26'%, Fuel '6.02' Kg, PitStop 'No', Time '01:24.378' ms
-Lap 52 -> Compound 'Hard', Wear '0.4'% | '0.38'% | '0.32'% | '0.27'%, Fuel '4.13' Kg, PitStop 'No', Time '01:24.362' ms
-Lap 53 -> Compound 'Hard', Wear '0.41'% | '0.39'% | '0.33'% | '0.28'%, Fuel '2.24' Kg, PitStop 'No', Time '01:24.352' ms
+Best Strategy: 01:14:56.258 vs 01:14:51.116
+Lap 1 -> Compound 'Soft', Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '100.22' Kg, PitStop 'No', Time '01:27.856' ms
+Lap 2 -> Compound 'Soft', Wear '0.05'% | '0.04'% | '0.04'% | '0.03'%, Fuel '98.34' Kg, PitStop 'No', Time '01:26.016' ms
+Lap 3 -> Compound 'Soft', Wear '0.07'% | '0.07'% | '0.06'% | '0.05'%, Fuel '96.45' Kg, PitStop 'No', Time '01:26.026' ms
+Lap 4 -> Compound 'Soft', Wear '0.1'% | '0.09'% | '0.08'% | '0.06'%, Fuel '94.56' Kg, PitStop 'No', Time '01:26.022' ms
+Lap 5 -> Compound 'Soft', Wear '0.12'% | '0.11'% | '0.09'% | '0.08'%, Fuel '92.67' Kg, PitStop 'No', Time '01:26.006' ms
+Lap 6 -> Compound 'Soft', Wear '0.15'% | '0.13'% | '0.11'% | '0.09'%, Fuel '90.78' Kg, PitStop 'No', Time '01:26.004' ms
+Lap 7 -> Compound 'Soft', Wear '0.17'% | '0.15'% | '0.13'% | '0.11'%, Fuel '88.89' Kg, PitStop 'No', Time '01:26.006' ms
+Lap 8 -> Compound 'Soft', Wear '0.19'% | '0.18'% | '0.15'% | '0.13'%, Fuel '87.0' Kg, PitStop 'No', Time '01:26.022' ms
+Lap 9 -> Compound 'Soft', Wear '0.22'% | '0.2'% | '0.17'% | '0.14'%, Fuel '85.12' Kg, PitStop 'No', Time '01:26.028' ms
+Lap 10 -> Compound 'Soft', Wear '0.24'% | '0.22'% | '0.19'% | '0.16'%, Fuel '83.23' Kg, PitStop 'No', Time '01:26.036' ms
+Lap 11 -> Compound 'Soft', Wear '0.27'% | '0.24'% | '0.21'% | '0.17'%, Fuel '81.34' Kg, PitStop 'No', Time '01:26.046' ms
+Lap 12 -> Compound 'Soft', Wear '0.29'% | '0.26'% | '0.23'% | '0.19'%, Fuel '79.45' Kg, PitStop 'No', Time '01:26.060' ms
+Lap 13 -> Compound 'Soft', Wear '0.32'% | '0.29'% | '0.24'% | '0.21'%, Fuel '77.56' Kg, PitStop 'No', Time '01:26.092' ms
+Lap 14 -> Compound 'Soft', Wear '0.34'% | '0.31'% | '0.26'% | '0.22'%, Fuel '75.67' Kg, PitStop 'No', Time '01:26.098' ms
+Lap 15 -> Compound 'Soft', Wear '0.36'% | '0.33'% | '0.28'% | '0.24'%, Fuel '73.78' Kg, PitStop 'No', Time '01:26.120' ms
+Lap 16 -> Compound 'Soft', Wear '0.39'% | '0.35'% | '0.3'% | '0.25'%, Fuel '71.9' Kg, PitStop 'No', Time '01:26.152' ms
+Lap 17 -> Compound 'Soft', Wear '0.41'% | '0.37'% | '0.32'% | '0.27'%, Fuel '70.01' Kg, PitStop 'No', Time '01:26.182' ms
+Lap 18 -> Compound 'Soft', Wear '0.44'% | '0.39'% | '0.34'% | '0.28'%, Fuel '68.12' Kg, PitStop 'No', Time '01:26.222' ms
+Lap 19 -> Compound 'Soft', Wear '0.46'% | '0.42'% | '0.36'% | '0.3'%, Fuel '66.23' Kg, PitStop 'No', Time '01:26.284' ms
+Lap 20 -> Compound 'Soft', Wear '0.48'% | '0.44'% | '0.38'% | '0.32'%, Fuel '64.34' Kg, PitStop 'No', Time '01:26.332' ms
+Lap 21 -> Compound 'Soft', Wear '0.51'% | '0.46'% | '0.39'% | '0.33'%, Fuel '62.45' Kg, PitStop 'No', Time '01:26.366' ms
+Lap 22 -> Compound 'Soft', Wear '0.53'% | '0.48'% | '0.41'% | '0.35'%, Fuel '60.56' Kg, PitStop 'No', Time '01:26.424' ms
+Lap 23 -> Compound 'Soft', Wear '0.56'% | '0.5'% | '0.43'% | '0.36'%, Fuel '58.67' Kg, PitStop 'No', Time '01:26.492' ms
+Lap 24 -> Compound 'Medium', Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '56.79' Kg, PitStop 'Yes', Time '01:48.906' ms
+Lap 25 -> Compound 'Medium', Wear '0.01'% | '0.01'% | '0.01'% | '0.01'%, Fuel '54.9' Kg, PitStop 'No', Time '01:23.838' ms
+Lap 26 -> Compound 'Medium', Wear '0.02'% | '0.02'% | '0.02'% | '0.02'%, Fuel '53.01' Kg, PitStop 'No', Time '01:23.772' ms
+Lap 27 -> Compound 'Medium', Wear '0.03'% | '0.03'% | '0.03'% | '0.02'%, Fuel '51.12' Kg, PitStop 'No', Time '01:23.692' ms
+Lap 28 -> Compound 'Medium', Wear '0.05'% | '0.04'% | '0.04'% | '0.03'%, Fuel '49.23' Kg, PitStop 'No', Time '01:23.636' ms
+Lap 29 -> Compound 'Medium', Wear '0.06'% | '0.06'% | '0.05'% | '0.04'%, Fuel '47.34' Kg, PitStop 'No', Time '01:23.580' ms
+Lap 30 -> Compound 'Medium', Wear '0.07'% | '0.07'% | '0.05'% | '0.05'%, Fuel '45.45' Kg, PitStop 'No', Time '01:23.500' ms
+Lap 31 -> Compound 'Medium', Wear '0.08'% | '0.08'% | '0.06'% | '0.05'%, Fuel '43.57' Kg, PitStop 'No', Time '01:23.422' ms
+Lap 32 -> Compound 'Medium', Wear '0.09'% | '0.09'% | '0.07'% | '0.06'%, Fuel '41.68' Kg, PitStop 'No', Time '01:23.356' ms
+Lap 33 -> Compound 'Medium', Wear '0.1'% | '0.1'% | '0.08'% | '0.07'%, Fuel '39.79' Kg, PitStop 'No', Time '01:23.290' ms
+Lap 34 -> Compound 'Medium', Wear '0.11'% | '0.11'% | '0.09'% | '0.08'%, Fuel '37.9' Kg, PitStop 'No', Time '01:23.222' ms
+Lap 35 -> Compound 'Medium', Wear '0.13'% | '0.12'% | '0.1'% | '0.09'%, Fuel '36.01' Kg, PitStop 'No', Time '01:23.168' ms
+Lap 36 -> Compound 'Medium', Wear '0.14'% | '0.13'% | '0.11'% | '0.09'%, Fuel '34.12' Kg, PitStop 'No', Time '01:23.092' ms
+Lap 37 -> Compound 'Medium', Wear '0.15'% | '0.14'% | '0.12'% | '0.1'%, Fuel '32.23' Kg, PitStop 'No', Time '01:23.026' ms
+Lap 38 -> Compound 'Medium', Wear '0.16'% | '0.15'% | '0.13'% | '0.11'%, Fuel '30.35' Kg, PitStop 'No', Time '01:22.962' ms
+Lap 39 -> Compound 'Medium', Wear '0.17'% | '0.17'% | '0.14'% | '0.12'%, Fuel '28.46' Kg, PitStop 'No', Time '01:22.908' ms
+Lap 40 -> Compound 'Medium', Wear '0.18'% | '0.18'% | '0.15'% | '0.12'%, Fuel '26.57' Kg, PitStop 'No', Time '01:22.830' ms
+Lap 41 -> Compound 'Medium', Wear '0.19'% | '0.19'% | '0.16'% | '0.13'%, Fuel '24.68' Kg, PitStop 'No', Time '01:22.770' ms
+Lap 42 -> Compound 'Medium', Wear '0.21'% | '0.2'% | '0.16'% | '0.14'%, Fuel '22.79' Kg, PitStop 'No', Time '01:22.704' ms
+Lap 43 -> Compound 'Medium', Wear '0.22'% | '0.21'% | '0.17'% | '0.15'%, Fuel '20.9' Kg, PitStop 'No', Time '01:22.642' ms
+Lap 44 -> Compound 'Medium', Wear '0.23'% | '0.22'% | '0.18'% | '0.16'%, Fuel '19.01' Kg, PitStop 'No', Time '01:22.580' ms
+Lap 45 -> Compound 'Medium', Wear '0.24'% | '0.23'% | '0.19'% | '0.16'%, Fuel '17.13' Kg, PitStop 'No', Time '01:22.504' ms
+Lap 46 -> Compound 'Medium', Wear '0.25'% | '0.24'% | '0.2'% | '0.17'%, Fuel '15.24' Kg, PitStop 'No', Time '01:22.444' ms
+Lap 47 -> Compound 'Medium', Wear '0.26'% | '0.25'% | '0.21'% | '0.18'%, Fuel '13.35' Kg, PitStop 'No', Time '01:22.382' ms
+Lap 48 -> Compound 'Medium', Wear '0.27'% | '0.26'% | '0.22'% | '0.19'%, Fuel '11.46' Kg, PitStop 'No', Time '01:22.324' ms
+Lap 49 -> Compound 'Medium', Wear '0.29'% | '0.28'% | '0.23'% | '0.19'%, Fuel '9.57' Kg, PitStop 'No', Time '01:22.278' ms
+Lap 50 -> Compound 'Medium', Wear '0.3'% | '0.29'% | '0.24'% | '0.2'%, Fuel '7.68' Kg, PitStop 'No', Time '01:22.220' ms
+Lap 51 -> Compound 'Medium', Wear '0.31'% | '0.3'% | '0.25'% | '0.21'%, Fuel '5.79' Kg, PitStop 'No', Time '01:22.162' ms
+Lap 52 -> Compound 'Medium', Wear '0.32'% | '0.31'% | '0.26'% | '0.22'%, Fuel '3.91' Kg, PitStop 'No', Time '01:22.106' ms
+Lap 53 -> Compound 'Medium', Wear '0.33'% | '0.32'% | '0.27'% | '0.23'%, Fuel '2.02' Kg, PitStop 'No', Time '01:22.050' ms
