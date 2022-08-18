@@ -628,7 +628,7 @@ class GeneticSolver:
             pitStop = strategy['PitStop'][lap]
             old_compound = strategy['TyreCompound'][lap-1]
             compound = strategy['TyreCompound'][lap]
-            tyresAge = strategy['TyreAge'][lap]
+            tyresAge = strategy['TyreAge'][lap-1]
             
             ### We have two options: either there is a pitstop or the compound has changes, if so we have to recalculate all
             if pitStop or old_compound != compound or any([x >= 0.8 for x in strategy['TyreWear'][lap-1].values()]):
