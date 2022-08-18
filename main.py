@@ -120,7 +120,7 @@ def main():
                 laps = genetic.numLaps
                 strategy, timing = bruteforce_strategy
                 for lap in range(laps):
-                    f.write(f"Lap {lap+1}/{laps} -> Compound: '{strategy[lap]['Compound']}', TyresAge: {strategy[lap]['TyresAge']} Laps, TyresWear: FL:{strategy[lap]['TyresWear']['FL']*100}% FR:{strategy[lap]['TyresWear']['FR']*100}% RL:{strategy[lap]['TyresWear']['RL']*100} RR:{strategy[lap]['TyresWear']['RR']*100}%, FuelLoad: {strategy[lap]['FuelLoad']} Kg, PitStop: {'Yes' if strategy[lap]['PitStop'] else 'No'}, LapTime: {ms_to_time(strategy[lap]['LapTime'])} (hh:)mm:ss.ms\n")
+                    f.write(f"Lap {lap+1}/{laps} -> Compound: '{strategy[lap]['Compound']}', TyresAge: {strategy[lap]['TyresAge']} Laps, TyresWear: FL:{round(strategy[lap]['TyresWear']['FL']*100,1)}% FR:{round(strategy[lap]['TyresWear']['FR']*100,1)}% RL:{round(strategy[lap]['TyresWear']['RL']*100,1)} RR:{round(strategy[lap]['TyresWear']['RR']*100,1)}%, FuelLoad: {strategy[lap]['FuelLoad']} Kg, PitStop: {'Yes' if strategy[lap]['PitStop'] else 'No'}, LapTime: {ms_to_time(strategy[lap]['LapTime'])} (hh:)mm:ss.ms\n")
                 t = f"{int(timing):,}".replace(",", " ")
                 f.write(f"\nFitness: {t}\n")
                 f.write(f"Total time: {ms_to_time(timing)}")
