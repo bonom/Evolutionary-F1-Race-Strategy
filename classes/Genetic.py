@@ -160,6 +160,7 @@ class GeneticSolver:
         counter = 0
         stuck_value = 0
         boxplot_df = None
+        prev = {}
 
         # initial population of random bitstring
         population = self.initSolver()
@@ -187,23 +188,10 @@ class GeneticSolver:
                 # Gathering the first solution from population at gen^th generation
                 if gen == 0:
                     best, best_eval = self.getBest(population)
-                    prev = {}
                 else:
                     best, best_eval = self.getBest(population, best)
 
                 _, temp_best_eval = self.getBest(population)
-
-                if gen != 0 and prev_temp < temp_best_eval:
-                    print("Something is wrong")
-
-                prev_temp = temp_best_eval
-
-                if prev == best_eval:
-                    counter += 1
-                else:
-                    counter = 0
-                
-                prev = best_eval
 
                 # Select parents
                 selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=threshold_quantile, best = best_eval)
@@ -260,11 +248,12 @@ class GeneticSolver:
                 # Check for new best solution
                 fitness_values.append(temp_best_eval)
 
-                bar.set_description(f"{gen}/{self.iterations} - BF: {ms_to_time(bf_time)}, Best: {ms_to_time(best_eval)}, Difference: {ms_to_time(best_eval-bf_time)}, Threshold: {threshold_quantile}, Stuck: {stuck_value}, Non-random: {round(len(population)/self.population,2)}%")
-                bar.refresh()
-                string = f'[EA] Generation {gen+1} - Bruteforce solution: {ms_to_time(bf_time)} -> best overall: {ms_to_time(best_eval)} - best of generation: {ms_to_time(temp_best_eval)} - population size ratio {round(len(population)/self.population,2)}% | threshold is {threshold_quantile} - counter = {counter}/{(self.iterations)//100} - stuck value = {stuck_value}'
-                #print("\n"+string)
-                self.log.write(string+"\n")
+                if prev == best_eval:
+                    counter += 1
+                else:
+                    counter = 0
+                
+                prev = best_eval
 
                 if counter == 0:
                     threshold_quantile = 0.3
@@ -294,6 +283,12 @@ class GeneticSolver:
                     print("\n"+string)
                     self.log.write(string+"\n")
                     break
+
+                bar.set_description(f"{gen}/{self.iterations} - BF: {ms_to_time(bf_time)}, Best: {ms_to_time(best_eval)}, Difference: {ms_to_time(best_eval-bf_time)}, Threshold: {threshold_quantile}, Stuck: {stuck_value}, Non-random: {round(len(population)/self.population,2)}%")
+                bar.refresh()
+                string = f'[EA] Generation {gen+1} - Bruteforce solution: {ms_to_time(bf_time)} -> best overall: {ms_to_time(best_eval)} - best of generation: {ms_to_time(temp_best_eval)} - population size ratio {round(len(population)/self.population,2)}% | threshold is {threshold_quantile} - counter = {counter}/{(self.iterations)//100} - stuck value = {stuck_value}'
+                #print("\n"+string)
+                self.log.write(string+"\n")
                 
         except KeyboardInterrupt:
             pass 
