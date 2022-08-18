@@ -306,7 +306,7 @@ class GeneticSolver:
 
 
         for lap in range(len(best['TyreCompound'])):
-            string = f"Lap {lap+1} -> Compound '{best['TyreCompound'][lap]}', TyresAge {best['TyreAge'][lap]}, Wear '{round(best['TyreWear'][lap]['FL'],2)}'% | '{round(best['TyreWear'][lap]['FR'],2)}'% | '{round(best['TyreWear'][lap]['RL'],2)}'% | '{round(best['TyreWear'][lap]['RR'],2)}'%, Fuel '{round(best['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if best['PitStop'][lap] else 'No'}', Time '{ms_to_time(best['LapTime'][lap])}' ms"
+            string = f"Lap {lap+1} -> Compound '{best['TyreCompound'][lap]}', TyresAge {best['TyreAge'][lap]}, Wear '{round(best['TyreWear'][lap]['FL'],2)*100}'% | '{round(best['TyreWear'][lap]['FR'],2)*100}'% | '{round(best['TyreWear'][lap]['RL'],2)*100}'% | '{round(best['TyreWear'][lap]['RR'],2)*100}'%, Fuel '{round(best['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if best['PitStop'][lap] else 'No'}', Time '{ms_to_time(best['LapTime'][lap])}' ms"
             print(string)
             self.log.write(string+"\n")
 
