@@ -744,7 +744,7 @@ class GeneticSolver:
                 temp_tree.pop()
 
         for lap, strategy in enumerate(STRATEGY):
-            print(f"Lap {lap+1}/{self.numLaps} -> Compound: '{strategy['Compound']}', TyresAge: {strategy['TyresAge']} Laps, TyresWear: {strategy['TyresWear']}, FuelLoad: {strategy['FuelLoad']} Kg, PitStop: {'Yes' if strategy['PitStop'] else 'No'}, LapTime: {ms_to_time(strategy['LapTime'])} (hh:)mm:ss.ms")
+            print(f"Lap {lap+1} -> Compound '{strategy['TyreCompound'][lap]}', TyresAge {strategy['TyreAge'][lap]}, Wear '{round(strategy['TyreWear'][lap]['FL'],2)}'% | '{round(strategy['TyreWear'][lap]['FR'],2)}'% | '{round(strategy['TyreWear'][lap]['RL'],2)}'% | '{round(strategy['TyreWear'][lap]['RR'],2)}'%, Fuel '{round(strategy['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if strategy['PitStop'][lap] else 'No'}', Time '{ms_to_time(strategy['LapTime'][lap])}' ms")
         print(f"Computed in time {ms_to_time(round(1000*(time.time()-timer_start)))}")
         print(f"Total time {ms_to_time(MIN_LAP_TIME)}")
         ### Find the best solution
