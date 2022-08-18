@@ -306,7 +306,7 @@ class GeneticSolver:
 
 
         for lap in range(len(best['TyreCompound'])):
-            string = f"Lap {lap+1} -> Compound '{best['TyreCompound'][lap]}', TyresAge {best['TyreAge'][lap]}, Wear '{round(best['TyreWear'][lap]['FL'],2)*100}'% | '{round(best['TyreWear'][lap]['FR'],2)*100}'% | '{round(best['TyreWear'][lap]['RL'],2)*100}'% | '{round(best['TyreWear'][lap]['RR'],2)*100}'%, Fuel '{round(best['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if best['PitStop'][lap] else 'No'}', Time '{ms_to_time(best['LapTime'][lap])}' ms"
+            string = f"Lap {lap+1} -> Compound '{best['TyreCompound'][lap]}', TyresAge {best['TyreAge'][lap]}, Wear '{round(best['TyreWear'][lap]['FL']*100,1)}'% | '{round(best['TyreWear'][lap]['FR']*100,1)}'% | '{round(best['TyreWear'][lap]['RL']*100,1)}'% | '{round(best['TyreWear'][lap]['RR']*100,1)}'%, Fuel '{round(best['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if best['PitStop'][lap] else 'No'}', Time '{ms_to_time(best['LapTime'][lap])}' ms"
             print(string)
             self.log.write(string+"\n")
 
@@ -674,7 +674,7 @@ class GeneticSolver:
         if total_time > MIN_LAP_TIME or pitStop_count > 2:
             return 
 
-        if any([x >= 0.8 for x in temp_tree[-1]['TyresWear'].values()]):
+        if any([x >= 0.8 for x in temp_tree[-1]['TyreWear'].values()]):
             return 
 
         if lap == self.numLaps:
@@ -693,12 +693,12 @@ class GeneticSolver:
             for index, compound in enumerate(['Soft', 'Medium', 'Hard']):
                 if compound == temp_tree[-1]['Compound']:
                     for pitStop in [True, False]:
-                        node = {'Compound':compound, 'TyresWear': self.getTyreWear(compound, tyres_age+1 if not pitStop else 0), 'TyresAge':tyres_age+1 if not pitStop else 0, 'FuelLoad':fuel_load, 'PitStop':pitStop, 'LapTime': self.getLapTime(compound=compound, compoundAge=tyres_age+1 if not pitStop else 0, lap=lap, fuel_load=fuel_load, conditions=self.weather[:lap], drs=False, pitStop=pitStop)}
+                        node = {'Compound':compound, 'TyreWear': self.getTyreWear(compound, tyres_age+1 if not pitStop else 0), 'TyreAge':tyres_age+1 if not pitStop else 0, 'FuelLoad':fuel_load, 'PitStop':pitStop, 'LapTime': self.getLapTime(compound=compound, compoundAge=tyres_age+1 if not pitStop else 0, lap=lap, fuel_load=fuel_load, conditions=self.weather[:lap], drs=False, pitStop=pitStop)}
                         temp_tree.append(node)
                         self.build_tree(temp_tree,tyres_age+1 if not pitStop else 0, lap+1)
                         temp_tree.pop()
                 else:
-                    node = {'Compound':compound, 'TyresWear': self.getTyreWear(compound, 0), 'TyresAge':0, 'FuelLoad':fuel_load, 'PitStop':True, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=lap, fuel_load=fuel_load, conditions=self.weather[:lap], drs=False, pitStop=True)}
+                    node = {'Compound':compound, 'TyreWear': self.getTyreWear(compound, 0), 'TyreAge':0, 'FuelLoad':fuel_load, 'PitStop':True, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=lap, fuel_load=fuel_load, conditions=self.weather[:lap], drs=False, pitStop=True)}
                     temp_tree.append(node)
                     self.build_tree(temp_tree, 0, lap+1)
                     temp_tree.pop()
@@ -707,12 +707,12 @@ class GeneticSolver:
             for index, compound in enumerate(['Inter', 'Wet']):
                 if compound == temp_tree[-1]['Compound']:
                     for pitStop in [True, False]:
-                        node = {'Compound':compound, 'TyresWear': self.getTyreWear(compound, tyres_age+1 if not pitStop else 0), 'TyresAge':tyres_age+1 if not pitStop else 0, 'FuelLoad':fuel_load, 'PitStop':pitStop, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=lap, fuel_load=fuel_load, conditions=self.weather[:lap], drs=False, pitStop=pitStop)}
+                        node = {'Compound':compound, 'TyreWear': self.getTyreWear(compound, tyres_age+1 if not pitStop else 0), 'TyreAge':tyres_age+1 if not pitStop else 0, 'FuelLoad':fuel_load, 'PitStop':pitStop, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=lap, fuel_load=fuel_load, conditions=self.weather[:lap], drs=False, pitStop=pitStop)}
                         temp_tree.append(node)
                         self.build_tree(temp_tree, tyres_age+1 if not pitStop else 0, lap+1)
                         temp_tree.pop()
                 else:
-                    node = {'Compound':compound, 'TyresWear': self.getTyreWear(compound, 0), 'TyresAge':0, 'FuelLoad':fuel_load, 'PitStop':True, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=lap, fuel_load=fuel_load, conditions=self.weather[:lap], drs=False, pitStop=True)}
+                    node = {'Compound':compound, 'TyreWear': self.getTyreWear(compound, 0), 'TyreAge':0, 'FuelLoad':fuel_load, 'PitStop':True, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=lap, fuel_load=fuel_load, conditions=self.weather[:lap], drs=False, pitStop=True)}
                     temp_tree.append(node)
                     self.build_tree(temp_tree, 0, lap+1)
                     temp_tree.pop()
@@ -730,7 +730,7 @@ class GeneticSolver:
             for compound in ['Soft','Medium','Hard']:  
                 start_t = time.time()
                 print(f"[Bruteforce] Started computing for '{compound}'...")
-                temp_tree.append({'Compound':compound, 'TyresWear': self.getTyreWear(compound, 0), 'TyresAge':0, 'FuelLoad':START_FUEL, 'PitStop':False, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=0, fuel_load=START_FUEL, conditions=[self.weather[0]],drs=False, pitStop=False)})
+                temp_tree.append({'Compound':compound, 'TyreWear': self.getTyreWear(compound, 0), 'TyreAge':0, 'FuelLoad':START_FUEL, 'PitStop':False, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=0, fuel_load=START_FUEL, conditions=[self.weather[0]],drs=False, pitStop=False)})
                 self.build_tree(temp_tree, 0, 1)
                 print(f"\033[A\033[K[Bruteforce] {compound} done in {ms_to_time(round(1000*(time.time()-start_t)))}")
                 temp_tree.pop()
@@ -738,13 +738,13 @@ class GeneticSolver:
             for compound in ['Inter', 'Wet']:
                 start_t = time.time()
                 print(f"[Bruteforce] Started computing for '{compound}'...",end="\r")
-                temp_tree.append({'Compound':compound, 'TyresWear': self.getTyreWear(compound, 0), 'TyresAge':0, 'FuelLoad':START_FUEL, 'PitStop':False, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=0, fuel_load=START_FUEL, conditions=[self.weather[0]], drs=False, pitStop=False)})
+                temp_tree.append({'Compound':compound, 'TyreWear': self.getTyreWear(compound, 0), 'TyreAge':0, 'FuelLoad':START_FUEL, 'PitStop':False, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=0, fuel_load=START_FUEL, conditions=[self.weather[0]], drs=False, pitStop=False)})
                 self.build_tree(temp_tree, 0, 1)
                 print(f"[Bruteforce] {compound} done in {ms_to_time(round(1000*(time.time()-start_t)))}")
                 temp_tree.pop()
 
         for lap, strategy in enumerate(STRATEGY):
-            print(f"Lap {lap+1} -> Compound '{strategy['TyreCompound'][lap]}', TyresAge {strategy['TyreAge'][lap]}, Wear '{round(strategy['TyreWear'][lap]['FL'],2)}'% | '{round(strategy['TyreWear'][lap]['FR'],2)}'% | '{round(strategy['TyreWear'][lap]['RL'],2)}'% | '{round(strategy['TyreWear'][lap]['RR'],2)}'%, Fuel '{round(strategy['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if strategy['PitStop'][lap] else 'No'}', Time '{ms_to_time(strategy['LapTime'][lap])}' ms")
+            print(f"Lap {lap+1} -> Compound '{strategy['Compound']}', TyresAge {strategy['TyreAge']}, Wear '{round(strategy['TyreWear']['FL']*100,1)}'% | '{round(strategy['TyreWear']['FR']*100,1)}'% | '{round(strategy['TyreWear']['RL']*100,1)}'% | '{round(strategy['TyreWear']['RR']*100,1)}'%, Fuel '{round(strategy['FuelLoad'],2)}' Kg, PitStop '{'Yes' if strategy['PitStop'] else 'No'}', Time '{ms_to_time(strategy['LapTime'])}' ms")
         print(f"Computed in time {ms_to_time(round(1000*(time.time()-timer_start)))}")
         print(f"Total time {ms_to_time(MIN_LAP_TIME)}")
         ### Find the best solution

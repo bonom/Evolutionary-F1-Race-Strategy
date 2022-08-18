@@ -75,41 +75,12 @@ def main():
     for circuit in circuits:
         car:Car = get_car_data(circuit)
 
-        #_circuit = circuit.split("\\")[-1] if os.name == 'nt' else circuit.split("/")[-1]
-        # _lap_ = 5
-
-        # print(f"Soft time at lap {_lap_} {ms_to_time(car.predict_laptime('Soft', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
-        # print(f"Medium time at lap {_lap_} {ms_to_time(car.predict_laptime('Medium', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
-        # print(f"Hard time at lap {_lap_} {ms_to_time(car.predict_laptime('Hard', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}\n")
-
-        # _lap_ = 10
-
-        # print(f"Soft time at lap {_lap_} {ms_to_time(car.predict_laptime('Soft', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
-        # print(f"Medium time at lap {_lap_} {ms_to_time(car.predict_laptime('Medium', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
-        # print(f"Hard time at lap {_lap_} {ms_to_time(car.predict_laptime('Hard', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}\n")
-
-        # _lap_ = 20
-
-        # print(f"Soft time at lap {_lap_} {ms_to_time(car.predict_laptime('Soft', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
-        # print(f"Medium time at lap {_lap_} {ms_to_time(car.predict_laptime('Medium', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
-        # print(f"Hard time at lap {_lap_} {ms_to_time(car.predict_laptime('Hard', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}\n")
-
-        # _lap_ = 30
-
-        # print(f"Soft time at lap {_lap_} {ms_to_time(car.predict_laptime('Soft', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
-        # print(f"Medium time at lap {_lap_} {ms_to_time(car.predict_laptime('Medium', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}")
-        # print(f"Hard time at lap {_lap_} {ms_to_time(car.predict_laptime('Hard', _lap_, _lap_, 101, ['Dry' for _ in range(_lap_)], _circuit))}\n")
-
-        # sys.exit(0)
         #race_data:RaceData = RaceData(circuit)
         #race_data.plot(path=circuit)
         
         _circuit = circuit.split("\\")[-1] if os.name == 'nt' else circuit.split("/")[-1]
 
         genetic = GeneticSolver(population=50, mutation_pr=0.9, crossover_pr=0.4, iterations=500, car=car, circuit=_circuit)
-        
-        #genetic.fixed_strategy(compund_list=['Soft','Medium',], stop_lap=19)
-        #exit()
 
         bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.txt")
         if os.path.isfile(bruteforce_save_path):
@@ -120,7 +91,7 @@ def main():
                 laps = genetic.numLaps
                 strategy, timing = bruteforce_strategy
                 for lap in range(laps):
-                    f.write(f"Lap {lap+1}/{laps} -> Compound: '{strategy[lap]['Compound']}', TyresAge: {strategy[lap]['TyresAge']} Laps, TyresWear: FL:{round(strategy[lap]['TyresWear']['FL']*100,1)}% FR:{round(strategy[lap]['TyresWear']['FR']*100,1)}% RL:{round(strategy[lap]['TyresWear']['RL']*100,1)} RR:{round(strategy[lap]['TyresWear']['RR']*100,1)}%, FuelLoad: {strategy[lap]['FuelLoad']} Kg, PitStop: {'Yes' if strategy[lap]['PitStop'] else 'No'}, LapTime: {ms_to_time(strategy[lap]['LapTime'])} (hh:)mm:ss.ms\n")
+                    f.write(f"Lap {lap+1}/{laps} -> Compound: '{strategy[lap]['Compound']}', TyreAge: {strategy[lap]['TyreAge']} Laps, TyreWear: FL:{round(strategy[lap]['TyreWear']['FL']*100,1)}% FR:{round(strategy[lap]['TyreWear']['FR']*100,1)}% RL:{round(strategy[lap]['TyreWear']['RL']*100,1)} RR:{round(strategy[lap]['TyreWear']['RR']*100,1)}%, FuelLoad: {strategy[lap]['FuelLoad']} Kg, PitStop: {'Yes' if strategy[lap]['PitStop'] else 'No'}, LapTime: {ms_to_time(strategy[lap]['LapTime'])} (hh:)mm:ss.ms\n")
                 t = f"{int(timing):,}".replace(",", " ")
                 f.write(f"\nFitness: {t}\n")
                 f.write(f"Total time: {ms_to_time(timing)}")
