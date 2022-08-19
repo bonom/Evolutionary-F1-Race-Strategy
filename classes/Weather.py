@@ -12,7 +12,12 @@ class Weather:
 
         ### HARDCODED FOR DEBUG PURPOSES:
         for lap in range(1, self.numLaps + 1):
-            self.weather[lap] = 0
+            if lap < 20 or lap > 55:
+                self.weather[lap] = 0
+            elif lap < 45:
+                self.weather[lap] = lap*5 if lap*5 < 100 else 100
+            elif lap < 55:
+                self.weather[lap] = (55-lap)*5
         return 
         ###
         if input(f"Do you want to insert manually the weather data for '{circuit}'? (y/n) ") in ['y', 'Y', 'S', 's']:
@@ -25,7 +30,7 @@ class Weather:
                         self.weather[lap] = random.randint(70,100)
             else:
                 for lap in range(1, self.numLaps + 1):
-                    self.weather[lap] = input(f"Lap {lap} has rain in percentage (0-100): ") 
+                    self.weather[lap] = int(input(f"Lap {lap} has rain in percentage (0-100): ") )
         else:
             for lap in range(1, self.numLaps + 1):
                 self.weather[lap] = random.randint(0, 100)

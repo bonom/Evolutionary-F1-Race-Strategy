@@ -146,6 +146,11 @@ class GeneticSolver:
         all_compounds = set(strategy['TyreCompound'])
         last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
         
+        if any([x != 'Dry' for x in strategy['Weather']]):
+            if last_lap_fuel_load >= 0:
+                strategy['Valid'] = True
+                return True
+        
         if len(all_compounds) > 1 and last_lap_fuel_load >= 0:
             strategy['Valid'] = True
             return True
@@ -199,7 +204,6 @@ class GeneticSolver:
                 
                 # Create the next generation
                 children = [parent for parent in selected]
-
 
                 if len(selected) > self.population:
                     selected = selected[:self.population]
@@ -448,9 +452,13 @@ class GeneticSolver:
         oldCompound = usedTyres[lap]
 
         compoundRandom = self.randomCompound(child['Weather'][lap])
+        weather = child['Weather'][lap]
 
-        while oldCompound == compoundRandom:
-            compoundRandom = self.randomCompound(child['Weather'][lap])
+        if weather in ['Dry','Dry/Wet']:
+            while oldCompound == compoundRandom:
+                compoundRandom = self.randomCompound(weather)
+        else:
+            compoundRandom = self.randomCompound(weather)
         
         child['TyreCompound'][lap] = compoundRandom
 
