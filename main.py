@@ -121,9 +121,6 @@ def main():
         fit_gen_boxplot.update_layout(xaxis_title="Generation", yaxis_title="Fitness")
         fit_gen_boxplot.write_html(os.path.join(circuit, "Boxplot_fitnesses.html"))
 
-        #fit_boxplot = px.box(fitness_data, y="Fitness", title="Fitnesses boxplot")
-        #fit_boxplot.write_html(os.path.join(circuit, "Fitnesses_boxplot.html"))
-
         y_values = []
         minutes_worst = int(max(fitness_data["Fitness"])/1000)//60 - 59
         minutes_best = min(int(best_eval/1000), int(bf_time_in_ms/1000))//60 - 61
@@ -157,7 +154,6 @@ def main():
         if input(f"\nDo you want to see the plots for {_circuit}? (Y/n) ").lower() == "y":
             print(f"Plotting for {_circuit}...")
             fit_gen_boxplot.show()
-            #fit_boxplot.show()
             fit_line.show()
         
     

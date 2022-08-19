@@ -381,7 +381,7 @@ def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[], race
     #status = status.loc[status["CarIndex"] == car_index, ['FrameIdentifier','FuelInTank','VisualTyreCompound']].drop_duplicates(['FrameIdentifier'], keep="last")
     #(px.line(status, x="FrameIdentifier", y="FuelInTank", title="Fuel", color="VisualTyreCompound", color_discrete_sequence=px.colors.sequential.RdBu)).show()
     
-    pass
+    #pass
     ### DEBUG ###
     
     
