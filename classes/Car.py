@@ -119,15 +119,18 @@ class Car:
                 for t_data in val:
                     fuel_consume['Wet'].append(t_data['Fuel'].values)
 
-        for key, vals in fuel_consume.items():
-            for consume in vals:
-                coefficients = np.polyfit(np.arange(1,len(consume)+1), consume, 1)
-                
-                if self.fuel_consume_coeff[key] == 0:
-                    self.fuel_consume_coeff[key] = coefficients[0]
-                else:
-                    old_coeff = self.fuel_consume_coeff[key]
-                    self.fuel_consume_coeff[key] = (old_coeff+coefficients[0])/2
+        for key, vals in fuel_consume.items():       
+            if len(vals) == 0:
+                self.fuel_consume_coeff[key] = (abs(self.fuel_consume_coeff['Dry'])+1)/2
+            else:
+                for consume in vals:
+                    coefficients = np.polyfit(np.arange(1,len(consume)+1), consume, 1)
+                    
+                    if self.fuel_consume_coeff[key] == 0:
+                        self.fuel_consume_coeff[key] = coefficients[0]
+                    else:
+                        old_coeff = self.fuel_consume_coeff[key]
+                        self.fuel_consume_coeff[key] = (old_coeff+coefficients[0])/2
 
     def compute_missing_wear_coeff(self,):
         tyres = ['Soft', 'Medium', 'Hard', 'Inter', 'Wet']
@@ -272,9 +275,9 @@ class Car:
         weight = init_fuel
         for condition in conditions:
             if condition == "Dry/Wet":
-                weight-= abs((self.fuel_consume_coeff["Dry"] + self.fuel_consume_coeff["Wet"])/2)
+                weight-= (abs(self.fuel_consume_coeff["Dry"]) + abs(self.fuel_consume_coeff["Wet"]))/2
             elif condition == "VWet":
-                weight-= self.fuel_consume_coeff["Wet"]
+                weight-= abs(self.fuel_consume_coeff["Wet"])
             else:
                 weight-= abs(self.fuel_consume_coeff[condition])
         

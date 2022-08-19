@@ -105,8 +105,8 @@ class GeneticSolver:
         return self.car.time_diff['Soft']
 
     def getFuelLoad(self, initial_fuel:float, conditions:list) :
-        conditions = [self.weather.get_weather_string(c) for c in conditions]
-        return round(self.car.predict_fuel_weight(initial_fuel, conditions), 2)
+        weather = [self.weather.get_weather_string(c) for c in conditions]
+        return round(self.car.predict_fuel_weight(initial_fuel, weather), 2)
     
     def getInitialFuelLoad(self, conditions:list):
         conditions = [self.weather.get_weather_string(c) for c in conditions]
@@ -580,7 +580,8 @@ class GeneticSolver:
         return [p1,p2]
 
     def correct_strategy(self, strategy:dict, index:int=0):
-        initialFuelLoad = strategy['FuelLoad'][0]
+        initialFuelLoad = round(strategy['FuelLoad'][0],2)
+        strategy['FuelLoad'][0] = initialFuelLoad
         pitStopCounter = 0
         
         if index != 0 and index != self.numLaps:
@@ -625,8 +626,9 @@ class GeneticSolver:
             strategy['TyreWear'][lap] = tyreWear
             strategy['TyreAge'][lap] = tyresAge
             strategy['LapTime'][lap] = timing
-            if weather[-1]>40 and fuelLoad > 0:
-                pass
+
+            # if abs(strategy['FuelLoad'][lap-1]-strategy['FuelLoad'][lap]) < 1 and strategy['FuelLoad'][lap-1] > 0 and strategy['FuelLoad'][lap] > 0:
+            #     self.getFuelLoad(initial_fuel=initialFuelLoad, conditions=weather)
 
         strategy['NumPitStop'] = pitStopCounter
         strategy['TotalTime'] = sum(strategy['LapTime'])
