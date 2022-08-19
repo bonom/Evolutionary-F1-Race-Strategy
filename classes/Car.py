@@ -302,13 +302,20 @@ class Car:
 
         return {'FL':fl, 'FR':fr, 'RL':rl, 'RR':rr, 'Total':fl+fr+rl+rr}
 
-    def predict_laptime(self, tyre:str, tyre_age:int, lap:int, start_fuel:float, conditions:list, drs:bool=False):
+    def predict_laptime(self, tyre:str, tyre_age:int, lap:int, start_fuel:float, conditions_str:list, conditions_int:int, drs:bool=False):
         compound_time_lose = self.time_diff[tyre] if tyre != "Soft" else 0
-        fuel_time_lose = self.predict_fuel_time_lose(self.predict_fuel_weight(start_fuel, conditions))
+        fuel_time_lose = self.predict_fuel_time_lose(self.predict_fuel_weight(start_fuel, conditions_str))
         tyre_wear_time_lose = self.predict_tyre_time_lose(tyre, tyre_age)['Total']
         drs_lose = self.drs_lose if drs else 0
 
-        return round(self.time_diff['Soft'] + compound_time_lose + fuel_time_lose + tyre_wear_time_lose + drs_lose)
+        weather_time = 0
+
+        if tyre in ['Soft', 'Medium', 'Hard'] and conditions_int > 30:#
+            weather_time = np.exp(conditions_int*0.06)*0.5 *1000
+            if lap > 25:
+                pass
+
+        return round(self.time_diff['Soft'] + compound_time_lose + fuel_time_lose + tyre_wear_time_lose + drs_lose + weather_time)
 
     def save(self, path:str):
         with open(os.path.join(path,"Car.json"), 'wb') as f:

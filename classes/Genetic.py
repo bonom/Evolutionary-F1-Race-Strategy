@@ -80,8 +80,8 @@ class GeneticSolver:
         self.numLaps = CIRCUIT[circuit]['Laps']
         self.iterations = iterations
         self.car:Car = car
-        weather = Weather(circuit, self.numLaps)
-        self.weather = weather.get_weather_list()
+        self.weather = Weather(circuit, self.numLaps)
+        #self.weather = self.weather.get_weather_percentage_list()
 
         # For the log.txt
         path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -105,22 +105,28 @@ class GeneticSolver:
         return self.car.time_diff['Soft']
 
     def getFuelLoad(self, initial_fuel:float, conditions:list) :
+        conditions = [self.weather.get_weather_string(c) for c in conditions]
         return round(self.car.predict_fuel_weight(initial_fuel, conditions), 2)
     
     def getInitialFuelLoad(self, conditions:list):
+        conditions = [self.weather.get_weather_string(c) for c in conditions]
         return round(self.car.predict_starting_fuel(conditions), 2)
 
     def getWearTimeLose(self, compound:str, lap:int):
         return self.car.predict_tyre_time_lose(compound, lap)
         
     def getFuelTimeLose(self, lap:int=0, fuel_load:float=0, initial_fuel:float=0, conditions:list=None):
+        conditions = [self.weather.get_weather_string(c) for c in conditions]
         if fuel_load == 0:
             fuel_load = self.getFuelLoad(lap, initial_fuel, conditions)
         
         return self.car.predict_fuel_time_lose(fuel_load)
     
     def getLapTime(self, compound:str, compoundAge:int, lap:int, fuel_load:float, conditions:list, drs:bool, pitStop:bool) -> int:
-        time = self.car.predict_laptime(tyre=compound, tyre_age=compoundAge, lap=lap, start_fuel=fuel_load, conditions=conditions, drs=drs)
+        conditions_int = conditions[-1]
+        conditions_str = [self.weather.get_weather_string(c) for c in conditions]
+
+        time = self.car.predict_laptime(tyre=compound, tyre_age=compoundAge, lap=lap, start_fuel=fuel_load, conditions_str=conditions_str, conditions_int=conditions_int, drs=drs)
 
         if pitStop:
             time += self.pitStopTime
@@ -145,15 +151,17 @@ class GeneticSolver:
     def checkValidity(self, strategy:dict):
         all_compounds = set(strategy['TyreCompound'])
         last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
+        weather = strategy['Weather']
 
-        if any([x != 'Dry' for x in strategy['Weather']]):
-            if last_lap_fuel_load >= 0:
+        if any([x != 'Dry' for x in strategy['Weather']]): # If weather is not completely Dry the constraint of changing tyre does not apply anymore
+            if any([x > 30 for x in strategy['Weather']]) and any([x in ['Inter','Wet'] for x in all_compounds]) and last_lap_fuel_load >= 0:
                 strategy['Valid'] = True
                 return True
         
-        if len(all_compounds) > 1 and last_lap_fuel_load >= 0:
-            strategy['Valid'] = True
-            return True
+        else:
+            if len(all_compounds) > 1 and last_lap_fuel_load >= 0:
+                strategy['Valid'] = True
+                return True
         
         strategy['Valid'] = False 
         return False
@@ -272,11 +280,15 @@ class GeneticSolver:
                     self.log.write(string+"\n")                    
                     break
 
-                bar.set_description(f"{gen}/{self.iterations} - BF: {ms_to_time(bf_time)}, Best: {ms_to_time(best_eval)}, Difference: {ms_to_time(best_eval-bf_time)}, Threshold: {threshold_quantile}, Stuck: {stuck_value}, Non-random: {round(len(population)/self.population,2)}%")
+                bar.set_description(f"{gen}/{self.iterations} - BF: {ms_to_time(bf_time)}, Best: {ms_to_time(best_eval)}, Difference: {ms_to_time(best_eval-bf_time)}, Threshold: {threshold_quantile}, Stuck: {stuck_value}, Valid strategies: {round(((sum([1 for x in children if x['Valid'] == True]))/len(children))*100,2)}%")
                 bar.refresh()
                 string = f'[EA] Generation {gen+1} - Bruteforce solution: {ms_to_time(bf_time)} -> best overall: {ms_to_time(best_eval)} - best of generation: {ms_to_time(temp_best_eval)} - population size ratio {round((len(population)/self.population)*100,1)}% | threshold is {threshold_quantile} - counter = {counter}/{(self.iterations)//100} - stuck value = {stuck_value}'
                 #print("\n"+string)
                 self.log.write(string+"\n")
+
+                for lap in range(len(best['TyreCompound'])):
+                    string = f"Lap {lap+1}: Rain {best['Weather'][lap]}% -> Compound '{best['TyreCompound'][lap]}', TyresAge {best['TyreAge'][lap]}, Wear '{round(best['TyreWear'][lap]['FL']*100,1)}'% | '{round(best['TyreWear'][lap]['FR']*100,1)}'% | '{round(best['TyreWear'][lap]['RL']*100,1)}'% | '{round(best['TyreWear'][lap]['RR']*100,1)}'%, Fuel '{round(best['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if best['PitStop'][lap] else 'No'}', Time '{ms_to_time(best['LapTime'][lap])}' ms"
+                    self.log.write(string+"\n")
                 
         except KeyboardInterrupt:
             pass 
@@ -291,7 +303,7 @@ class GeneticSolver:
 
 
         for lap in range(len(best['TyreCompound'])):
-            string = f"Lap {lap+1} -> Compound '{best['TyreCompound'][lap]}', TyresAge {best['TyreAge'][lap]}, Wear '{round(best['TyreWear'][lap]['FL']*100,1)}'% | '{round(best['TyreWear'][lap]['FR']*100,1)}'% | '{round(best['TyreWear'][lap]['RL']*100,1)}'% | '{round(best['TyreWear'][lap]['RR']*100,1)}'%, Fuel '{round(best['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if best['PitStop'][lap] else 'No'}', Time '{ms_to_time(best['LapTime'][lap])}' ms"
+            string = f"Lap {lap+1}: Rain {best['Weather'][lap]}% -> Compound '{best['TyreCompound'][lap]}', TyresAge {best['TyreAge'][lap]}, Wear '{round(best['TyreWear'][lap]['FL']*100,1)}'% | '{round(best['TyreWear'][lap]['FR']*100,1)}'% | '{round(best['TyreWear'][lap]['RL']*100,1)}'% | '{round(best['TyreWear'][lap]['RR']*100,1)}'%, Fuel '{round(best['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if best['PitStop'][lap] else 'No'}', Time '{ms_to_time(best['LapTime'][lap])}' ms"
             print(string)
             self.log.write(string+"\n")
         
@@ -309,7 +321,7 @@ class GeneticSolver:
         return strategies
 
     def randomChild(self):
-        strategy = {'TyreCompound': [], 'TyreAge':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'Weather':self.weather.copy(), 'Valid':False, 'TotalTime': np.inf}
+        strategy = {'TyreCompound': [], 'TyreAge':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'Weather':self.weather.get_weather_percentage_list(), 'Valid':False, 'TotalTime': np.inf}
 
         weather = [strategy['Weather'][0]]
 
@@ -365,24 +377,16 @@ class GeneticSolver:
         strategy['TotalTime'] = sum(strategy['LapTime'])
         return strategy
 
-    def randomCompound(self,weather:str):
-        if weather == 'Wet':
-            return 'Inter'
-        elif weather == 'VWet':
+    def randomCompound(self,weather:int):
+        string_weather = self.weather.get_weather_string(weather)
+
+        if string_weather == 'Wet':
+            return random.choice(['Inter', 'Wet'])
+        elif string_weather == 'VWet':
             return 'Wet'
-        elif weather == 'Dry/Wet':
+        elif string_weather == 'Dry/Wet':
             return random.choice(['Soft', 'Medium', 'Hard', 'Inter'])
         return random.choice(['Soft', 'Medium', 'Hard'])
-
-    def selection(self,population, percentage:float=0.4):
-        sortedPopulation = sorted(population, key=lambda x: x['TotalTime'])
-        
-        selected = [x for x in sortedPopulation if not math.isinf(x['TotalTime'])]
-        
-        if len(selected) >= int(len(population)*percentage):
-            return selected[:int(len(population)*percentage)]
-        
-        return selected
 
     def selection_dynamic_penalty(self, step:int, population:list, threshold_quantile:float, best:int):
         deltas = [abs(x['TotalTime'] - best) for x in population]
@@ -397,7 +401,7 @@ class GeneticSolver:
 
         for p, pop in zip(penalty, population):
             if not pop['Valid']:
-                if pop['NumPitStop'] < 1:
+                if pop['NumPitStop'] < 1 and all([x == 'Dry' for x in pop['Weather']]):
                     p *= alpha
                     if p == 0.0:
                         p = np.exp(alpha)
@@ -596,8 +600,9 @@ class GeneticSolver:
             return strategy
 
         for lap in range(1, self.numLaps):
+            weather = strategy['Weather'][:lap]
             ### FuelLoad keeps the same, it just needs to be corrected if changed
-            fuelLoad = self.getFuelLoad(initial_fuel=initialFuelLoad, conditions=strategy['Weather'][:lap])
+            fuelLoad = self.getFuelLoad(initial_fuel=initialFuelLoad, conditions=weather)
             strategy['FuelLoad'][lap] = fuelLoad
 
             ### Get if a pitstop is made and compound lap'
@@ -615,11 +620,13 @@ class GeneticSolver:
                 tyresAge += 1
                 
             tyreWear = self.getTyreWear(compound=compound, lap=tyresAge)
+            timing = self.getLapTime(compound=compound, compoundAge=tyresAge, lap=lap, fuel_load=fuelLoad,conditions=weather, drs=False, pitStop=pitStop)
             strategy['PitStop'][lap] = pitStop
             strategy['TyreWear'][lap] = tyreWear
             strategy['TyreAge'][lap] = tyresAge
-            weather = strategy['Weather'][:lap]
-            strategy['LapTime'][lap] = self.getLapTime(compound=compound, compoundAge=tyresAge, lap=lap, fuel_load=fuelLoad,conditions=weather, drs=False, pitStop=pitStop)
+            strategy['LapTime'][lap] = timing
+            if weather[-1]>40 and fuelLoad > 0:
+                pass
 
         strategy['NumPitStop'] = pitStopCounter
         strategy['TotalTime'] = sum(strategy['LapTime'])
