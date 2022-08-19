@@ -145,7 +145,7 @@ class GeneticSolver:
     def checkValidity(self, strategy:dict):
         all_compounds = set(strategy['TyreCompound'])
         last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
-        
+
         if any([x != 'Dry' for x in strategy['Weather']]):
             if last_lap_fuel_load >= 0:
                 strategy['Valid'] = True
@@ -454,7 +454,7 @@ class GeneticSolver:
         compoundRandom = self.randomCompound(child['Weather'][lap])
         weather = child['Weather'][lap]
 
-        if weather in ['Dry','Dry/Wet']:
+        if weather == 'Dry':
             while oldCompound == compoundRandom:
                 compoundRandom = self.randomCompound(weather)
         else:
