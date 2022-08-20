@@ -83,7 +83,7 @@ def main():
         print(f"\n-------------------{_circuit}--------------------\n")
 
 
-        genetic = GeneticSolver(population=50, mutation_pr=0.9, crossover_pr=0.4, iterations=500, car=car, circuit=_circuit)
+        genetic = GeneticSolver(population=50, mutation_pr=0.9, crossover_pr=0.4, iterations=1000, car=car, circuit=_circuit)
 
         bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.log")
         if os.path.isfile(bruteforce_save_path):

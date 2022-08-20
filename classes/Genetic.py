@@ -16,23 +16,21 @@ TYRE_WEAR_THRESHOLD = 0.3
 BEST_TIME = np.inf
 STRATEGY = None
 
-def boxplot_insert(df:dict, pop_size:int, generation:int, population:list):
+def boxplot_insert(data_list:list, pop_size:int, population:list):
     fitnesses = list()
+    pop_size = len(population)
     for idx in range(pop_size):
         if idx < len(population):
             strategy = population[idx]
             if strategy['Valid']:
-                fitnesses.append(strategy['TotalTime'])
+                fitnesses.append(strategy['TotalTime'] if strategy['TotalTime'] > 0 else np.nan)
             else:
                 fitnesses.append(np.nan)
         else:
             fitnesses.append(np.nan)
             
-    if df is not None:
-        to_add = pd.DataFrame({generation + 1 : fitnesses}, index=df.index)
-        return pd.concat([df, to_add], axis=1) 
-        
-    return pd.DataFrame({generation : fitnesses}, index=population)
+    data_list.append(fitnesses)
+    return data_list
 
 def orderOfMagnitude(number):
     order = 0
@@ -150,7 +148,7 @@ class GeneticSolver:
     def checkValidity(self, strategy:dict):
         all_compounds = set(strategy['TyreCompound'])
         last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
-        weather = strategy['Weather']
+        #weather = strategy['Weather']
 
         if any([x != 'Dry' for x in strategy['Weather']]): # If weather is not completely Dry the constraint of changing tyre does not apply anymore
             if any([x > 30 for x in strategy['Weather']]) and any([x in ['Inter','Wet'] for x in all_compounds]) and last_lap_fuel_load >= 0:
@@ -172,7 +170,7 @@ class GeneticSolver:
         threshold_quantile = 0.3
         counter = 0
         stuck_value = 0
-        boxplot_df = None
+        boxplot_list = list()
         prev = {}
 
         # initial population of random bitstring
@@ -196,7 +194,7 @@ class GeneticSolver:
                     population.pop(i)
 
                 # Storing data for boxplot
-                boxplot_df = boxplot_insert(boxplot_df, self.population, gen, population)
+                boxplot_list = boxplot_insert(boxplot_list, self.population, population)
                 
                 # Gathering the first solution from population at gen^th generation
                 if gen == 0:
@@ -279,9 +277,10 @@ class GeneticSolver:
                     self.log.write(string+"\n")                    
                     break
 
-                bar.set_description(f"{gen}/{self.iterations} - BF: {ms_to_time(bf_time)}, Best: {ms_to_time(best_eval)}, Difference: {ms_to_time(best_eval-bf_time)}, Threshold: {threshold_quantile}, Stuck: {stuck_value}, Valid strategies: {round(((sum([1 for x in children if x['Valid'] == True]))/len(children))*100,2)}%")
+                valid_strategies = round(((sum([1 for x in children if x['Valid'] == True]))/len(children))*100,2)
+                bar.set_description(f"BF: {ms_to_time(bf_time)}, Best: {ms_to_time(best_eval)}, Difference: {ms_to_time(best_eval-bf_time)}, Threshold: {threshold_quantile}, Stuck: {stuck_value}, Valid strategies: {valid_strategies}%")
                 bar.refresh()
-                string = f'[EA] Generation {gen+1} - Bruteforce solution: {ms_to_time(bf_time)} -> best overall: {ms_to_time(best_eval)} - best of generation: {ms_to_time(temp_best_eval)} - population size ratio {round((len(population)/self.population)*100,1)}% | threshold is {threshold_quantile} - counter = {counter}/{(self.iterations)//100} - stuck value = {stuck_value}'
+                string = f'[EA] Generation {gen+1} - Bruteforce solution: {ms_to_time(bf_time)} -> best overall: {ms_to_time(best_eval)} - difference: {ms_to_time(best_eval-bf_time)} - valid strategies: {valid_strategies}% | threshold is {threshold_quantile} - counter = {counter}/{(self.iterations)//100} - stuck value = {stuck_value}'
                 #print("\n"+string)
                 self.log.write(string+"\n")
 
@@ -309,6 +308,21 @@ class GeneticSolver:
         string = f"Time elapsed: {ms_to_time(round(end_timer*1000))}"
         print("\n"+string)
         self.log.write("\n"+string+"\n")
+
+        #boxplot_dict = {'Generation' : range(len(boxplot_list)), 'Fitness' : boxplot_list}
+        #print
+        #boxplot_df = pd.DataFrame(boxplot_dict)
+
+        boxplot_df = pd.DataFrame(index=range(len(boxplot_list)))
+        for i in range(max([len(x) for x in boxplot_list])):
+            for j in range(len(boxplot_list)):
+                try:
+                    boxplot_df.at[j,i] = boxplot_list[j][i]
+                except:
+                    pass
+
+        print(boxplot_df)
+        boxplot_df.to_csv("boxplot.csv")
 
         return best, best_eval, boxplot_df, fit_dict
 
