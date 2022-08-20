@@ -10,13 +10,13 @@ class Weather:
         self.numLaps = laps
         self.weather = []
 
-        ### HARDCODED FOR DEBUG PURPOSES:
-        for lap in range(self.numLaps+2):
-            if lap < 20 or lap > 55:
-                self.weather.append(100)
-            else:
-                self.weather.append(0)
-        return 
+        ### HARDCODED FOR DEBUG PURPOSES
+        # for lap in range(self.numLaps+2):
+        #     if lap < 20 or lap > 55:
+        #         self.weather.append(100)
+        #     else:
+        #         self.weather.append(0)
+        # return 
         ###
         if input(f"Do you want to insert manually the weather data for '{circuit}'? (y/n) ") in ['y', 'Y', 'S', 's']:
             if input(f"Do you want the race to be completely sunny or completely wet? (y/n) ") in ['y', 'Y', 'S', 's']:
