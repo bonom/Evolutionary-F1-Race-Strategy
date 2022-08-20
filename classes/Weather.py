@@ -10,6 +10,15 @@ class Weather:
         self.numLaps = laps
         self.weather = []
 
+        file = "weather/weather.txt"
+        with open(file, 'r') as f:
+            for line in f:
+                self.weather.append(int(line.strip()))
+
+        print(self.weather)
+
+        return
+
         ### HARDCODED FOR DEBUG PURPOSES
         # for lap in range(self.numLaps+2):
         #     if lap < 20 or lap > 55:
