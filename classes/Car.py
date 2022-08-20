@@ -313,10 +313,18 @@ class Car:
 
         weather_time = 0
 
-        if tyre in ['Soft', 'Medium', 'Hard'] and conditions_int > 30:#
-            weather_time = np.exp(conditions_int*0.06)*0.5 *1000
-            if lap > 25:
-                pass
+        if conditions_int > 0:
+            if tyre in ['Soft', 'Medium', 'Hard']:#
+                weather_time = np.exp(conditions_int*0.06)*0.5 *1000
+
+            if conditions_int > 60 and tyre == 'Inter':
+                weather_time = np.exp((conditions_int-60)*0.06)*0.5 *1000
+        
+        else:
+            if tyre == 'Inter':
+                weather_time = np.exp(conditions_int*0.04)*0.5 *1000
+            elif tyre == 'Wet':
+                weather_time = np.exp(conditions_int*0.06)*0.5 *1000
 
         return round(self.time_diff['Soft'] + compound_time_lose + fuel_time_lose + tyre_wear_time_lose + drs_lose + weather_time)
 

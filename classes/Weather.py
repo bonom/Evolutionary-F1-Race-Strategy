@@ -11,7 +11,7 @@ class Weather:
         self.weather = []
 
         ### HARDCODED FOR DEBUG PURPOSES:
-        for lap in range(1, self.numLaps + 1):
+        for lap in range(self.numLaps+1):
             if lap < 20 or lap > 55:
                 self.weather.append(0)
             elif lap < 45 and lap > 19:

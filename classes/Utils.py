@@ -112,18 +112,20 @@ def gray_to_int(n:str) -> int:
     return int(tobinarystr(n), 2)
 
 class Log():
-    def __init__(self, path:str):
-        self.path = os.path.join(path, 'log.txt')
+    def __init__(self, path:str, circuit:str):
+        self.path = os.path.join(path, datetime.now().strftime('%H%M%S') + '.txt')
 
-        if os.path.exists(self.path):
-            print(f"Log file already exists at {self.path}, are you sure you want to overwrite it? [Y/n]", end=" ")
-            if input().lower() == 'y':
-                os.remove(self.path)
-            else:
-                sys.exit(0)
-        
         if not os.path.exists(os.path.dirname(self.path)):
             os.makedirs(os.path.dirname(self.path))
+
+        if os.path.exists(self.path):
+            print(f"Log file already exists at {self.path}, do you want to overwrite? [Y/n]", end=" ")
+            if input().lower() == 'y':
+                os.remove(self.path)
+            elif input().lower() == 'n':
+                sys.exit(0)
+
+        self.write(f"Log file circuit {circuit} at datetime {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\n")
 
 
     def write(self, msg:str):
