@@ -14,11 +14,8 @@ class Weather:
         with open(file, 'r') as f:
             for line in f:
                 self.weather.append(int(line.strip()))
-
-        #print(self.weather)
-
+        
         return
-
         if input(f"Do you want to insert manually the weather data for '{circuit}'? (y/n) ") in ['y', 'Y', 'S', 's']:
             if input(f"Do you want the race to be completely sunny or completely wet? (y/n) ") in ['y', 'Y', 'S', 's']:
                 if input(f"Do you want a total SUNNY race? (y/n) ") in ['y', 'Y', 'S', 's']:
