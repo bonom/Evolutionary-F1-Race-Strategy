@@ -86,9 +86,7 @@ def main():
         genetic = GeneticSolver(population=50, mutation_pr=0.9, crossover_pr=0.4, iterations=1000, car=car, circuit=_circuit)
 
         bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.log")
-        if os.path.isfile(bruteforce_save_path):
-            print(f"Bruteforce results for {_circuit} are already calculated in '{bruteforce_save_path}'.\n")
-        else:
+        if not os.path.isfile(bruteforce_save_path):
             bruteforce_strategy = genetic.lower_bound()
             with open(bruteforce_save_path, "a") as f:
                 laps = genetic.numLaps
@@ -104,6 +102,8 @@ def main():
         
         bf_time = lines[-1].split(" ")
         bf_time_in_ms = time_to_ms(bf_time[-1])
+
+        print(f"Lower bound: {ms_to_time(bf_time_in_ms)}\n")
 
         best, best_eval, boxplot_data, fitness_data = genetic.startSolver(bf_time = bf_time_in_ms) 
         
