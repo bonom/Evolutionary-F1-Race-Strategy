@@ -286,9 +286,9 @@ class GeneticSolver:
                 #print("\n"+string)
                 self.log.write(string+"\n")
 
-                for lap in range(len(best['TyreCompound'])):
-                    string = f"Lap {lap+1}: Rain {best['Weather'][lap]}% -> Compound '{best['TyreCompound'][lap]}', TyresAge {best['TyreAge'][lap]}, Wear '{round(best['TyreWear'][lap]['FL']*100,1)}'% | '{round(best['TyreWear'][lap]['FR']*100,1)}'% | '{round(best['TyreWear'][lap]['RL']*100,1)}'% | '{round(best['TyreWear'][lap]['RR']*100,1)}'%, Fuel '{round(best['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if best['PitStop'][lap] else 'No'}', Time '{ms_to_time(best['LapTime'][lap])}' ms"
-                    self.log.write(string+"\n")
+                #for lap in range(len(best['TyreCompound'])):
+                #    string = f"Lap {lap+1}: Rain {best['Weather'][lap]}% -> Compound '{best['TyreCompound'][lap]}', TyresAge {best['TyreAge'][lap]}, Wear '{round(best['TyreWear'][lap]['FL']*100,1)}'% | '{round(best['TyreWear'][lap]['FR']*100,1)}'% | '{round(best['TyreWear'][lap]['RL']*100,1)}'% | '{round(best['TyreWear'][lap]['RR']*100,1)}'%, Fuel '{round(best['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if best['PitStop'][lap] else 'No'}', Time '{ms_to_time(best['LapTime'][lap])}' ms"
+                #    self.log.write(string+"\n")
                 
         except KeyboardInterrupt:
             pass 
@@ -323,7 +323,7 @@ class GeneticSolver:
     def randomChild(self):
         strategy = {'TyreCompound': [], 'TyreAge':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'Weather':self.weather.get_weather_percentage_list(), 'Valid':False, 'TotalTime': np.inf}
 
-        weather = [strategy['Weather'][0]]
+        weather = strategy['Weather'][:1]
 
         ### Get a random compound and verify that we can use it, if so we update the used compounds list and add the compound to the strategy
         compound = self.randomCompound(weather[0])
