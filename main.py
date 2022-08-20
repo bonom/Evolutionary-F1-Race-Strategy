@@ -73,14 +73,15 @@ def main():
             print(f"Invalid circuit path: {path}")
     
     for circuit in circuits:
-        print(f"\n-------------------{circuit}--------------------\n")
-
         car:Car = get_car_data(circuit)
 
         #race_data:RaceData = RaceData(circuit)
         #race_data.plot(path=circuit)
         
         _circuit = circuit.split("\\")[-1] if os.name == 'nt' else circuit.split("/")[-1]
+
+        print(f"\n-------------------{_circuit}--------------------\n")
+
 
         genetic = GeneticSolver(population=50, mutation_pr=0.9, crossover_pr=0.4, iterations=500, car=car, circuit=_circuit)
 
