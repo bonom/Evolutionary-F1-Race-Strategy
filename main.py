@@ -73,6 +73,8 @@ def main():
             print(f"Invalid circuit path: {path}")
     
     for circuit in circuits:
+        print(f"\n-------------------{circuit}--------------------\n")
+
         car:Car = get_car_data(circuit)
 
         #race_data:RaceData = RaceData(circuit)
@@ -82,7 +84,7 @@ def main():
 
         genetic = GeneticSolver(population=50, mutation_pr=0.9, crossover_pr=0.4, iterations=500, car=car, circuit=_circuit)
 
-        bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.txt")
+        bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.log")
         if os.path.isfile(bruteforce_save_path):
             print(f"Bruteforce results for {_circuit} are already calculated in '{bruteforce_save_path}'.\n")
         else:
