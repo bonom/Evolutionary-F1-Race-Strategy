@@ -17,9 +17,12 @@ BEST_TIME = np.inf
 STRATEGY = None
 
 def boxplot_insert(data_list:list, population:list):
-    fitnesses = list()
-    for strategy in population:
+    population = sorted(population, key=lambda x: x['TotalTime'])
 
+    fitnesses = list()
+    counter = 0
+
+    for strategy in population:
         timing = strategy['TotalTime']
         if strategy['Valid'] and timing > 0:
             fitnesses.append(strategy['TotalTime'])
@@ -204,6 +207,9 @@ class GeneticSolver:
                 # Select parents
                 selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=threshold_quantile, best = best_eval)
                 
+                """
+                ### INITIAL ONE
+
                 # Create the next generation
                 children = [parent for parent in selected]
 
@@ -214,9 +220,9 @@ class GeneticSolver:
                     for i in range(0, len(selected)-2, 2): # why not 1? I know there will be 2*population length - 2 but maybe it is good
                         # Get selected parents in pairs
                         p1, p2 = copy.deepcopy(selected[i]), copy.deepcopy(selected[i+1])
+
                         # Crossover 
                         for c in self.crossover(p1, p2):
-                            # Mutation
                             children.append(c)
 
                         # Mutation
@@ -225,7 +231,29 @@ class GeneticSolver:
 
                         for l in self.mutation(selected[i+1]):
                             children.append(l)
+                """
 
+                ### Stable population
+
+                parents = [parent for parent in selected[:int(self.population*2/13)]]
+                children = copy.deepcopy(parents)
+
+                for i in range(0, len(parents)-1, 2): 
+                    p1, p2 = copy.deepcopy(parents[i]), copy.deepcopy(parents[i+1])
+
+                    for c in self.crossover(p1, p2):
+                        children.append(c)
+                    
+                    for l in self.mutation(parents[i]):
+                        children.append(l)
+                    
+                    for l in self.mutation(parents[i+1]):
+                        children.append(l)
+                
+                if len(children) > self.population:
+                    print(f"Error")
+                    input()
+                
                 # Add random children to the population if the population is not full
                 for _ in range(self.population-len(children)):
                     children.append(self.randomChild())
@@ -588,10 +616,8 @@ class GeneticSolver:
         # check for recombination
         if random.random() < self.mu:
             c1, c2 = self.crossover_fuel(c1, c2)
-            return [c1, c2]
-            #return [self.correct_strategy(c1), self.correct_strategy(c2)]
         
-        return [p1,p2]
+        return [c1,c2]
 
     def correct_strategy(self, strategy:dict, index:int=0):
         initialFuelLoad = round(strategy['FuelLoad'][0],2)

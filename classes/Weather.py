@@ -10,7 +10,7 @@ class Weather:
         self.numLaps = laps
         self.weather = []
 
-        file = "weather/weather.txt"
+        file = "weather/sunny.txt"
         with open(file, 'r') as f:
             for line in f:
                 self.weather.append(int(line.strip()))
