@@ -319,12 +319,18 @@ class Car:
 
             if conditions_int > 60 and tyre == 'Inter':
                 weather_time = np.exp((conditions_int-60)*0.06)*0.5 *1000
+
+        if tyre == 'Inter':
+            if conditions_int < 40:
+                invert_conditions_inter = 40-conditions_int
+                weather_time = np.exp(invert_conditions_inter*0.06)*0.5 *1000
         
-        else:
-            if tyre == 'Inter':
-                weather_time = np.exp(conditions_int*0.04)*0.5 *1000
-            elif tyre == 'Wet':
-                weather_time = np.exp(conditions_int*0.06)*0.5 *1000
+        if tyre == 'Wet':
+            if conditions_int < 70:
+                invert_conditions_wet = 70-conditions_int
+                weather_time = np.exp(invert_conditions_wet*0.06)*0.5 *1000
+            
+        
 
         return round(self.time_diff['Soft'] + compound_time_lose + fuel_time_lose + tyre_wear_time_lose + drs_lose + weather_time)
 
