@@ -18,7 +18,7 @@ class Weather:
         #        self.weather.append((lap-19)*5 if (lap-19)*5 < 100 else 100)
         #    elif lap < 55 and lap > 44:
         #        self.weather.append((55-lap)*5)
-        return 
+        #return 
         ###
         if input(f"Do you want to insert manually the weather data for '{circuit}'? (y/n) ") in ['y', 'Y', 'S', 's']:
             if input(f"Do you want the race to be completely sunny or completely wet? (y/n) ") in ['y', 'Y', 'S', 's']:
