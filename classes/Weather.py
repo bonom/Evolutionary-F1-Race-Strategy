@@ -11,7 +11,7 @@ class Weather:
         self.weather = []
 
         ### HARDCODED FOR DEBUG PURPOSES:
-        for lap in range(self.numLaps+1):
+        for lap in range(self.numLaps+2):
             if lap < 20 or lap > 55:
                 self.weather.append(0)
             elif lap < 45 and lap > 19:
@@ -23,16 +23,16 @@ class Weather:
         if input(f"Do you want to insert manually the weather data for '{circuit}'? (y/n) ") in ['y', 'Y', 'S', 's']:
             if input(f"Do you want the race to be completely sunny or completely wet? (y/n) ") in ['y', 'Y', 'S', 's']:
                 if input(f"Do you want a total SUNNY race? (y/n) ") in ['y', 'Y', 'S', 's']:
-                    for lap in range(1, self.numLaps + 1):
+                    for lap in range(self.numLaps + 2):
                         self.weather.append(0)
                 else:
-                    for lap in range(1, self.numLaps + 1):
+                    for lap in range(self.numLaps + 2):
                         self.weather.append(random.randint(70,100))
             else:
-                for lap in range(1, self.numLaps + 1):
+                for lap in range(self.numLaps + 2):
                     self.weather.append(int(input(f"Lap {lap} has rain in percentage (0-100): ") ))
         else:
-            for lap in range(1, self.numLaps + 1):
+            for lap in range(self.numLaps + 2):
                 self.weather.append(random.randint(0, 100))
 
     def get_weather_string(self, w):
