@@ -1,35 +1,52 @@
-import numpy as np
+import os, sys
+from classes.Utils import CIRCUIT
 from random import SystemRandom
 random = SystemRandom()
 
-from classes.Utils import CIRCUIT
-
 
 class Weather:
-    def __init__(self, circuit, laps) -> None:
-        self.numLaps = laps
-        self.weather = []
+    def __init__(self, circuit:str, filename:str=None) -> None:
 
-        file = "weather/sunny.txt"
+        if filename is None:
+            path = os.path.join('Data',circuit,'Weather')
+
+            if not os.path.exists(path):
+                print(f"Path '{path}' does not exists.")
+                sys.exit(1)
+
+            files = os.listdir(path)
+
+            if '.DS_Store' in files:
+                files.remove('.DS_Store')
+
+            if len(files) == 0:
+                print(f"There are no available weathers for circuit '{circuit}'. Insert them and run again")
+                sys.exit(1)
+
+            print(f"Available weathers for circuit '{circuit}': ")
+            for idx, w in enumerate(files):
+                print(f"{idx+1}. {w}")
+            
+            index = int(input(f"\nSelect weather by number: "))
+            file = os.path.join(path, files[index-1])
+
+            self.filename = files[index-1]
+        
+        else:
+            file = os.path.join('Data',circuit,'Weather',filename)
+            if not os.path.exists(file):
+                print(f"Path '{file}' does not exists.")
+                sys.exit(1)
+            self.filename = filename[:-4]
+            
+        self.weather = []
+        
         with open(file, 'r') as f:
             for line in f:
                 self.weather.append(int(line.strip()))
-        
-        return
-        if input(f"Do you want to insert manually the weather data for '{circuit}'? (y/n) ") in ['y', 'Y', 'S', 's']:
-            if input(f"Do you want the race to be completely sunny or completely wet? (y/n) ") in ['y', 'Y', 'S', 's']:
-                if input(f"Do you want a total SUNNY race? (y/n) ") in ['y', 'Y', 'S', 's']:
-                    for lap in range(self.numLaps + 2):
-                        self.weather.append(0)
-                else:
-                    for lap in range(self.numLaps + 2):
-                        self.weather.append(random.randint(70,100))
-            else:
-                for lap in range(self.numLaps + 2):
-                    self.weather.append(int(input(f"Lap {lap} has rain in percentage (0-100): ") ))
-        else:
-            for lap in range(self.numLaps + 2):
-                self.weather.append(random.randint(0, 100))
+
+        if len(self.weather)-1 != CIRCUIT[circuit]['Laps']:
+            print(f"Weather file '{self.filename}' has {len(self.weather)-1} laps but circuit '{circuit}' has {CIRCUIT[circuit]['Laps']} laps")
 
     def get_weather_string(self, w):
         if w < 30:
@@ -48,4 +65,4 @@ class Weather:
         return self.weather
     
     def get_weather_list(self):
-        return [self.get_weather_string(i) for i in self.weather.keys()]
+        return [self.get_weather_string(i) for i in self.weather]

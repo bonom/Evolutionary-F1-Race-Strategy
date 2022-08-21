@@ -17,7 +17,7 @@
             "request": "launch",
             "program": "/Users/andreabonomi/GitHub/Bio-F1/main.py",
             "justMyCode": true,
-            "args": ["--c", "Monza"]
+            "args": ["--c", "Monza", "--w", "Sunny.txt"]
         },
         {
             "name": "[MAC] Montreal",
@@ -59,7 +59,7 @@
             "program": "d:\\Projects\\Bio-F1\\main.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["--c", "Monza"]
+            "args": ["--c", "Monza", "--w", "Sunny.txt"]
         },
         {
             "name": "[WIN] Montreal",

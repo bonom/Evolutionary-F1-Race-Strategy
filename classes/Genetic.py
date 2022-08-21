@@ -1,3 +1,5 @@
+from datetime import datetime
+import math
 import time
 import numpy as np
 import pandas as pd
@@ -67,7 +69,7 @@ def changeTyre(tyresWear:dict):
     return False
 
 class GeneticSolver:
-    def __init__(self, population:int=2, mutation_pr:float=0.75, crossover_pr:float=0.5, iterations:int=1, car:Car=None, circuit:str='') -> None:
+    def __init__(self, population:int=2, mutation_pr:float=0.75, crossover_pr:float=0.5, iterations:int=1, car:Car=None, circuit:str='', weather:str='', save_path:str='') -> None:
         self.circuit = circuit
         self.pitStopTime = CIRCUIT[circuit]['PitStopTime']
         self.availableTyres:dict = dict()
@@ -77,12 +79,11 @@ class GeneticSolver:
         self.numLaps = CIRCUIT[circuit]['Laps']+1
         self.iterations = iterations
         self.car:Car = car
-        self.weather = Weather(circuit, self.numLaps)
-        #self.weather = self.weather.get_weather_percentage_list()
+        self.weather = Weather(circuit) if weather == '' else Weather(circuit, weather)
 
-        # For the log.txt
-        path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.log = Log(os.path.join(path,'Data', circuit), circuit)
+        # For the log file
+        self.path = save_path
+        self.log = Log(save_path, values={'Circuit':circuit, 'Weather': self.weather.filename[:-4], 'PitStopTime':self.pitStopTime, 'Mutation': mutation_pr, 'Crossover': crossover_pr, 'Population': population, 'Iterations':iterations})
         
         self.mu_decay = 0.99
         self.sigma_decay = 0.99
@@ -134,9 +135,8 @@ class GeneticSolver:
         return round(time)     
 
     def getBest(self, population:list, best={'TotalTime':np.inf}):
-        idx = -1
+        
         for strategy in population:
-            idx += 1
             self.checkValidity(strategy)
             
             if strategy['Valid']:
@@ -148,9 +148,11 @@ class GeneticSolver:
     def checkValidity(self, strategy:dict):
         all_compounds = set(strategy['TyreCompound'])
         last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
-        #weather = strategy['Weather']
 
-        if any([x != 'Dry' for x in strategy['Weather']]): # If weather is not completely Dry the constraint of changing tyre does not apply anymore
+        if strategy['FuelLoad'][0] > 100:
+            pass
+
+        if any([x != 0 for x in strategy['Weather']]): # If weather is not completely Dry the constraint of changing tyre does not apply anymore
             if any([x > 30 for x in strategy['Weather']]) and any([x in ['Inter','Wet'] for x in all_compounds]) and last_lap_fuel_load >= 0:
                 strategy['Valid'] = True
                 return True
@@ -163,7 +165,7 @@ class GeneticSolver:
         strategy['Valid'] = False 
         return False
 
-    def startSolver(self,bf_time:int=0):
+    def run(self,bf_time:int=0):
         start_timer = time.time()
 
         fitness_values = list()
@@ -208,6 +210,7 @@ class GeneticSolver:
                 selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=threshold_quantile, best = best_eval)
                 
                 """
+                ######################################################################################
                 ### INITIAL ONE
 
                 # Create the next generation
@@ -231,8 +234,10 @@ class GeneticSolver:
 
                         for l in self.mutation(selected[i+1]):
                             children.append(l)
-                """
 
+                ######################################################################################
+                """
+                ######################################################################################
                 ### Stable population
 
                 parents = [parent for parent in selected[:int(self.population*2/13)]]
@@ -249,10 +254,8 @@ class GeneticSolver:
                     
                     for l in self.mutation(parents[i+1]):
                         children.append(l)
-                
-                if len(children) > self.population:
-                    print(f"Error")
-                    input()
+
+                ######################################################################################
                 
                 # Add random children to the population if the population is not full
                 for _ in range(self.population-len(children)):
@@ -328,6 +331,8 @@ class GeneticSolver:
                     boxplot_df.at[i,j] = boxplot_list[j][i]
                 except:
                     pass
+
+        boxplot_df.to_csv(os.path.join(self.path,'Boxplot.csv'))
 
         return best, best_eval, boxplot_df, fit_dict
 
@@ -418,6 +423,7 @@ class GeneticSolver:
         quantile = np.quantile(penalty, threshold_quantile)
 
         for p, pop in zip(penalty, population):
+            self.checkValidity(pop)
             if not pop['Valid']:
                 if pop['NumPitStop'] < 1 and all([x == 'Dry' for x in pop['Weather']]):
                     p *= alpha
@@ -438,10 +444,11 @@ class GeneticSolver:
         for x in sortedPopulation:
             x.pop('Penalty')
 
-        if len(selected) <= 1:
-            threshold_quantile+=0.01
-            return self.selection_dynamic_penalty(step, population, threshold_quantile, best)
-        
+        #if len(selected) <= 1:
+        #    if threshold_quantile < 0.99:
+        #        return self.selection_dynamic_penalty(step, population, threshold_quantile+0.01, best)
+        #    else:
+        #        return None
         
         return selected
 

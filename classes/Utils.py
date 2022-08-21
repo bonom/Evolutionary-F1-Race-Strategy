@@ -112,8 +112,8 @@ def gray_to_int(n:str) -> int:
     return int(tobinarystr(n), 2)
 
 class Log():
-    def __init__(self, path:str, circuit:str):
-        self.path = os.path.join(path, datetime.now().strftime('%H%M%S') + '.txt')
+    def __init__(self, path:str, values:dict):
+        self.path = os.path.join(path, 'Log.log')
 
         if not os.path.exists(os.path.dirname(self.path)):
             os.makedirs(os.path.dirname(self.path))
@@ -125,14 +125,13 @@ class Log():
             elif input().lower() == 'n':
                 sys.exit(0)
 
-        self.write(f"Log file circuit {circuit} at datetime {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\n")
+        self.write(f"Log file of circuit {values['Circuit']} at {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\n\n")
+        self.write(f"Population: {values['Population']}\nIterations: {values['Iterations']}\nMutation: {values['Mutation']}\nCrossover: {values['Crossover']}\nPitStopTime: {ms_to_time(values['PitStopTime'])}\nWeather: '{values['Weather']}'\n\n")
 
 
     def write(self, msg:str):
         with open(self.path, 'a') as f:
             f.write(msg)
-        #f.close()
-
 
 
 class CustomFormatter(logging.Formatter):
@@ -216,6 +215,9 @@ def time_to_ms(string):
     #print(hours, minutes, seconds, milliseconds)
 
 def ms_to_time(ms):
+    if math.isinf(ms):
+        return "Inf"
+
     milliseconds = str(ms)[-3:]
     ms = ms-int(milliseconds)
     seconds = int((ms/1000)%60)
