@@ -77,7 +77,7 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
     
     for circuit in circuits:
         _circuit = circuit.split("\\")[-1] if os.name == 'nt' else circuit.split("/")[-1]
-        save_path = os.path.join(base_path, _circuit, datetime.now().strftime("%H_%M_%S"))
+        save_path = os.path.join(base_path, _circuit, datetime.now().strftime("%Y_%m_%d %H_%M_%S"))
 
         while not os.path.exists(os.path.dirname(save_path)):
             os.makedirs(os.path.dirname(save_path))
