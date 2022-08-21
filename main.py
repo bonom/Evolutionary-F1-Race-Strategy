@@ -1,3 +1,4 @@
+import math
 import sys, os
 import pandas as pd
 from datetime import datetime
@@ -112,8 +113,6 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         bf_time_in_ms = time_to_ms(bf_time[-1])
 
         print(f"Lower bound: {ms_to_time(bf_time_in_ms)}\n")
-
-        sys.exit(0)
 
         best, best_eval, boxplot_data, fitness_data = genetic.run(bf_time = bf_time_in_ms) 
         

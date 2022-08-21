@@ -265,7 +265,7 @@ class GeneticSolver:
                 population = copy.deepcopy(children)
 
                 # Check for new best solution
-                fitness_values.append(temp_best_eval)
+                fitness_values.append(temp_best_eval if not math.isinf(temp_best_eval) else np.nan)
 
                 if prev == best_eval:
                     counter += 1
