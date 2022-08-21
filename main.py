@@ -87,11 +87,11 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         #race_data:RaceData = RaceData(circuit)
         #race_data.plot(path=circuit)
         
-        
-
         print(f"\n-------------------{_circuit}--------------------\n")
 
         genetic = GeneticSolver(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, car=car, circuit=_circuit, save_path=save_path, weather=weather)
+
+        #genetic.fixed_strategy(['Soft','Hard','Soft'], [18,31])
 
         bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.log")
         if not os.path.isfile(bruteforce_save_path):
@@ -112,6 +112,8 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         bf_time_in_ms = time_to_ms(bf_time[-1])
 
         print(f"Lower bound: {ms_to_time(bf_time_in_ms)}\n")
+
+        sys.exit(0)
 
         best, best_eval, boxplot_data, fitness_data = genetic.run(bf_time = bf_time_in_ms) 
         

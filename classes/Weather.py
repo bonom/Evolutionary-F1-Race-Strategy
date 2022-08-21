@@ -45,8 +45,8 @@ class Weather:
             for line in f:
                 self.weather.append(int(line.strip()))
 
-        if len(self.weather)-1 != CIRCUIT[circuit]['Laps']:
-            print(f"Weather file '{self.filename}' has {len(self.weather)-1} laps but circuit '{circuit}' has {CIRCUIT[circuit]['Laps']} laps")
+        if len(self.weather) != CIRCUIT[circuit]['Laps']:
+            print(f"Weather file '{self.filename}' has {len(self.weather)} laps but circuit '{circuit}' has {CIRCUIT[circuit]['Laps']} laps.")
 
     def get_weather_string(self, w):
         if w < 30:
