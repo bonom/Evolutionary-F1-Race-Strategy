@@ -1,6 +1,6 @@
 import math
 import sys, os
-import pandas as pd
+import numpy as np
 from datetime import datetime
 from classes.Genetic import GeneticSolver
 from classes.Car import get_car_data, Car
@@ -11,6 +11,8 @@ import linecache
 import os
 import tracemalloc
 import argparse
+
+from classes.Weather import weather_summary
 
 ### To suppress plotly warnings
 import warnings
@@ -29,9 +31,10 @@ parser = argparse.ArgumentParser(description='Process F1 Data.')
 parser.add_argument('--c', type=str, default=None, help='Circuit path')
 parser.add_argument('--pop', type=int, default=100, help='Population')
 parser.add_argument('--mu', type=float, default=0.9, help='Mutation probability value')
-parser.add_argument('--cross', type=float, default=0.5, help='Crossover probability value')
+parser.add_argument('--cross', type=float, default=0.7, help='Crossover probability value')
 parser.add_argument('--i', type=int, default=1000, help='Iterations')
 parser.add_argument('--w', type=str, default=None, help='Weather file')
+parser.add_argument('--d', action='store_true', default=False, help='Data Collection mode')
 args = parser.parse_args()
 
 def display_top(snapshot, key_type='lineno', limit=3):
@@ -92,7 +95,10 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
 
         genetic = GeneticSolver(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, car=car, circuit=_circuit, save_path=save_path, weather=weather)
 
-        #genetic.fixed_strategy(['Soft','Hard','Soft'], [18,31])
+        # print(ms_to_time(genetic.getLapTime('Medium', 0, 0, 104.94, [0], False, False)))
+        # print(ms_to_time(genetic.getLapTime('Medium', 0, 0, 104.96, [0], False, False)))
+
+        # sys.exit(0)
 
         bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.log")
         if not os.path.isfile(bruteforce_save_path):
@@ -114,7 +120,7 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
 
         print(f"Lower bound: {ms_to_time(bf_time_in_ms)}\n")
 
-        best, best_eval, boxplot_data, fitness_data = genetic.run(bf_time = bf_time_in_ms) 
+        best, best_eval, boxplot_data, fitness_data, timer = genetic.run(bf_time = bf_time_in_ms) 
         
         print(f"\n------------------------------------------------\n")
         print(f"EA timing: {ms_to_time(best_eval)}")
@@ -142,7 +148,10 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         
         fitness_data['LapTime'] = []
         for val in fitness_data['Fitness']:
-            fitness_data['LapTime'].append(ms_to_time(val))
+            if not math.isnan(val) or not math.isinf(val):
+                fitness_data['LapTime'].append(ms_to_time(val))
+            else:
+                fitness_data['LapTime'].append(np.nan)
 
         fit_line = px.line(fitness_data, x="Generation", y="Fitness", title=f"Line plot fitnesses for {_circuit}")#, color="Fitness")
         fit_line.add_hline(y=bf_time_in_ms, line_color="red", annotation_text=f"Bruteforce time -> {bf_time[-1]}", annotation_position="top left")
@@ -163,16 +172,63 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         
         fit_line.write_html(os.path.join(save_path, "Line_plot_fitnesses.html"))
 
-        if input(f"\nDo you want to see the plots for {_circuit}? (Y/n) ").lower() == "y":
-            print(f"Plotting for {_circuit}...")
-            fit_gen_boxplot.show()
-            fit_line.show()
+        #if input(f"\nDo you want to see the plots for {_circuit}? (Y/n) ").lower() == "y":
+        #    print(f"Plotting for {_circuit}...")
+        #    fit_gen_boxplot.show()
+        #    fit_line.show()
         
     
     print(f"\n----------------------END-----------------------\n")
-    return
+    return best, best_eval, bf_time_in_ms, save_path, timer
 
-if __name__ == "__main__":    
+if __name__ == "__main__":  
     os.system('cls' if os.name == 'nt' else 'clear')
-    main(population=args.pop, mutation_pr=args.mu, crossover_pr=args.cross, iterations=args.i, weather=args.w, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
+
+    population = args.pop
+    iterations = args.i
+    mutation_pr = args.mu
+    crossover_pr = args.cross
+    weather = args.w
+    circuit = args.c
+
+    wsummary = weather_summary(circuit=circuit, weather_file=weather)
+    output_path = os.path.join("Outputs",circuit)
+
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+    
+    if not os.path.isfile(os.path.join(output_path, f"{circuit}.csv")):
+        with open(os.path.join(output_path, f"{circuit}.csv"), "w") as f:
+            f.write("Population,Iterations,Mutation,Crossover,EA Fitness,BF Fitness,EA timing,BF Timing,Timer,Weather,Save Path\n")
+
+    if args.d:
+        counter = 0
+        while True:
+            counter += 1
+            strategy, timing, bruteforce_time, log_path, timer = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, weather=weather, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
+           
+            log_path = log_path.replace("\\", "/").split("/")[-1]
+        
+            with open(os.path.join(output_path, f"{circuit}.csv"), "a") as f:
+                f.write(f"{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(round(timer*1000))},")
+                for w in wsummary:
+                    f.write(f"{w} ")
+                f.write(f",{log_path}\n")
+
+            if counter > 10:
+                break
+
+    else:
+        strategy, timing, bruteforce_time, log_path, timer = main(population=args.pop, mutation_pr=args.mu, crossover_pr=args.cross, iterations=args.i, weather=args.w, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
+
+        log_path = log_path.replace("\\", "/").split("/")[-1]
+        
+        with open(os.path.join(output_path, f"{circuit}.csv"), "a") as f:
+            f.write(f"{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(round(timer*1000))},")
+            for w in wsummary:
+                f.write(f"{w} ")
+            f.write(f",{log_path}\n")
+
+
+
     sys.exit(0)

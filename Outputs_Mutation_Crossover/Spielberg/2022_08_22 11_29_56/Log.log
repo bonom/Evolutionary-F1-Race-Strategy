@@ -1,0 +1,590 @@
+Log file of circuit Spielberg at 22/08/2022 11:29:56
+
+Population: 50
+Iterations: 500
+Mutation: 0.1
+Crossover: 0.8
+PitStopTime: 00:21.000
+Weather: 'S'
+
+[EA] Generation 1 - Bruteforce solution: 01:19:53.058 -> best overall: 01:36:51.335 - difference: 16:58.277 - valid strategies: 8.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 2 - Bruteforce solution: 01:19:53.058 -> best overall: 01:34:57.377 - difference: 15:04.319 - valid strategies: 6.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 3 - Bruteforce solution: 01:19:53.058 -> best overall: 01:34:57.377 - difference: 15:04.319 - valid strategies: 16.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 4 - Bruteforce solution: 01:19:53.058 -> best overall: 01:34:57.377 - difference: 15:04.319 - valid strategies: 14.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 5 - Bruteforce solution: 01:19:53.058 -> best overall: 01:34:57.377 - difference: 15:04.319 - valid strategies: 20.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 6 - Bruteforce solution: 01:19:53.058 -> best overall: 01:34:57.377 - difference: 15:04.319 - valid strategies: 26.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 7 - Bruteforce solution: 01:19:53.058 -> best overall: 01:33:42.109 - difference: 13:49.051 - valid strategies: 12.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 8 - Bruteforce solution: 01:19:53.058 -> best overall: 01:33:42.109 - difference: 13:49.051 - valid strategies: 8.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 9 - Bruteforce solution: 01:19:53.058 -> best overall: 01:33:42.109 - difference: 13:49.051 - valid strategies: 8.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 10 - Bruteforce solution: 01:19:53.058 -> best overall: 01:33:42.109 - difference: 13:49.051 - valid strategies: 6.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 11 - Bruteforce solution: 01:19:53.058 -> best overall: 01:33:42.109 - difference: 13:49.051 - valid strategies: 10.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 12 - Bruteforce solution: 01:19:53.058 -> best overall: 01:33:21.820 - difference: 13:28.762 - valid strategies: 14.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 13 - Bruteforce solution: 01:19:53.058 -> best overall: 01:33:02.702 - difference: 13:09.644 - valid strategies: 16.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 14 - Bruteforce solution: 01:19:53.058 -> best overall: 01:33:02.702 - difference: 13:09.644 - valid strategies: 12.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 15 - Bruteforce solution: 01:19:53.058 -> best overall: 01:32:34.063 - difference: 12:41.005 - valid strategies: 18.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 16 - Bruteforce solution: 01:19:53.058 -> best overall: 01:32:32.512 - difference: 12:39.454 - valid strategies: 26.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 17 - Bruteforce solution: 01:19:53.058 -> best overall: 01:31:17.742 - difference: 11:24.684 - valid strategies: 26.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 18 - Bruteforce solution: 01:19:53.058 -> best overall: 01:31:17.742 - difference: 11:24.684 - valid strategies: 22.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 19 - Bruteforce solution: 01:19:53.058 -> best overall: 01:31:17.742 - difference: 11:24.684 - valid strategies: 24.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 20 - Bruteforce solution: 01:19:53.058 -> best overall: 01:31:17.742 - difference: 11:24.684 - valid strategies: 20.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 21 - Bruteforce solution: 01:19:53.058 -> best overall: 01:31:14.570 - difference: 11:21.512 - valid strategies: 18.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 22 - Bruteforce solution: 01:19:53.058 -> best overall: 01:31:14.570 - difference: 11:21.512 - valid strategies: 28.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 23 - Bruteforce solution: 01:19:53.058 -> best overall: 01:30:57.607 - difference: 11:04.549 - valid strategies: 28.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 24 - Bruteforce solution: 01:19:53.058 -> best overall: 01:30:48.528 - difference: 10:55.470 - valid strategies: 24.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 25 - Bruteforce solution: 01:19:53.058 -> best overall: 01:30:10.237 - difference: 10:17.179 - valid strategies: 36.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 26 - Bruteforce solution: 01:19:53.058 -> best overall: 01:29:51.760 - difference: 09:58.702 - valid strategies: 28.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 27 - Bruteforce solution: 01:19:53.058 -> best overall: 01:29:51.760 - difference: 09:58.702 - valid strategies: 30.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 28 - Bruteforce solution: 01:19:53.058 -> best overall: 01:29:49.568 - difference: 09:56.510 - valid strategies: 22.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 29 - Bruteforce solution: 01:19:53.058 -> best overall: 01:29:48.798 - difference: 09:55.740 - valid strategies: 34.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 30 - Bruteforce solution: 01:19:53.058 -> best overall: 01:29:27.958 - difference: 09:34.900 - valid strategies: 26.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 31 - Bruteforce solution: 01:19:53.058 -> best overall: 01:29:15.612 - difference: 09:22.554 - valid strategies: 38.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 32 - Bruteforce solution: 01:19:53.058 -> best overall: 01:29:02.218 - difference: 09:09.160 - valid strategies: 22.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 33 - Bruteforce solution: 01:19:53.058 -> best overall: 01:29:02.218 - difference: 09:09.160 - valid strategies: 18.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 34 - Bruteforce solution: 01:19:53.058 -> best overall: 01:29:01.217 - difference: 09:08.159 - valid strategies: 28.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 35 - Bruteforce solution: 01:19:53.058 -> best overall: 01:28:58.299 - difference: 09:05.241 - valid strategies: 32.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 36 - Bruteforce solution: 01:19:53.058 -> best overall: 01:28:49.623 - difference: 08:56.565 - valid strategies: 18.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 37 - Bruteforce solution: 01:19:53.058 -> best overall: 01:28:49.623 - difference: 08:56.565 - valid strategies: 12.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 38 - Bruteforce solution: 01:19:53.058 -> best overall: 01:28:49.623 - difference: 08:56.565 - valid strategies: 12.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 39 - Bruteforce solution: 01:19:53.058 -> best overall: 01:28:15.186 - difference: 08:22.128 - valid strategies: 30.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 40 - Bruteforce solution: 01:19:53.058 -> best overall: 01:28:07.076 - difference: 08:14.018 - valid strategies: 40.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 41 - Bruteforce solution: 01:19:53.058 -> best overall: 01:27:58.284 - difference: 08:05.226 - valid strategies: 48.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 42 - Bruteforce solution: 01:19:53.058 -> best overall: 01:27:49.422 - difference: 07:56.364 - valid strategies: 44.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 43 - Bruteforce solution: 01:19:53.058 -> best overall: 01:27:49.422 - difference: 07:56.364 - valid strategies: 42.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 44 - Bruteforce solution: 01:19:53.058 -> best overall: 01:27:11.421 - difference: 07:18.363 - valid strategies: 44.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 45 - Bruteforce solution: 01:19:53.058 -> best overall: 01:27:11.379 - difference: 07:18.321 - valid strategies: 48.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 46 - Bruteforce solution: 01:19:53.058 -> best overall: 01:26:54.634 - difference: 07:01.576 - valid strategies: 40.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 47 - Bruteforce solution: 01:19:53.058 -> best overall: 01:26:54.634 - difference: 07:01.576 - valid strategies: 34.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 48 - Bruteforce solution: 01:19:53.058 -> best overall: 01:26:54.357 - difference: 07:01.299 - valid strategies: 34.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 49 - Bruteforce solution: 01:19:53.058 -> best overall: 01:26:15.587 - difference: 06:22.529 - valid strategies: 18.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 50 - Bruteforce solution: 01:19:53.058 -> best overall: 01:26:15.587 - difference: 06:22.529 - valid strategies: 10.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 51 - Bruteforce solution: 01:19:53.058 -> best overall: 01:26:15.587 - difference: 06:22.529 - valid strategies: 8.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 52 - Bruteforce solution: 01:19:53.058 -> best overall: 01:26:15.587 - difference: 06:22.529 - valid strategies: 10.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 53 - Bruteforce solution: 01:19:53.058 -> best overall: 01:26:15.587 - difference: 06:22.529 - valid strategies: 10.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 54 - Bruteforce solution: 01:19:53.058 -> best overall: 01:26:15.587 - difference: 06:22.529 - valid strategies: 8.0% | threshold is 0.25 - counter = 0/5 - stuck value = 1
+[EA] Generation 55 - Bruteforce solution: 01:19:53.058 -> best overall: 01:26:15.587 - difference: 06:22.529 - valid strategies: 14.0% | threshold is 0.25 - counter = 1/5 - stuck value = 1
+[EA] Generation 56 - Bruteforce solution: 01:19:53.058 -> best overall: 01:26:15.587 - difference: 06:22.529 - valid strategies: 10.0% | threshold is 0.25 - counter = 2/5 - stuck value = 1
+[EA] Generation 57 - Bruteforce solution: 01:19:53.058 -> best overall: 01:26:15.587 - difference: 06:22.529 - valid strategies: 18.0% | threshold is 0.25 - counter = 3/5 - stuck value = 1
+[EA] Generation 58 - Bruteforce solution: 01:19:53.058 -> best overall: 01:25:55.298 - difference: 06:02.240 - valid strategies: 10.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 59 - Bruteforce solution: 01:19:53.058 -> best overall: 01:25:55.298 - difference: 06:02.240 - valid strategies: 18.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 60 - Bruteforce solution: 01:19:53.058 -> best overall: 01:25:35.856 - difference: 05:42.798 - valid strategies: 14.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 61 - Bruteforce solution: 01:19:53.058 -> best overall: 01:25:13.629 - difference: 05:20.571 - valid strategies: 22.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 62 - Bruteforce solution: 01:19:53.058 -> best overall: 01:25:13.629 - difference: 05:20.571 - valid strategies: 8.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 63 - Bruteforce solution: 01:19:53.058 -> best overall: 01:25:13.629 - difference: 05:20.571 - valid strategies: 8.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 64 - Bruteforce solution: 01:19:53.058 -> best overall: 01:25:13.629 - difference: 05:20.571 - valid strategies: 10.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 65 - Bruteforce solution: 01:19:53.058 -> best overall: 01:25:13.629 - difference: 05:20.571 - valid strategies: 6.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 66 - Bruteforce solution: 01:19:53.058 -> best overall: 01:25:13.629 - difference: 05:20.571 - valid strategies: 10.0% | threshold is 0.25 - counter = 0/5 - stuck value = 1
+[EA] Generation 67 - Bruteforce solution: 01:19:53.058 -> best overall: 01:25:13.629 - difference: 05:20.571 - valid strategies: 10.0% | threshold is 0.25 - counter = 1/5 - stuck value = 1
+[EA] Generation 68 - Bruteforce solution: 01:19:53.058 -> best overall: 01:25:13.629 - difference: 05:20.571 - valid strategies: 16.0% | threshold is 0.25 - counter = 2/5 - stuck value = 1
+[EA] Generation 69 - Bruteforce solution: 01:19:53.058 -> best overall: 01:25:13.629 - difference: 05:20.571 - valid strategies: 12.0% | threshold is 0.25 - counter = 3/5 - stuck value = 1
+[EA] Generation 70 - Bruteforce solution: 01:19:53.058 -> best overall: 01:25:13.629 - difference: 05:20.571 - valid strategies: 14.0% | threshold is 0.25 - counter = 4/5 - stuck value = 1
+[EA] Generation 71 - Bruteforce solution: 01:19:53.058 -> best overall: 01:23:28.160 - difference: 03:35.102 - valid strategies: 16.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 72 - Bruteforce solution: 01:19:53.058 -> best overall: 01:23:28.160 - difference: 03:35.102 - valid strategies: 20.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 73 - Bruteforce solution: 01:19:53.058 -> best overall: 01:23:28.160 - difference: 03:35.102 - valid strategies: 10.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 74 - Bruteforce solution: 01:19:53.058 -> best overall: 01:23:28.160 - difference: 03:35.102 - valid strategies: 18.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 75 - Bruteforce solution: 01:19:53.058 -> best overall: 01:23:28.160 - difference: 03:35.102 - valid strategies: 34.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 76 - Bruteforce solution: 01:19:53.058 -> best overall: 01:23:28.118 - difference: 03:35.060 - valid strategies: 36.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 77 - Bruteforce solution: 01:19:53.058 -> best overall: 01:23:28.118 - difference: 03:35.060 - valid strategies: 24.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 78 - Bruteforce solution: 01:19:53.058 -> best overall: 01:23:27.972 - difference: 03:34.914 - valid strategies: 34.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 79 - Bruteforce solution: 01:19:53.058 -> best overall: 01:23:08.857 - difference: 03:15.799 - valid strategies: 12.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 80 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:48.253 - difference: 02:55.195 - valid strategies: 28.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 81 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:48.253 - difference: 02:55.195 - valid strategies: 20.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 82 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:48.253 - difference: 02:55.195 - valid strategies: 18.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 83 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:48.253 - difference: 02:55.195 - valid strategies: 14.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 84 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:48.253 - difference: 02:55.195 - valid strategies: 18.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 85 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:48.253 - difference: 02:55.195 - valid strategies: 20.0% | threshold is 0.25 - counter = 0/5 - stuck value = 1
+[EA] Generation 86 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:48.253 - difference: 02:55.195 - valid strategies: 24.0% | threshold is 0.25 - counter = 1/5 - stuck value = 1
+[EA] Generation 87 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:48.253 - difference: 02:55.195 - valid strategies: 24.0% | threshold is 0.25 - counter = 2/5 - stuck value = 1
+[EA] Generation 88 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:47.141 - difference: 02:54.083 - valid strategies: 22.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 89 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:47.141 - difference: 02:54.083 - valid strategies: 28.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 90 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:27.279 - difference: 02:34.221 - valid strategies: 6.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 91 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:27.279 - difference: 02:34.221 - valid strategies: 24.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 92 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:06.717 - difference: 02:13.659 - valid strategies: 24.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 93 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:06.717 - difference: 02:13.659 - valid strategies: 16.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 94 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:06.717 - difference: 02:13.659 - valid strategies: 16.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 95 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:06.717 - difference: 02:13.659 - valid strategies: 14.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 96 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:06.717 - difference: 02:13.659 - valid strategies: 18.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 97 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:06.717 - difference: 02:13.659 - valid strategies: 16.0% | threshold is 0.25 - counter = 0/5 - stuck value = 1
+[EA] Generation 98 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:06.717 - difference: 02:13.659 - valid strategies: 20.0% | threshold is 0.25 - counter = 1/5 - stuck value = 1
+[EA] Generation 99 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:06.717 - difference: 02:13.659 - valid strategies: 18.0% | threshold is 0.25 - counter = 2/5 - stuck value = 1
+[EA] Generation 100 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:06.717 - difference: 02:13.659 - valid strategies: 14.0% | threshold is 0.25 - counter = 3/5 - stuck value = 1
+[EA] Generation 101 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:06.717 - difference: 02:13.659 - valid strategies: 18.0% | threshold is 0.25 - counter = 4/5 - stuck value = 1
+[EA] Generation 102 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:06.717 - difference: 02:13.659 - valid strategies: 16.0% | threshold is 0.2 - counter = 0/5 - stuck value = 2
+[EA] Generation 103 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:06.717 - difference: 02:13.659 - valid strategies: 16.0% | threshold is 0.2 - counter = 1/5 - stuck value = 2
+[EA] Generation 104 - Bruteforce solution: 01:19:53.058 -> best overall: 01:22:06.717 - difference: 02:13.659 - valid strategies: 18.0% | threshold is 0.2 - counter = 2/5 - stuck value = 2
+[EA] Generation 105 - Bruteforce solution: 01:19:53.058 -> best overall: 01:21:53.205 - difference: 02:00.147 - valid strategies: 16.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 106 - Bruteforce solution: 01:19:53.058 -> best overall: 01:21:53.205 - difference: 02:00.147 - valid strategies: 22.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 107 - Bruteforce solution: 01:19:53.058 -> best overall: 01:21:53.205 - difference: 02:00.147 - valid strategies: 20.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 108 - Bruteforce solution: 01:19:53.058 -> best overall: 01:21:53.205 - difference: 02:00.147 - valid strategies: 34.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 109 - Bruteforce solution: 01:19:53.058 -> best overall: 01:21:40.377 - difference: 01:47.319 - valid strategies: 24.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 110 - Bruteforce solution: 01:19:53.058 -> best overall: 01:21:40.377 - difference: 01:47.319 - valid strategies: 26.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 111 - Bruteforce solution: 01:19:53.058 -> best overall: 01:21:11.132 - difference: 01:18.074 - valid strategies: 30.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 112 - Bruteforce solution: 01:19:53.058 -> best overall: 01:21:11.132 - difference: 01:18.074 - valid strategies: 16.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 113 - Bruteforce solution: 01:19:53.058 -> best overall: 01:21:11.132 - difference: 01:18.074 - valid strategies: 22.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 114 - Bruteforce solution: 01:19:53.058 -> best overall: 01:21:11.132 - difference: 01:18.074 - valid strategies: 24.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 115 - Bruteforce solution: 01:19:53.058 -> best overall: 01:21:11.132 - difference: 01:18.074 - valid strategies: 14.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 116 - Bruteforce solution: 01:19:53.058 -> best overall: 01:21:11.132 - difference: 01:18.074 - valid strategies: 8.0% | threshold is 0.25 - counter = 0/5 - stuck value = 1
+[EA] Generation 117 - Bruteforce solution: 01:19:53.058 -> best overall: 01:21:11.132 - difference: 01:18.074 - valid strategies: 14.0% | threshold is 0.25 - counter = 1/5 - stuck value = 1
+[EA] Generation 118 - Bruteforce solution: 01:19:53.058 -> best overall: 01:21:11.132 - difference: 01:18.074 - valid strategies: 16.0% | threshold is 0.25 - counter = 2/5 - stuck value = 1
+[EA] Generation 119 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:57.299 - difference: 01:04.241 - valid strategies: 10.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 120 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:57.299 - difference: 01:04.241 - valid strategies: 14.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 121 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:57.299 - difference: 01:04.241 - valid strategies: 12.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 122 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:57.299 - difference: 01:04.241 - valid strategies: 12.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 123 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:57.299 - difference: 01:04.241 - valid strategies: 8.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 124 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:57.299 - difference: 01:04.241 - valid strategies: 8.0% | threshold is 0.25 - counter = 0/5 - stuck value = 1
+[EA] Generation 125 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:57.299 - difference: 01:04.241 - valid strategies: 8.0% | threshold is 0.25 - counter = 1/5 - stuck value = 1
+[EA] Generation 126 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:57.299 - difference: 01:04.241 - valid strategies: 12.0% | threshold is 0.25 - counter = 2/5 - stuck value = 1
+[EA] Generation 127 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:46.872 - difference: 00:53.814 - valid strategies: 18.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 128 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:40.342 - difference: 00:47.284 - valid strategies: 30.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 129 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:40.342 - difference: 00:47.284 - valid strategies: 24.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 130 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:21.644 - difference: 00:28.586 - valid strategies: 10.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 131 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:21.644 - difference: 00:28.586 - valid strategies: 8.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 132 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:21.644 - difference: 00:28.586 - valid strategies: 8.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 133 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:21.644 - difference: 00:28.586 - valid strategies: 14.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 134 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:21.644 - difference: 00:28.586 - valid strategies: 10.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 135 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:21.644 - difference: 00:28.586 - valid strategies: 16.0% | threshold is 0.25 - counter = 0/5 - stuck value = 1
+[EA] Generation 136 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:18.220 - difference: 00:25.162 - valid strategies: 20.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 137 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:18.220 - difference: 00:25.162 - valid strategies: 14.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 138 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:18.220 - difference: 00:25.162 - valid strategies: 20.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 139 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:18.220 - difference: 00:25.162 - valid strategies: 14.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 140 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:18.220 - difference: 00:25.162 - valid strategies: 16.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 141 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:18.220 - difference: 00:25.162 - valid strategies: 20.0% | threshold is 0.25 - counter = 0/5 - stuck value = 1
+[EA] Generation 142 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:18.220 - difference: 00:25.162 - valid strategies: 12.0% | threshold is 0.25 - counter = 1/5 - stuck value = 1
+[EA] Generation 143 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:18.220 - difference: 00:25.162 - valid strategies: 18.0% | threshold is 0.25 - counter = 2/5 - stuck value = 1
+[EA] Generation 144 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:18.220 - difference: 00:25.162 - valid strategies: 12.0% | threshold is 0.25 - counter = 3/5 - stuck value = 1
+[EA] Generation 145 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:18.220 - difference: 00:25.162 - valid strategies: 12.0% | threshold is 0.25 - counter = 4/5 - stuck value = 1
+[EA] Generation 146 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:18.220 - difference: 00:25.162 - valid strategies: 14.0% | threshold is 0.2 - counter = 0/5 - stuck value = 2
+[EA] Generation 147 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:18.220 - difference: 00:25.162 - valid strategies: 18.0% | threshold is 0.2 - counter = 1/5 - stuck value = 2
+[EA] Generation 148 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:18.220 - difference: 00:25.162 - valid strategies: 22.0% | threshold is 0.2 - counter = 2/5 - stuck value = 2
+[EA] Generation 149 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:13.702 - difference: 00:20.644 - valid strategies: 18.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 150 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:13.702 - difference: 00:20.644 - valid strategies: 14.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 151 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:13.702 - difference: 00:20.644 - valid strategies: 16.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 152 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:13.702 - difference: 00:20.644 - valid strategies: 20.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 153 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:13.702 - difference: 00:20.644 - valid strategies: 16.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 154 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:13.702 - difference: 00:20.644 - valid strategies: 22.0% | threshold is 0.25 - counter = 0/5 - stuck value = 1
+[EA] Generation 155 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:13.702 - difference: 00:20.644 - valid strategies: 16.0% | threshold is 0.25 - counter = 1/5 - stuck value = 1
+[EA] Generation 156 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:13.702 - difference: 00:20.644 - valid strategies: 22.0% | threshold is 0.25 - counter = 2/5 - stuck value = 1
+[EA] Generation 157 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:13.702 - difference: 00:20.644 - valid strategies: 18.0% | threshold is 0.25 - counter = 3/5 - stuck value = 1
+[EA] Generation 158 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 14.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 159 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 10.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 160 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 10.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 161 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 6.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 162 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 16.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 163 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 10.0% | threshold is 0.25 - counter = 0/5 - stuck value = 1
+[EA] Generation 164 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 14.0% | threshold is 0.25 - counter = 1/5 - stuck value = 1
+[EA] Generation 165 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 6.0% | threshold is 0.25 - counter = 2/5 - stuck value = 1
+[EA] Generation 166 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 8.0% | threshold is 0.25 - counter = 3/5 - stuck value = 1
+[EA] Generation 167 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 8.0% | threshold is 0.25 - counter = 4/5 - stuck value = 1
+[EA] Generation 168 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 10.0% | threshold is 0.2 - counter = 0/5 - stuck value = 2
+[EA] Generation 169 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 8.0% | threshold is 0.2 - counter = 1/5 - stuck value = 2
+[EA] Generation 170 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 8.0% | threshold is 0.2 - counter = 2/5 - stuck value = 2
+[EA] Generation 171 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 14.0% | threshold is 0.2 - counter = 3/5 - stuck value = 2
+[EA] Generation 172 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 4.0% | threshold is 0.2 - counter = 4/5 - stuck value = 2
+[EA] Generation 173 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 6.0% | threshold is 0.15 - counter = 0/5 - stuck value = 3
+[EA] Generation 174 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 6.0% | threshold is 0.15 - counter = 1/5 - stuck value = 3
+[EA] Generation 175 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 12.0% | threshold is 0.15 - counter = 2/5 - stuck value = 3
+[EA] Generation 176 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 14.0% | threshold is 0.15 - counter = 3/5 - stuck value = 3
+[EA] Generation 177 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 16.0% | threshold is 0.15 - counter = 4/5 - stuck value = 3
+[EA] Generation 178 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 8.0% | threshold is 0.1 - counter = 0/5 - stuck value = 4
+[EA] Generation 179 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 8.0% | threshold is 0.1 - counter = 1/5 - stuck value = 4
+[EA] Generation 180 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:05.602 - difference: 00:12.544 - valid strategies: 16.0% | threshold is 0.1 - counter = 2/5 - stuck value = 4
+[EA] Generation 181 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:04.145 - difference: 00:11.087 - valid strategies: 14.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 182 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:04.145 - difference: 00:11.087 - valid strategies: 16.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 183 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:04.145 - difference: 00:11.087 - valid strategies: 16.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 184 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:04.145 - difference: 00:11.087 - valid strategies: 16.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 185 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:04.145 - difference: 00:11.087 - valid strategies: 16.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 186 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:04.145 - difference: 00:11.087 - valid strategies: 22.0% | threshold is 0.25 - counter = 0/5 - stuck value = 1
+[EA] Generation 187 - Bruteforce solution: 01:19:53.058 -> best overall: 01:20:04.145 - difference: 00:11.087 - valid strategies: 20.0% | threshold is 0.25 - counter = 1/5 - stuck value = 1
+[EA] Generation 188 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 28.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 189 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 22.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 190 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 22.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 191 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 22.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 192 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 18.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 193 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 18.0% | threshold is 0.25 - counter = 0/5 - stuck value = 1
+[EA] Generation 194 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 18.0% | threshold is 0.25 - counter = 1/5 - stuck value = 1
+[EA] Generation 195 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.25 - counter = 2/5 - stuck value = 1
+[EA] Generation 196 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 18.0% | threshold is 0.25 - counter = 3/5 - stuck value = 1
+[EA] Generation 197 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.25 - counter = 4/5 - stuck value = 1
+[EA] Generation 198 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.2 - counter = 0/5 - stuck value = 2
+[EA] Generation 199 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.2 - counter = 1/5 - stuck value = 2
+[EA] Generation 200 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.2 - counter = 2/5 - stuck value = 2
+[EA] Generation 201 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.2 - counter = 3/5 - stuck value = 2
+[EA] Generation 202 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.2 - counter = 4/5 - stuck value = 2
+[EA] Generation 203 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.15 - counter = 0/5 - stuck value = 3
+[EA] Generation 204 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.15 - counter = 1/5 - stuck value = 3
+[EA] Generation 205 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.15 - counter = 2/5 - stuck value = 3
+[EA] Generation 206 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.15 - counter = 3/5 - stuck value = 3
+[EA] Generation 207 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.15 - counter = 4/5 - stuck value = 3
+[EA] Generation 208 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.1 - counter = 0/5 - stuck value = 4
+[EA] Generation 209 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.1 - counter = 1/5 - stuck value = 4
+[EA] Generation 210 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.1 - counter = 2/5 - stuck value = 4
+[EA] Generation 211 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.1 - counter = 3/5 - stuck value = 4
+[EA] Generation 212 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 4.0% | threshold is 0.1 - counter = 4/5 - stuck value = 4
+[EA] Generation 213 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.05 - counter = 0/5 - stuck value = 5
+[EA] Generation 214 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.05 - counter = 1/5 - stuck value = 5
+[EA] Generation 215 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.05 - counter = 2/5 - stuck value = 5
+[EA] Generation 216 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.05 - counter = 3/5 - stuck value = 5
+[EA] Generation 217 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.05 - counter = 4/5 - stuck value = 5
+[EA] Generation 218 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.41 - counter = 0/5 - stuck value = 6
+[EA] Generation 219 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.41 - counter = 1/5 - stuck value = 6
+[EA] Generation 220 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.41 - counter = 2/5 - stuck value = 6
+[EA] Generation 221 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.41 - counter = 3/5 - stuck value = 6
+[EA] Generation 222 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.41 - counter = 4/5 - stuck value = 6
+[EA] Generation 223 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.36 - counter = 0/5 - stuck value = 7
+[EA] Generation 224 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.36 - counter = 1/5 - stuck value = 7
+[EA] Generation 225 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.36 - counter = 2/5 - stuck value = 7
+[EA] Generation 226 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.36 - counter = 3/5 - stuck value = 7
+[EA] Generation 227 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.36 - counter = 4/5 - stuck value = 7
+[EA] Generation 228 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.31 - counter = 0/5 - stuck value = 8
+[EA] Generation 229 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.31 - counter = 1/5 - stuck value = 8
+[EA] Generation 230 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.31 - counter = 2/5 - stuck value = 8
+[EA] Generation 231 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.31 - counter = 3/5 - stuck value = 8
+[EA] Generation 232 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.31 - counter = 4/5 - stuck value = 8
+[EA] Generation 233 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.26 - counter = 0/5 - stuck value = 9
+[EA] Generation 234 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.26 - counter = 1/5 - stuck value = 9
+[EA] Generation 235 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.26 - counter = 2/5 - stuck value = 9
+[EA] Generation 236 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.26 - counter = 3/5 - stuck value = 9
+[EA] Generation 237 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.26 - counter = 4/5 - stuck value = 9
+[EA] Generation 238 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.21 - counter = 0/5 - stuck value = 10
+[EA] Generation 239 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.21 - counter = 1/5 - stuck value = 10
+[EA] Generation 240 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.21 - counter = 2/5 - stuck value = 10
+[EA] Generation 241 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.21 - counter = 3/5 - stuck value = 10
+[EA] Generation 242 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.21 - counter = 4/5 - stuck value = 10
+[EA] Generation 243 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.16 - counter = 0/5 - stuck value = 11
+[EA] Generation 244 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.16 - counter = 1/5 - stuck value = 11
+[EA] Generation 245 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.16 - counter = 2/5 - stuck value = 11
+[EA] Generation 246 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.16 - counter = 3/5 - stuck value = 11
+[EA] Generation 247 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.16 - counter = 4/5 - stuck value = 11
+[EA] Generation 248 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.11 - counter = 0/5 - stuck value = 12
+[EA] Generation 249 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.11 - counter = 1/5 - stuck value = 12
+[EA] Generation 250 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.11 - counter = 2/5 - stuck value = 12
+[EA] Generation 251 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.11 - counter = 3/5 - stuck value = 12
+[EA] Generation 252 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.11 - counter = 4/5 - stuck value = 12
+[EA] Generation 253 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.06 - counter = 0/5 - stuck value = 13
+[EA] Generation 254 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 16.0% | threshold is 0.06 - counter = 1/5 - stuck value = 13
+[EA] Generation 255 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.06 - counter = 2/5 - stuck value = 13
+[EA] Generation 256 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.06 - counter = 3/5 - stuck value = 13
+[EA] Generation 257 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 22.0% | threshold is 0.06 - counter = 4/5 - stuck value = 13
+[EA] Generation 258 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.76 - counter = 0/5 - stuck value = 14
+[EA] Generation 259 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.76 - counter = 1/5 - stuck value = 14
+[EA] Generation 260 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 22.0% | threshold is 0.76 - counter = 2/5 - stuck value = 14
+[EA] Generation 261 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.76 - counter = 3/5 - stuck value = 14
+[EA] Generation 262 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.76 - counter = 4/5 - stuck value = 14
+[EA] Generation 263 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.71 - counter = 0/5 - stuck value = 15
+[EA] Generation 264 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 16.0% | threshold is 0.71 - counter = 1/5 - stuck value = 15
+[EA] Generation 265 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.71 - counter = 2/5 - stuck value = 15
+[EA] Generation 266 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.71 - counter = 3/5 - stuck value = 15
+[EA] Generation 267 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.71 - counter = 4/5 - stuck value = 15
+[EA] Generation 268 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.66 - counter = 0/5 - stuck value = 16
+[EA] Generation 269 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.66 - counter = 1/5 - stuck value = 16
+[EA] Generation 270 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.66 - counter = 2/5 - stuck value = 16
+[EA] Generation 271 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.66 - counter = 3/5 - stuck value = 16
+[EA] Generation 272 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.66 - counter = 4/5 - stuck value = 16
+[EA] Generation 273 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.61 - counter = 0/5 - stuck value = 17
+[EA] Generation 274 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.61 - counter = 1/5 - stuck value = 17
+[EA] Generation 275 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.61 - counter = 2/5 - stuck value = 17
+[EA] Generation 276 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.61 - counter = 3/5 - stuck value = 17
+[EA] Generation 277 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.61 - counter = 4/5 - stuck value = 17
+[EA] Generation 278 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.56 - counter = 0/5 - stuck value = 18
+[EA] Generation 279 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.56 - counter = 1/5 - stuck value = 18
+[EA] Generation 280 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.56 - counter = 2/5 - stuck value = 18
+[EA] Generation 281 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.56 - counter = 3/5 - stuck value = 18
+[EA] Generation 282 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.56 - counter = 4/5 - stuck value = 18
+[EA] Generation 283 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 16.0% | threshold is 0.51 - counter = 0/5 - stuck value = 19
+[EA] Generation 284 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.51 - counter = 1/5 - stuck value = 19
+[EA] Generation 285 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.51 - counter = 2/5 - stuck value = 19
+[EA] Generation 286 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.51 - counter = 3/5 - stuck value = 19
+[EA] Generation 287 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.51 - counter = 4/5 - stuck value = 19
+[EA] Generation 288 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.46 - counter = 0/5 - stuck value = 20
+[EA] Generation 289 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.46 - counter = 1/5 - stuck value = 20
+[EA] Generation 290 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.46 - counter = 2/5 - stuck value = 20
+[EA] Generation 291 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.46 - counter = 3/5 - stuck value = 20
+[EA] Generation 292 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.46 - counter = 4/5 - stuck value = 20
+[EA] Generation 293 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.41 - counter = 0/5 - stuck value = 21
+[EA] Generation 294 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.41 - counter = 1/5 - stuck value = 21
+[EA] Generation 295 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.41 - counter = 2/5 - stuck value = 21
+[EA] Generation 296 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.41 - counter = 3/5 - stuck value = 21
+[EA] Generation 297 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.41 - counter = 4/5 - stuck value = 21
+[EA] Generation 298 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.36 - counter = 0/5 - stuck value = 22
+[EA] Generation 299 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 4.0% | threshold is 0.36 - counter = 1/5 - stuck value = 22
+[EA] Generation 300 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.36 - counter = 2/5 - stuck value = 22
+[EA] Generation 301 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.36 - counter = 3/5 - stuck value = 22
+[EA] Generation 302 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.36 - counter = 4/5 - stuck value = 22
+[EA] Generation 303 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.31 - counter = 0/5 - stuck value = 23
+[EA] Generation 304 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.31 - counter = 1/5 - stuck value = 23
+[EA] Generation 305 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.31 - counter = 2/5 - stuck value = 23
+[EA] Generation 306 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.31 - counter = 3/5 - stuck value = 23
+[EA] Generation 307 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.31 - counter = 4/5 - stuck value = 23
+[EA] Generation 308 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.26 - counter = 0/5 - stuck value = 24
+[EA] Generation 309 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.26 - counter = 1/5 - stuck value = 24
+[EA] Generation 310 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.26 - counter = 2/5 - stuck value = 24
+[EA] Generation 311 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.26 - counter = 3/5 - stuck value = 24
+[EA] Generation 312 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.26 - counter = 4/5 - stuck value = 24
+[EA] Generation 313 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.21 - counter = 0/5 - stuck value = 25
+[EA] Generation 314 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.21 - counter = 1/5 - stuck value = 25
+[EA] Generation 315 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.21 - counter = 2/5 - stuck value = 25
+[EA] Generation 316 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.21 - counter = 3/5 - stuck value = 25
+[EA] Generation 317 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.21 - counter = 4/5 - stuck value = 25
+[EA] Generation 318 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.16 - counter = 0/5 - stuck value = 26
+[EA] Generation 319 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.16 - counter = 1/5 - stuck value = 26
+[EA] Generation 320 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.16 - counter = 2/5 - stuck value = 26
+[EA] Generation 321 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.16 - counter = 3/5 - stuck value = 26
+[EA] Generation 322 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.16 - counter = 4/5 - stuck value = 26
+[EA] Generation 323 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.11 - counter = 0/5 - stuck value = 27
+[EA] Generation 324 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.11 - counter = 1/5 - stuck value = 27
+[EA] Generation 325 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.11 - counter = 2/5 - stuck value = 27
+[EA] Generation 326 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.11 - counter = 3/5 - stuck value = 27
+[EA] Generation 327 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.11 - counter = 4/5 - stuck value = 27
+[EA] Generation 328 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.06 - counter = 0/5 - stuck value = 28
+[EA] Generation 329 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 16.0% | threshold is 0.06 - counter = 1/5 - stuck value = 28
+[EA] Generation 330 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.06 - counter = 2/5 - stuck value = 28
+[EA] Generation 331 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 18.0% | threshold is 0.06 - counter = 3/5 - stuck value = 28
+[EA] Generation 332 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.06 - counter = 4/5 - stuck value = 28
+[EA] Generation 333 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.9 - counter = 0/5 - stuck value = 29
+[EA] Generation 334 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 18.0% | threshold is 0.9 - counter = 1/5 - stuck value = 29
+[EA] Generation 335 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.9 - counter = 2/5 - stuck value = 29
+[EA] Generation 336 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.9 - counter = 3/5 - stuck value = 29
+[EA] Generation 337 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.9 - counter = 4/5 - stuck value = 29
+[EA] Generation 338 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.85 - counter = 0/5 - stuck value = 30
+[EA] Generation 339 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.85 - counter = 1/5 - stuck value = 30
+[EA] Generation 340 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.85 - counter = 2/5 - stuck value = 30
+[EA] Generation 341 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.85 - counter = 3/5 - stuck value = 30
+[EA] Generation 342 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.85 - counter = 4/5 - stuck value = 30
+[EA] Generation 343 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.8 - counter = 0/5 - stuck value = 31
+[EA] Generation 344 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.8 - counter = 1/5 - stuck value = 31
+[EA] Generation 345 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.8 - counter = 2/5 - stuck value = 31
+[EA] Generation 346 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.8 - counter = 3/5 - stuck value = 31
+[EA] Generation 347 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.8 - counter = 4/5 - stuck value = 31
+[EA] Generation 348 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.75 - counter = 0/5 - stuck value = 32
+[EA] Generation 349 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.75 - counter = 1/5 - stuck value = 32
+[EA] Generation 350 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.75 - counter = 2/5 - stuck value = 32
+[EA] Generation 351 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.75 - counter = 3/5 - stuck value = 32
+[EA] Generation 352 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.75 - counter = 4/5 - stuck value = 32
+[EA] Generation 353 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.7 - counter = 0/5 - stuck value = 33
+[EA] Generation 354 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.7 - counter = 1/5 - stuck value = 33
+[EA] Generation 355 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.7 - counter = 2/5 - stuck value = 33
+[EA] Generation 356 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.7 - counter = 3/5 - stuck value = 33
+[EA] Generation 357 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.7 - counter = 4/5 - stuck value = 33
+[EA] Generation 358 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 16.0% | threshold is 0.65 - counter = 0/5 - stuck value = 34
+[EA] Generation 359 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.65 - counter = 1/5 - stuck value = 34
+[EA] Generation 360 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.65 - counter = 2/5 - stuck value = 34
+[EA] Generation 361 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.65 - counter = 3/5 - stuck value = 34
+[EA] Generation 362 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.65 - counter = 4/5 - stuck value = 34
+[EA] Generation 363 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.6 - counter = 0/5 - stuck value = 35
+[EA] Generation 364 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.6 - counter = 1/5 - stuck value = 35
+[EA] Generation 365 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.6 - counter = 2/5 - stuck value = 35
+[EA] Generation 366 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.6 - counter = 3/5 - stuck value = 35
+[EA] Generation 367 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.6 - counter = 4/5 - stuck value = 35
+[EA] Generation 368 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.55 - counter = 0/5 - stuck value = 36
+[EA] Generation 369 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.55 - counter = 1/5 - stuck value = 36
+[EA] Generation 370 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.55 - counter = 2/5 - stuck value = 36
+[EA] Generation 371 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.55 - counter = 3/5 - stuck value = 36
+[EA] Generation 372 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.55 - counter = 4/5 - stuck value = 36
+[EA] Generation 373 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.5 - counter = 0/5 - stuck value = 37
+[EA] Generation 374 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.5 - counter = 1/5 - stuck value = 37
+[EA] Generation 375 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.5 - counter = 2/5 - stuck value = 37
+[EA] Generation 376 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.5 - counter = 3/5 - stuck value = 37
+[EA] Generation 377 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.5 - counter = 4/5 - stuck value = 37
+[EA] Generation 378 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 4.0% | threshold is 0.45 - counter = 0/5 - stuck value = 38
+[EA] Generation 379 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.45 - counter = 1/5 - stuck value = 38
+[EA] Generation 380 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.45 - counter = 2/5 - stuck value = 38
+[EA] Generation 381 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.45 - counter = 3/5 - stuck value = 38
+[EA] Generation 382 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.45 - counter = 4/5 - stuck value = 38
+[EA] Generation 383 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.4 - counter = 0/5 - stuck value = 39
+[EA] Generation 384 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 16.0% | threshold is 0.4 - counter = 1/5 - stuck value = 39
+[EA] Generation 385 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.4 - counter = 2/5 - stuck value = 39
+[EA] Generation 386 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.4 - counter = 3/5 - stuck value = 39
+[EA] Generation 387 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.4 - counter = 4/5 - stuck value = 39
+[EA] Generation 388 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.35 - counter = 0/5 - stuck value = 40
+[EA] Generation 389 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.35 - counter = 1/5 - stuck value = 40
+[EA] Generation 390 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.35 - counter = 2/5 - stuck value = 40
+[EA] Generation 391 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.35 - counter = 3/5 - stuck value = 40
+[EA] Generation 392 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.35 - counter = 4/5 - stuck value = 40
+[EA] Generation 393 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.3 - counter = 0/5 - stuck value = 41
+[EA] Generation 394 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.3 - counter = 1/5 - stuck value = 41
+[EA] Generation 395 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.3 - counter = 2/5 - stuck value = 41
+[EA] Generation 396 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.3 - counter = 3/5 - stuck value = 41
+[EA] Generation 397 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 16.0% | threshold is 0.3 - counter = 4/5 - stuck value = 41
+[EA] Generation 398 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.25 - counter = 0/5 - stuck value = 42
+[EA] Generation 399 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.25 - counter = 1/5 - stuck value = 42
+[EA] Generation 400 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.25 - counter = 2/5 - stuck value = 42
+[EA] Generation 401 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.25 - counter = 3/5 - stuck value = 42
+[EA] Generation 402 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.25 - counter = 4/5 - stuck value = 42
+[EA] Generation 403 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.2 - counter = 0/5 - stuck value = 43
+[EA] Generation 404 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.2 - counter = 1/5 - stuck value = 43
+[EA] Generation 405 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.2 - counter = 2/5 - stuck value = 43
+[EA] Generation 406 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.2 - counter = 3/5 - stuck value = 43
+[EA] Generation 407 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.2 - counter = 4/5 - stuck value = 43
+[EA] Generation 408 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.15 - counter = 0/5 - stuck value = 44
+[EA] Generation 409 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.15 - counter = 1/5 - stuck value = 44
+[EA] Generation 410 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.15 - counter = 2/5 - stuck value = 44
+[EA] Generation 411 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 18.0% | threshold is 0.15 - counter = 3/5 - stuck value = 44
+[EA] Generation 412 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.15 - counter = 4/5 - stuck value = 44
+[EA] Generation 413 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.1 - counter = 0/5 - stuck value = 45
+[EA] Generation 414 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.1 - counter = 1/5 - stuck value = 45
+[EA] Generation 415 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.1 - counter = 2/5 - stuck value = 45
+[EA] Generation 416 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.1 - counter = 3/5 - stuck value = 45
+[EA] Generation 417 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.1 - counter = 4/5 - stuck value = 45
+[EA] Generation 418 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.05 - counter = 0/5 - stuck value = 46
+[EA] Generation 419 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.05 - counter = 1/5 - stuck value = 46
+[EA] Generation 420 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.05 - counter = 2/5 - stuck value = 46
+[EA] Generation 421 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.05 - counter = 3/5 - stuck value = 46
+[EA] Generation 422 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.05 - counter = 4/5 - stuck value = 46
+[EA] Generation 423 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.81 - counter = 0/5 - stuck value = 47
+[EA] Generation 424 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 20.0% | threshold is 0.81 - counter = 1/5 - stuck value = 47
+[EA] Generation 425 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.81 - counter = 2/5 - stuck value = 47
+[EA] Generation 426 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.81 - counter = 3/5 - stuck value = 47
+[EA] Generation 427 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 16.0% | threshold is 0.81 - counter = 4/5 - stuck value = 47
+[EA] Generation 428 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.76 - counter = 0/5 - stuck value = 48
+[EA] Generation 429 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.76 - counter = 1/5 - stuck value = 48
+[EA] Generation 430 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.76 - counter = 2/5 - stuck value = 48
+[EA] Generation 431 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.76 - counter = 3/5 - stuck value = 48
+[EA] Generation 432 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.76 - counter = 4/5 - stuck value = 48
+[EA] Generation 433 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.71 - counter = 0/5 - stuck value = 49
+[EA] Generation 434 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.71 - counter = 1/5 - stuck value = 49
+[EA] Generation 435 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.71 - counter = 2/5 - stuck value = 49
+[EA] Generation 436 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.71 - counter = 3/5 - stuck value = 49
+[EA] Generation 437 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.71 - counter = 4/5 - stuck value = 49
+[EA] Generation 438 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.66 - counter = 0/5 - stuck value = 50
+[EA] Generation 439 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.66 - counter = 1/5 - stuck value = 50
+[EA] Generation 440 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.66 - counter = 2/5 - stuck value = 50
+[EA] Generation 441 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.66 - counter = 3/5 - stuck value = 50
+[EA] Generation 442 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.66 - counter = 4/5 - stuck value = 50
+[EA] Generation 443 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.61 - counter = 0/5 - stuck value = 51
+[EA] Generation 444 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.61 - counter = 1/5 - stuck value = 51
+[EA] Generation 445 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.61 - counter = 2/5 - stuck value = 51
+[EA] Generation 446 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.61 - counter = 3/5 - stuck value = 51
+[EA] Generation 447 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.61 - counter = 4/5 - stuck value = 51
+[EA] Generation 448 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.56 - counter = 0/5 - stuck value = 52
+[EA] Generation 449 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.56 - counter = 1/5 - stuck value = 52
+[EA] Generation 450 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.56 - counter = 2/5 - stuck value = 52
+[EA] Generation 451 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.56 - counter = 3/5 - stuck value = 52
+[EA] Generation 452 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.56 - counter = 4/5 - stuck value = 52
+[EA] Generation 453 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.51 - counter = 0/5 - stuck value = 53
+[EA] Generation 454 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.51 - counter = 1/5 - stuck value = 53
+[EA] Generation 455 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.51 - counter = 2/5 - stuck value = 53
+[EA] Generation 456 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.51 - counter = 3/5 - stuck value = 53
+[EA] Generation 457 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.51 - counter = 4/5 - stuck value = 53
+[EA] Generation 458 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.46 - counter = 0/5 - stuck value = 54
+[EA] Generation 459 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.46 - counter = 1/5 - stuck value = 54
+[EA] Generation 460 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.46 - counter = 2/5 - stuck value = 54
+[EA] Generation 461 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.46 - counter = 3/5 - stuck value = 54
+[EA] Generation 462 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.46 - counter = 4/5 - stuck value = 54
+[EA] Generation 463 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.41 - counter = 0/5 - stuck value = 55
+[EA] Generation 464 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.41 - counter = 1/5 - stuck value = 55
+[EA] Generation 465 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.41 - counter = 2/5 - stuck value = 55
+[EA] Generation 466 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.41 - counter = 3/5 - stuck value = 55
+[EA] Generation 467 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.41 - counter = 4/5 - stuck value = 55
+[EA] Generation 468 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.36 - counter = 0/5 - stuck value = 56
+[EA] Generation 469 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.36 - counter = 1/5 - stuck value = 56
+[EA] Generation 470 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.36 - counter = 2/5 - stuck value = 56
+[EA] Generation 471 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.36 - counter = 3/5 - stuck value = 56
+[EA] Generation 472 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.36 - counter = 4/5 - stuck value = 56
+[EA] Generation 473 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.31 - counter = 0/5 - stuck value = 57
+[EA] Generation 474 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.31 - counter = 1/5 - stuck value = 57
+[EA] Generation 475 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.31 - counter = 2/5 - stuck value = 57
+[EA] Generation 476 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.31 - counter = 3/5 - stuck value = 57
+[EA] Generation 477 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.31 - counter = 4/5 - stuck value = 57
+[EA] Generation 478 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.26 - counter = 0/5 - stuck value = 58
+[EA] Generation 479 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.26 - counter = 1/5 - stuck value = 58
+[EA] Generation 480 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.26 - counter = 2/5 - stuck value = 58
+[EA] Generation 481 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.26 - counter = 3/5 - stuck value = 58
+[EA] Generation 482 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.26 - counter = 4/5 - stuck value = 58
+[EA] Generation 483 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.21 - counter = 0/5 - stuck value = 59
+[EA] Generation 484 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.21 - counter = 1/5 - stuck value = 59
+[EA] Generation 485 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.21 - counter = 2/5 - stuck value = 59
+[EA] Generation 486 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.21 - counter = 3/5 - stuck value = 59
+[EA] Generation 487 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.21 - counter = 4/5 - stuck value = 59
+[EA] Generation 488 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.16 - counter = 0/5 - stuck value = 60
+[EA] Generation 489 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.16 - counter = 1/5 - stuck value = 60
+[EA] Generation 490 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.16 - counter = 2/5 - stuck value = 60
+[EA] Generation 491 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 10.0% | threshold is 0.16 - counter = 3/5 - stuck value = 60
+[EA] Generation 492 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 12.0% | threshold is 0.16 - counter = 4/5 - stuck value = 60
+[EA] Generation 493 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 8.0% | threshold is 0.11 - counter = 0/5 - stuck value = 61
+[EA] Generation 494 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.11 - counter = 1/5 - stuck value = 61
+[EA] Generation 495 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.11 - counter = 2/5 - stuck value = 61
+[EA] Generation 496 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 16.0% | threshold is 0.11 - counter = 3/5 - stuck value = 61
+[EA] Generation 497 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 6.0% | threshold is 0.11 - counter = 4/5 - stuck value = 61
+[EA] Generation 498 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.06 - counter = 0/5 - stuck value = 62
+[EA] Generation 499 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.06 - counter = 1/5 - stuck value = 62
+[EA] Generation 500 - Bruteforce solution: 01:19:53.058 -> best overall: 01:19:57.471 - difference: 00:04.413 - valid strategies: 14.0% | threshold is 0.06 - counter = 2/5 - stuck value = 62
+
+
+Best Strategy fitness: 4797471
+Best Strategy time: 01:19:57.471
+
+ vs 
+
+Bruteforce fitness: 4793058
+Bruteforce time: 01:19:53.058
+Lap 1: Rain 0% -> Compound 'Medium', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '104.19' Kg, PitStop 'No', Time '01:11.314' ms
+Lap 2: Rain 0% -> Compound 'Medium', TyresAge 1, Wear '1.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '102.73' Kg, PitStop 'No', Time '01:09.295' ms
+Lap 3: Rain 0% -> Compound 'Medium', TyresAge 2, Wear '3.0'% | '3.0'% | '2.0'% | '2.0'%, Fuel '101.27' Kg, PitStop 'No', Time '01:09.264' ms
+Lap 4: Rain 0% -> Compound 'Medium', TyresAge 3, Wear '4.0'% | '4.0'% | '4.0'% | '3.0'%, Fuel '99.8' Kg, PitStop 'No', Time '01:09.222' ms
+Lap 5: Rain 0% -> Compound 'Medium', TyresAge 4, Wear '6.0'% | '6.0'% | '5.0'% | '4.0'%, Fuel '98.34' Kg, PitStop 'No', Time '01:09.189' ms
+Lap 6: Rain 0% -> Compound 'Medium', TyresAge 5, Wear '7.0'% | '7.0'% | '6.0'% | '6.0'%, Fuel '96.88' Kg, PitStop 'No', Time '01:09.149' ms
+Lap 7: Rain 0% -> Compound 'Medium', TyresAge 6, Wear '9.0'% | '9.0'% | '7.0'% | '7.0'%, Fuel '95.42' Kg, PitStop 'No', Time '01:09.117' ms
+Lap 8: Rain 0% -> Compound 'Medium', TyresAge 7, Wear '10.0'% | '10.0'% | '9.0'% | '8.0'%, Fuel '93.95' Kg, PitStop 'No', Time '01:09.077' ms
+Lap 9: Rain 0% -> Compound 'Medium', TyresAge 8, Wear '12.0'% | '11.0'% | '10.0'% | '9.0'%, Fuel '92.49' Kg, PitStop 'No', Time '01:09.036' ms
+Lap 10: Rain 0% -> Compound 'Medium', TyresAge 9, Wear '13.0'% | '13.0'% | '11.0'% | '10.0'%, Fuel '91.03' Kg, PitStop 'No', Time '01:08.996' ms
+Lap 11: Rain 0% -> Compound 'Medium', TyresAge 10, Wear '15.0'% | '14.0'% | '12.0'% | '11.0'%, Fuel '89.57' Kg, PitStop 'No', Time '01:08.956' ms
+Lap 12: Rain 0% -> Compound 'Medium', TyresAge 11, Wear '16.0'% | '16.0'% | '14.0'% | '12.0'%, Fuel '88.11' Kg, PitStop 'No', Time '01:08.927' ms
+Lap 13: Rain 0% -> Compound 'Medium', TyresAge 12, Wear '18.0'% | '17.0'% | '15.0'% | '13.0'%, Fuel '86.64' Kg, PitStop 'No', Time '01:08.890' ms
+Lap 14: Rain 0% -> Compound 'Medium', TyresAge 13, Wear '19.0'% | '19.0'% | '16.0'% | '15.0'%, Fuel '85.18' Kg, PitStop 'No', Time '01:08.860' ms
+Lap 15: Rain 0% -> Compound 'Medium', TyresAge 14, Wear '21.0'% | '20.0'% | '17.0'% | '16.0'%, Fuel '83.72' Kg, PitStop 'No', Time '01:08.824' ms
+Lap 16: Rain 0% -> Compound 'Medium', TyresAge 15, Wear '22.0'% | '21.0'% | '19.0'% | '17.0'%, Fuel '82.26' Kg, PitStop 'No', Time '01:08.787' ms
+Lap 17: Rain 0% -> Compound 'Medium', TyresAge 16, Wear '24.0'% | '23.0'% | '20.0'% | '18.0'%, Fuel '80.79' Kg, PitStop 'No', Time '01:08.761' ms
+Lap 18: Rain 0% -> Compound 'Medium', TyresAge 17, Wear '25.0'% | '24.0'% | '21.0'% | '19.0'%, Fuel '79.33' Kg, PitStop 'No', Time '01:08.717' ms
+Lap 19: Rain 0% -> Compound 'Medium', TyresAge 18, Wear '27.0'% | '26.0'% | '22.0'% | '20.0'%, Fuel '77.87' Kg, PitStop 'No', Time '01:08.692' ms
+Lap 20: Rain 0% -> Compound 'Medium', TyresAge 19, Wear '28.0'% | '27.0'% | '24.0'% | '21.0'%, Fuel '76.41' Kg, PitStop 'No', Time '01:08.659' ms
+Lap 21: Rain 0% -> Compound 'Medium', TyresAge 20, Wear '30.0'% | '29.0'% | '25.0'% | '22.0'%, Fuel '74.95' Kg, PitStop 'No', Time '01:08.637' ms
+Lap 22: Rain 0% -> Compound 'Medium', TyresAge 21, Wear '31.0'% | '30.0'% | '26.0'% | '24.0'%, Fuel '73.48' Kg, PitStop 'No', Time '01:08.605' ms
+Lap 23: Rain 0% -> Compound 'Medium', TyresAge 22, Wear '33.0'% | '31.0'% | '27.0'% | '25.0'%, Fuel '72.02' Kg, PitStop 'No', Time '01:08.575' ms
+Lap 24: Rain 0% -> Compound 'Medium', TyresAge 23, Wear '34.0'% | '33.0'% | '29.0'% | '26.0'%, Fuel '70.56' Kg, PitStop 'No', Time '01:08.556' ms
+Lap 25: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '69.1' Kg, PitStop 'Yes', Time '01:27.584' ms
+Lap 26: Rain 0% -> Compound 'Soft', TyresAge 1, Wear '2.0'% | '2.0'% | '2.0'% | '1.0'%, Fuel '67.63' Kg, PitStop 'No', Time '01:06.566' ms
+Lap 27: Rain 0% -> Compound 'Soft', TyresAge 2, Wear '4.0'% | '4.0'% | '3.0'% | '3.0'%, Fuel '66.17' Kg, PitStop 'No', Time '01:06.590' ms
+Lap 28: Rain 0% -> Compound 'Soft', TyresAge 3, Wear '6.0'% | '6.0'% | '5.0'% | '4.0'%, Fuel '64.71' Kg, PitStop 'No', Time '01:06.616' ms
+Lap 29: Rain 0% -> Compound 'Soft', TyresAge 4, Wear '9.0'% | '8.0'% | '6.0'% | '6.0'%, Fuel '63.25' Kg, PitStop 'No', Time '01:06.656' ms
+Lap 30: Rain 0% -> Compound 'Soft', TyresAge 5, Wear '11.0'% | '11.0'% | '8.0'% | '7.0'%, Fuel '61.79' Kg, PitStop 'No', Time '01:06.698' ms
+Lap 31: Rain 0% -> Compound 'Soft', TyresAge 6, Wear '13.0'% | '13.0'% | '9.0'% | '8.0'%, Fuel '60.32' Kg, PitStop 'No', Time '01:06.710' ms
+Lap 32: Rain 0% -> Compound 'Soft', TyresAge 7, Wear '15.0'% | '15.0'% | '11.0'% | '10.0'%, Fuel '58.86' Kg, PitStop 'No', Time '01:06.756' ms
+Lap 33: Rain 0% -> Compound 'Soft', TyresAge 8, Wear '17.0'% | '17.0'% | '12.0'% | '11.0'%, Fuel '57.4' Kg, PitStop 'No', Time '01:06.770' ms
+Lap 34: Rain 0% -> Compound 'Soft', TyresAge 9, Wear '19.0'% | '19.0'% | '14.0'% | '12.0'%, Fuel '55.94' Kg, PitStop 'No', Time '01:06.804' ms
+Lap 35: Rain 0% -> Compound 'Soft', TyresAge 10, Wear '22.0'% | '21.0'% | '15.0'% | '14.0'%, Fuel '54.47' Kg, PitStop 'No', Time '01:06.854' ms
+Lap 36: Rain 0% -> Compound 'Soft', TyresAge 11, Wear '24.0'% | '23.0'% | '17.0'% | '15.0'%, Fuel '53.01' Kg, PitStop 'No', Time '01:06.892' ms
+Lap 37: Rain 0% -> Compound 'Soft', TyresAge 12, Wear '26.0'% | '25.0'% | '19.0'% | '17.0'%, Fuel '51.55' Kg, PitStop 'No', Time '01:06.950' ms
+Lap 38: Rain 0% -> Compound 'Soft', TyresAge 13, Wear '28.0'% | '27.0'% | '20.0'% | '18.0'%, Fuel '50.09' Kg, PitStop 'No', Time '01:06.974' ms
+Lap 39: Rain 0% -> Compound 'Soft', TyresAge 14, Wear '30.0'% | '30.0'% | '22.0'% | '19.0'%, Fuel '48.63' Kg, PitStop 'No', Time '01:07.038' ms
+Lap 40: Rain 0% -> Compound 'Soft', TyresAge 15, Wear '32.0'% | '32.0'% | '23.0'% | '21.0'%, Fuel '47.16' Kg, PitStop 'No', Time '01:07.086' ms
+Lap 41: Rain 0% -> Compound 'Soft', TyresAge 16, Wear '35.0'% | '34.0'% | '25.0'% | '22.0'%, Fuel '45.7' Kg, PitStop 'No', Time '01:07.158' ms
+Lap 42: Rain 0% -> Compound 'Soft', TyresAge 17, Wear '37.0'% | '36.0'% | '26.0'% | '24.0'%, Fuel '44.24' Kg, PitStop 'No', Time '01:07.212' ms
+Lap 43: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '42.78' Kg, PitStop 'Yes', Time '01:26.056' ms
+Lap 44: Rain 0% -> Compound 'Soft', TyresAge 1, Wear '2.0'% | '2.0'% | '2.0'% | '1.0'%, Fuel '41.31' Kg, PitStop 'No', Time '01:05.040' ms
+Lap 45: Rain 0% -> Compound 'Soft', TyresAge 2, Wear '4.0'% | '4.0'% | '3.0'% | '3.0'%, Fuel '39.85' Kg, PitStop 'No', Time '01:05.064' ms
+Lap 46: Rain 0% -> Compound 'Soft', TyresAge 3, Wear '6.0'% | '6.0'% | '5.0'% | '4.0'%, Fuel '38.39' Kg, PitStop 'No', Time '01:05.088' ms
+Lap 47: Rain 0% -> Compound 'Soft', TyresAge 4, Wear '9.0'% | '8.0'% | '6.0'% | '6.0'%, Fuel '36.93' Kg, PitStop 'No', Time '01:05.130' ms
+Lap 48: Rain 0% -> Compound 'Soft', TyresAge 5, Wear '11.0'% | '11.0'% | '8.0'% | '7.0'%, Fuel '35.46' Kg, PitStop 'No', Time '01:05.172' ms
+Lap 49: Rain 0% -> Compound 'Soft', TyresAge 6, Wear '13.0'% | '13.0'% | '9.0'% | '8.0'%, Fuel '34.0' Kg, PitStop 'No', Time '01:05.184' ms
+Lap 50: Rain 0% -> Compound 'Soft', TyresAge 7, Wear '15.0'% | '15.0'% | '11.0'% | '10.0'%, Fuel '32.54' Kg, PitStop 'No', Time '01:05.230' ms
+Lap 51: Rain 0% -> Compound 'Soft', TyresAge 8, Wear '17.0'% | '17.0'% | '12.0'% | '11.0'%, Fuel '31.08' Kg, PitStop 'No', Time '01:05.242' ms
+Lap 52: Rain 0% -> Compound 'Soft', TyresAge 9, Wear '19.0'% | '19.0'% | '14.0'% | '12.0'%, Fuel '29.62' Kg, PitStop 'No', Time '01:05.276' ms
+Lap 53: Rain 0% -> Compound 'Soft', TyresAge 10, Wear '22.0'% | '21.0'% | '15.0'% | '14.0'%, Fuel '28.15' Kg, PitStop 'No', Time '01:05.328' ms
+Lap 54: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '26.69' Kg, PitStop 'Yes', Time '01:25.124' ms
+Lap 55: Rain 0% -> Compound 'Soft', TyresAge 1, Wear '2.0'% | '2.0'% | '2.0'% | '1.0'%, Fuel '25.23' Kg, PitStop 'No', Time '01:04.106' ms
+Lap 56: Rain 0% -> Compound 'Soft', TyresAge 2, Wear '4.0'% | '4.0'% | '3.0'% | '3.0'%, Fuel '23.77' Kg, PitStop 'No', Time '01:04.130' ms
+Lap 57: Rain 0% -> Compound 'Soft', TyresAge 3, Wear '6.0'% | '6.0'% | '5.0'% | '4.0'%, Fuel '22.3' Kg, PitStop 'No', Time '01:04.156' ms
+Lap 58: Rain 0% -> Compound 'Soft', TyresAge 4, Wear '9.0'% | '8.0'% | '6.0'% | '6.0'%, Fuel '20.84' Kg, PitStop 'No', Time '01:04.196' ms
+Lap 59: Rain 0% -> Compound 'Soft', TyresAge 5, Wear '11.0'% | '11.0'% | '8.0'% | '7.0'%, Fuel '19.38' Kg, PitStop 'No', Time '01:04.240' ms
+Lap 60: Rain 0% -> Compound 'Soft', TyresAge 6, Wear '13.0'% | '13.0'% | '9.0'% | '8.0'%, Fuel '17.92' Kg, PitStop 'No', Time '01:04.250' ms
+Lap 61: Rain 0% -> Compound 'Soft', TyresAge 7, Wear '15.0'% | '15.0'% | '11.0'% | '10.0'%, Fuel '16.46' Kg, PitStop 'No', Time '01:04.298' ms
+Lap 62: Rain 0% -> Compound 'Soft', TyresAge 8, Wear '17.0'% | '17.0'% | '12.0'% | '11.0'%, Fuel '14.99' Kg, PitStop 'No', Time '01:04.310' ms
+Lap 63: Rain 0% -> Compound 'Soft', TyresAge 9, Wear '19.0'% | '19.0'% | '14.0'% | '12.0'%, Fuel '13.53' Kg, PitStop 'No', Time '01:04.344' ms
+Lap 64: Rain 0% -> Compound 'Soft', TyresAge 10, Wear '22.0'% | '21.0'% | '15.0'% | '14.0'%, Fuel '12.07' Kg, PitStop 'No', Time '01:04.396' ms
+Lap 65: Rain 0% -> Compound 'Soft', TyresAge 11, Wear '24.0'% | '23.0'% | '17.0'% | '15.0'%, Fuel '10.61' Kg, PitStop 'No', Time '01:04.432' ms
+Lap 66: Rain 0% -> Compound 'Soft', TyresAge 12, Wear '26.0'% | '25.0'% | '19.0'% | '17.0'%, Fuel '9.14' Kg, PitStop 'No', Time '01:04.490' ms
+Lap 67: Rain 0% -> Compound 'Soft', TyresAge 13, Wear '28.0'% | '27.0'% | '20.0'% | '18.0'%, Fuel '7.68' Kg, PitStop 'No', Time '01:04.514' ms
+Lap 68: Rain 0% -> Compound 'Soft', TyresAge 14, Wear '30.0'% | '30.0'% | '22.0'% | '19.0'%, Fuel '6.22' Kg, PitStop 'No', Time '01:04.578' ms
+Lap 69: Rain 0% -> Compound 'Soft', TyresAge 15, Wear '32.0'% | '32.0'% | '23.0'% | '21.0'%, Fuel '4.76' Kg, PitStop 'No', Time '01:04.626' ms
+Lap 70: Rain 0% -> Compound 'Soft', TyresAge 16, Wear '35.0'% | '34.0'% | '25.0'% | '22.0'%, Fuel '3.3' Kg, PitStop 'No', Time '01:04.698' ms
+Lap 71: Rain 0% -> Compound 'Soft', TyresAge 17, Wear '37.0'% | '36.0'% | '26.0'% | '24.0'%, Fuel '1.83' Kg, PitStop 'No', Time '01:04.754' ms
+Time elapsed: 01:37.414

@@ -3,6 +3,20 @@ from classes.Utils import CIRCUIT
 from random import SystemRandom
 random = SystemRandom()
 
+def weather_summary(circuit:str, weather_file:str):
+    """
+    Returns a string with the weather summary.
+    """
+    weather = Weather(circuit=circuit,filename=weather_file)
+
+    wlist = weather.get_weather_list()
+
+    to_ret = []
+    for index, weather in enumerate(wlist):
+        if index == 0 or weather != wlist[index-1]:
+            to_ret.append((index+1, weather))
+
+    return to_ret
 
 class Weather:
     def __init__(self, circuit:str, filename:str=None) -> None:
@@ -45,7 +59,7 @@ class Weather:
             for line in f:
                 self.weather.append(int(line.strip()))
 
-        if len(self.weather) != CIRCUIT[circuit]['Laps']:
+        if len(self.weather)-1 != CIRCUIT[circuit]['Laps']:
             print(f"Weather file '{self.filename}' has {len(self.weather)} laps but circuit '{circuit}' has {CIRCUIT[circuit]['Laps']} laps.")
 
     def get_weather_string(self, w):

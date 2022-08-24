@@ -1,0 +1,157 @@
+Log file of circuit Montreal at 22/08/2022 13:43:44
+
+Population: 100
+Iterations: 500
+Mutation: 0.3
+Crossover: 1.0
+PitStopTime: 00:24.000
+Weather: 'S'
+
+[EA] Generation 1 - Bruteforce solution: 01:25:26.822 -> best overall: 01:41:16.400 - difference: 15:49.578 - valid strategies: 7.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 2 - Bruteforce solution: 01:25:26.822 -> best overall: 01:41:16.006 - difference: 15:49.184 - valid strategies: 13.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 3 - Bruteforce solution: 01:25:26.822 -> best overall: 01:41:13.193 - difference: 15:46.371 - valid strategies: 18.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 4 - Bruteforce solution: 01:25:26.822 -> best overall: 01:41:13.147 - difference: 15:46.325 - valid strategies: 26.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 5 - Bruteforce solution: 01:25:26.822 -> best overall: 01:40:41.309 - difference: 15:14.487 - valid strategies: 15.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 6 - Bruteforce solution: 01:25:26.822 -> best overall: 01:40:35.947 - difference: 15:09.125 - valid strategies: 9.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 7 - Bruteforce solution: 01:25:26.822 -> best overall: 01:40:35.947 - difference: 15:09.125 - valid strategies: 10.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 8 - Bruteforce solution: 01:25:26.822 -> best overall: 01:40:35.947 - difference: 15:09.125 - valid strategies: 6.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 9 - Bruteforce solution: 01:25:26.822 -> best overall: 01:38:42.534 - difference: 13:15.712 - valid strategies: 4.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 10 - Bruteforce solution: 01:25:26.822 -> best overall: 01:38:42.534 - difference: 13:15.712 - valid strategies: 5.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 11 - Bruteforce solution: 01:25:26.822 -> best overall: 01:38:42.534 - difference: 13:15.712 - valid strategies: 10.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 12 - Bruteforce solution: 01:25:26.822 -> best overall: 01:38:29.680 - difference: 13:02.858 - valid strategies: 6.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 13 - Bruteforce solution: 01:25:26.822 -> best overall: 01:38:29.680 - difference: 13:02.858 - valid strategies: 7.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 14 - Bruteforce solution: 01:25:26.822 -> best overall: 01:38:16.344 - difference: 12:49.522 - valid strategies: 9.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 15 - Bruteforce solution: 01:25:26.822 -> best overall: 01:38:16.344 - difference: 12:49.522 - valid strategies: 8.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 16 - Bruteforce solution: 01:25:26.822 -> best overall: 01:37:49.942 - difference: 12:23.120 - valid strategies: 11.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 17 - Bruteforce solution: 01:25:26.822 -> best overall: 01:37:26.659 - difference: 11:59.837 - valid strategies: 22.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 18 - Bruteforce solution: 01:25:26.822 -> best overall: 01:36:52.444 - difference: 11:25.622 - valid strategies: 19.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 19 - Bruteforce solution: 01:25:26.822 -> best overall: 01:36:52.444 - difference: 11:25.622 - valid strategies: 15.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 20 - Bruteforce solution: 01:25:26.822 -> best overall: 01:33:33.112 - difference: 08:06.290 - valid strategies: 11.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 21 - Bruteforce solution: 01:25:26.822 -> best overall: 01:33:33.112 - difference: 08:06.290 - valid strategies: 7.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 22 - Bruteforce solution: 01:25:26.822 -> best overall: 01:33:33.112 - difference: 08:06.290 - valid strategies: 7.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 23 - Bruteforce solution: 01:25:26.822 -> best overall: 01:33:33.112 - difference: 08:06.290 - valid strategies: 9.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 24 - Bruteforce solution: 01:25:26.822 -> best overall: 01:33:33.112 - difference: 08:06.290 - valid strategies: 14.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 25 - Bruteforce solution: 01:25:26.822 -> best overall: 01:33:09.580 - difference: 07:42.758 - valid strategies: 7.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 26 - Bruteforce solution: 01:25:26.822 -> best overall: 01:33:03.652 - difference: 07:36.830 - valid strategies: 12.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 27 - Bruteforce solution: 01:25:26.822 -> best overall: 01:33:03.652 - difference: 07:36.830 - valid strategies: 16.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 28 - Bruteforce solution: 01:25:26.822 -> best overall: 01:33:03.652 - difference: 07:36.830 - valid strategies: 11.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 29 - Bruteforce solution: 01:25:26.822 -> best overall: 01:32:39.978 - difference: 07:13.156 - valid strategies: 5.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 30 - Bruteforce solution: 01:25:26.822 -> best overall: 01:32:39.978 - difference: 07:13.156 - valid strategies: 9.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 31 - Bruteforce solution: 01:25:26.822 -> best overall: 01:32:37.547 - difference: 07:10.725 - valid strategies: 7.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 32 - Bruteforce solution: 01:25:26.822 -> best overall: 01:32:37.547 - difference: 07:10.725 - valid strategies: 9.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 33 - Bruteforce solution: 01:25:26.822 -> best overall: 01:32:37.547 - difference: 07:10.725 - valid strategies: 9.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 34 - Bruteforce solution: 01:25:26.822 -> best overall: 01:32:37.547 - difference: 07:10.725 - valid strategies: 11.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 35 - Bruteforce solution: 01:25:26.822 -> best overall: 01:32:37.547 - difference: 07:10.725 - valid strategies: 12.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 36 - Bruteforce solution: 01:25:26.822 -> best overall: 01:32:15.147 - difference: 06:48.325 - valid strategies: 4.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 37 - Bruteforce solution: 01:25:26.822 -> best overall: 01:32:15.147 - difference: 06:48.325 - valid strategies: 5.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 38 - Bruteforce solution: 01:25:26.822 -> best overall: 01:32:15.147 - difference: 06:48.325 - valid strategies: 10.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 39 - Bruteforce solution: 01:25:26.822 -> best overall: 01:32:12.788 - difference: 06:45.966 - valid strategies: 17.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 40 - Bruteforce solution: 01:25:26.822 -> best overall: 01:31:51.932 - difference: 06:25.110 - valid strategies: 6.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 41 - Bruteforce solution: 01:25:26.822 -> best overall: 01:31:34.382 - difference: 06:07.560 - valid strategies: 9.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 42 - Bruteforce solution: 01:25:26.822 -> best overall: 01:31:34.382 - difference: 06:07.560 - valid strategies: 5.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 43 - Bruteforce solution: 01:25:26.822 -> best overall: 01:31:34.382 - difference: 06:07.560 - valid strategies: 8.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 44 - Bruteforce solution: 01:25:26.822 -> best overall: 01:31:11.015 - difference: 05:44.193 - valid strategies: 6.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 45 - Bruteforce solution: 01:25:26.822 -> best overall: 01:31:11.015 - difference: 05:44.193 - valid strategies: 9.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 46 - Bruteforce solution: 01:25:26.822 -> best overall: 01:30:47.483 - difference: 05:20.661 - valid strategies: 7.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 47 - Bruteforce solution: 01:25:26.822 -> best overall: 01:30:47.483 - difference: 05:20.661 - valid strategies: 4.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 48 - Bruteforce solution: 01:25:26.822 -> best overall: 01:30:47.483 - difference: 05:20.661 - valid strategies: 7.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 49 - Bruteforce solution: 01:25:26.822 -> best overall: 01:30:30.042 - difference: 05:03.220 - valid strategies: 8.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 50 - Bruteforce solution: 01:25:26.822 -> best overall: 01:30:30.042 - difference: 05:03.220 - valid strategies: 5.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 51 - Bruteforce solution: 01:25:26.822 -> best overall: 01:30:30.042 - difference: 05:03.220 - valid strategies: 5.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 52 - Bruteforce solution: 01:25:26.822 -> best overall: 01:30:06.675 - difference: 04:39.853 - valid strategies: 6.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 53 - Bruteforce solution: 01:25:26.822 -> best overall: 01:30:06.675 - difference: 04:39.853 - valid strategies: 9.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 54 - Bruteforce solution: 01:25:26.822 -> best overall: 01:30:06.675 - difference: 04:39.853 - valid strategies: 3.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 55 - Bruteforce solution: 01:25:26.822 -> best overall: 01:30:06.675 - difference: 04:39.853 - valid strategies: 10.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 56 - Bruteforce solution: 01:25:26.822 -> best overall: 01:29:46.263 - difference: 04:19.441 - valid strategies: 7.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 57 - Bruteforce solution: 01:25:26.822 -> best overall: 01:29:23.063 - difference: 03:56.241 - valid strategies: 10.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 58 - Bruteforce solution: 01:25:26.822 -> best overall: 01:29:23.063 - difference: 03:56.241 - valid strategies: 3.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 59 - Bruteforce solution: 01:25:26.822 -> best overall: 01:29:23.063 - difference: 03:56.241 - valid strategies: 8.0% | threshold is 0.3 - counter = 2/5 - stuck value = 0
+[EA] Generation 60 - Bruteforce solution: 01:25:26.822 -> best overall: 01:29:23.063 - difference: 03:56.241 - valid strategies: 5.0% | threshold is 0.3 - counter = 3/5 - stuck value = 0
+[EA] Generation 61 - Bruteforce solution: 01:25:26.822 -> best overall: 01:29:23.063 - difference: 03:56.241 - valid strategies: 8.0% | threshold is 0.3 - counter = 4/5 - stuck value = 0
+[EA] Generation 62 - Bruteforce solution: 01:25:26.822 -> best overall: 01:29:00.533 - difference: 03:33.711 - valid strategies: 3.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 63 - Bruteforce solution: 01:25:26.822 -> best overall: 01:29:00.533 - difference: 03:33.711 - valid strategies: 6.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 64 - Bruteforce solution: 01:25:26.822 -> best overall: 01:28:37.333 - difference: 03:10.511 - valid strategies: 9.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 65 - Bruteforce solution: 01:25:26.822 -> best overall: 01:28:14.224 - difference: 02:47.402 - valid strategies: 5.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 66 - Bruteforce solution: 01:25:26.822 -> best overall: 01:28:14.224 - difference: 02:47.402 - valid strategies: 11.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+[EA] Generation 67 - Bruteforce solution: 01:25:26.822 -> best overall: 01:27:59.379 - difference: 02:32.557 - valid strategies: 3.0% | threshold is 0.3 - counter = 0/5 - stuck value = 0
+[EA] Generation 68 - Bruteforce solution: 01:25:26.822 -> best overall: 01:27:59.379 - difference: 02:32.557 - valid strategies: 5.0% | threshold is 0.3 - counter = 1/5 - stuck value = 0
+
+
+Best Strategy fitness: 5279379
+Best Strategy time: 01:27:59.379
+
+ vs 
+
+Bruteforce fitness: 5126822
+Bruteforce time: 01:25:26.822
+Lap 1: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '107.46' Kg, PitStop 'No', Time '01:15.690' ms
+Lap 2: Rain 0% -> Compound 'Soft', TyresAge 1, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '107.46' Kg, PitStop 'No', Time '01:13.811' ms
+Lap 3: Rain 0% -> Compound 'Soft', TyresAge 2, Wear '4.0'% | '4.0'% | '4.0'% | '4.0'%, Fuel '105.98' Kg, PitStop 'No', Time '01:13.892' ms
+Lap 4: Rain 0% -> Compound 'Soft', TyresAge 3, Wear '6.0'% | '5.0'% | '6.0'% | '6.0'%, Fuel '104.5' Kg, PitStop 'No', Time '01:13.951' ms
+Lap 5: Rain 0% -> Compound 'Soft', TyresAge 4, Wear '8.0'% | '7.0'% | '8.0'% | '8.0'%, Fuel '103.03' Kg, PitStop 'No', Time '01:14.034' ms
+Lap 6: Rain 0% -> Compound 'Soft', TyresAge 5, Wear '10.0'% | '9.0'% | '10.0'% | '10.0'%, Fuel '101.55' Kg, PitStop 'No', Time '01:14.118' ms
+Lap 7: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '100.08' Kg, PitStop 'Yes', Time '01:37.235' ms
+Lap 8: Rain 0% -> Compound 'Soft', TyresAge 1, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '98.6' Kg, PitStop 'No', Time '01:13.315' ms
+Lap 9: Rain 0% -> Compound 'Soft', TyresAge 2, Wear '4.0'% | '4.0'% | '4.0'% | '4.0'%, Fuel '97.13' Kg, PitStop 'No', Time '01:13.396' ms
+Lap 10: Rain 0% -> Compound 'Soft', TyresAge 3, Wear '6.0'% | '5.0'% | '6.0'% | '6.0'%, Fuel '95.65' Kg, PitStop 'No', Time '01:13.455' ms
+Lap 11: Rain 0% -> Compound 'Soft', TyresAge 4, Wear '8.0'% | '7.0'% | '8.0'% | '8.0'%, Fuel '94.18' Kg, PitStop 'No', Time '01:13.538' ms
+Lap 12: Rain 0% -> Compound 'Soft', TyresAge 5, Wear '10.0'% | '9.0'% | '10.0'% | '10.0'%, Fuel '92.7' Kg, PitStop 'No', Time '01:13.622' ms
+Lap 13: Rain 0% -> Compound 'Soft', TyresAge 6, Wear '12.0'% | '11.0'% | '12.0'% | '12.0'%, Fuel '91.23' Kg, PitStop 'No', Time '01:13.707' ms
+Lap 14: Rain 0% -> Compound 'Soft', TyresAge 7, Wear '14.0'% | '12.0'% | '14.0'% | '14.0'%, Fuel '89.75' Kg, PitStop 'No', Time '01:13.773' ms
+Lap 15: Rain 0% -> Compound 'Soft', TyresAge 8, Wear '16.0'% | '14.0'% | '16.0'% | '15.0'%, Fuel '88.27' Kg, PitStop 'No', Time '01:13.841' ms
+Lap 16: Rain 0% -> Compound 'Soft', TyresAge 9, Wear '17.0'% | '16.0'% | '18.0'% | '17.0'%, Fuel '86.8' Kg, PitStop 'No', Time '01:13.914' ms
+Lap 17: Rain 0% -> Compound 'Soft', TyresAge 10, Wear '19.0'% | '18.0'% | '20.0'% | '19.0'%, Fuel '85.32' Kg, PitStop 'No', Time '01:14.009' ms
+Lap 18: Rain 0% -> Compound 'Soft', TyresAge 11, Wear '21.0'% | '19.0'% | '23.0'% | '21.0'%, Fuel '83.85' Kg, PitStop 'No', Time '01:14.108' ms
+Lap 19: Rain 0% -> Compound 'Soft', TyresAge 12, Wear '23.0'% | '21.0'% | '25.0'% | '23.0'%, Fuel '82.37' Kg, PitStop 'No', Time '01:14.212' ms
+Lap 20: Rain 0% -> Compound 'Soft', TyresAge 13, Wear '25.0'% | '23.0'% | '27.0'% | '25.0'%, Fuel '80.9' Kg, PitStop 'No', Time '01:14.321' ms
+Lap 21: Rain 0% -> Compound 'Soft', TyresAge 14, Wear '27.0'% | '25.0'% | '29.0'% | '27.0'%, Fuel '79.42' Kg, PitStop 'No', Time '01:14.433' ms
+Lap 22: Rain 0% -> Compound 'Soft', TyresAge 15, Wear '29.0'% | '26.0'% | '31.0'% | '29.0'%, Fuel '77.95' Kg, PitStop 'No', Time '01:14.528' ms
+Lap 23: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '76.47' Kg, PitStop 'Yes', Time '01:35.913' ms
+Lap 24: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '74.99' Kg, PitStop 'Yes', Time '01:35.830' ms
+Lap 25: Rain 0% -> Compound 'Soft', TyresAge 1, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '73.52' Kg, PitStop 'No', Time '01:11.910' ms
+Lap 26: Rain 0% -> Compound 'Soft', TyresAge 2, Wear '4.0'% | '4.0'% | '4.0'% | '4.0'%, Fuel '72.04' Kg, PitStop 'No', Time '01:11.991' ms
+Lap 27: Rain 0% -> Compound 'Soft', TyresAge 3, Wear '6.0'% | '5.0'% | '6.0'% | '6.0'%, Fuel '70.57' Kg, PitStop 'No', Time '01:12.051' ms
+Lap 28: Rain 0% -> Compound 'Soft', TyresAge 4, Wear '8.0'% | '7.0'% | '8.0'% | '8.0'%, Fuel '69.09' Kg, PitStop 'No', Time '01:12.133' ms
+Lap 29: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '67.62' Kg, PitStop 'Yes', Time '01:35.418' ms
+Lap 30: Rain 0% -> Compound 'Soft', TyresAge 1, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '66.14' Kg, PitStop 'No', Time '01:11.497' ms
+Lap 31: Rain 0% -> Compound 'Soft', TyresAge 2, Wear '4.0'% | '4.0'% | '4.0'% | '4.0'%, Fuel '64.67' Kg, PitStop 'No', Time '01:11.578' ms
+Lap 32: Rain 0% -> Compound 'Soft', TyresAge 3, Wear '6.0'% | '5.0'% | '6.0'% | '6.0'%, Fuel '63.19' Kg, PitStop 'No', Time '01:11.638' ms
+Lap 33: Rain 0% -> Compound 'Soft', TyresAge 4, Wear '8.0'% | '7.0'% | '8.0'% | '8.0'%, Fuel '61.71' Kg, PitStop 'No', Time '01:11.720' ms
+Lap 34: Rain 0% -> Compound 'Soft', TyresAge 5, Wear '10.0'% | '9.0'% | '10.0'% | '10.0'%, Fuel '60.24' Kg, PitStop 'No', Time '01:11.804' ms
+Lap 35: Rain 0% -> Compound 'Soft', TyresAge 6, Wear '12.0'% | '11.0'% | '12.0'% | '12.0'%, Fuel '58.76' Kg, PitStop 'No', Time '01:11.889' ms
+Lap 36: Rain 0% -> Compound 'Soft', TyresAge 7, Wear '14.0'% | '12.0'% | '14.0'% | '14.0'%, Fuel '57.29' Kg, PitStop 'No', Time '01:11.955' ms
+Lap 37: Rain 0% -> Compound 'Soft', TyresAge 8, Wear '16.0'% | '14.0'% | '16.0'% | '15.0'%, Fuel '55.81' Kg, PitStop 'No', Time '01:12.023' ms
+Lap 38: Rain 0% -> Compound 'Soft', TyresAge 9, Wear '17.0'% | '16.0'% | '18.0'% | '17.0'%, Fuel '54.34' Kg, PitStop 'No', Time '01:12.096' ms
+Lap 39: Rain 0% -> Compound 'Soft', TyresAge 10, Wear '19.0'% | '18.0'% | '20.0'% | '19.0'%, Fuel '52.86' Kg, PitStop 'No', Time '01:12.191' ms
+Lap 40: Rain 0% -> Compound 'Soft', TyresAge 11, Wear '21.0'% | '19.0'% | '23.0'% | '21.0'%, Fuel '51.39' Kg, PitStop 'No', Time '01:12.291' ms
+Lap 41: Rain 0% -> Compound 'Soft', TyresAge 12, Wear '23.0'% | '21.0'% | '25.0'% | '23.0'%, Fuel '49.91' Kg, PitStop 'No', Time '01:12.394' ms
+Lap 42: Rain 0% -> Compound 'Soft', TyresAge 13, Wear '25.0'% | '23.0'% | '27.0'% | '25.0'%, Fuel '48.44' Kg, PitStop 'No', Time '01:12.503' ms
+Lap 43: Rain 0% -> Compound 'Medium', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '46.96' Kg, PitStop 'Yes', Time '01:34.684' ms
+Lap 44: Rain 0% -> Compound 'Medium', TyresAge 1, Wear '1.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '45.48' Kg, PitStop 'No', Time '01:10.700' ms
+Lap 45: Rain 0% -> Compound 'Medium', TyresAge 2, Wear '2.0'% | '2.0'% | '3.0'% | '2.0'%, Fuel '44.01' Kg, PitStop 'No', Time '01:10.740' ms
+Lap 46: Rain 0% -> Compound 'Medium', TyresAge 3, Wear '4.0'% | '3.0'% | '4.0'% | '4.0'%, Fuel '42.53' Kg, PitStop 'No', Time '01:10.806' ms
+Lap 47: Rain 0% -> Compound 'Medium', TyresAge 4, Wear '5.0'% | '4.0'% | '5.0'% | '5.0'%, Fuel '41.06' Kg, PitStop 'No', Time '01:10.822' ms
+Lap 48: Rain 0% -> Compound 'Medium', TyresAge 5, Wear '6.0'% | '5.0'% | '6.0'% | '6.0'%, Fuel '39.58' Kg, PitStop 'No', Time '01:10.838' ms
+Lap 49: Rain 0% -> Compound 'Medium', TyresAge 6, Wear '7.0'% | '7.0'% | '8.0'% | '7.0'%, Fuel '38.11' Kg, PitStop 'No', Time '01:10.904' ms
+Lap 50: Rain 0% -> Compound 'Medium', TyresAge 7, Wear '8.0'% | '8.0'% | '9.0'% | '8.0'%, Fuel '36.63' Kg, PitStop 'No', Time '01:10.922' ms
+Lap 51: Rain 0% -> Compound 'Medium', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '35.16' Kg, PitStop 'Yes', Time '01:34.024' ms
+Lap 52: Rain 0% -> Compound 'Medium', TyresAge 1, Wear '1.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '33.68' Kg, PitStop 'No', Time '01:10.038' ms
+Lap 53: Rain 0% -> Compound 'Medium', TyresAge 2, Wear '2.0'% | '2.0'% | '3.0'% | '2.0'%, Fuel '32.2' Kg, PitStop 'No', Time '01:10.078' ms
+Lap 54: Rain 0% -> Compound 'Medium', TyresAge 3, Wear '4.0'% | '3.0'% | '4.0'% | '4.0'%, Fuel '30.73' Kg, PitStop 'No', Time '01:10.144' ms
+Lap 55: Rain 0% -> Compound 'Medium', TyresAge 4, Wear '5.0'% | '4.0'% | '5.0'% | '5.0'%, Fuel '29.25' Kg, PitStop 'No', Time '01:10.160' ms
+Lap 56: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '27.78' Kg, PitStop 'Yes', Time '01:33.187' ms
+Lap 57: Rain 0% -> Compound 'Soft', TyresAge 1, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '26.3' Kg, PitStop 'No', Time '01:09.266' ms
+Lap 58: Rain 0% -> Compound 'Soft', TyresAge 2, Wear '4.0'% | '4.0'% | '4.0'% | '4.0'%, Fuel '24.83' Kg, PitStop 'No', Time '01:09.347' ms
+Lap 59: Rain 0% -> Compound 'Soft', TyresAge 3, Wear '6.0'% | '5.0'% | '6.0'% | '6.0'%, Fuel '23.35' Kg, PitStop 'No', Time '01:09.407' ms
+Lap 60: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '21.88' Kg, PitStop 'Yes', Time '01:32.856' ms
+Lap 61: Rain 0% -> Compound 'Soft', TyresAge 1, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '20.4' Kg, PitStop 'No', Time '01:08.935' ms
+Lap 62: Rain 0% -> Compound 'Soft', TyresAge 2, Wear '4.0'% | '4.0'% | '4.0'% | '4.0'%, Fuel '18.93' Kg, PitStop 'No', Time '01:09.017' ms
+Lap 63: Rain 0% -> Compound 'Soft', TyresAge 3, Wear '6.0'% | '5.0'% | '6.0'% | '6.0'%, Fuel '17.45' Kg, PitStop 'No', Time '01:09.076' ms
+Lap 64: Rain 0% -> Compound 'Soft', TyresAge 4, Wear '8.0'% | '7.0'% | '8.0'% | '8.0'%, Fuel '15.97' Kg, PitStop 'No', Time '01:09.158' ms
+Lap 65: Rain 0% -> Compound 'Soft', TyresAge 5, Wear '10.0'% | '9.0'% | '10.0'% | '10.0'%, Fuel '14.5' Kg, PitStop 'No', Time '01:09.243' ms
+Lap 66: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '13.02' Kg, PitStop 'Yes', Time '01:32.360' ms
+Lap 67: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '11.55' Kg, PitStop 'Yes', Time '01:32.278' ms
+Lap 68: Rain 0% -> Compound 'Soft', TyresAge 1, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '10.07' Kg, PitStop 'No', Time '01:08.357' ms
+Lap 69: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '8.6' Kg, PitStop 'Yes', Time '01:32.112' ms
+Lap 70: Rain 0% -> Compound 'Soft', TyresAge 1, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '7.12' Kg, PitStop 'No', Time '01:08.192' ms
+Time elapsed: 00:26.119

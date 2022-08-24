@@ -217,6 +217,9 @@ def time_to_ms(string):
 def ms_to_time(ms):
     if math.isinf(ms):
         return "Inf"
+    
+    if ms < 0:
+        return "-" + ms_to_time(-ms)
 
     milliseconds = str(ms)[-3:]
     ms = ms-int(milliseconds)

@@ -50,7 +50,7 @@
             "program": "d:\\Projects\\Bio-F1\\main.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["--c", "Spielberg"]
+            "args": ["--c", "Spielberg","--d","--w","Sunny.txt"]
         },
         {
             "name": "[WIN] Monza",
@@ -59,7 +59,7 @@
             "program": "d:\\Projects\\Bio-F1\\main.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["--c", "Monza", "--w", "Sunny.txt"]
+            "args": ["--c", "Monza","--d","--w","Sunny.txt"]
         },
         {
             "name": "[WIN] Montreal",
@@ -68,7 +68,7 @@
             "program": "d:\\Projects\\Bio-F1\\main.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["--c", "Montreal"]
+            "args": ["--c", "Montreal","--d","--w","Sunny.txt"]
         },
         {
             "name": "[WIN] Portimao",
@@ -77,7 +77,7 @@
             "program": "d:\\Projects\\Bio-F1\\main.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["--c", "Portimao"]
+            "args": ["--c", "Portimao","--d","--w","Sunny.txt"]
         }
     ]
 }
