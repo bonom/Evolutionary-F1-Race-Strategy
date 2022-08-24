@@ -207,7 +207,7 @@ class GeneticSolver:
                 boxplot_list = boxplot_insert(boxplot_list, population)
 
                 # Select parents
-                selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=threshold_quantile, best = best_eval)
+                #selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=threshold_quantile, best = best_eval)
                 
                 """
                 ######################################################################################
@@ -240,7 +240,7 @@ class GeneticSolver:
                 ######################################################################################
                 ### Stable population
 
-                parents = [parent for parent in selected[:int(self.population*2/13)]]
+                parents = [parent for parent in population[:int(self.population*2/13)]]
                 children = copy.deepcopy(parents)
 
                 for i in range(0, len(parents)-1, 2): 
