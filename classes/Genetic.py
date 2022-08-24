@@ -416,10 +416,10 @@ class GeneticSolver:
         deltas = [abs(x['TotalTime'] - best) for x in population]
         max_delta = max(1,max(deltas))
 
-        penalty= [delta/max_delta for delta in deltas]
+        #penalty= [delta/max_delta for delta in deltas]
 
         alpha = np.exp(1+(1/self.iterations)*step)
-        penalty = [p*alpha for p in penalty]
+        penalty = [(delta/max_delta)*alpha for delta in deltas]
 
         quantile = np.quantile(penalty, threshold_quantile)
 
