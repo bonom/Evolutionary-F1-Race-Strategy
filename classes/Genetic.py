@@ -207,7 +207,7 @@ class GeneticSolver:
                 boxplot_list = boxplot_insert(boxplot_list, population)
 
                 # Select parents
-                #selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=threshold_quantile, best = best_eval)
+                selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold=2/13, best = best_eval)
                 
                 """
                 ######################################################################################
@@ -240,7 +240,8 @@ class GeneticSolver:
                 ######################################################################################
                 ### Stable population
 
-                parents = [parent for parent in population[:int(self.population*2/13)]]
+                #parents = [parent for parent in population[:int(self.population*2/13)]]
+                parents = selected
                 children = copy.deepcopy(parents)
 
                 for i in range(0, len(parents)-1, 2): 
@@ -411,7 +412,8 @@ class GeneticSolver:
         #     return random.choice(['Soft', 'Medium', 'Hard', 'Inter'])
         return random.choice(['Soft', 'Medium', 'Hard','Inter','Wet'])
 
-    def selection_dynamic_penalty(self, step:int, population:list, threshold_quantile:float, best:int):
+    #def selection_dynamic_penalty(self, step:int, population:list, threshold_quantile:float, best:int):
+    def selection_dynamic_penalty(self, step:int, population:list, threshold:float, best:int):
         deltas = [abs(x['TotalTime'] - best) for x in population]
         max_delta = max(1,max(deltas))
 
@@ -420,7 +422,7 @@ class GeneticSolver:
         alpha = np.exp(1+(1/self.iterations)*step)
         penalty = [p*alpha for p in penalty]
 
-        quantile = np.quantile(penalty, threshold_quantile)
+        #quantile = np.quantile(penalty, threshold_quantile)
 
         for p, pop in zip(penalty, population):
             self.checkValidity(pop)
@@ -440,7 +442,9 @@ class GeneticSolver:
         for idx, x in enumerate(population):
             x['Penalty'] = penalty[idx]
         sortedPopulation = sorted(population, key=lambda x: x['Penalty'])
-        selected = [x for idx, x in enumerate(sortedPopulation) if x['Penalty'] < quantile]
+        #selected = [x for idx, x in enumerate(sortedPopulation) if x['Penalty'] < quantile]
+        #selected = [x for idx, x in enumerate(sortedPopulation) if x['Penalty'] < threshold]
+        selected = [parent for parent in population[:int(self.population*threshold)]]
         for x in sortedPopulation:
             x.pop('Penalty')
 
