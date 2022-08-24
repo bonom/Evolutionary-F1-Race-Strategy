@@ -2,10 +2,7 @@ from random import SystemRandom
 import pandas as pd
 import numpy as np
 import os
-try:
-    from pickle5 import pickle
-except ImportError:
-    import pickle
+import pickle
 import plotly.express as px
 import math
 
