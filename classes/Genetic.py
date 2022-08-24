@@ -152,7 +152,8 @@ class GeneticSolver:
             pass
 
         if any([x != 0 for x in strategy['Weather']]): # If weather is not completely Dry the constraint of changing tyre does not apply anymore
-            if any([x > 30 for x in strategy['Weather']]) and any([x in ['Inter','Wet'] for x in all_compounds]) and last_lap_fuel_load >= 0:
+            #if any([x > 30 for x in strategy['Weather']]) and any([x in ['Inter','Wet'] for x in all_compounds]) and last_lap_fuel_load >= 0:
+            if last_lap_fuel_load >= 0:
                 strategy['Valid'] = True
                 return True
         
