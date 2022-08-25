@@ -397,7 +397,7 @@ class GeneticSolver:
             strategy['PitStop'].append(pitStop)
             strategy['LapTime'].append(self.getLapTime(compound=compound, compoundAge=tyresAge, lap=lap, fuel_load=fuelLoad, conditions=weather, drs=False, pitStop=pitStop))
         
-        self.checkValidity(strategy)    
+        #self.checkValidity(strategy)    
         strategy['TotalTime'] = sum(strategy['LapTime'])
         return strategy
 
@@ -424,7 +424,7 @@ class GeneticSolver:
         quantile = np.quantile(penalty, threshold_quantile)
 
         for p, pop in zip(penalty, population):
-            self.checkValidity(pop)
+            #self.checkValidity(pop)
             if not pop['Valid']:
                 if pop['NumPitStop'] < 1 and all([x == 'Dry' for x in pop['Weather']]):
                     p *= alpha
@@ -675,7 +675,7 @@ class GeneticSolver:
 
         strategy['NumPitStop'] = pitStopCounter
         strategy['TotalTime'] = sum(strategy['LapTime'])
-        self.checkValidity(strategy)
+        #self.checkValidity(strategy)
 
         return strategy
 
