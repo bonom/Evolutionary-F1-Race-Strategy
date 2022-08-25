@@ -131,9 +131,6 @@ Outputs*/
 .DS_Store
 ._.DS_Store
 OLD/
-*.csv
-*.html
-*.txt
 FP1/
 FP2/
 FP3/
