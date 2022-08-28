@@ -47,7 +47,7 @@ This class checks if there are Race data to view in order to understand how the 
 A class that contains the most general functions used in all the other scripts.
 
 ## Weather
-A class where the weather is managed in order to pass it to the *Gentic* one.
+A class where the weather is managed in order to pass it to the *Genetic* one.
 
 -----------------------------------------------------------------------------------------------------------------------
 
