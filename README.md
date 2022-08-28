@@ -17,7 +17,7 @@ Needed packages to run the project:
 
 To create the environment use conda (better):
 ```python
-conda create -n <environment_name> python=3.9.7 pandas numpy tqdm plotly
+conda create -n <environment_name> python=3.9.12 pandas numpy tqdm plotly
 ```
 or pip:
 ```python
