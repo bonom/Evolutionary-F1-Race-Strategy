@@ -1,18 +1,4 @@
-Bottleneck @ file:///C:/ci/bottleneck_1648010904582/work
-certifi==2021.10.8
-colorama @ file:///tmp/build/80754af9/colorama_1607707115595/work
-mkl-fft==1.3.1
-mkl-random @ file:///C:/ci/mkl_random_1626186184308/work
-mkl-service==2.4.0
-numexpr @ file:///C:/ci/numexpr_1640704337920/work
-numpy==1.22.3
-packaging @ file:///tmp/build/80754af9/packaging_1637314298585/work
-pandas @ file:///C:/ci/pandas_1647936849302/work
-plotly @ file:///opt/conda/conda-bld/plotly_1646671701182/work
-pyparsing @ file:///tmp/build/80754af9/pyparsing_1635766073266/work
-python-dateutil @ file:///tmp/build/80754af9/python-dateutil_1626374649649/work
-pytz==2022.1
-six @ file:///tmp/build/80754af9/six_1644875935023/work
-tenacity @ file:///C:/ci/tenacity_1626248381338/work
-tqdm @ file:///opt/conda/conda-bld/tqdm_1647339053476/work
-wincertstore==0.2
+numpy==1.21.5
+pandas==1.4.1
+plotly==5.6.0
+tqdm==4.63.0

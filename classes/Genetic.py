@@ -1,11 +1,7 @@
-from datetime import datetime
-import math
-import time
+import math, time, copy, os
 import numpy as np
 import pandas as pd
-import os
 from random import SystemRandom
-import copy
 from tqdm import tqdm
 
 from classes.Car import Car
@@ -60,11 +56,9 @@ def changeTyre(tyresWear:dict):
         return False
 
     boundary = random.random()
-    #valutare di prendere la media dei valori e fare il controllo con il random solo su quella
     for wear in tyresWear.values():
-        #if wear > 0.3:
-            if boundary < wear*2:
-                return True
+        if boundary < wear*2:
+            return True
     return False
 
 class GeneticSolver:
@@ -168,7 +162,7 @@ class GeneticSolver:
     def run(self,bf_time:int=0):
         start_timer = time.time()
 
-        fitness_values = list()
+        fitness_values = dict()
         stuck_counter = 0
         boxplot_list = list()
         prev = {}
@@ -208,7 +202,8 @@ class GeneticSolver:
 
                 # Select parents
                 selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=2/13, best = best_eval)
-                
+                parents = copy.deepcopy(selected)
+
                 """
                 ######################################################################################
                 ### INITIAL ONE
@@ -238,10 +233,11 @@ class GeneticSolver:
                 ######################################################################################
                 """
                 ######################################################################################
+        
+                #parents = [parent for parent in population[:int(self.population*2/13)]]
+
                 ### Stable population
 
-                #parents = [parent for parent in population[:int(self.population*2/13)]]
-                parents = copy.deepcopy(selected)
                 children = copy.deepcopy(parents)
 
                 for i in range(0, len(parents)-1, 2): 
@@ -265,13 +261,12 @@ class GeneticSolver:
                 # Replace population
                 population = copy.deepcopy(children)
 
-                # Check for new best solution
-                if not math.isinf(temp_best_eval):
-                    fitness_values.append(temp_best_eval)
-
                 if prev == best_eval:
                     stuck_counter += 1
                 else:
+                    # Check for new best solution
+                    if not math.isinf(best_eval):
+                        fitness_values[gen] = best_eval
                     stuck_counter = 0
                 
                 prev = best_eval
@@ -290,12 +285,6 @@ class GeneticSolver:
                 
                 if threshold_quantile <= 0.01 or threshold_quantile >= 0.99:
                     threshold_quantile = round(random.uniform(0.3,0.99),2)
-                    
-                # if best_eval <= bf_time:
-                #     string = f"Found the best possible solution in {gen+1} generations"
-                #     print("\n"+string)
-                #     self.log.write(string+"\n")                    
-                #     break
 
                 valid_strategies = round(((sum([1 for x in children if x['Valid'] == True]))/len(children))*100,2)
                 bar.set_description(f"Best: {ms_to_time(best_eval)}, Difference: {ms_to_time(best_eval-bf_time)}, Threshold: {threshold_quantile}, Stuck: {stuck_counter}, Valid strategies: {valid_strategies}%")
@@ -308,7 +297,7 @@ class GeneticSolver:
 
         end_timer = time.time() - start_timer
 
-        fit_dict = {'Generation' : range(len(fitness_values)), 'Fitness' : fitness_values}
+        fit_dict = {'Generation' : list(fitness_values.keys()), 'Fitness' : list(fitness_values.values())}
 
         strategy_path = os.path.join(self.path, 'Strategy.txt')
         
@@ -402,21 +391,11 @@ class GeneticSolver:
         return strategy
 
     def randomCompound(self,):
-        # string_weather = self.weather.get_weather_string(weather)
-
-        # if string_weather == 'Wet':
-        #     return random.choice(['Inter', 'Wet'])
-        # elif string_weather == 'VWet':
-        #     return 'Wet'
-        # elif string_weather == 'Dry/Wet':
-        #     return random.choice(['Soft', 'Medium', 'Hard', 'Inter'])
         return random.choice(['Soft', 'Medium', 'Hard','Inter','Wet'])
 
     def selection_dynamic_penalty(self, step:int, population:list, threshold_quantile:float, best:int):
         deltas = [abs(x['TotalTime'] - best) for x in population]
         max_delta = max(1,max(deltas))
-
-        #penalty= [delta/max_delta for delta in deltas]
 
         alpha = np.exp(1+(1/self.iterations)*step)
         penalty = [(delta/max_delta)*alpha for delta in deltas]
@@ -475,11 +454,11 @@ class GeneticSolver:
         lap = list(usedTyres.keys())[lapRandom]
         oldCompound = usedTyres[lap]
 
-        compoundRandom = self.randomCompound()#(child['Weather'][lap])
+        compoundRandom = self.randomCompound()
         #weather = child['Weather'][lap]
 
         while oldCompound == compoundRandom:
-            compoundRandom = self.randomCompound()#(weather)
+            compoundRandom = self.randomCompound()
         
         child['TyreCompound'][lap] = compoundRandom
 
@@ -549,7 +528,7 @@ class GeneticSolver:
         while child['PitStop'][random_lap] == True:
             random_lap = random.randint(1, self.numLaps-1)
         
-        compound = self.randomCompound()#(child['Weather'][lap])
+        compound = self.randomCompound()
         
         tyre_age = 0
         child['PitStop'][random_lap] = True
@@ -669,9 +648,6 @@ class GeneticSolver:
             strategy['TyreWear'][lap] = tyreWear
             strategy['TyreAge'][lap] = tyresAge
             strategy['LapTime'][lap] = timing
-
-            # if abs(strategy['FuelLoad'][lap-1]-strategy['FuelLoad'][lap]) < 1 and strategy['FuelLoad'][lap-1] > 0 and strategy['FuelLoad'][lap] > 0:
-            #     self.getFuelLoad(initial_fuel=initialFuelLoad, conditions=weather)
 
         strategy['NumPitStop'] = pitStopCounter
         strategy['TotalTime'] = sum(strategy['LapTime'])

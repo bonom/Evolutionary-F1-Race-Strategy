@@ -1,10 +1,8 @@
 from random import SystemRandom
 import pandas as pd
 import numpy as np
-import os
-import pickle
+import os, pickle, math
 import plotly.express as px
-import math
 
 random = SystemRandom()
 
@@ -144,11 +142,6 @@ class Car:
                             for x in ['FL', 'FR', 'RL', 'RR']:
                                 self.tyre_wear_coeff[tyre][x] = self.tyre_wear_coeff[tyres[idx-1]][x]*35/40#np.exp(-idx-1)+1
                             all_filled[idx] = True
-                        #if idx+1 < len(tyres) and tyre != 'Inter':
-                        #    if all([self.tyre_wear_coeff[tyres[idx+1]][x] != 0 for x in ['FL', 'FR', 'RL', 'RR']]):
-                        #        for x in ['FL', 'FR', 'RL', 'RR']:
-                        #            self.tyre_wear_coeff[tyre][x] = self.tyre_wear_coeff[tyres[idx+1]][x]*np.log(idx+1.25)
-                        #        all_filled[idx] = True
                     else:
                         if all([self.tyre_wear_coeff[tyres[idx+1]][x] != 0 for x in ['FL', 'FR', 'RL', 'RR']]):
                             for x in ['FL', 'FR', 'RL', 'RR']:
@@ -375,40 +368,8 @@ def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[], race
     car_index = lap['PlayerCarIndex'].unique()[0]
 
     lap = lap.loc[(lap["CarIndex"] == car_index) & (lap['DriverStatus'] > 0) & (lap['LastLapTimeInMS'] > 0), ['CurrentLapNum', 'FrameIdentifier', 'LastLapTimeInMS']].drop_duplicates(['FrameIdentifier'], keep="last")#,'DriverStatus'
-    if False:
-        inserting = False
-        temp = None
-        runs = list()
-
-        for frame in lap['FrameIdentifier'].values:
-            val = lap.loc[lap['FrameIdentifier'] == frame, 'DriverStatus'].values[0]
-            timing = lap.loc[lap['FrameIdentifier'] == frame, 'LastLapTimeInMS'].values[0]
-            if val == 0:
-                if inserting:
-                    begin = temp
-                    if frame-begin > 1000:
-                        runs.append([begin, frame])
-                    inserting = False
-            else:
-                if temp is None and timing != 0:
-                    temp = frame
-                    inserting = True
-                elif not inserting and timing != 0:
-                    temp = frame
-                    inserting = True
-
     lap = lap.drop_duplicates(['CurrentLapNum','LastLapTimeInMS'], keep='first').sort_values(by=['FrameIdentifier']).set_index("FrameIdentifier")
 
-    ### DEBUG ###
-
-    #status = pd.read_csv(os.path.join(folder, "Status.csv"))
-    #status = status.loc[status["CarIndex"] == car_index, ['FrameIdentifier','FuelInTank','VisualTyreCompound']].drop_duplicates(['FrameIdentifier'], keep="last")
-    #(px.line(status, x="FrameIdentifier", y="FuelInTank", title="Fuel", color="VisualTyreCompound", color_discrete_sequence=px.colors.sequential.RdBu)).show()
-    
-    #pass
-    ### DEBUG ###
-    
-    
     to_drop = ignore_frames
     if to_drop == []:
         if os.path.isfile(os.path.join(folder, "to_drop.txt")):

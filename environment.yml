@@ -1,0 +1,9 @@
+name: Bio-F1
+channels:
+  - defaults
+dependencies:
+  - python=3.9.7
+  - numpy
+  - pandas
+  - tqdm
+  - plotly

@@ -1,10 +1,10 @@
-from classes.Car import get_data as gd
-import os
+import os, pickle
 import plotly.express as px
 import plotly.graph_objects as go
-import pickle
 import pandas as pd
 import numpy as np
+
+from classes.Car import get_data as gd
 from classes.Utils import ms_to_time
 
 class RaceData():
