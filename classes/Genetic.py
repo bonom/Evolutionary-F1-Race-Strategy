@@ -493,34 +493,6 @@ class GeneticSolver:
                     index = lap
 
         return self.correct_strategy(child, index)
-        #return self.correct_strategy_pitstop(strategy=child, indexPitStop=index)
-
-    # def mutation_pitstop_add(self, child:dict):
-    #     for lap in range(0, self.numLaps):
-    #         #print(lap)
-    #         if changeTyre(child['TyreWear'][lap]) and child['PitStop'][lap] == False:
-    #             compound = self.randomCompound()#(child['Weather'][lap])
-    #             #print("Sono entrato in add pitstop : giro ", lap, "vecchio compound ", child['TyreCompound'][lap], "nuovo compund ", compound)
-    #             tyre_age = 0
-    #             child['PitStop'][lap] = True
-    #             child['TyreAge'][lap] = tyre_age
-    #             child['TyreWear'][lap] = self.getTyreWear(compound=compound, lap=tyre_age)
-    #             child['TyreCompound'][lap] = compound
-    #             child['LapTime'][lap] = self.getLapTime(compound=compound, compoundAge=tyre_age, lap=lap, fuel_load=child['FuelLoad'][lap], conditions=child['Weather'][:lap] if lap != 0 else child['Weather'][:lap], drs=False, pitStop=child['PitStop'][lap])
-    #             child['NumPitStop'] += 1
-    #             remaining = lap + 1
-    #             tyre_age += 1
-    #             while remaining < self.numLaps and child['PitStop'][remaining] == False:
-    #                 child['TyreWear'][remaining] = self.getTyreWear(compound=compound, lap=tyre_age)#, conditions=child['Weather'][:remaining])
-    #                 child['TyreCompound'][remaining] = compound
-    #                 child['TyreAge'][remaining] = tyre_age
-    #                 child['LapTime'][remaining] = self.getLapTime(compound=compound, compoundAge=tyre_age, lap=remaining, fuel_load=child['FuelLoad'][remaining], conditions=child['Weather'][:remaining+1], drs=False, pitStop=child['PitStop'][remaining])
-    #                 remaining += 1
-    #                 tyre_age += 1
-    #             child['TotalTime'] = sum(child['LapTime'])
-    #             #print(child)
-    #             return child
-    #     return child
     
     def mutation_pitstop_add(self, child:dict):
         random_lap = random.randint(1, self.numLaps-1)
@@ -822,39 +794,4 @@ class GeneticSolver:
         print(f"Total time {ms_to_time(best_laptime)}")
         ### Find the best solution
         return best_strategy, best_laptime
-    
-    def fixed_strategy(self, compund_list:list, stop_lap:list):
-        if len(stop_lap) != len(compund_list)-1:
-            print(f"Either the compound list or the pit stop list are wrong!")
-            exit(-1)
-        stop_lap.append(self.numLaps)
-        strategy = []
-        weather = self.weather.get_weather_percentage_list()
-        start_fuel = self.getInitialFuelLoad(weather)
-        idx_stop = 0
-        idx_tyre = 0
-        tyre_lap = 0
-        for lap in range(self.numLaps):
-            if lap != 0:
-                fuel_load = self.getFuelLoad(start_fuel,weather[:lap+1])
-            else:
-                fuel_load = start_fuel
-
-            if lap < stop_lap[idx_stop]:
-                strategy.append({'Compound':compund_list[idx_tyre], 'TyresWear': self.getTyreWear(compund_list[idx_tyre], tyre_lap), 'TyresAge':tyre_lap, 'FuelLoad':fuel_load, 'PitStop':False, 'LapTime': self.getLapTime(compound=compund_list[idx_tyre], compoundAge=tyre_lap, lap=lap, fuel_load=fuel_load, conditions=weather[:lap+1] if lap > 0 else [weather[0]], drs=False, pitStop=False)})
-            elif lap == stop_lap[idx_stop]:
-                idx_tyre += 1
-                strategy.append({'Compound':compund_list[idx_tyre], 'TyresWear': self.getTyreWear(compund_list[idx_tyre], 0), 'TyresAge':0, 'FuelLoad':fuel_load, 'PitStop':False, 'LapTime': self.getLapTime(compound=compund_list[idx_tyre], compoundAge=0, lap=lap, fuel_load=fuel_load, conditions=weather[:lap+1] if lap > 0 else [weather[0]], drs=False, pitStop=True)})
-                idx_stop += 1
-                tyre_lap = 0
-
-            tyre_lap += 1
-            
-        total = 0
-        for lap, strategy in enumerate(strategy):
-            print(f"Lap {lap+1}/{self.numLaps} -> Compound: '{strategy['Compound']}', TyresAge: {strategy['TyresAge']} Laps, TyresWear: {strategy['TyresWear']}, FuelLoad: {strategy['FuelLoad']} Kg, PitStop: {'Yes' if strategy['PitStop'] else 'No'}, LapTime: {ms_to_time(strategy['LapTime'])} (hh:)mm:ss.ms")
-            total += strategy['LapTime']
-
-        print(f"With a total time of {ms_to_time(total)} -> {total}")
-
-        return
+ 
