@@ -63,7 +63,7 @@ class Weather:
             print(f"Weather file '{self.filename}' has {len(self.weather)} laps but circuit '{circuit}' has {CIRCUIT[circuit]['Laps']} laps.")
 
     def get_weather_string(self, w):
-        if w < 30:
+        if w < 20:
             return 'Dry'
         elif w > 50 and w < 80:
             return 'Wet'
