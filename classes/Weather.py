@@ -14,7 +14,7 @@ def weather_summary(circuit:str, weather_file:str):
     to_ret = []
     for index, weather in enumerate(wlist):
         if index == 0 or weather != wlist[index-1]:
-            to_ret.append((index+1, weather))
+            to_ret.append(str(index+1)+"-"+str(weather))
 
     return to_ret
 

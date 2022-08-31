@@ -127,7 +127,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-Outputs*/
 .DS_Store
 ._.DS_Store
 OLD/

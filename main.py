@@ -139,7 +139,7 @@ if __name__ == "__main__":
     os.system('cls' if os.name == 'nt' else 'clear')
 
     population = args.pop
-    iterations = args.i
+    iterations = 10#args.i
     mutation_pr = args.mut
     crossover_pr = args.cross
     weather = args.w
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     
     if not os.path.isfile(os.path.join(output_path, f"{circuit}.csv")):
         with open(os.path.join(output_path, f"{circuit}.csv"), "w") as f:
-            f.write("Population,Iterations,Mutation,Crossover,EA Fitness,BF Fitness,EA timing,BF Timing,Timer,Weather,Save Path\n")
+            f.write("Population,Iterations,Mutation,Crossover,EA Fitness,BF Fitness,EA Timing,BF Timing,Timer,Weather,Save Path\n")
 
     if args.d:
         counter = 0
@@ -174,14 +174,14 @@ if __name__ == "__main__":
 
     else:
 
-        strategy, timing, bruteforce_time, log_path, timer = main(population=args.pop, mutation_pr=args.mu, crossover_pr=args.cross, iterations=args.i, weather=args.w, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
+        strategy, timing, bruteforce_time, log_path, timer = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, weather=weather, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
 
         log_path = log_path.replace("\\", "/").split("/")[-1]
         
         with open(os.path.join(output_path, f"{circuit}.csv"), "a") as f:
             f.write(f"{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(round(timer*1000))},")
             for w in wsummary:
-                f.write(f"{w} ")
+                f.write(f"({w})")
             f.write(f",{log_path}\n")
 
 
