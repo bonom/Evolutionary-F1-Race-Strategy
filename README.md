@@ -25,7 +25,7 @@ pip install -U pandas numpy tqdm plotly
 
 Or you can use the requirements files:
 ```python
-conda env create -f requirements.yml
+conda env create -f environment.yml
 ```
 ```python
 pip install -r requirements.txt
