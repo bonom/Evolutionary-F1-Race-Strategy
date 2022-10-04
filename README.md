@@ -1,4 +1,4 @@
-# Bio-F1
+# Evolutionary F1 Race Strategy
 >Formula 1 is a race competition that in the past years has been evolving year after year, becoming more and more complicated than ever. We develop an evolutionary algorithm that can simulate a race given the free practices data and find an optimal strategy for the race in a specific circuit. We are going to consider the weather and all the possible time lose from different aspects (different tyres, pit-stop, fuel weight, tyre wear, etc.) given by the simulations in F1 2021.
 
 
