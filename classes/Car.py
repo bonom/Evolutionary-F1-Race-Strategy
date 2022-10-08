@@ -1,3 +1,4 @@
+from genericpath import isfile
 from random import SystemRandom
 import pandas as pd
 import numpy as np
@@ -475,29 +476,37 @@ def get_car_data(path:str):
                 data = pickle.load(f)
 
         else:   
-            fp1_folder = os.path.join(path, 'FP1')
-            fp2_folder = os.path.join(path, 'FP2')
-            fp3_folder = os.path.join(path, 'FP3')
-            
-            fp1 = get_data(fp1_folder, add_data=None)
-            fp2 = get_data(fp2_folder, add_data=fp1)
-            fp3 = get_data(fp3_folder, add_data=fp2)
+            if os.path.isfile(os.path.join(path, 'FullData.csv')):
+                data_load = pd.read_csv(os.path.join(path, 'FullData.csv'))
+                data = dict()
+                for tyre in data_load['Compound'].unique():
+                    data[tyre] = [data_load.loc[data_load['Compound'] == tyre, :]]
+                with open(os.path.join(path, 'Data.json'), 'wb') as f:
+                    pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
+            else:
+                fp1_folder = os.path.join(path, 'FP1')
+                fp2_folder = os.path.join(path, 'FP2')
+                fp3_folder = os.path.join(path, 'FP3')
+                
+                fp1 = get_data(fp1_folder, add_data=None)
+                fp2 = get_data(fp2_folder, add_data=fp1)
+                fp3 = get_data(fp3_folder, add_data=fp2)
 
-            concatenated = None
-            for _, item in fp3.items():
-                for i in item:
-                    if concatenated is None:
-                        concatenated = i
-                    else:
-                        concatenated = pd.concat([concatenated, i])
-            
-            print(concatenated)
-            concatenated.to_csv(os.path.join(path, 'FullData.csv'), index=False)
+                concatenated = None
+                for _, item in fp3.items():
+                    for i in item:
+                        if concatenated is None:
+                            concatenated = i
+                        else:
+                            concatenated = pd.concat([concatenated, i])
+                
+                print(concatenated)
+                concatenated.to_csv(os.path.join(path, 'FullData.csv'), index=False)
 
-            with open(os.path.join(path, 'Data.json'), 'wb') as f:
-                pickle.dump(fp3, f, pickle.HIGHEST_PROTOCOL)
+                with open(os.path.join(path, 'Data.json'), 'wb') as f:
+                    pickle.dump(fp3, f, pickle.HIGHEST_PROTOCOL)
 
-            data = fp3.copy()
+                data = fp3.copy()
             
         car = Car(data=data)
         car.save(path)
