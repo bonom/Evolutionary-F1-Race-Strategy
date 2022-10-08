@@ -6,6 +6,7 @@ CIRCUIT: dict = {
     'Spielberg' : {'Laps': 71, 'PitStopTime':21000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
     'Montreal' : {'Laps': 70, 'PitStopTime':24000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
     'Portimao' : {'Laps': 66, 'PitStopTime':22000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+    'Bahrein' : {'Laps': 55, 'PitStopTime':25000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
 }
 
 VISUAL_COMPOUNDS: dict = {
