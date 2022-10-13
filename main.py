@@ -81,7 +81,7 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         print(f"Lower bound: {ms_to_time(bf_time_in_ms)}\n")
 
         best, best_eval, boxplot_data, fitness_data, timer = genetic.run(bf_time = bf_time_in_ms) 
-        print('Ho finito il genetico')
+        
         print(f"\n------------------------------------------------\n")
         print(f"EA timing: {ms_to_time(best_eval)}")
         print(f"Bruteforce give timing: {bf_time[-1]}")
@@ -147,7 +147,7 @@ if __name__ == "__main__":
     os.system('cls' if os.name == 'nt' else 'clear')
 
     population = args.pop
-    iterations = 10#args.i
+    iterations = args.i
     mutation_pr = args.mut
     crossover_pr = args.cross
     weather = args.w
