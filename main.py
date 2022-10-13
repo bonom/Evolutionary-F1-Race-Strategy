@@ -6,6 +6,7 @@ from classes.Genetic import GeneticSolver
 from classes.Car import get_car_data, Car
 from classes.Race import RaceData, plot_best
 from classes.Utils import ms_to_time, time_to_ms
+from classes.LocalSearch import LocalSearch
 import plotly.express as px
 import argparse
 
@@ -80,7 +81,7 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         print(f"Lower bound: {ms_to_time(bf_time_in_ms)}\n")
 
         best, best_eval, boxplot_data, fitness_data, timer = genetic.run(bf_time = bf_time_in_ms) 
-        
+        print('Ho finito il genetico')
         print(f"\n------------------------------------------------\n")
         print(f"EA timing: {ms_to_time(best_eval)}")
         print(f"Bruteforce give timing: {bf_time[-1]}")
@@ -92,6 +93,13 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         print(f"EA fitness: {ea}\nBruteforce fitness: {bf}")
         print(f"\n------------------------------------------------\n")
 
+        localSearch = LocalSearch(best, genetic)
+        finalStrategy, finalStrategy_eval = localSearch.run()
+        print
+        print(f"\n------------------------------------------------\n")
+        print(f"EA timing: {ms_to_time(best_eval)}")
+        print(f"LocalSearch timing : {ms_to_time(finalStrategy_eval)}")
+        print(f"\n------------------------------------------------\n")
 
         # Plots
         fit_gen_boxplot = px.box(boxplot_data, title="Boxplot fitnesses of every generation")
