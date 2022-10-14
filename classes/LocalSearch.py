@@ -59,7 +59,7 @@ class LocalSearch:
     def local_search(self, strategy:dict, index:int):
         """
         LocalSearch is working on the pitstops of the shaked strategy.
-        It is a BestImprovement local strategy.
+        It is a BestImprovement local search.
         """
         localBest = copy.deepcopy(strategy)
         localStrategy_1 = copy.deepcopy(strategy)
@@ -94,6 +94,7 @@ class LocalSearch:
             newStrategy = copy.deepcopy(localSearchStrategy)
         else:
             newStrategy = copy.deepcopy(self.strategy)
+
         return newStrategy
 
     def run(self):
@@ -111,4 +112,3 @@ class LocalSearch:
             k+=1
 
         return best, best['TotalTime']
-    
