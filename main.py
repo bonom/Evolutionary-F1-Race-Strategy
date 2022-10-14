@@ -110,11 +110,6 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         print(f"Bruteforce timing: {bf_time[-1]}")
         print("\n------------------------------------------------\n")
 
-        # print(f"\n------------------------------------------------\n")
-        # print(f"EA timing: {ms_to_time(best_eval)}")
-        # print(f"LocalSearch timing : {ms_to_time(finalStrategy_eval)}")
-        # print(f"\n------------------------------------------------\n")
-
         # Plots
         fit_gen_boxplot = px.box(boxplot_data, title="Boxplot fitnesses of every generation")
         fit_gen_boxplot.update_layout(xaxis_title="Generation", yaxis_title="Fitness")
