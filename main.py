@@ -139,7 +139,7 @@ if __name__ == "__main__":
     os.system('cls' if os.name == 'nt' else 'clear')
 
     population = args.pop
-    iterations = 10#args.i
+    iterations = args.i
     mutation_pr = args.mut
     crossover_pr = args.cross
     weather = args.w
