@@ -142,9 +142,6 @@ class GeneticSolver:
         all_compounds = set(strategy['TyreCompound'])
         last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
 
-        if strategy['FuelLoad'][0] > 100:
-            pass
-
         if any([x != 0 for x in strategy['Weather']]): # If weather is not completely Dry the constraint of changing tyre does not apply anymore
             #if any([x > 30 for x in strategy['Weather']]) and any([x in ['Inter','Wet'] for x in all_compounds]) and last_lap_fuel_load >= 0:
             if last_lap_fuel_load >= 0:

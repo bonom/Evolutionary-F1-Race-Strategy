@@ -101,14 +101,23 @@ class LocalSearch:
         best = copy.deepcopy(self.strategy)
         k = 0
 
-        while k < 200:
+        for i in tqdm(range(0, self.genetic.numLaps)):
             index, shakeStrategy = self.shake()
             localSearchStrategy = self.local_search(shakeStrategy, index)
             newStrategy = self.move_or_not(localSearchStrategy)
             
-            if newStrategy['TotalTime'] < best['TotalTime']:
+            if newStrategy['TotalTime'] < best['TotalTime'] and self.genetic.checkValidity(newStrategy):
                 best = copy.deepcopy(newStrategy)
             
-            k+=1
+            
+        # while k < 200:
+        #     index, shakeStrategy = self.shake()
+        #     localSearchStrategy = self.local_search(shakeStrategy, index)
+        #     newStrategy = self.move_or_not(localSearchStrategy)
+            
+        #     if newStrategy['TotalTime'] < best['TotalTime']:
+        #         best = copy.deepcopy(newStrategy)
+            
+        #     k+=1
 
         return best, best['TotalTime']
