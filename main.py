@@ -19,10 +19,10 @@ warnings.filterwarnings('ignore')
 
 parser = argparse.ArgumentParser(description='Process F1 Data.')
 parser.add_argument('--c', type=str, default=None, help='Circuit path')
-parser.add_argument('--pop', type=int, default=250, help='Population')
+parser.add_argument('--pop', type=int, default=10, help='Population')
 parser.add_argument('--mut', type=float, default=0.9, help='Mutation probability value')
 parser.add_argument('--cross', type=float, default=0.6, help='Crossover probability value')
-parser.add_argument('--i', type=int, default=500, help='Iterations')
+parser.add_argument('--i', type=int, default=50, help='Iterations')
 parser.add_argument('--w', type=str, default=None, help='Weather file')
 parser.add_argument('--d', action='store_true', default=False, help='Data Collection mode')
 args = parser.parse_args()
@@ -56,7 +56,7 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         car:Car = get_car_data(circuit)
 
         race_data:RaceData = RaceData(circuit)
-        race_data.plot(path=circuit)
+        #race_data.plot(path=circuit)
 
         genetic = GeneticSolver(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, car=car, circuit=_circuit, save_path=save_path, weather=weather)
         
@@ -95,7 +95,20 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
 
         localSearch = LocalSearch(best, genetic)
         finalStrategy, finalStrategy_eval = localSearch.run()
-        print
+        
+        ### Print the final strategy of local search
+        print("\n------------------------------------------------\n")
+        string = "Local Search Strategy:\n"
+        for lap in range(genetic.numLaps):
+            string += f"Lap {lap+1}/{genetic.numLaps} -> Compound: '{finalStrategy['TyreCompound'][lap]}' TyreAge: {finalStrategy['TyreAge'][lap]} Laps, TyreWear: FL:{round(finalStrategy['TyreWear'][lap]['FL']*100,1)}% FR:{round(finalStrategy['TyreWear'][lap]['FR']*100,1)}% RL:{round(finalStrategy['TyreWear'][lap]['RL']*100,1)}% RR:{round(finalStrategy['TyreWear'][lap]['RR']*100,1)}%, FuelLoad: {finalStrategy['FuelLoad'][lap]} Kg, PitStop: {'Yes' if finalStrategy['PitStop'][lap] else 'No'}, LapTime: {ms_to_time(finalStrategy['LapTime'][lap])} (hh:)mm:ss.ms\n" 
+
+        string += f"\nLocal Search Timing: {ms_to_time(finalStrategy_eval)}"
+        with open(os.path.join(save_path, "LocalSearch_strategy.log"), "a") as f:
+            f.write(string)
+        print(string)
+        print(f"vs\nEA timing: {ms_to_time(best_eval)}")
+        print("\n------------------------------------------------\n")
+
         print(f"\n------------------------------------------------\n")
         print(f"EA timing: {ms_to_time(best_eval)}")
         print(f"LocalSearch timing : {ms_to_time(finalStrategy_eval)}")
