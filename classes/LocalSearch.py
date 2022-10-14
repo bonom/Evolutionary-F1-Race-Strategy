@@ -1,4 +1,5 @@
 import math, time, copy, os
+from threading import local
 import numpy as np
 import pandas as pd
 from random import SystemRandom
@@ -51,13 +52,42 @@ class LocalSearch:
                 if shakeStrategy['PitStop'][i] == False:
                     shakeStrategy['TyreCompound'][i] = randomCompound
                 else:
-                    return self.genetic.correct_strategy(shakeStrategy)
+                    return indexRandom, self.genetic.correct_strategy(shakeStrategy)
                     
-        return self.genetic.correct_strategy(shakeStrategy)
+        return indexRandom, self.genetic.correct_strategy(shakeStrategy)
 
-    def local_search(self, strategy:dict):
+    def local_search(self, strategy:dict, index:int):
+        """
+        LocalSearch is working on the pitstops of the shaked strategy.
+        It is a BestImprovement local strategy.
+        """
+        localBest = copy.deepcopy(strategy)
+        localStrategy_1 = copy.deepcopy(strategy)
+        localStrategy_2 = copy.deepcopy(strategy)
+        localStrategy_1['PitStop'][index] = False
+        localStrategy_2['TyreCompound'][index] = localStrategy_2['TyreCompound'][index-1]
+        for i in range(index-5, index+5): 
+            if i >= 0 and i < self.genetic.numLaps and i != index:
+                if i < index:
+                    localStrategy_1['PitStop'][i] = True
+                    localStrategy_1['TyreCompound'][i] = localStrategy_1['TyreCompound'][index]
+                    self.genetic.correct_strategy(localStrategy_1)
 
-        return strategy
+                    if localStrategy_1['TotalTime'] < localBest['TotalTime']:
+                        localBest = copy.deepcopy(localStrategy_1)
+                    else:
+                        localStrategy_1['PitStop'][i] = False
+                else:
+                    localStrategy_1['PitStop'][i] = True
+                    localStrategy_2['TyreCompound'][i] = localStrategy_2['TyreCompound'][i-1]
+                    self.genetic.correct_strategy(localStrategy_2)
+
+                    if localStrategy_2['TotalTime'] < localBest['TotalTime']:
+                        localBest = copy.deepcopy(localStrategy_2)
+                    else:
+                        localStrategy_2['PitStop'][i] = False
+
+        return localBest
     
     def move_or_not(self, localSearchStrategy: dict):
         if self.strategy['TotalTime'] > localSearchStrategy['TotalTime']:
@@ -70,9 +100,9 @@ class LocalSearch:
         best = copy.deepcopy(self.strategy)
         k = 0
 
-        while k < 100:
-            shakeStrategy = self.shake()
-            localSearchStrategy = self.local_search(shakeStrategy)
+        while k < 200:
+            index, shakeStrategy = self.shake()
+            localSearchStrategy = self.local_search(shakeStrategy, index)
             newStrategy = self.move_or_not(localSearchStrategy)
             
             if newStrategy['TotalTime'] < best['TotalTime']:
