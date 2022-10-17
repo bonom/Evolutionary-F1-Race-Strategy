@@ -60,8 +60,10 @@ class LocalSearch:
                     if self.genetic.checkValidity(self.genetic.correct_strategy(shakeStrategy)):
                         return indexRandom, nextIndexRandom, self.genetic.correct_strategy(shakeStrategy)
 
-        # if self.genetic.checkValidity(self.genetic.correct_strategy(shakeStrategy)):
-        #     shakeStrategy = self.genetic.correct_strategy(shakeStrategy)
+        if self.genetic.checkValidity(self.genetic.correct_strategy(shakeStrategy)):
+            shakeStrategy = self.genetic.correct_strategy(shakeStrategy)
+        else:
+            shakeStrategy = copy.deepcopy(self.strategy)
 
         return indexRandom, nextIndexRandom, self.genetic.correct_strategy(shakeStrategy)
 
