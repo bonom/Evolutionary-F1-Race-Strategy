@@ -1,3 +1,4 @@
+from cgi import print_form
 import math, time, copy, os
 from threading import local
 import numpy as np
@@ -37,19 +38,18 @@ class LocalSearch:
 
         return index
 
-    def shake(self):
+    def shake(self, indexRandom, nextIndexRandom, randomCompound):
         """
         Shake is working on the compounds, so it changes randomly only one compound
         """
         shakeStrategy = copy.deepcopy(self.strategy)
-        shakeRandom = random.randint(0, self.strategy['NumPitStop'])
-        indexRandom = self.find_interval(shakeRandom)
-        nextIndexRandom = self.find_interval(shakeRandom+1)
-        randomCompound = self.genetic.randomCompound()
-
+        #shakeRandom = random.randint(0, self.strategy['NumPitStop'])
+        #indexRandom = self.find_interval(shakeRandom)
+        #nextIndexRandom = self.find_interval(shakeRandom+1)
+        #randomCompound = self.genetic.randomCompound()
+#
         if randomCompound == self.strategy['TyreCompound'][indexRandom]:
-            while randomCompound == self.strategy['TyreCompound'][indexRandom]:
-                randomCompound = self.genetic.randomCompound()
+            return shakeStrategy
 
         shakeStrategy['TyreCompound'][indexRandom] = randomCompound
         if indexRandom!=self.genetic.numLaps-1:
@@ -58,14 +58,14 @@ class LocalSearch:
                     shakeStrategy['TyreCompound'][i] = randomCompound
                 else:
                     if self.genetic.checkValidity(self.genetic.correct_strategy(shakeStrategy)):
-                        return indexRandom, nextIndexRandom, self.genetic.correct_strategy(shakeStrategy)
+                        return self.genetic.correct_strategy(shakeStrategy)
 
         if self.genetic.checkValidity(self.genetic.correct_strategy(shakeStrategy)):
             shakeStrategy = self.genetic.correct_strategy(shakeStrategy)
         else:
             shakeStrategy = copy.deepcopy(self.strategy)
 
-        return indexRandom, nextIndexRandom, self.genetic.correct_strategy(shakeStrategy)
+        return self.genetic.correct_strategy(shakeStrategy)
 
     def local_search(self, strategy:dict, index:int, nextIndex:int):
         """
@@ -75,29 +75,29 @@ class LocalSearch:
         localBest = copy.deepcopy(strategy)
         localStrategy_1 = copy.deepcopy(strategy)
         localStrategy_2 = copy.deepcopy(strategy)
-        localStrategy_1['PitStop'][index] = False
-        localStrategy_2['TyreCompound'][index] = localStrategy_2['TyreCompound'][index-1]
+        if index != 0:
+            localStrategy_1['PitStop'][index] = False
+            localStrategy_2['TyreCompound'][index] = localStrategy_2['TyreCompound'][index-1]
+            for i in range(index-5, index+5): 
+                if i >= 0 and i < self.genetic.numLaps and i != index:
+                    if i < index:
+                        localStrategy_1['PitStop'][i] = True
+                        localStrategy_1['TyreCompound'][i] = localStrategy_1['TyreCompound'][index]
+                        self.genetic.correct_strategy(localStrategy_1)
 
-        for i in range(index-5, index+5): 
-            if i >= 0 and i < self.genetic.numLaps and i != index:
-                if i < index:
-                    localStrategy_1['PitStop'][i] = True
-                    localStrategy_1['TyreCompound'][i] = localStrategy_1['TyreCompound'][index]
-                    self.genetic.correct_strategy(localStrategy_1)
-
-                    if localStrategy_1['TotalTime'] < localBest['TotalTime'] and self.genetic.checkValidity(localStrategy_1):
-                        localBest = copy.deepcopy(localStrategy_1)
+                        if localStrategy_1['TotalTime'] < localBest['TotalTime'] and self.genetic.checkValidity(localStrategy_1):
+                            localBest = copy.deepcopy(localStrategy_1)
+                        else:
+                            localStrategy_1['PitStop'][i] = False
                     else:
-                        localStrategy_1['PitStop'][i] = False
-                else:
-                    localStrategy_1['PitStop'][i] = True
-                    localStrategy_2['TyreCompound'][i] = localStrategy_2['TyreCompound'][i-1]
-                    self.genetic.correct_strategy(localStrategy_2)
+                        localStrategy_1['PitStop'][i] = True
+                        localStrategy_2['TyreCompound'][i] = localStrategy_2['TyreCompound'][i-1]
+                        self.genetic.correct_strategy(localStrategy_2)
 
-                    if localStrategy_2['TotalTime'] < localBest['TotalTime'] and self.genetic.checkValidity(localStrategy_2):
-                        localBest = copy.deepcopy(localStrategy_2)
-                    else:
-                        localStrategy_2['PitStop'][i] = False
+                        if localStrategy_2['TotalTime'] < localBest['TotalTime'] and self.genetic.checkValidity(localStrategy_2):
+                            localBest = copy.deepcopy(localStrategy_2)
+                        else:
+                            localStrategy_2['PitStop'][i] = False
 
         if nextIndex != -1:
             localStrategy_3 = copy.deepcopy(strategy)
@@ -138,26 +138,14 @@ class LocalSearch:
     def run(self):
         best = copy.deepcopy(self.strategy)
 
-        for i in tqdm(range(0, 200)):
-            index, nextIndex, shakeStrategy = self.shake()
-            localSearchStrategy = self.local_search(shakeStrategy, index, nextIndex)
-            newStrategy = self.move_or_not(localSearchStrategy)
-            
-            # if newStrategy['TotalTime'] < best['TotalTime'] and self.genetic.checkValidity(newStrategy):
-            #     best = copy.deepcopy(newStrategy)
-            
-            if newStrategy['TotalTime'] < best['TotalTime']: #and self.genetic.checkValidity(newStrategy):
-                best = copy.deepcopy(newStrategy)
-            
-            
-        # while k < 200:
-        #     index, shakeStrategy = self.shake()
-        #     localSearchStrategy = self.local_search(shakeStrategy, index)
-        #     newStrategy = self.move_or_not(localSearchStrategy)
-            
-        #     if newStrategy['TotalTime'] < best['TotalTime']:
-        #         best = copy.deepcopy(newStrategy)
-            
-        #     k+=1
+        for t in ['Soft', 'Medium', 'Hard','Inter','Wet']:
+            for p in range(0, self.strategy['NumPitStop']):
+                indexRandom = self.find_interval(p)
+                nextIndexRandom = self.find_interval(p+1)
+                shakeStrategy = self.shake(indexRandom, nextIndexRandom, t)
+                localSearchStrategy = self.local_search(shakeStrategy, indexRandom, nextIndexRandom)
+                newStrategy = self.move_or_not(localSearchStrategy)
+                if newStrategy['TotalTime'] < best['TotalTime']: #and self.genetic.checkValidity(newStrategy):
+                    best = copy.deepcopy(newStrategy)
 
         return best, best['TotalTime']
