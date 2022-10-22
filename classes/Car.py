@@ -292,10 +292,10 @@ class Car:
         if wear is None:
             wear = self.predict_tyre_wear(tyre, lap)
 
-        fl = round(self.tyre_coeff[tyre]['FL'] * wear['FL'] * (wear['FL']*wear['FL']*1/100*1/100+1))
-        fr = round(self.tyre_coeff[tyre]['FR'] * wear['FR'] * (wear['FR']*wear['FR']*1/100*1/100+1))
-        rl = round(self.tyre_coeff[tyre]['RL'] * wear['RL'] * (wear['RL']*wear['RL']*1/100*1/100+1))
-        rr = round(self.tyre_coeff[tyre]['RR'] * wear['RR'] * (wear['RR']*wear['RR']*1/100*1/100+1))
+        fl = round(self.tyre_coeff[tyre]['FL'] * wear['FL'])# * (wear['FL']*wear['FL']*1/100*1/100+1))
+        fr = round(self.tyre_coeff[tyre]['FR'] * wear['FR'])# * (wear['FR']*wear['FR']*1/100*1/100+1))
+        rl = round(self.tyre_coeff[tyre]['RL'] * wear['RL'])# * (wear['RL']*wear['RL']*1/100*1/100+1))
+        rr = round(self.tyre_coeff[tyre]['RR'] * wear['RR'])# * (wear['RR']*wear['RR']*1/100*1/100+1))
 
         return {'FL':fl, 'FR':fr, 'RL':rl, 'RR':rr, 'Total':fl+fr+rl+rr}
 
