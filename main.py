@@ -55,7 +55,7 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         car:Car = get_car_data(circuit)
 
         race_data:RaceData = RaceData(circuit)
-        race_data.plot(path=circuit)
+        # race_data.plot(path=circuit)
 
         genetic = GeneticSolver(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, car=car, circuit=_circuit, save_path=save_path, weather=weather)
         
@@ -70,7 +70,7 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
                 t = f"{int(timing):,}".replace(",", " ")
                 f.write(f"\nFitness: {t}\n")
                 f.write(f"Total time: {ms_to_time(timing)}")
-
+        
         with open(bruteforce_save_path, 'r') as f:
             lines = f.readlines()
         
@@ -153,27 +153,23 @@ if __name__ == "__main__":
     
     if not os.path.isfile(os.path.join(output_path, f"{circuit}.csv")):
         with open(os.path.join(output_path, f"{circuit}.csv"), "w") as f:
-            f.write("Population,Iterations,Mutation,Crossover,EA Fitness,BF Fitness,EA Timing,BF Timing,Timer,Weather,Save Path\n")
+            f.write("Run,Population,Iterations,Mutation,Crossover,EA Fitness,BF Fitness,EA Timing,BF Timing,Timer,Weather,Save Path\n")
 
     if args.d:
-        counter = 0
-        while True:
-            counter += 1
+        for counter in range(1,11):
+            print(f"\n----------------------RUN #{counter}-----------------------\n")
             strategy, timing, bruteforce_time, log_path, timer = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, weather=weather, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
            
             log_path = log_path.replace("\\", "/").split("/")[-1]
         
             with open(os.path.join(output_path, f"{circuit}.csv"), "a") as f:
-                f.write(f"{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(round(timer*1000))},")
+                f.write(f"{counter},{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(round(timer*1000))},")
                 for w in wsummary:
                     f.write(f"{w} ")
                 f.write(f",{log_path}\n")
-
-            if counter >= 10:
-                break
+            
 
     else:
-
         strategy, timing, bruteforce_time, log_path, timer = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, weather=weather, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
 
         log_path = log_path.replace("\\", "/").split("/")[-1]

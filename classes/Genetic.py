@@ -159,6 +159,13 @@ class GeneticSolver:
         strategy['Valid'] = False 
         return False
 
+    def selection(self,population):
+        sortedPopulation = sorted(population, key=lambda x: x['TotalTime'])
+        
+        selected = [x for x in sortedPopulation if x['Valid']]
+        
+        return selected
+
     def run(self,bf_time:int=0):
         start_timer = time.time()
 
@@ -195,7 +202,7 @@ class GeneticSolver:
                 else:
                     best, best_eval = self.getBest(population, best)
 
-                _, temp_best_eval = self.getBest(population)
+                #_, temp_best_eval = self.getBest(population)
 
                 # Storing data for boxplot
                 boxplot_list = boxplot_insert(boxplot_list, population)
@@ -215,7 +222,7 @@ class GeneticSolver:
                     selected = selected[:self.population]
 
                 if len(selected) > 1:
-                    for i in range(0, len(selected)-2, 2): # why not 1? I know there will be 2*population length - 2 but maybe it is good
+                    for i in range(0, len(selected)-2, 2): 
                         # Get selected parents in pairs
                         p1, p2 = copy.deepcopy(selected[i]), copy.deepcopy(selected[i+1])
 
@@ -233,9 +240,9 @@ class GeneticSolver:
                 ######################################################################################
                 """
                 ######################################################################################
-        
-                #parents = [parent for parent in population[:int(self.population*2/13)]]
 
+                #parents = self.selection(population=population)
+                
                 ### Stable population
 
                 children = copy.deepcopy(parents)
@@ -665,10 +672,10 @@ class GeneticSolver:
             
             return {'Strategy':None, 'TotalTime':np.inf}
          
-        fuel_load = self.getFuelLoad(initial_fuel,weather[:lap])
+        fuel_load = self.getFuelLoad(initial_fuel,weather[:lap+1])
+        w = weather[lap]
 
-
-        if weather[lap] == 0:
+        if w < 20:
             idx = 1
             values = {1:None, 2:None, 3:None, 4:None}
             for compound in ['Soft', 'Medium','Hard']:
@@ -686,11 +693,42 @@ class GeneticSolver:
                     values[idx] = self.build_tree(temp_tree, tyres_age+1 if not pitStop else 0, lap+1)
                     temp_tree.pop()
                     idx+=1
-            
-        else:
-            values = {1:None, 2:None, 3:None}
+        elif w > 50 and w < 80:
+            values = {1:None}
             idx = 1
-            for compound in ['Inter','Wet']:
+            compound = 'Inter'
+            if compound == temp_tree[-1]['Compound']:
+                for pitStop in [True,False]:
+                    node = {'Compound':compound, 'TyreWear': self.getTyreWear(compound, tyres_age+1 if not pitStop else 0), 'TyreAge':tyres_age+1 if not pitStop else 0, 'FuelLoad':fuel_load, 'PitStop':pitStop, 'LapTime': self.getLapTime(compound=compound, compoundAge=tyres_age+1 if not pitStop else 0, lap=lap, fuel_load=fuel_load, conditions=weather[:lap+1], drs=False, pitStop=pitStop)}
+                    temp_tree.append(node)
+                    values[idx] = self.build_tree(temp_tree, tyres_age+1 if not pitStop else 0, lap+1)
+                    temp_tree.pop()
+            else:
+                pitStop = True
+                node = {'Compound':compound, 'TyreWear': self.getTyreWear(compound, tyres_age+1 if not pitStop else 0), 'TyreAge':tyres_age+1 if not pitStop else 0, 'FuelLoad':fuel_load, 'PitStop':pitStop, 'LapTime': self.getLapTime(compound=compound, compoundAge=tyres_age+1 if not pitStop else 0, lap=lap, fuel_load=fuel_load, conditions=weather[:lap+1], drs=False, pitStop=pitStop)}
+                temp_tree.append(node)
+                values[idx] = self.build_tree(temp_tree, tyres_age+1 if not pitStop else 0, lap+1)
+                temp_tree.pop()
+        elif w > 80:
+            values = {1:None}
+            idx = 1
+            compound = 'Wet'
+            if compound == temp_tree[-1]['Compound']:
+                for pitStop in [True,False]:
+                    node = {'Compound':compound, 'TyreWear': self.getTyreWear(compound, tyres_age+1 if not pitStop else 0), 'TyreAge':tyres_age+1 if not pitStop else 0, 'FuelLoad':fuel_load, 'PitStop':pitStop, 'LapTime': self.getLapTime(compound=compound, compoundAge=tyres_age+1 if not pitStop else 0, lap=lap, fuel_load=fuel_load, conditions=weather[:lap+1], drs=False, pitStop=pitStop)}
+                    temp_tree.append(node)
+                    values[idx] = self.build_tree(temp_tree, tyres_age+1 if not pitStop else 0, lap+1)
+                    temp_tree.pop()
+            else:
+                pitStop = True
+                node = {'Compound':compound, 'TyreWear': self.getTyreWear(compound, tyres_age+1 if not pitStop else 0), 'TyreAge':tyres_age+1 if not pitStop else 0, 'FuelLoad':fuel_load, 'PitStop':pitStop, 'LapTime': self.getLapTime(compound=compound, compoundAge=tyres_age+1 if not pitStop else 0, lap=lap, fuel_load=fuel_load, conditions=weather[:lap+1], drs=False, pitStop=pitStop)}
+                temp_tree.append(node)
+                values[idx] = self.build_tree(temp_tree, tyres_age+1 if not pitStop else 0, lap+1)
+                temp_tree.pop()
+        else:
+            values = {1:None, 2:None, 3:None, 4:None}
+            idx = 1
+            for compound in ['Inter','Soft', 'Medium','Hard']:
                 if compound == temp_tree[-1]['Compound']:
                     for pitStop in [True,False]:
                         node = {'Compound':compound, 'TyreWear': self.getTyreWear(compound, tyres_age+1 if not pitStop else 0), 'TyreAge':tyres_age+1 if not pitStop else 0, 'FuelLoad':fuel_load, 'PitStop':pitStop, 'LapTime': self.getLapTime(compound=compound, compoundAge=tyres_age+1 if not pitStop else 0, lap=lap, fuel_load=fuel_load, conditions=weather[:lap+1], drs=False, pitStop=pitStop)}
@@ -707,6 +745,12 @@ class GeneticSolver:
                     idx+=1
 
         ### Best Strategy
+        to_remove = list()
+        for key, val in values.items():
+            if val is None:
+                to_remove.append(key)
+        for key in to_remove:
+            values.pop(key)
         for val in values.values():
             if val['Strategy'] is not None:
                 if len(val['Strategy']) < self.numLaps:
@@ -722,8 +766,9 @@ class GeneticSolver:
         weather = self.weather.get_weather_percentage_list()
         initial_fuel = self.getInitialFuelLoad(weather)
         timer_start = time.time()
-        
-        if weather[0] == 0:
+        w = weather[0]
+
+        if w < 20:
             values = {1:None, 2:None, 3:None}
             
             ### Soft
@@ -757,9 +802,30 @@ class GeneticSolver:
             temp_tree.pop()
             hard_timer = ms_to_time(round(1000*(time.time() - hard_timer)))
             print(f"\033[A\033[K[BruteForce] {compound} computed in {hard_timer}")
-
+        elif w > 50 and w < 80:
+            values = {1:None}
+            ### Inter
+            inter_timer = time.time()
+            compound = 'Inter'
+            print(f"[BruteForce] Computations starting with {compound}...")
+            temp_tree.append({'Compound':compound, 'TyreWear': self.getTyreWear(compound, 0), 'TyreAge':0, 'FuelLoad':initial_fuel, 'PitStop':False, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=0, fuel_load=initial_fuel, conditions=[weather[0]], drs=False, pitStop=False)})
+            values[1] = self.build_tree(temp_tree, 0, 1)
+            temp_tree.pop()
+            inter_timer = ms_to_time(round(1000*(time.time() - inter_timer)))
+            print(f"\033[A\033[K[BruteForce] {compound} computed in {inter_timer}")
+        elif w > 80:
+            values = {1:None}
+            ### Wet
+            wet_timer = time.time()
+            compound = 'Wet'
+            print(f"[BruteForce] Computations starting with {compound}...")
+            temp_tree.append({'Compound':compound, 'TyreWear': self.getTyreWear(compound, 0), 'TyreAge':0, 'FuelLoad':initial_fuel, 'PitStop':False, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=0, fuel_load=initial_fuel, conditions=[weather[0]], drs=False, pitStop=False)})
+            values[1] = self.build_tree(temp_tree, 0, 1)
+            temp_tree.pop()
+            wet_timer = ms_to_time(round(1000*(time.time() - wet_timer)))
+            print(f"\033[A\033[K[BruteForce] {compound} computed in {wet_timer}")
         else:
-            values = {1:None, 2:None}
+            values = {1:None, 2:None, 3:None, 4:None}
             
             ### Inter
             inter_timer = time.time()
@@ -771,15 +837,35 @@ class GeneticSolver:
             inter_timer = ms_to_time(round(1000*(time.time() - inter_timer)))
             print(f"\033[A\033[K[BruteForce] {compound} computed in {inter_timer}")
 
-            ### Wet
-            wet_timer = time.time()
-            compound = 'Wet'
+            ### Soft
+            soft_timer = time.time()
+            compound = 'Soft'
             print(f"[BruteForce] Computations starting with {compound}...")
             temp_tree.append({'Compound':compound, 'TyreWear': self.getTyreWear(compound, 0), 'TyreAge':0, 'FuelLoad':initial_fuel, 'PitStop':False, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=0, fuel_load=initial_fuel, conditions=[weather[0]], drs=False, pitStop=False)})
             values[2] = self.build_tree(temp_tree, 0, 1)
             temp_tree.pop()
-            wet_timer = ms_to_time(round(1000*(time.time() - wet_timer)))
-            print(f"\033[A\033[K[BruteForce] {compound} computed in {wet_timer}")
+            soft_timer = ms_to_time(round(1000*(time.time() - soft_timer)))
+            print(f"\033[A\033[K[BruteForce] {compound} computed in {soft_timer}")
+
+            ### Medium
+            medium_timer = time.time()
+            compound = 'Medium'
+            print(f"[BruteForce] Computations starting with {compound}...")
+            temp_tree.append({'Compound':compound, 'TyreWear': self.getTyreWear(compound, 0), 'TyreAge':0, 'FuelLoad':initial_fuel, 'PitStop':False, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=0, fuel_load=initial_fuel, conditions=[weather[0]], drs=False, pitStop=False)})
+            values[3] = self.build_tree(temp_tree, 0, 1)
+            temp_tree.pop()
+            medium_timer = ms_to_time(round(1000*(time.time() - medium_timer)))
+            print(f"\033[A\033[K[BruteForce] {compound} computed in {medium_timer}")
+
+            ### Hard
+            hard_timer = time.time()
+            compound = 'Hard'
+            print(f"[BruteForce] Computations starting with {compound}...")
+            temp_tree.append({'Compound':compound, 'TyreWear': self.getTyreWear(compound, 0), 'TyreAge':0, 'FuelLoad':initial_fuel, 'PitStop':False, 'LapTime': self.getLapTime(compound=compound, compoundAge=0, lap=0, fuel_load=initial_fuel, conditions=[weather[0]], drs=False, pitStop=False)})
+            values[4] = self.build_tree(temp_tree, 0, 1)
+            temp_tree.pop()
+            hard_timer = ms_to_time(round(1000*(time.time() - hard_timer)))
+            print(f"\033[A\033[K[BruteForce] {compound} computed in {hard_timer}")
 
         ### Best Strategy
         best_strategy_index = min(values, key=lambda x: values[x]['TotalTime'])
