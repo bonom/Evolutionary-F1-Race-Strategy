@@ -79,6 +79,15 @@ class LocalSearch:
             localStrategy_1['PitStop'][index] = False
             localStrategy_2['TyreCompound'][index] = localStrategy_2['TyreCompound'][index-1]
             for i in range(index, index-5, -1): 
+                if i == 0:
+                    localStrategy_1['PitStop'][i] = False
+                    localStrategy_1['TyreCompound'][i] = localStrategy_1['TyreCompound'][index]
+
+                    self.genetic.correct_strategy(localStrategy_1)
+
+                    if localStrategy_1['TotalTime'] < localBest['TotalTime'] and self.genetic.checkValidity(localStrategy_1):
+                        localBest = copy.deepcopy(localStrategy_1)
+
                 if i > 0 and i < self.genetic.numLaps and i != index:
                     localStrategy_1['PitStop'][i] = True
                     localStrategy_1['TyreCompound'][i] = localStrategy_1['TyreCompound'][index]
@@ -98,8 +107,15 @@ class LocalSearch:
                     #     else:
                     #         localStrategy_1['PitStop'][i] = False
             for i in range(index + 1, index + 6):
+                if i == self.genetic.numLaps:
+                    localStrategy_2['PitStop'][i-1] = False
+                    self.genetic.correct_strategy(localStrategy_2)
+
+                    if localStrategy_2['TotalTime'] < localBest['TotalTime'] and self.genetic.checkValidity(localStrategy_2):
+                        localBest = copy.deepcopy(localStrategy_2)
+
                 if i > 0 and i < self.genetic.numLaps and i != index:
-                    localStrategy_1['PitStop'][i] = True
+                    localStrategy_2['PitStop'][i] = True
                     localStrategy_2['TyreCompound'][i] = localStrategy_2['TyreCompound'][i-1]
                     self.genetic.correct_strategy(localStrategy_2)
 
@@ -114,24 +130,40 @@ class LocalSearch:
             localStrategy_3['PitStop'][nextIndex] = False
             localStrategy_4['TyreCompound'][nextIndex] = localStrategy_4['TyreCompound'][nextIndex-1]
             for i in range(nextIndex-1, nextIndex-6, -1): 
+                if i == 0:
+                    localStrategy_3['PitStop'][i] = False
+                    localStrategy_3['TyreCompound'][i] = localStrategy_3['TyreCompound'][index]
+
+                    self.genetic.correct_strategy(localStrategy_3)
+
+                    if localStrategy_3['TotalTime'] < localBest['TotalTime'] and self.genetic.checkValidity(localStrategy_3):
+                        localBest = copy.deepcopy(localStrategy_3)
+
                 if i >= 0 and i < self.genetic.numLaps and i != nextIndex:
                     localStrategy_3['PitStop'][i] = True
                     localStrategy_3['TyreCompound'][i] = localStrategy_3['TyreCompound'][nextIndex]
-                    self.genetic.correct_strategy(localStrategy_1)
+                    self.genetic.correct_strategy(localStrategy_3)
 
                     if localStrategy_3['TotalTime'] < localBest['TotalTime'] and self.genetic.checkValidity(localStrategy_3):
-                        localBest = copy.deepcopy(localStrategy_1)
+                        localBest = copy.deepcopy(localStrategy_3)
                     else:
                         localStrategy_3['PitStop'][i] = False
 
             for i in range(nextIndex+1, nextIndex+6): 
+                if i == self.genetic.numLaps:
+                    localStrategy_4['PitStop'][i-1] = False
+                    self.genetic.correct_strategy(localStrategy_4)
+
+                    if localStrategy_4['TotalTime'] < localBest['TotalTime'] and self.genetic.checkValidity(localStrategy_2):
+                        localBest = copy.deepcopy(localStrategy_4)
+
                 if i >= 0 and i < self.genetic.numLaps and i != nextIndex:
-                    localStrategy_3['PitStop'][i] = True
+                    localStrategy_4['PitStop'][i] = True
                     localStrategy_4['TyreCompound'][i] = localStrategy_4['TyreCompound'][i-1]
-                    self.genetic.correct_strategy(localStrategy_2)
+                    self.genetic.correct_strategy(localStrategy_4)
 
                     if localStrategy_4['TotalTime'] < localBest['TotalTime'] and self.genetic.checkValidity(localStrategy_4):
-                        localBest = copy.deepcopy(localStrategy_2)
+                        localBest = copy.deepcopy(localStrategy_4)
                     else:
                         localStrategy_4['PitStop'][i] = False
 
