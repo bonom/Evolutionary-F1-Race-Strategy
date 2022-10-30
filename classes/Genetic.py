@@ -800,7 +800,7 @@ class GeneticSolver:
         stop_lap.append(self.numLaps)
         strategy = []
         weather = self.weather.get_weather_percentage_list()
-        start_fuel = 110#self.getInitialFuelLoad(weather)
+        start_fuel = self.getInitialFuelLoad(weather)
         idx_stop = 0
         idx_tyre = 0
         tyre_lap = 0
