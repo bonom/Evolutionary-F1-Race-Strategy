@@ -1,11 +1,13 @@
 import math
 import sys, os
+from turtle import width
 import numpy as np
 from datetime import datetime
 from classes.Genetic import GeneticSolver
 from classes.Car import get_car_data, Car
 from classes.Race import RaceData, plot_best
-from classes.Utils import ms_to_time, time_to_ms
+from classes.Utils import CIRCUIT, ms_to_time, time_to_ms
+from classes.LocalSearch import LocalSearch
 import plotly.express as px
 import argparse
 
@@ -55,10 +57,150 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         car:Car = get_car_data(circuit)
 
         race_data:RaceData = RaceData(circuit)
-        race_data.plot(path=circuit)
+        # race_data.plot(path=circuit)
+        
+        ### For printing the tyre wear plot in main.py
+        # import pandas as pd
+        # from classes.Utils import CIRCUIT
+
+        # tot_laps = 41
+
+        # if not os.path.isdir("images"):
+        #     os.mkdir("images")
+
+        # data = {"Soft":[0], "Medium":[0], "Hard":[0], "Inter":[0], "Wet":[0]}
+        # for lap in range(1, tot_laps):
+        #     temp_data = car.predict_tyre_wear('Soft',lap)
+        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
+        #     if temp_average > 100:
+        #         temp_average = np.nan
+        #     data["Soft"].append(temp_average)
+        #     temp_data = car.predict_tyre_wear('Medium',lap)
+        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
+        #     if temp_average > 100:
+        #         temp_average = np.nan
+        #     data["Medium"].append(temp_average)
+        #     temp_data = car.predict_tyre_wear('Hard',lap)
+        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
+        #     if temp_average > 100:
+        #         temp_average = np.nan
+        #     data["Hard"].append(temp_average)
+        #     temp_data = car.predict_tyre_wear('Inter',lap)
+        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
+        #     if temp_average > 100:
+        #         temp_average = np.nan
+        #     data["Inter"].append(temp_average)
+        #     temp_data = car.predict_tyre_wear('Wet',lap)
+        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
+        #     if temp_average > 100:
+        #         temp_average = np.nan
+        #     data["Wet"].append(temp_average)
+        # df = pd.DataFrame(data, index=[i for i in range(0, tot_laps)])
+        # fig = px.line(
+        #     df, 
+        #     labels={
+        #         "index": "Lap",
+        #         "value": "Tyre Wear (%)",
+        #         "variable": "Tyre"
+        #     },
+        #     range_x=[-1, tot_laps],
+        #     color_discrete_map={"Soft": "red", "Medium": "yellow", "Hard": "black", "Inter": "green", "Wet": "blue"},
+        #     #title="Tyre Wear"
+        # )
+        # fig.update_layout(
+        #     # margin = {'l':50,'r':50,'t':50,'b':50},
+        #     height = 720,
+        #     width = 1280,
+        # )
+        # fig.write_image("images/Tyre_wear.png")
+
+        # fig.update_layout(
+        #     autosize=False,
+        # )
+        # fig.write_image("images/Tyre_wear.eps")
+
+        # data = {"Soft":[0], "Medium":[0], "Hard":[0], "Inter":[0], "Wet":[0]}
+        # for lap in range(1, tot_laps):
+        #     data["Soft"].append(car.predict_tyre_time_lose('Soft',lap).get("Total"))
+        #     data["Medium"].append(car.predict_tyre_time_lose('Medium',lap).get("Total"))
+        #     data["Hard"].append(car.predict_tyre_time_lose('Hard',lap).get("Total"))
+        #     data["Inter"].append(car.predict_tyre_time_lose('Inter',lap).get("Total"))
+        #     data["Wet"].append(car.predict_tyre_time_lose('Wet',lap).get("Total"))
+
+        # df = pd.DataFrame(data, index=[i for i in range(0, tot_laps)])
+        # fig = px.line(
+        #     df,
+        #     labels={
+        #         "index": "Lap",
+        #         "value": "Time Lose (ms)",
+        #         "variable": "Tyre"
+        #     },
+        #     range_x=[-1, tot_laps],
+        #     color_discrete_map={"Soft": "red", "Medium": "yellow", "Hard": "black", "Inter": "green", "Wet": "blue"},
+        #     #title="Tyre Long Run Performance"
+        # )
+        # fig.update_layout(
+        #     # margin = {'l':50,'r':50,'t':50,'b':50},
+        #     height = 720,
+        #     width = 1280,
+        # )
+        # fig.write_image("images/Tyre_wear_time_loss.png")
+
+        # fig.update_layout(
+        #     autosize=False,
+        # )
+        # fig.write_image("images/Tyre_wear_time_loss.eps")
+        
+
+        # data = {"Soft":[0], "Medium":[0], "Hard":[0], "Inter":[0], "Wet":[0]}
+        # for lap in range(1, tot_laps):
+        #     temp_time = car.predict_tyre_time_lose('Soft',lap).get("Total") 
+        #     data["Soft"].append(temp_time)
+        #     temp_time = car.predict_tyre_time_lose('Medium',lap).get("Total") + car.time_diff.get("Medium")
+        #     data["Medium"].append(temp_time)
+        #     temp_time = car.predict_tyre_time_lose('Hard',lap).get("Total") + car.time_diff.get("Hard")
+        #     data["Hard"].append(temp_time)
+        #     temp_time = car.predict_tyre_time_lose('Inter',lap).get("Total") + car.time_diff.get("Inter")
+        #     data["Inter"].append(temp_time)
+        #     temp_time = car.predict_tyre_time_lose('Wet',lap).get("Total") + car.time_diff.get("Wet")
+        #     data["Wet"].append(temp_time)
+
+        # df = pd.DataFrame(data, index=[i for i in range(0, tot_laps)])
+        # fig = px.line(
+        #     df,
+        #     labels={
+        #         "index": "Lap",
+        #         "value": "Time Lose (ms)",
+        #         "variable": "Tyre"
+        #     },
+        #     range_x=[-1, tot_laps],
+        #     color_discrete_map={"Soft": "red", "Medium": "yellow", "Hard": "black", "Inter": "green", "Wet": "blue"},
+        #     #title="Tyre Time Lose with Time Difference between compounds"
+        # )
+        # fig.update_layout(
+        #     # margin = {'l':50,'r':50,'t':50,'b':50},
+        #     height = 720,
+        #     width = 1280,
+        # )
+        # fig.write_image("images/Tyres_time_loss.png")
+
+        # fig.update_layout(
+        #     autosize=False,
+        # )
+        # fig.write_image("images/Tyres_time_loss.eps")
+
+
+        # sys.exit(0)
+
+        ######
+
+        #race_data:RaceData = RaceData(circuit)
+        #race_data.plot(path=circuit)
 
         genetic = GeneticSolver(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, car=car, circuit=_circuit, save_path=save_path, weather=weather)
-        
+        #genetic.fixed_strategy(['Medium','Wet'], [41])
+        #sys.exit(0)
+
         bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.log")
         if not os.path.isfile(bruteforce_save_path):
             bruteforce_strategy = genetic.lower_bound()
@@ -70,7 +212,7 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
                 t = f"{int(timing):,}".replace(",", " ")
                 f.write(f"\nFitness: {t}\n")
                 f.write(f"Total time: {ms_to_time(timing)}")
-
+        
         with open(bruteforce_save_path, 'r') as f:
             lines = f.readlines()
         
@@ -92,6 +234,23 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         print(f"EA fitness: {ea}\nBruteforce fitness: {bf}")
         print(f"\n------------------------------------------------\n")
 
+        localSearch = LocalSearch(best, genetic)
+
+        finalStrategy, finalStrategy_eval, ls_timer = localSearch.run()
+        
+        ### Print the final strategy of local search
+        print("\n------------------------------------------------\n")
+        string = "Local Search Strategy:\n"
+        for lap in range(genetic.numLaps):
+            string += f"Lap {lap+1}/{genetic.numLaps} -> Compound: '{finalStrategy['TyreCompound'][lap]}' TyreAge: {finalStrategy['TyreAge'][lap]} Laps, TyreWear: FL:{round(finalStrategy['TyreWear'][lap]['FL']*100,1)}% FR:{round(finalStrategy['TyreWear'][lap]['FR']*100,1)}% RL:{round(finalStrategy['TyreWear'][lap]['RL']*100,1)}% RR:{round(finalStrategy['TyreWear'][lap]['RR']*100,1)}%, FuelLoad: {finalStrategy['FuelLoad'][lap]} Kg, PitStop: {'Yes' if finalStrategy['PitStop'][lap] else 'No'}, LapTime: {ms_to_time(finalStrategy['LapTime'][lap])} (hh:)mm:ss.ms\n" 
+
+        string += f"\nLocal Search Timing: {ms_to_time(finalStrategy_eval)}"
+        with open(os.path.join(save_path, "LocalSearch_strategy.log"), "a") as f:
+            f.write(string)
+        print(string)
+        print(f"EA timing: {ms_to_time(best_eval)}")
+        print(f"Bruteforce timing: {bf_time[-1]}")
+        print("\n------------------------------------------------\n")
 
         # Plots
         fit_gen_boxplot = px.box(boxplot_data, title="Boxplot fitnesses of every generation")
@@ -133,13 +292,13 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         
     
     print(f"\n----------------------END-----------------------\n")
-    return best, best_eval, bf_time_in_ms, save_path, timer
+    return best, best_eval, bf_time_in_ms, save_path, timer, finalStrategy_eval, ls_timer
 
 if __name__ == "__main__":  
     os.system('cls' if os.name == 'nt' else 'clear')
 
     population = args.pop
-    iterations = 10#args.i
+    iterations = args.i
     mutation_pr = args.mut
     crossover_pr = args.cross
     weather = args.w
@@ -153,35 +312,33 @@ if __name__ == "__main__":
     
     if not os.path.isfile(os.path.join(output_path, f"{circuit}.csv")):
         with open(os.path.join(output_path, f"{circuit}.csv"), "w") as f:
-            f.write("Population,Iterations,Mutation,Crossover,EA Fitness,BF Fitness,EA Timing,BF Timing,Timer,Weather,Save Path\n")
+            f.write("Population,Iterations,Mutation,Crossover,EA Fitness,BF Fitness,LS Fitness,EA Timing,BF Timing,LS Timing,Timer,LS Timer,Weather,Save Path\n")
 
     if args.d:
         counter = 0
         while True:
             counter += 1
-            strategy, timing, bruteforce_time, log_path, timer = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, weather=weather, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
+            strategy, timing, bruteforce_time, log_path, timer, ls_timing, ls_timer = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, weather=weather, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
            
             log_path = log_path.replace("\\", "/").split("/")[-1]
         
             with open(os.path.join(output_path, f"{circuit}.csv"), "a") as f:
-                f.write(f"{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(round(timer*1000))},")
+                f.write(f"{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ls_timing},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(ls_timing)},{ms_to_time(round(timer*1000))},{ms_to_time(round(ls_timer*1000))},")
                 for w in wsummary:
                     f.write(f"{w} ")
                 f.write(f",{log_path}\n")
-
-            if counter >= 10:
-                break
+            
 
     else:
 
-        strategy, timing, bruteforce_time, log_path, timer = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, weather=weather, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
+        strategy, timing, bruteforce_time, log_path, timer, ls_timing, ls_timer = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, weather=weather, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
 
         log_path = log_path.replace("\\", "/").split("/")[-1]
         
         with open(os.path.join(output_path, f"{circuit}.csv"), "a") as f:
-            f.write(f"{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(round(timer*1000))},")
+            f.write(f"{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ls_timing},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(ls_timing)},{ms_to_time(round(timer*1000))},{ms_to_time(round(ls_timer*1000))},")
             for w in wsummary:
-                f.write(f"({w})")
+                f.write(f"{w} ")
             f.write(f",{log_path}\n")
 
 

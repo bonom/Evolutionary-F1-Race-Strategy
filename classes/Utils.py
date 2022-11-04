@@ -7,6 +7,7 @@ CIRCUIT: dict = {
     'Montreal' : {'Laps': 70, 'PitStopTime':24000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
     'Portimao' : {'Laps': 66, 'PitStopTime':22000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
     'Bahrein' : {'Laps': 55, 'PitStopTime':25000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+    'Zandvoort' : {'Laps': 72, 'PitStopTime':20000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
 }
 
 VISUAL_COMPOUNDS: dict = {
@@ -89,9 +90,15 @@ def ms_to_time(ms):
     if minutes < 10:
         minutes = f"0{int(minutes)}"
     if hours < 10 and hours > 0:
-        hours = f"0{int(hours)}"
+        hours = f"{int(hours)}"
     
     if int(hours) < 1:
+        if int(minutes) < 1:
+            if int(seconds) < 10:
+                return f"{int(seconds)}.{milliseconds}"
+            return f"{seconds}.{milliseconds}"
+        elif int(minutes) < 10:
+            return f"{int(minutes)}:{seconds}.{milliseconds}"
         return f"{minutes}:{seconds}.{milliseconds}"
     
     return f"{hours}:{minutes}:{seconds}.{milliseconds}"
