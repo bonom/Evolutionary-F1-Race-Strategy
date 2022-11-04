@@ -90,9 +90,15 @@ def ms_to_time(ms):
     if minutes < 10:
         minutes = f"0{int(minutes)}"
     if hours < 10 and hours > 0:
-        hours = f"0{int(hours)}"
+        hours = f"{int(hours)}"
     
     if int(hours) < 1:
+        if int(minutes) < 1:
+            if int(seconds) < 10:
+                return f"{int(seconds)}.{milliseconds}"
+            return f"{seconds}.{milliseconds}"
+        elif int(minutes) < 10:
+            return f"{int(minutes)}:{seconds}.{milliseconds}"
         return f"{minutes}:{seconds}.{milliseconds}"
     
     return f"{hours}:{minutes}:{seconds}.{milliseconds}"

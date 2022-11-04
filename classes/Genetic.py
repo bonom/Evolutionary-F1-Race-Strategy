@@ -142,9 +142,6 @@ class GeneticSolver:
         all_compounds = set(strategy['TyreCompound'])
         last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
 
-        if strategy['FuelLoad'][0] > 100:
-            pass
-
         if any([x != 0 for x in strategy['Weather']]): # If weather is not completely Dry the constraint of changing tyre does not apply anymore
             #if any([x > 30 for x in strategy['Weather']]) and any([x in ['Inter','Wet'] for x in all_compounds]) and last_lap_fuel_load >= 0:
             if last_lap_fuel_load >= 0:
@@ -882,14 +879,14 @@ class GeneticSolver:
         ### Find the best solution
         return best_strategy, best_laptime
 
-    def fixed_strategy(self, compund_list:list, stop_lap:list):
+    def fixed_strategy(self, compund_list:list, stop_lap:list=[]):
         if len(stop_lap) != len(compund_list)-1:
             print(f"Either the compound list or the pit stop list are wrong!")
             exit(-1)
         stop_lap.append(self.numLaps)
         strategy = []
         weather = self.weather.get_weather_percentage_list()
-        start_fuel = 110#self.getInitialFuelLoad(weather)
+        start_fuel = self.getInitialFuelLoad(weather)
         idx_stop = 0
         idx_tyre = 0
         tyre_lap = 0
