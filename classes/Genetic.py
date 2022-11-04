@@ -793,14 +793,14 @@ class GeneticSolver:
         ### Find the best solution
         return best_strategy, best_laptime
 
-    def fixed_strategy(self, compund_list:list, stop_lap:list):
+    def fixed_strategy(self, compund_list:list, stop_lap:list=[]):
         if len(stop_lap) != len(compund_list)-1:
             print(f"Either the compound list or the pit stop list are wrong!")
             exit(-1)
         stop_lap.append(self.numLaps)
         strategy = []
         weather = self.weather.get_weather_percentage_list()
-        start_fuel = 110#self.getInitialFuelLoad(weather)
+        start_fuel = self.getInitialFuelLoad(weather)
         idx_stop = 0
         idx_tyre = 0
         tyre_lap = 0
