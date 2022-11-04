@@ -1,0 +1,75 @@
+Best Strategy fitness: 5942159
+Best Strategy time: 01:39:02.159
+
+ vs 
+
+Bruteforce fitness: 5302639
+Bruteforce time: 01:28:22.639
+
+
+Lap 1: Rain 0% -> Compound 'Medium', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '109.6' Kg, PitStop 'No', Time '01:24.542' ms
+Lap 2: Rain 0% -> Compound 'Medium', TyresAge 1, Wear '2.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '108.01' Kg, PitStop 'No', Time '01:22.484' ms
+Lap 3: Rain 0% -> Compound 'Medium', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '106.42' Kg, PitStop 'Yes', Time '01:44.364' ms
+Lap 4: Rain 0% -> Compound 'Hard', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '104.83' Kg, PitStop 'Yes', Time '01:45.432' ms
+Lap 5: Rain 0% -> Compound 'Hard', TyresAge 1, Wear '1.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '103.24' Kg, PitStop 'No', Time '01:23.367' ms
+Lap 6: Rain 0% -> Compound 'Hard', TyresAge 2, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '101.65' Kg, PitStop 'No', Time '01:23.301' ms
+Lap 7: Rain 0% -> Compound 'Inter', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '100.06' Kg, PitStop 'Yes', Time '01:52.252' ms
+Lap 8: Rain 0% -> Compound 'Inter', TyresAge 1, Wear '1.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '98.47' Kg, PitStop 'No', Time '01:30.217' ms
+Lap 9: Rain 0% -> Compound 'Wet', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '96.88' Kg, PitStop 'Yes', Time '02:11.419' ms
+Lap 10: Rain 0% -> Compound 'Wet', TyresAge 1, Wear '1.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '95.29' Kg, PitStop 'No', Time '01:49.364' ms
+Lap 11: Rain 0% -> Compound 'Wet', TyresAge 2, Wear '1.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '93.7' Kg, PitStop 'No', Time '01:49.388' ms
+Lap 12: Rain 0% -> Compound 'Hard', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '92.11' Kg, PitStop 'Yes', Time '01:44.719' ms
+Lap 13: Rain 0% -> Compound 'Hard', TyresAge 1, Wear '1.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '90.52' Kg, PitStop 'No', Time '01:22.654' ms
+Lap 14: Rain 0% -> Compound 'Inter', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '88.93' Kg, PitStop 'Yes', Time '01:51.628' ms
+Lap 15: Rain 0% -> Compound 'Inter', TyresAge 1, Wear '1.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '87.34' Kg, PitStop 'No', Time '01:29.593' ms
+Lap 16: Rain 0% -> Compound 'Inter', TyresAge 2, Wear '1.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '85.75' Kg, PitStop 'No', Time '01:29.730' ms
+Lap 17: Rain 0% -> Compound 'Inter', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '84.16' Kg, PitStop 'Yes', Time '01:51.361' ms
+Lap 18: Rain 0% -> Compound 'Inter', TyresAge 1, Wear '1.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '82.57' Kg, PitStop 'No', Time '01:29.326' ms
+Lap 19: Rain 0% -> Compound 'Inter', TyresAge 2, Wear '1.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '80.98' Kg, PitStop 'No', Time '01:29.463' ms
+Lap 20: Rain 0% -> Compound 'Wet', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '79.39' Kg, PitStop 'Yes', Time '02:10.440' ms
+Lap 21: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '77.8' Kg, PitStop 'Yes', Time '01:42.396' ms
+Lap 22: Rain 0% -> Compound 'Soft', TyresAge 1, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '76.21' Kg, PitStop 'No', Time '01:20.350' ms
+Lap 23: Rain 0% -> Compound 'Soft', TyresAge 2, Wear '4.0'% | '3.0'% | '4.0'% | '3.0'%, Fuel '74.62' Kg, PitStop 'No', Time '01:20.293' ms
+Lap 24: Rain 0% -> Compound 'Hard', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '73.03' Kg, PitStop 'Yes', Time '01:43.651' ms
+Lap 25: Rain 0% -> Compound 'Hard', TyresAge 1, Wear '1.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '71.44' Kg, PitStop 'No', Time '01:21.586' ms
+Lap 26: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '69.85' Kg, PitStop 'Yes', Time '01:41.951' ms
+Lap 27: Rain 0% -> Compound 'Soft', TyresAge 1, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '68.26' Kg, PitStop 'No', Time '01:19.905' ms
+Lap 28: Rain 0% -> Compound 'Hard', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '66.67' Kg, PitStop 'Yes', Time '01:43.295' ms
+Lap 29: Rain 0% -> Compound 'Hard', TyresAge 1, Wear '1.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '65.08' Kg, PitStop 'No', Time '01:21.230' ms
+Lap 30: Rain 0% -> Compound 'Soft', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '63.49' Kg, PitStop 'Yes', Time '01:41.595' ms
+Lap 31: Rain 0% -> Compound 'Soft', TyresAge 1, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '61.9' Kg, PitStop 'No', Time '01:19.549' ms
+Lap 32: Rain 0% -> Compound 'Soft', TyresAge 2, Wear '4.0'% | '3.0'% | '4.0'% | '3.0'%, Fuel '60.31' Kg, PitStop 'No', Time '01:19.492' ms
+Lap 33: Rain 0% -> Compound 'Soft', TyresAge 3, Wear '6.0'% | '5.0'% | '6.0'% | '5.0'%, Fuel '58.72' Kg, PitStop 'No', Time '01:19.444' ms
+Lap 34: Rain 0% -> Compound 'Hard', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '57.13' Kg, PitStop 'Yes', Time '01:42.760' ms
+Lap 35: Rain 0% -> Compound 'Hard', TyresAge 1, Wear '1.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '55.54' Kg, PitStop 'No', Time '01:20.695' ms
+Lap 36: Rain 0% -> Compound 'Hard', TyresAge 2, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '53.95' Kg, PitStop 'No', Time '01:20.629' ms
+Lap 37: Rain 0% -> Compound 'Hard', TyresAge 3, Wear '4.0'% | '3.0'% | '3.0'% | '2.0'%, Fuel '52.36' Kg, PitStop 'No', Time '01:20.566' ms
+Lap 38: Rain 0% -> Compound 'Inter', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '50.77' Kg, PitStop 'Yes', Time '01:49.491' ms
+Lap 39: Rain 0% -> Compound 'Inter', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '49.18' Kg, PitStop 'Yes', Time '01:49.402' ms
+Lap 40: Rain 0% -> Compound 'Inter', TyresAge 1, Wear '1.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '47.59' Kg, PitStop 'No', Time '01:27.367' ms
+Lap 41: Rain 0% -> Compound 'Inter', TyresAge 2, Wear '1.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '46.0' Kg, PitStop 'No', Time '01:27.504' ms
+Lap 42: Rain 0% -> Compound 'Inter', TyresAge 3, Wear '2.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '44.41' Kg, PitStop 'No', Time '01:27.469' ms
+Lap 43: Rain 0% -> Compound 'Inter', TyresAge 4, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '42.82' Kg, PitStop 'No', Time '01:27.606' ms
+Lap 44: Rain 0% -> Compound 'Inter', TyresAge 5, Wear '3.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '41.23' Kg, PitStop 'No', Time '01:27.571' ms
+Lap 45: Rain 0% -> Compound 'Medium', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '39.64' Kg, PitStop 'Yes', Time '01:40.624' ms
+Lap 46: Rain 0% -> Compound 'Medium', TyresAge 1, Wear '2.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '38.05' Kg, PitStop 'No', Time '01:18.566' ms
+Lap 47: Rain 0% -> Compound 'Medium', TyresAge 2, Wear '3.0'% | '2.0'% | '3.0'% | '2.0'%, Fuel '36.46' Kg, PitStop 'No', Time '01:18.507' ms
+Lap 48: Rain 0% -> Compound 'Hard', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '34.87' Kg, PitStop 'Yes', Time '01:41.514' ms
+Lap 49: Rain 0% -> Compound 'Hard', TyresAge 1, Wear '1.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '33.28' Kg, PitStop 'No', Time '01:19.449' ms
+Lap 50: Rain 0% -> Compound 'Hard', TyresAge 2, Wear '2.0'% | '2.0'% | '2.0'% | '2.0'%, Fuel '31.69' Kg, PitStop 'No', Time '01:19.383' ms
+Lap 51: Rain 0% -> Compound 'Hard', TyresAge 3, Wear '4.0'% | '3.0'% | '3.0'% | '2.0'%, Fuel '30.1' Kg, PitStop 'No', Time '01:19.320' ms
+Lap 52: Rain 0% -> Compound 'Hard', TyresAge 4, Wear '5.0'% | '4.0'% | '3.0'% | '3.0'%, Fuel '28.51' Kg, PitStop 'No', Time '01:19.249' ms
+Lap 53: Rain 0% -> Compound 'Hard', TyresAge 5, Wear '6.0'% | '5.0'% | '4.0'% | '4.0'%, Fuel '26.92' Kg, PitStop 'No', Time '01:19.184' ms
+Lap 54: Rain 0% -> Compound 'Hard', TyresAge 6, Wear '7.0'% | '6.0'% | '5.0'% | '5.0'%, Fuel '25.33' Kg, PitStop 'No', Time '01:19.120' ms
+Lap 55: Rain 0% -> Compound 'Hard', TyresAge 7, Wear '8.0'% | '6.0'% | '6.0'% | '5.0'%, Fuel '23.74' Kg, PitStop 'No', Time '01:19.043' ms
+Lap 56: Rain 0% -> Compound 'Hard', TyresAge 8, Wear '10.0'% | '7.0'% | '7.0'% | '6.0'%, Fuel '22.15' Kg, PitStop 'No', Time '01:18.983' ms
+Lap 57: Rain 0% -> Compound 'Hard', TyresAge 9, Wear '11.0'% | '8.0'% | '8.0'% | '7.0'%, Fuel '20.56' Kg, PitStop 'No', Time '01:18.919' ms
+Lap 58: Rain 0% -> Compound 'Hard', TyresAge 10, Wear '12.0'% | '9.0'% | '9.0'% | '8.0'%, Fuel '18.97' Kg, PitStop 'No', Time '01:18.855' ms
+Lap 59: Rain 0% -> Compound 'Hard', TyresAge 11, Wear '13.0'% | '10.0'% | '10.0'% | '8.0'%, Fuel '17.38' Kg, PitStop 'No', Time '01:18.784' ms
+Lap 60: Rain 0% -> Compound 'Medium', TyresAge 0, Wear '0.0'% | '0.0'% | '0.0'% | '0.0'%, Fuel '15.79' Kg, PitStop 'Yes', Time '01:39.288' ms
+Lap 61: Rain 0% -> Compound 'Medium', TyresAge 1, Wear '2.0'% | '1.0'% | '1.0'% | '1.0'%, Fuel '14.2' Kg, PitStop 'No', Time '01:17.230' ms
+Lap 62: Rain 0% -> Compound 'Medium', TyresAge 2, Wear '3.0'% | '2.0'% | '3.0'% | '2.0'%, Fuel '12.61' Kg, PitStop 'No', Time '01:17.171' ms
+Lap 63: Rain 0% -> Compound 'Medium', TyresAge 3, Wear '5.0'% | '4.0'% | '4.0'% | '3.0'%, Fuel '11.02' Kg, PitStop 'No', Time '01:17.118' ms
+Lap 64: Rain 0% -> Compound 'Medium', TyresAge 4, Wear '6.0'% | '5.0'% | '5.0'% | '5.0'%, Fuel '9.43' Kg, PitStop 'No', Time '01:17.060' ms
+Lap 65: Rain 0% -> Compound 'Medium', TyresAge 5, Wear '8.0'% | '6.0'% | '7.0'% | '6.0'%, Fuel '7.84' Kg, PitStop 'No', Time '01:17.008' ms
+Lap 66: Rain 0% -> Compound 'Medium', TyresAge 6, Wear '9.0'% | '7.0'% | '8.0'% | '7.0'%, Fuel '6.25' Kg, PitStop 'No', Time '01:16.943' ms
