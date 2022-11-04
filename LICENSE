@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
@@ -675,11 +672,7 @@ may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <http://www.gnu.org/philosophy/why-not-lgpl.html>.
-=======
-=======
->>>>>>> local-search
-=======
->>>>>>> local-search
+
 BSD 3-Clause License
 
 Copyright (c) 2022, Andrea Bonomi & Evelyn Turri
@@ -709,10 +702,3 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> local-search
-=======
->>>>>>> local-search
-=======
->>>>>>> local-search
