@@ -1,18 +1,12 @@
-import math
-import sys, os
-from turtle import width
+import sys, os, json
 import numpy as np
 from datetime import datetime
 from classes.Genetic import GeneticSolver
-from classes.Car import get_car_data, Car
-from classes.Race import RaceData, plot_best
-from classes.Utils import CIRCUIT, ms_to_time, time_to_ms
+from classes.Car import Car
+from classes.Utils import ms_to_time, time_to_ms
 from classes.LocalSearch import LocalSearch
 import plotly.express as px
 import argparse
-
-from classes.Weather import weather_summary
-
 ### To suppress plotly warnings
 import warnings
 warnings.filterwarnings('ignore')
@@ -22,277 +16,127 @@ parser = argparse.ArgumentParser(description='Process F1 Data.')
 parser.add_argument('--c', type=str, default=None, help='Circuit path')
 parser.add_argument('--pop', type=int, default=250, help='Population')
 parser.add_argument('--mut', type=float, default=0.9, help='Mutation probability value')
-parser.add_argument('--cross', type=float, default=0.6, help='Crossover probability value')
+parser.add_argument('--cross', type=float, default=0., help='Crossover probability value')
 parser.add_argument('--i', type=int, default=500, help='Iterations')
-parser.add_argument('--w', type=str, default=None, help='Weather file')
+#parser.add_argument('--w', type=str, default=None, help='Weather file')
 parser.add_argument('--d', action='store_true', default=False, help='Data Collection mode')
 args = parser.parse_args()
     
-def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, weather:str, base_path:str):
+def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, base_path:str):
     print(f"\n---------------------START----------------------\n")
     if args.c is None:
-        circuits = [os.path.abspath(os.path.join('Data', path)) for path in os.listdir(os.path.abspath('Data'))]
+        tmp = json.load(open('DATA.json', 'r'))
+        circuits = [c for c in tmp.keys()]
         if '.DS_Store' in circuits:
             circuits.remove('.DS_Store')
     else:
-        if 'Data' in args.c.split('/'):#.split("\\"):
-            path = os.path.abspath(args.c)
-        else:
-            path = os.path.abspath(os.path.join('Data', args.c))
-        if os.path.isdir(path):
-            circuits = [path]
-        else:
-            circuits = []
-            print(f"Invalid circuit path: {path}")
+        circuits = [args.c]
+        
     
     for circuit in circuits:
-        _circuit = circuit.split("\\")[-1] if os.name == 'nt' else circuit.split("/")[-1]
-        save_path = os.path.join(base_path, _circuit, datetime.now().strftime("%Y_%m_%d %H_%M_%S"))
+        save_path = os.path.join(base_path, circuit, datetime.now().strftime("%Y_%m_%d %H_%M_%S"))
 
-        print(f"\n-------------------{_circuit}--------------------\n")
+        print(f"\n-------------------{circuit}--------------------\n")
 
         while not os.path.exists(os.path.dirname(save_path)):
             os.makedirs(os.path.dirname(save_path))
 
-        car:Car = get_car_data(circuit)
-
-        race_data:RaceData = RaceData(circuit)
-        # race_data.plot(path=circuit)
+        genetic = GeneticSolver(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, car=Car(circuit), circuit=circuit, save_path=save_path,)
+    
+        # bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.log")
+        # if not os.path.isfile(bruteforce_save_path):
+        #     bruteforce_strategy = genetic.lower_bound()
+        #     with open(bruteforce_save_path, "a") as f:
+        #         laps = genetic.numLaps
+        #         strategy, timing = bruteforce_strategy
+        #         for lap in range(laps):
+        #             f.write(f"Lap {lap+1}/{laps} -> Compound: '{strategy[lap]['Compound']}', TyreAge: {strategy[lap]['TyreAge']} Laps, TyreWear: FL:{round(strategy[lap]['TyreWear']['FL']*100,1)}% FR:{round(strategy[lap]['TyreWear']['FR']*100,1)}% RL:{round(strategy[lap]['TyreWear']['RL']*100,1)} RR:{round(strategy[lap]['TyreWear']['RR']*100,1)}%, FuelLoad: {strategy[lap]['FuelLoad']} Kg, PitStop: {'Yes' if strategy[lap]['PitStop'] else 'No'}, LapTime: {ms_to_time(strategy[lap]['LapTime'])} (hh:)mm:ss.ms\n")
+        #         t = f"{int(timing):,}".replace(",", " ")
+        #         f.write(f"\nFitness: {t}\n")
+        #         f.write(f"Total time: {ms_to_time(timing)}")
         
-        ### For printing the tyre wear plot in main.py
-        # import pandas as pd
-        # from classes.Utils import CIRCUIT
-
-        # tot_laps = 41
-
-        # if not os.path.isdir("images"):
-        #     os.mkdir("images")
-
-        # data = {"Soft":[0], "Medium":[0], "Hard":[0], "Inter":[0], "Wet":[0]}
-        # for lap in range(1, tot_laps):
-        #     temp_data = car.predict_tyre_wear('Soft',lap)
-        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
-        #     if temp_average > 100:
-        #         temp_average = np.nan
-        #     data["Soft"].append(temp_average)
-        #     temp_data = car.predict_tyre_wear('Medium',lap)
-        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
-        #     if temp_average > 100:
-        #         temp_average = np.nan
-        #     data["Medium"].append(temp_average)
-        #     temp_data = car.predict_tyre_wear('Hard',lap)
-        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
-        #     if temp_average > 100:
-        #         temp_average = np.nan
-        #     data["Hard"].append(temp_average)
-        #     temp_data = car.predict_tyre_wear('Inter',lap)
-        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
-        #     if temp_average > 100:
-        #         temp_average = np.nan
-        #     data["Inter"].append(temp_average)
-        #     temp_data = car.predict_tyre_wear('Wet',lap)
-        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
-        #     if temp_average > 100:
-        #         temp_average = np.nan
-        #     data["Wet"].append(temp_average)
-        # df = pd.DataFrame(data, index=[i for i in range(0, tot_laps)])
-        # fig = px.line(
-        #     df, 
-        #     labels={
-        #         "index": "Lap",
-        #         "value": "Tyre Wear (%)",
-        #         "variable": "Tyre"
-        #     },
-        #     range_x=[-1, tot_laps],
-        #     color_discrete_map={"Soft": "red", "Medium": "yellow", "Hard": "black", "Inter": "green", "Wet": "blue"},
-        #     #title="Tyre Wear"
-        # )
-        # fig.update_layout(
-        #     # margin = {'l':50,'r':50,'t':50,'b':50},
-        #     height = 720,
-        #     width = 1280,
-        # )
-        # fig.write_image("images/Tyre_wear.png")
-
-        # fig.update_layout(
-        #     autosize=False,
-        # )
-        # fig.write_image("images/Tyre_wear.eps")
-
-        # data = {"Soft":[0], "Medium":[0], "Hard":[0], "Inter":[0], "Wet":[0]}
-        # for lap in range(1, tot_laps):
-        #     data["Soft"].append(car.predict_tyre_time_lose('Soft',lap).get("Total"))
-        #     data["Medium"].append(car.predict_tyre_time_lose('Medium',lap).get("Total"))
-        #     data["Hard"].append(car.predict_tyre_time_lose('Hard',lap).get("Total"))
-        #     data["Inter"].append(car.predict_tyre_time_lose('Inter',lap).get("Total"))
-        #     data["Wet"].append(car.predict_tyre_time_lose('Wet',lap).get("Total"))
-
-        # df = pd.DataFrame(data, index=[i for i in range(0, tot_laps)])
-        # fig = px.line(
-        #     df,
-        #     labels={
-        #         "index": "Lap",
-        #         "value": "Time Lose (ms)",
-        #         "variable": "Tyre"
-        #     },
-        #     range_x=[-1, tot_laps],
-        #     color_discrete_map={"Soft": "red", "Medium": "yellow", "Hard": "black", "Inter": "green", "Wet": "blue"},
-        #     #title="Tyre Long Run Performance"
-        # )
-        # fig.update_layout(
-        #     # margin = {'l':50,'r':50,'t':50,'b':50},
-        #     height = 720,
-        #     width = 1280,
-        # )
-        # fig.write_image("images/Tyre_wear_time_loss.png")
-
-        # fig.update_layout(
-        #     autosize=False,
-        # )
-        # fig.write_image("images/Tyre_wear_time_loss.eps")
+        # with open(bruteforce_save_path, 'r') as f:
+        #     lines = f.readlines()
         
+        # bf_time = lines[-1].split(" ")
+        # bf_time_in_ms = time_to_ms(bf_time[-1])
 
-        # data = {"Soft":[0], "Medium":[0], "Hard":[0], "Inter":[0], "Wet":[0]}
-        # for lap in range(1, tot_laps):
-        #     temp_time = car.predict_tyre_time_lose('Soft',lap).get("Total") 
-        #     data["Soft"].append(temp_time)
-        #     temp_time = car.predict_tyre_time_lose('Medium',lap).get("Total") + car.time_diff.get("Medium")
-        #     data["Medium"].append(temp_time)
-        #     temp_time = car.predict_tyre_time_lose('Hard',lap).get("Total") + car.time_diff.get("Hard")
-        #     data["Hard"].append(temp_time)
-        #     temp_time = car.predict_tyre_time_lose('Inter',lap).get("Total") + car.time_diff.get("Inter")
-        #     data["Inter"].append(temp_time)
-        #     temp_time = car.predict_tyre_time_lose('Wet',lap).get("Total") + car.time_diff.get("Wet")
-        #     data["Wet"].append(temp_time)
+        # print(f"Lower bound: {ms_to_time(bf_time_in_ms)}\n")
 
-        # df = pd.DataFrame(data, index=[i for i in range(0, tot_laps)])
-        # fig = px.line(
-        #     df,
-        #     labels={
-        #         "index": "Lap",
-        #         "value": "Time Lose (ms)",
-        #         "variable": "Tyre"
-        #     },
-        #     range_x=[-1, tot_laps],
-        #     color_discrete_map={"Soft": "red", "Medium": "yellow", "Hard": "black", "Inter": "green", "Wet": "blue"},
-        #     #title="Tyre Time Lose with Time Difference between compounds"
-        # )
-        # fig.update_layout(
-        #     # margin = {'l':50,'r':50,'t':50,'b':50},
-        #     height = 720,
-        #     width = 1280,
-        # )
-        # fig.write_image("images/Tyres_time_loss.png")
-
-        # fig.update_layout(
-        #     autosize=False,
-        # )
-        # fig.write_image("images/Tyres_time_loss.eps")
-
-
-        # sys.exit(0)
-
-        ######
-
-        #race_data:RaceData = RaceData(circuit)
-        #race_data.plot(path=circuit)
-
-        genetic = GeneticSolver(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, car=car, circuit=_circuit, save_path=save_path, weather=weather)
-        #genetic.fixed_strategy(['Medium','Wet'], [41])
-        #sys.exit(0)
-
-        bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.log")
-        if not os.path.isfile(bruteforce_save_path):
-            bruteforce_strategy = genetic.lower_bound()
-            with open(bruteforce_save_path, "a") as f:
-                laps = genetic.numLaps
-                strategy, timing = bruteforce_strategy
-                for lap in range(laps):
-                    f.write(f"Lap {lap+1}/{laps} -> Compound: '{strategy[lap]['Compound']}', TyreAge: {strategy[lap]['TyreAge']} Laps, TyreWear: FL:{round(strategy[lap]['TyreWear']['FL']*100,1)}% FR:{round(strategy[lap]['TyreWear']['FR']*100,1)}% RL:{round(strategy[lap]['TyreWear']['RL']*100,1)} RR:{round(strategy[lap]['TyreWear']['RR']*100,1)}%, FuelLoad: {strategy[lap]['FuelLoad']} Kg, PitStop: {'Yes' if strategy[lap]['PitStop'] else 'No'}, LapTime: {ms_to_time(strategy[lap]['LapTime'])} (hh:)mm:ss.ms\n")
-                t = f"{int(timing):,}".replace(",", " ")
-                f.write(f"\nFitness: {t}\n")
-                f.write(f"Total time: {ms_to_time(timing)}")
-        
-        with open(bruteforce_save_path, 'r') as f:
-            lines = f.readlines()
-        
-        bf_time = lines[-1].split(" ")
-        bf_time_in_ms = time_to_ms(bf_time[-1])
-
-        print(f"Lower bound: {ms_to_time(bf_time_in_ms)}\n")
-
-        best, best_eval, boxplot_data, fitness_data, timer = genetic.run(bf_time = bf_time_in_ms) 
+        best, boxplot_data, fitness_data, timer = genetic.run() 
+        best_eval = 0
         
         print(f"\n------------------------------------------------\n")
         print(f"EA timing: {ms_to_time(best_eval)}")
-        print(f"Bruteforce give timing: {bf_time[-1]}")
+        #print(f"Bruteforce give timing: {bf_time[-1]}")
         print(f"\n------------------------------------------------\n")
 
         print(f"\n------------------------------------------------\n")
         ea = f"{int(best_eval):,}".replace(",", " ")
-        bf = f"{int(bf_time_in_ms):,}".replace(",", " ")
-        print(f"EA fitness: {ea}\nBruteforce fitness: {bf}")
+        #bf = f"{int(bf_time_in_ms):,}".replace(",", " ")
+        print(f"EA fitness: {ea}\n")
+        #aprint(f"Bruteforce fitness: {bf}")
         print(f"\n------------------------------------------------\n")
 
-        localSearch = LocalSearch(best, genetic)
+        #localSearch = LocalSearch(best, genetic)
 
-        finalStrategy, finalStrategy_eval, ls_timer = localSearch.run()
+        #finalStrategy, finalStrategy_eval, ls_timer = localSearch.run()
         
         ### Print the final strategy of local search
-        print("\n------------------------------------------------\n")
-        string = "Local Search Strategy:\n"
-        for lap in range(genetic.numLaps):
-            string += f"Lap {lap+1}/{genetic.numLaps} -> Compound: '{finalStrategy['TyreCompound'][lap]}' TyreAge: {finalStrategy['TyreAge'][lap]} Laps, TyreWear: FL:{round(finalStrategy['TyreWear'][lap]['FL']*100,1)}% FR:{round(finalStrategy['TyreWear'][lap]['FR']*100,1)}% RL:{round(finalStrategy['TyreWear'][lap]['RL']*100,1)}% RR:{round(finalStrategy['TyreWear'][lap]['RR']*100,1)}%, FuelLoad: {finalStrategy['FuelLoad'][lap]} Kg, PitStop: {'Yes' if finalStrategy['PitStop'][lap] else 'No'}, LapTime: {ms_to_time(finalStrategy['LapTime'][lap])} (hh:)mm:ss.ms\n" 
+        # print("\n------------------------------------------------\n")
+        # string = "Local Search Strategy:\n"
+        # for lap in range(genetic.numLaps):
+        #     string += f"Lap {lap+1}/{genetic.numLaps} -> Compound: '{finalStrategy['TyreCompound'][lap]}' TyreAge: {finalStrategy['TyreAge'][lap]} Laps, TyreWear: FL:{round(finalStrategy['TyreWear'][lap]['FL']*100,1)}% FR:{round(finalStrategy['TyreWear'][lap]['FR']*100,1)}% RL:{round(finalStrategy['TyreWear'][lap]['RL']*100,1)}% RR:{round(finalStrategy['TyreWear'][lap]['RR']*100,1)}%, FuelLoad: {finalStrategy['FuelLoad'][lap]} Kg, PitStop: {'Yes' if finalStrategy['PitStop'][lap] else 'No'}, LapTime: {ms_to_time(finalStrategy['LapTime'][lap])} (hh:)mm:ss.ms\n" 
 
-        string += f"\nLocal Search Timing: {ms_to_time(finalStrategy_eval)}"
-        with open(os.path.join(save_path, "LocalSearch_strategy.log"), "a") as f:
-            f.write(string)
-        print(string)
-        print(f"EA timing: {ms_to_time(best_eval)}")
-        print(f"Bruteforce timing: {bf_time[-1]}")
-        print("\n------------------------------------------------\n")
+        # string += f"\nLocal Search Timing: {ms_to_time(finalStrategy_eval)}"
+        # with open(os.path.join(save_path, "LocalSearch_strategy.log"), "a") as f:
+        #     f.write(string)
+        # print(string)
+        # print(f"EA timing: {ms_to_time(best_eval)}")
+        # #print(f"Bruteforce timing: {bf_time[-1]}")
+        # print("\n------------------------------------------------\n")
 
         # Plots
-        fit_gen_boxplot = px.box(boxplot_data, title="Boxplot fitnesses of every generation")
-        fit_gen_boxplot.update_layout(xaxis_title="Generation", yaxis_title="Fitness")
-        fit_gen_boxplot.write_html(os.path.join(save_path, "Boxplot_fitnesses.html"))
+        # fit_gen_boxplot = px.box(boxplot_data, title="Boxplot fitnesses of every generation")
+        # fit_gen_boxplot.update_layout(xaxis_title="Generation", yaxis_title="Fitness")
+        # fit_gen_boxplot.write_html(os.path.join(save_path, "Boxplot_fitnesses.html"))
 
-        y_values = []
-        minutes_worst = int(max(fitness_data["Fitness"])/1000)//60 - 59
-        minutes_best = min(int(best_eval/1000), int(bf_time_in_ms/1000))//60 - 61
+        # y_values = []
+        # minutes_worst = int(max(fitness_data["Fitness"])/1000)//60 - 59
+        # #minutes_best = min(int(best_eval/1000), int(bf_time_in_ms/1000))//60 - 61
 
-        for i in range(minutes_best, minutes_worst+2):
-            y_values.append((i+60)*60*1000)
+        # for i in range(minutes_best, minutes_worst+2):
+        #     y_values.append((i+60)*60*1000)
         
-        fitness_data['LapTime'] = []
-        for val in fitness_data['Fitness']:
-            if not math.isnan(val) or not math.isinf(val):
-                fitness_data['LapTime'].append(ms_to_time(val))
-            else:
-                fitness_data['LapTime'].append(np.nan)
+        # fitness_data['LapTime'] = []
+        # for val in fitness_data['Fitness']:
+        #     if not math.isnan(val) or not math.isinf(val):
+        #         fitness_data['LapTime'].append(ms_to_time(val))
+        #     else:
+        #         fitness_data['LapTime'].append(np.nan)
 
-        fit_line = px.line(fitness_data, x="Generation", y="Fitness", title=f"Line plot fitnesses for {_circuit}")#, color="Fitness")
-        fit_line.add_hline(y=bf_time_in_ms, line_color="red", annotation_text=f"Bruteforce time -> {bf_time[-1]}", annotation_position="top left")
+        # fit_line = px.line(fitness_data, x="Generation", y="Fitness", title=f"Line plot fitnesses for {_circuit}")#, color="Fitness")
+        # #fit_line.add_hline(y=bf_time_in_ms, line_color="red", annotation_text=f"Bruteforce time -> {bf_time[-1]}", annotation_position="top left")
         
-        fit_line.update_traces(textposition='top center')
-        fit_line.update_layout(
-            xaxis={
-                'title': 'Generation',
-                'range': [-0.25, fitness_data['Generation'][-1]+0.25],
-            },
-            yaxis={
-                "tickmode": "array",
-                "tickvals": y_values,
-                "ticktext": [ms_to_time(x) for x in y_values],
-                "range" : [y_values[0], y_values[-1]]
-            },
-        )
+        # fit_line.update_traces(textposition='top center')
+        # fit_line.update_layout(
+        #     xaxis={
+        #         'title': 'Generation',
+        #         'range': [-0.25, fitness_data['Generation'][-1]+0.25],
+        #     },
+        #     yaxis={
+        #         "tickmode": "array",
+        #         "tickvals": y_values,
+        #         "ticktext": [ms_to_time(x) for x in y_values],
+        #         "range" : [y_values[0], y_values[-1]]
+        #     },
+        # )
         
-        fit_line.write_html(os.path.join(save_path, "Line_plot_fitnesses.html"))
+        # fit_line.write_html(os.path.join(save_path, "Line_plot_fitnesses.html"))
         
     
     print(f"\n----------------------END-----------------------\n")
-    return best, best_eval, bf_time_in_ms, save_path, timer, finalStrategy_eval, ls_timer
+    return best, best_eval, 0, save_path, timer, 0, 0
 
 if __name__ == "__main__":  
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -301,10 +145,8 @@ if __name__ == "__main__":
     iterations = args.i
     mutation_pr = args.mut
     crossover_pr = args.cross
-    weather = args.w
     circuit = args.c
 
-    wsummary = weather_summary(circuit=circuit, weather_file=weather)
     output_path = os.path.join("Outputs",circuit)
 
     if not os.path.exists(output_path):
@@ -312,35 +154,27 @@ if __name__ == "__main__":
     
     if not os.path.isfile(os.path.join(output_path, f"{circuit}.csv")):
         with open(os.path.join(output_path, f"{circuit}.csv"), "w") as f:
-            f.write("Population,Iterations,Mutation,Crossover,EA Fitness,BF Fitness,LS Fitness,EA Timing,BF Timing,LS Timing,Timer,LS Timer,Weather,Save Path\n")
+            f.write("Population,Iterations,Mutation,Crossover,EA Fitness,BF Fitness,LS Fitness,EA Timing,BF Timing,LS Timing,Timer,LS Timer,Save Path\n")
 
     if args.d:
         counter = 0
         while True:
             counter += 1
-            strategy, timing, bruteforce_time, log_path, timer, ls_timing, ls_timer = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, weather=weather, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
+            strategy, timing, bruteforce_time, log_path, timer, ls_timing, ls_timer = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
            
             log_path = log_path.replace("\\", "/").split("/")[-1]
         
             with open(os.path.join(output_path, f"{circuit}.csv"), "a") as f:
-                f.write(f"{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ls_timing},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(ls_timing)},{ms_to_time(round(timer*1000))},{ms_to_time(round(ls_timer*1000))},")
-                for w in wsummary:
-                    f.write(f"{w} ")
-                f.write(f",{log_path}\n")
+                f.write(f"{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ls_timing},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(ls_timing)},{ms_to_time(round(timer*1000))},{ms_to_time(round(ls_timer*1000))},{log_path}\n")
             
 
     else:
 
-        strategy, timing, bruteforce_time, log_path, timer, ls_timing, ls_timer = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, weather=weather, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
+        strategy, timing, bruteforce_time, log_path, timer, ls_timing, ls_timer = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
 
         log_path = log_path.replace("\\", "/").split("/")[-1]
         
         with open(os.path.join(output_path, f"{circuit}.csv"), "a") as f:
-            f.write(f"{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ls_timing},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(ls_timing)},{ms_to_time(round(timer*1000))},{ms_to_time(round(ls_timer*1000))},")
-            for w in wsummary:
-                f.write(f"{w} ")
-            f.write(f",{log_path}\n")
-
-
+            f.write(f"{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ls_timing},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(ls_timing)},{ms_to_time(round(timer*1000))},{ms_to_time(round(ls_timer*1000))},{log_path}\n")
 
     sys.exit(0)

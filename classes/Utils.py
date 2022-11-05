@@ -34,7 +34,6 @@ VISUAL_COMPOUNDS: dict = {
     20:"C1",
 }
 
-
 class Log():
     def __init__(self, path:str, values:dict):
         self.path = os.path.join(path, 'Log.log')
@@ -50,13 +49,12 @@ class Log():
                 sys.exit(0)
 
         self.write(f"Log file of circuit {values['Circuit']} at {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\n\n")
-        self.write(f"Population: {values['Population']}\nIterations: {values['Iterations']}\nMutation: {values['Mutation']}\nCrossover: {values['Crossover']}\nPitStopTime: {ms_to_time(values['PitStopTime'])}\nWeather: '{values['Weather']}'\n\n")
+        self.write(f"Population: {values['Population']}\nIterations: {values['Iterations']}\nMutation: {values['Mutation']}\nCrossover: {values['Crossover']}\nPitStopTime: {ms_to_time(values['PitStopTime'])}\n\n")
 
 
     def write(self, msg:str):
         with open(self.path, 'a') as f:
             f.write(msg)
-
 
 def time_to_ms(string):
     values = string.split(':')
@@ -70,16 +68,24 @@ def time_to_ms(string):
         hours = 0
     
     return int(hours)*3600000 + int(minutes)*60000 + int(seconds)*1000 + int(milliseconds)
-    #print(hours, minutes, seconds, milliseconds)
 
 def ms_to_time(ms):
     if math.isinf(ms):
         return "Inf"
     
     if ms < 0:
-        return "-" + ms_to_time(-ms)
+        return "- " + ms_to_time(-ms)
 
     milliseconds = str(ms)[-3:]
+
+    while len(milliseconds) < 3:
+        milliseconds = "0" + milliseconds
+
+    # if int(milliseconds) < 100:
+    #     if int(milliseconds) < 10:
+    #         milliseconds = '0' + milliseconds
+    #     milliseconds = '0' + milliseconds
+
     ms = ms-int(milliseconds)
     seconds = int((ms/1000)%60)
     minutes = int((ms/(1000*60))%60)
