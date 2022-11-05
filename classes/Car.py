@@ -25,8 +25,8 @@ class Car:
     def predict_fuel_loss(self, lap:int) -> int:
         return self.initial_fuel*self.fuel_loss - self.fuel_loss*lap
 
-    def predict_tyre_time_lose(self, compound:str, lap:int) -> int:
-        return self.data['Degradation'][compound]*lap
+    def predict_tyre_time_lose(self, compound:str, tyresAge:int) -> int:
+        return self.data['Degradation'][compound]*tyresAge
 
     def predict_laptime(self, tyre:str, lap:int, tyresAge:int) -> int:
         time = self.data['Delta'][tyre] + self.predict_tyre_time_lose(tyre, tyresAge) + self.predict_fuel_loss(lap)

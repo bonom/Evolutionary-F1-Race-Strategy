@@ -776,38 +776,37 @@ class GeneticSolver:
     #     ### Find the best solution
     #     return best_strategy, best_laptime
 
-    # def fixed_strategy(self, compund_list:list, stop_lap:list=[]):
-    #     if len(stop_lap) != len(compund_list)-1:
-    #         print(f"Either the compound list or the pit stop list are wrong!")
-    #         exit(-1)
-    #     stop_lap.append(self.numLaps)
-    #     strategy = []
-    #     weather = self.weather.get_weather_percentage_list()
-    #     start_fuel = self.getInitialFuelLoad(weather)
-    #     idx_stop = 0
-    #     idx_tyre = 0
-    #     tyre_lap = 0
-    #     for lap in range(self.numLaps):
-    #         if lap != 0:
-    #             fuel_load = self.getFuelLoad(start_fuel,weather[:lap+1])
-    #         else:
-    #             fuel_load = start_fuel
+    def fixed_strategy(self, compund_list:list, stop_lap:list=[]):
+        if len(stop_lap) != len(compund_list)-1:
+            print(f"Either the compound list or the pit stop list are wrong!")
+            exit(-1)
+        stop_lap.append(self.numLaps)
+        strategy = []
+        start_fuel = self.car.initial_fuel
+        idx_stop = 0
+        idx_tyre = 0
+        tyre_lap = 0
+        for lap in range(self.numLaps):
+            if lap != 0:
+                fuel_load = self.getFuelLoad(lap+1)
+            else:
+                fuel_load = start_fuel
 
-    #         if lap < stop_lap[idx_stop]:
-    #             strategy.append({'Compound':compund_list[idx_tyre], 'TyresWear': self.getTyreWear(compund_list[idx_tyre], tyre_lap), 'TyresAge':tyre_lap, 'FuelLoad':fuel_load, 'PitStop':False, 'LapTime': self.getLapTime(compound=compund_list[idx_tyre], compoundAge=tyre_lap, lap=lap, fuel_load=fuel_load, conditions=weather[:lap+1] if lap > 0 else [weather[0]], drs=False, pitStop=False)})
-    #         elif lap == stop_lap[idx_stop]:
-    #             idx_tyre += 1
-    #             strategy.append({'Compound':compund_list[idx_tyre], 'TyresWear': self.getTyreWear(compund_list[idx_tyre], 0), 'TyresAge':0, 'FuelLoad':fuel_load, 'PitStop':False, 'LapTime': self.getLapTime(compound=compund_list[idx_tyre], compoundAge=0, lap=lap, fuel_load=fuel_load, conditions=weather[:lap+1] if lap > 0 else [weather[0]], drs=False, pitStop=True)})
-    #             idx_stop += 1
-    #             tyre_lap = 0
+            if lap < stop_lap[idx_stop]:
+                strategy.append({'Compound':compund_list[idx_tyre], 'TyresWear': self.getTyreWear(compund_list[idx_tyre], tyre_lap), 'TyresAge':tyre_lap, 'FuelLoad':fuel_load, 'PitStop':False, 'LapTime': self.getLapTime(compound=compund_list[idx_tyre], compoundAge=tyre_lap, lap=lap,pitStop=False)})
+            elif lap == stop_lap[idx_stop]:
+                idx_tyre += 1
+                strategy.append({'Compound':compund_list[idx_tyre], 'TyresWear': self.getTyreWear(compund_list[idx_tyre], 0), 'TyresAge':0, 'FuelLoad':fuel_load, 'PitStop':False, 'LapTime': self.getLapTime(compound=compund_list[idx_tyre], compoundAge=0, lap=lap, pitStop=True)})
+                idx_stop += 1
+                tyre_lap = 0
 
-    #         tyre_lap += 1
+            tyre_lap += 1
             
-    #     total = 0
-    #     for lap, strategy in enumerate(strategy):
-    #         print(f"Lap {lap+1}/{self.numLaps} - Rain {weather[lap]} -> Compound: '{strategy['Compound']}', TyresAge: {strategy['TyresAge']} Laps, TyresWear: {strategy['TyresWear']}, FuelLoad: {strategy['FuelLoad']} Kg, PitStop: {'Yes' if strategy['PitStop'] else 'No'}, LapTime: {ms_to_time(strategy['LapTime'])} (hh:)mm:ss.ms")
-    #         total += strategy['LapTime']
+        total = 0
+        for lap, strategy in enumerate(strategy):
+            print(f"Lap {lap+1}/{self.numLaps} - Compound: '{strategy['Compound']}', TyresAge: {strategy['TyresAge']} Laps, TyresWear: {strategy['TyresWear']}, FuelLoad: {strategy['FuelLoad']} Kg, PitStop: {'Yes' if strategy['PitStop'] else 'No'}, LapTime: {ms_to_time(strategy['LapTime'])} (hh:)mm:ss.ms")
+            total += strategy['LapTime']
 
-    #     print(f"With a total time of {ms_to_time(total)} -> {total}")
+        print(f"With a total time of {ms_to_time(total)} -> {total}")
 
-    #     return
+        exit(0)
