@@ -12,6 +12,8 @@ import warnings
 warnings.filterwarnings('ignore')
 ###
 
+MAX_RUNS = 10
+
 parser = argparse.ArgumentParser(description='Process F1 Data.')
 parser.add_argument('--c', type=str, default=None, help='Circuit path')
 parser.add_argument('--pop', type=int, default=250, help='Population')
@@ -23,7 +25,7 @@ parser.add_argument('--d', action='store_true', default=False, help='Data Collec
 args = parser.parse_args()
     
 def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, base_path:str):
-    print(f"\n---------------------START----------------------\n")
+    #print(f"\n---------------------START----------------------\n")
     if args.c is None:
         tmp = json.load(open('DATA.json', 'r'))
         circuits = [c for c in tmp.keys()]
@@ -36,7 +38,7 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
     for circuit in circuits:
         save_path = os.path.join(base_path, circuit, datetime.now().strftime("%Y_%m_%d %H_%M_%S"))
 
-        print(f"\n-------------------{circuit}--------------------\n")
+        #print(f"\n-------------------{circuit}--------------------\n")
 
         while not os.path.exists(os.path.dirname(save_path)):
             os.makedirs(os.path.dirname(save_path))
@@ -63,20 +65,20 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
 
         # print(f"Lower bound: {ms_to_time(bf_time_in_ms)}\n")
 
-        best, boxplot_data, fitness_data, timer = genetic.run() 
-        best_eval = 0
+        best, best_idx, timer = genetic.run() 
+        print(f"Best fitness: {best[best_idx]['TotalTime']} - {ms_to_time(best[best_idx]['TotalTime'])}")
         
-        print(f"\n------------------------------------------------\n")
-        print(f"EA timing: {ms_to_time(best_eval)}")
+        #print(f"\n------------------------------------------------\n")
+        #print(f"EA timing: {ms_to_time(best_eval)}")
         #print(f"Bruteforce give timing: {bf_time[-1]}")
-        print(f"\n------------------------------------------------\n")
+        #print(f"\n------------------------------------------------\n")
 
-        print(f"\n------------------------------------------------\n")
-        ea = f"{int(best_eval):,}".replace(",", " ")
+        #print(f"\n------------------------------------------------\n")
+        #ea = f"{int(best_eval):,}".replace(",", " ")
         #bf = f"{int(bf_time_in_ms):,}".replace(",", " ")
-        print(f"EA fitness: {ea}\n")
+        #print(f"EA fitness: {ea}\n")
         #aprint(f"Bruteforce fitness: {bf}")
-        print(f"\n------------------------------------------------\n")
+        #print(f"\n------------------------------------------------\n")
 
         #localSearch = LocalSearch(best, genetic)
 
@@ -135,8 +137,8 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         # fit_line.write_html(os.path.join(save_path, "Line_plot_fitnesses.html"))
         
     
-    print(f"\n----------------------END-----------------------\n")
-    return best, best_eval, 0, save_path, timer, 0, 0
+    #print(f"\n----------------------END-----------------------\n")
+    return best, timer, save_path, 
 
 if __name__ == "__main__":  
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -154,27 +156,27 @@ if __name__ == "__main__":
     
     if not os.path.isfile(os.path.join(output_path, f"{circuit}.csv")):
         with open(os.path.join(output_path, f"{circuit}.csv"), "w") as f:
-            f.write("Population,Iterations,Mutation,Crossover,EA Fitness,BF Fitness,LS Fitness,EA Timing,BF Timing,LS Timing,Timer,LS Timer,Save Path\n")
+            f.write("Run,Population,Iterations,Mutation,Crossover,EA_Fitness_1Pit,EA_Fitness_2Pit,EA_Fitness_3Pit,EA_Timing_1Pit,EA_Timing_2Pit,EA_Timing_3Pit,Timer,Save_Path\n")
 
     if args.d:
-        counter = 0
-        while True:
-            counter += 1
-            strategy, timing, bruteforce_time, log_path, timer, ls_timing, ls_timer = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
+        for i in range(MAX_RUNS):
+            print(f"\t---\t{circuit}\tRUN {i}/{MAX_RUNS}\t---")
+            strategy, timer, log_path = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
            
             log_path = log_path.replace("\\", "/").split("/")[-1]
         
             with open(os.path.join(output_path, f"{circuit}.csv"), "a") as f:
-                f.write(f"{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ls_timing},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(ls_timing)},{ms_to_time(round(timer*1000))},{ms_to_time(round(ls_timer*1000))},{log_path}\n")
+                f.write(f"{i+1},{population},{iterations},{mutation_pr},{crossover_pr},{strategy[1]['TotalTime']},{strategy[2]['TotalTime']},{strategy[3]['TotalTime']},{ms_to_time(strategy[1]['TotalTime'])},{ms_to_time(strategy[2]['TotalTime'])},{ms_to_time(strategy[3]['TotalTime'])},{ms_to_time(timer)},{log_path}\n")
             
+            print(f"\t---\t{circuit}\tEND {i}/{MAX_RUNS}\t---")
 
     else:
-
-        strategy, timing, bruteforce_time, log_path, timer, ls_timing, ls_timer = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
+        print(f"\t---\t{circuit}\tSingle RUN\t---")
+        strategy, timer, log_path = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
 
         log_path = log_path.replace("\\", "/").split("/")[-1]
         
         with open(os.path.join(output_path, f"{circuit}.csv"), "a") as f:
-            f.write(f"{population},{iterations},{mutation_pr},{crossover_pr},{timing},{bruteforce_time},{ls_timing},{ms_to_time(timing)},{ms_to_time(bruteforce_time)},{ms_to_time(ls_timing)},{ms_to_time(round(timer*1000))},{ms_to_time(round(ls_timer*1000))},{log_path}\n")
-
+            f.write(f"{np.nan},{population},{iterations},{mutation_pr},{crossover_pr},{strategy[1]['TotalTime']},{strategy[2]['TotalTime']},{strategy[3]['TotalTime']},{ms_to_time(strategy[1]['TotalTime'])},{ms_to_time(strategy[2]['TotalTime'])},{ms_to_time(strategy[3]['TotalTime'])},{ms_to_time(timer)},{log_path}\n")
+        print(f"\t---\t{circuit}\tSingle END\t---")
     sys.exit(0)

@@ -103,7 +103,7 @@ class GeneticSolver:
         # initial population of random bitstring
         population = self.initSolver()
 
-        print(f"\n-------------------------------------------------------------\nData for '{self.circuit}':\n\nPopulation = {self.population}\nIterations = {self.iterations}\nMutation = {self.sigma}\nCrossover = {self.mu}\n-------------------------------------------------------------\n")
+        #print(f"\n-------------------------------------------------------------\nData for '{self.circuit}':\n\nPopulation = {self.population}\nIterations = {self.iterations}\nMutation = {self.sigma}\nCrossover = {self.mu}\n-------------------------------------------------------------\n")
         
         # enumerate generations
         try:
@@ -160,18 +160,6 @@ class GeneticSolver:
                 # Replace population
                 population = copy.deepcopy(children)
 
-
-
-                # if prev == best_eval:
-                #     stuck_counter += 1
-                # else:
-                #     # Check for new best solution
-                #     if not math.isinf(best_eval):
-                #         fitness_values[gen] = best_eval
-                #     stuck_counter = 0
-                
-                # prev = best_eval
-
                 if stuck_counter == 0:
                     threshold_quantile = 0.3
 
@@ -188,47 +176,67 @@ class GeneticSolver:
                     threshold_quantile = round(random.uniform(0.3,0.99),2)
 
                 valid_strategies = round(((sum([1 for x in children if x['Valid'] == True]))/len(children))*100,2)
-                bar.set_description(f"({best[0]['NumPitStop']})P: {ms_to_time(best[0]['TotalTime'])}, 1P: {ms_to_time(best[1]['TotalTime'])}, 2P: {ms_to_time(best[2]['TotalTime'])}, 3P: {ms_to_time(best[3]['TotalTime'])}")
+                bar.set_description(f"({best[0]['NumPitStop']})P: {ms_to_time(best[0]['TotalTime'])}, 1P: {ms_to_time(best[1]['TotalTime'])}, 2P: {ms_to_time(best[2]['TotalTime'])}, 3P: {ms_to_time(best[3]['TotalTime'])} - Params[Pop:{self.population}, Iter:{self.iterations}, Mut:{self.sigma}, Cross:{self.mu}]")
                 bar.refresh()
-                string = f"[EA] Generation {gen+1} - Bruteforce solution: {ms_to_time(bf_time)} - ({best[0]['NumPitStop']})P: {ms_to_time(best[0]['TotalTime'])}, 1P: {ms_to_time(best[1]['TotalTime'])} 2P: {ms_to_time(best[2]['TotalTime'])} 3P: {ms_to_time(best[3]['TotalTime'])} - valid strategies: {valid_strategies}% | threshold is {threshold_quantile} - Stuck Counter = {stuck_counter}/{(self.iterations)//100}"
+                string = f"[EA] Generation {gen+1} - ({best[0]['NumPitStop']})P: {ms_to_time(best[0]['TotalTime'])}, 1P: {ms_to_time(best[1]['TotalTime'])} 2P: {ms_to_time(best[2]['TotalTime'])} 3P: {ms_to_time(best[3]['TotalTime'])} - valid strategies: {valid_strategies}% | threshold is {threshold_quantile}"
                 self.log.write(string+"\n")
 
-
-            
-                
         except KeyboardInterrupt:
             pass 
 
 
         end_timer = time.time() - start_timer
 
-        # with open("logs_strategies.txt", "w") as f:
-        #         for individual in population:
-        #             self.checkValidity(individual)
-        #             if individual['Valid']:
-        #                 f.write("-------------------------------------------------------------------------------- Fitness: "+str(individual['TotalTime'])+"\n")
-        #                 for lap in range(self.numLaps):
-        #                     f.write(f"{lap+1} {individual['TyreCompound'][lap]}, TyresAge: {individual['TyreAge'][lap]}, TyresWear: {individual['TyreWear'][lap]}, FuelLoad: {individual['FuelLoad'][lap]}, TimeLoss: {individual['LapTime'][lap]}\n")
-
         fit_dict = {'Generation' : list(fitness_values.keys()), 'Fitness' : list(fitness_values.values())}
 
-        strategy_path = os.path.join(self.path, 'Strategy.txt')
+        #strategy_path = os.path.join(self.path, 'Strategy.txt')
         
-        string = f"Best Strategy time: ({best[0]['NumPitStop']})P: {ms_to_time(best[0]['TotalTime'])} 1P: {ms_to_time(best[1]['TotalTime'])}, 2P: {ms_to_time(best[2]['TotalTime'])}, 3P: {ms_to_time(best[3]['TotalTime'])}\n\n vs \n\nBruteforce time: {ms_to_time(bf_time)}\n\n\n"
+        # string = f"Best Strategy time: ({best[0]['NumPitStop']})P: {ms_to_time(best[0]['TotalTime'])} 1P: {ms_to_time(best[1]['TotalTime'])}, 2P: {ms_to_time(best[2]['TotalTime'])}, 3P: {ms_to_time(best[3]['TotalTime'])}\n\n vs \n\nBruteforce time: {ms_to_time(bf_time)}\n\n\n"
 
-        for numpits in range(0,4):
-            string += f"Strategy for {numpits if numpits > 0 else best[0]['NumPitStop']} pitstops -> Fitness: {best[numpits]['TotalTime']}:\n\n"
-            for lap in range(self.numLaps):
-                string += f"Lap {lap+1}: -> Compound '{best[numpits]['TyreCompound'][lap]}', TyresAge {best[numpits]['TyreAge'][lap]}, Wear '{round(best[numpits]['TyreWear'][lap],1)}'%, Fuel '{round(best[numpits]['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if best[numpits]['PitStop'][lap] else 'No'}', TimeLost '{ms_to_time(best[numpits]['LapTime'][lap])}'\n"
-            string += "\n\n"
-
-        with open(strategy_path, 'w') as f:
-            f.write(string)
+        # for numpits in range(1,4):
+        #     string += f"Strategy for {numpits} pitstops -> Fitness: {best[numpits]['TotalTime']}:\n\n"
+        #     for lap in range(self.numLaps):
+        #         string += f"Lap {lap+1}: -> Compound '{best[numpits]['TyreCompound'][lap]}', TyresAge {best[numpits]['TyreAge'][lap]}, Wear '{round(best[numpits]['TyreWear'][lap],1)}'%, Fuel '{round(best[numpits]['FuelLoad'][lap],2)}' Kg, PitStop '{'Yes' if best[numpits]['PitStop'][lap] else 'No'}', TimeLost '{ms_to_time(best[numpits]['LapTime'][lap])}'\n"
+        #     string += "\n\n"
         
-        string += f"Time elapsed: {ms_to_time(round(end_timer*1000))}\n"
+        string = f"Time elapsed: {ms_to_time(round(end_timer*1000))}\n"
         
         print("\n\n"+string)
         self.log.write("\n\n"+string)
+
+        for pit in range(1,4):
+            with open(os.path.join(self.path, f"Strategy_{pit}_pit.txt"), "w") as f:
+                string = f"Fastest strategy for {self.circuit} with {pit} pit stops\n\n"
+                string += f"Total time: {ms_to_time(best[pit]['TotalTime'])}\n"
+                for lap in range(self.numLaps):
+                    string += f"Lap {lap+1}: {best[pit]['TyreCompound'][lap]}, TyresAge {best[pit]['TyreAge'][lap]}, Wear {round(best[pit]['TyreWear'][lap],1)}%, Fuel {round(best[pit]['FuelLoad'][lap],2)} Kg, PitStop {'Yes' if best[pit]['PitStop'][lap] else 'No'}, TimeLost {ms_to_time(best[pit]['LapTime'][lap])}\n"
+                #print(string)
+                string += "\n"
+                f.write(string)
+                for individual in population:
+                    self.checkValidity(individual)
+                    if individual['Valid'] and individual['NumPitStop'] == pit and individual != best[pit]:
+                        f.write(f"\nStrategy for {self.circuit} with {pit} pit stops\n")
+                        f.write(f"Total time: {ms_to_time(best[pit]['TotalTime'])}\n")
+                        for lap in range(self.numLaps):
+                            f.write(f"Lap {lap+1}: {individual['TyreCompound'][lap]}, TyresAge {individual['TyreAge'][lap]}, Wear {round(individual['TyreWear'][lap],1)}%, Fuel {round(individual['FuelLoad'][lap],2)} Kg, PitStop {'Yes' if individual['PitStop'][lap] else 'No'}, TimeLost {ms_to_time(individual['LapTime'][lap])}\n")
+                f.close()
+        
+        best_idx = 0
+        best_fit_temp = np.inf
+        for key, values in best.items():
+            if values['TotalTime'] < best_fit_temp:
+                best_idx = key
+                best_fit_temp = values['TotalTime']
+
+        with open(os.path.join(self.path, "Strategy.txt"), 'w') as f:
+            string = f"Fastest strategy for {self.circuit} with {pit} pit stops\n\n"
+            string += f"Total time: {ms_to_time(best[best_idx]['TotalTime'])}\n"
+            for lap in range(self.numLaps):
+                string += f"Lap {lap+1}: {best[best_idx]['TyreCompound'][lap]}, TyresAge {best[best_idx]['TyreAge'][lap]}, Wear {round(best[best_idx]['TyreWear'][lap],1)}%, Fuel {round(best[best_idx]['FuelLoad'][lap],2)} Kg, PitStop {'Yes' if best[best_idx]['PitStop'][lap] else 'No'}, TimeLost {ms_to_time(best[best_idx]['LapTime'][lap])}\n"
+            print(string)
+            string += "\n"
+            f.write(string)
 
         boxplot_df = pd.DataFrame(index=range(len(boxplot_list)))
         for i in range(max([len(x) for x in boxplot_list])):
@@ -240,7 +248,7 @@ class GeneticSolver:
 
         boxplot_df.to_csv(os.path.join(self.path,'Boxplot.csv'))
 
-        return best, boxplot_df, fit_dict, end_timer
+        return best, best_idx, end_timer
 
     def initSolver(self,):
         strategies = []
