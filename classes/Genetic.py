@@ -29,7 +29,7 @@ def boxplot_insert(data_list:list, population:list):
     return data_list
 
 class GeneticSolver:
-    def __init__(self, population:int=2, mutation_pr:float=0.75, crossover_pr:float=0.5, iterations:int=1, car:Car=None, circuit:str='', save_path:str='') -> None:
+    def __init__(self, population:int=2, mutation_pr:float=0.75, crossover_pr:float=0.5, iterations:int=1, car:Car=None, circuit:str='', save_path:str='', numStrategies = 0, mapStrategies:dict = dict()) -> None:
         self.circuit = circuit
         self.pitStopTime = CIRCUIT[circuit]['PitStopTime']
         self.sigma = mutation_pr
@@ -38,6 +38,8 @@ class GeneticSolver:
         self.numLaps = CIRCUIT[circuit]['Laps']
         self.iterations = iterations
         self.car:Car = car
+        self.numStrategies = numStrategies
+        self.mapStrategies = mapStrategies
 
         # For the log file
         self.path = save_path
@@ -159,6 +161,8 @@ class GeneticSolver:
                 
                 # Replace population
                 population = copy.deepcopy(children)
+                for p in population:
+                    self.mapStrategies[str(p['ID'])].append(p)
 
                 if stuck_counter == 0:
                     threshold_quantile = 0.3
@@ -208,6 +212,7 @@ class GeneticSolver:
             with open(os.path.join(self.path, f"Strategy_{pit}_pit.txt"), "w") as f:
                 string = f"Fastest strategy for {self.circuit} with {pit} pit stops\n\n"
                 string += f"Total time: {ms_to_time(best[pit]['TotalTime'])}\n"
+                print(best)
                 for lap in range(self.numLaps):
                     string += f"Lap {lap+1}: {best[pit]['TyreCompound'][lap]}, TyresAge {best[pit]['TyreAge'][lap]}, Wear {round(best[pit]['TyreWear'][lap],1)}%, Fuel {round(best[pit]['FuelLoad'][lap],2)} Kg, PitStop {'Yes' if best[pit]['PitStop'][lap] else 'No'}, TimeLost {ms_to_time(best[pit]['LapTime'][lap])}\n"
                 #print(string)
@@ -258,8 +263,9 @@ class GeneticSolver:
         return strategies
 
     def randomChild(self):
-        strategy = {'TyreCompound': [], 'TyreAge':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'Valid':False, 'TotalTime': np.inf}
-
+        self.numStrategies += 1
+        strategy = {'ID': self.numStrategies, 'TyreCompound': [], 'TyreAge':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'Valid':False, 'TotalTime': np.inf}
+        
         ### Get a random compound and verify that we can use it, if so we update the used compounds list and add the compound to the strategy
         compound = self.randomCompound()#(weather[0])
         strategy['TyreCompound'].append(compound)
@@ -307,6 +313,10 @@ class GeneticSolver:
         
         #self.checkValidity(strategy)    
         strategy['TotalTime'] = sum(strategy['LapTime'])
+
+        self.mapStrategies[str(strategy['ID'])] = []
+        self.mapStrategies[str(strategy['ID'])].append(strategy)
+
         return strategy
 
     def randomCompound(self,):
