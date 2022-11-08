@@ -19,7 +19,7 @@ parser.add_argument('--c', type=str, default=None, help='Circuit path')
 parser.add_argument('--pop', type=int, default=250, help='Population')
 parser.add_argument('--mut', type=float, default=0.9, help='Mutation probability value')
 parser.add_argument('--cross', type=float, default=0., help='Crossover probability value')
-parser.add_argument('--i', type=int, default=500, help='Iterations')
+parser.add_argument('--i', type=int, default=1000, help='Iterations')
 #parser.add_argument('--w', type=str, default=None, help='Weather file')
 parser.add_argument('--d', action='store_true', default=False, help='Data Collection mode')
 args = parser.parse_args()
@@ -142,6 +142,7 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
 
 if __name__ == "__main__":  
     os.system('cls' if os.name == 'nt' else 'clear')
+    print("This process has the PID: ", os.getpid())
 
     population = args.pop
     iterations = args.i
