@@ -159,7 +159,7 @@ class GeneticSolver:
                 
                 # Add random children to the population if the population is not full
                 for _ in range(self.population-len(children)):
-                    children.append(self.randomChild())
+                    children.append(self.randomChild(gen=gen))
                 
                 # Replace population
                 population = copy.deepcopy(children)
@@ -261,9 +261,9 @@ class GeneticSolver:
 
         return strategies
 
-    def randomChild(self):
+    def randomChild(self, gen:int=0):
         self.numStrategies += 1
-        strategy = {'ID': self.numStrategies, 'TyreCompound': [], 'TyreAge':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'Valid':False, 'TotalTime': np.inf}
+        strategy = {'ID': self.numStrategies, 'Generation':gen, 'TyreCompound': [], 'TyreAge':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'Valid':False, 'TotalTime': np.inf}
         
         ### Get a random compound and verify that we can use it, if so we update the used compounds list and add the compound to the strategy
         compound = self.randomCompound()#(weather[0])
@@ -372,6 +372,7 @@ class GeneticSolver:
     #     return child
 
     def mutation_compound(self, child:dict, ):
+        child['Generation'] += 1
         usedTyres = dict()
         usedTyres[0] = child['TyreCompound'][0]
         for lap in range(1, self.numLaps):
@@ -400,6 +401,7 @@ class GeneticSolver:
         return self.correct_strategy(child)
 
     def mutation_pitstop(self,child:dict):
+        child['Generation'] += 1
         childPitNum = child['NumPitStop'] 
 
         ### Check if we cannot make different pitStops number
@@ -424,6 +426,7 @@ class GeneticSolver:
         return self.correct_strategy(child, index)
     
     def mutation_pitstop_add(self, child:dict):
+        child['Generation'] += 1
         random_lap = random.randint(1, self.numLaps-1)
 
         while child['PitStop'][random_lap] == True:
