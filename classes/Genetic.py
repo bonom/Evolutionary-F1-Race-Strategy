@@ -29,7 +29,7 @@ def boxplot_insert(data_list:list, population:list):
     return data_list
 
 class GeneticSolver:
-    def __init__(self, population:int=2, mutation_pr:float=0.75, crossover_pr:float=0.5, iterations:int=1, car:Car=None, circuit:str='', save_path:str='', numStrategies = 0, mapStrategies:dict = dict()) -> None:
+    def __init__(self, population:int=2, mutation_pr:float=0.75, crossover_pr:float=0.5, iterations:int=1, car:Car=None, circuit:str='', save_path:str='') -> None:
         self.circuit = circuit
         self.pitStopTime = CIRCUIT[circuit]['PitStopTime']
         self.sigma = mutation_pr
@@ -38,8 +38,8 @@ class GeneticSolver:
         self.numLaps = CIRCUIT[circuit]['Laps']
         self.iterations = iterations
         self.car:Car = car
-        self.numStrategies = numStrategies
-        self.mapStrategies = mapStrategies
+        self.availableID = 0
+        self.mapStrategies = dict()
 
         # For the log file
         self.path = save_path
@@ -87,17 +87,46 @@ class GeneticSolver:
         all_compounds = set(strategy['TyreCompound'])
         last_lap_fuel_load = self.getFuelLoad(self.numLaps)
 
-        if len(all_compounds) > 1 and last_lap_fuel_load >= 0 :
+        if len(all_compounds) > 1 and last_lap_fuel_load >= 0 and all([x < 100.0 for x in strategy['TyreWear']]):
             strategy['Valid'] = True
             return True
         
         strategy['Valid'] = False 
         return False
 
-    def run(self,):
+    
+    def get_compressed_version(self, strategy:dict) -> list:
+        tyre_compressed_version = list()
+        pit_compressed_version = list()
+        
+        prev_tyre_compound = strategy['TyreCompound'][0]
+
+        for lap in range(1,self.numLaps):
+            new_compound = strategy['TyreCompound'][lap]
+            pit_stop = strategy['PitStop'][lap]
+            
+            if new_compound != prev_tyre_compound or lap == self.numLaps - 1 or pit_stop:
+                #prev_tyre_age = strategy['TyreAge'][lap-1]+1
+                if prev_tyre_compound == 'Soft':
+                    prev_tyre_compound = 'S'
+                elif prev_tyre_compound == 'Medium':
+                    prev_tyre_compound = 'M'
+                elif prev_tyre_compound == 'Hard':
+                    prev_tyre_compound = 'H'
+                
+                tyre_compressed_version.append(prev_tyre_compound)
+                
+                if lap != self.numLaps - 1:
+                    pit_compressed_version.append(lap+1)
+                
+                prev_tyre_compound = new_compound
+
+        return tuple(t for t in tyre_compressed_version), tuple(p for p in pit_compressed_version)
+
+    def run(self):
         start_timer = time.time()
 
-        fitness_values = dict()
+        #fitness_values = dict()
         stuck_counter = 0
         boxplot_list = list()
         #prev = {}
@@ -137,6 +166,12 @@ class GeneticSolver:
 
                 # Select parents
                 selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=1/5)#(len(population)//5)/len(population))
+                for sel in selected:
+                    #sel['Generation'] = gen
+                    if sel['ID'] not in self.mapStrategies.keys():
+                        tyres, pits = self.get_compressed_version(sel)
+                        self.mapStrategies[sel['ID']] = {'Strategy_Tyre': tyres, 'Strategy_Pit':pits, 'Generation':gen, 'Parent':sel['Parent'], 'NumPitStop':sel['NumPitStop']}
+                    
                 parents = copy.deepcopy(selected)
                 
                 ### Stable population
@@ -150,12 +185,16 @@ class GeneticSolver:
                     #    children.append(c)
                     
                     for l in self.mutation(parents[i]):
+                        l['Generation'] = gen
+                        l['Parent'] = parents[i]['ID']
                         children.append(l)
-                        self.mapStrategies[str(l['ID'])].append(l)
+                        #self.mapStrategies[l['ID']] = self.get_compressed_version(l)
                     
                     for l in self.mutation(parents[i+1]):
+                        l['Generation'] = gen
+                        l['Parent'] = parents[i+1]['ID']
                         children.append(l)
-                        self.mapStrategies[str(l['ID'])].append(l)
+                        #self.mapStrategies[l['ID']] = self.get_compressed_version(l)
                 
                 # Add random children to the population if the population is not full
                 for _ in range(self.population-len(children)):
@@ -163,6 +202,7 @@ class GeneticSolver:
                 
                 # Replace population
                 population = copy.deepcopy(children)
+
                 #for p in population:
                 #    self.mapStrategies[str(p['ID'])].append(p)
 
@@ -182,7 +222,7 @@ class GeneticSolver:
                     threshold_quantile = round(random.uniform(0.3,0.99),2)
 
                 valid_strategies = round(((sum([1 for x in children if x['Valid'] == True]))/len(children))*100,2)
-                bar.set_description(f"({best[0]['NumPitStop']})P: {ms_to_time(best[0]['TotalTime'])}, 1P: {ms_to_time(best[1]['TotalTime'])}, 2P: {ms_to_time(best[2]['TotalTime'])}, 3P: {ms_to_time(best[3]['TotalTime'])} - Params[Pop:{self.population}, Iter:{self.iterations}, Mut:{self.sigma}, Cross:{self.mu}]")
+                bar.set_description(f"({best[0]['NumPitStop']})P: {ms_to_time(best[0]['TotalTime'])}, 1P: {ms_to_time(best[1]['TotalTime'])}, 2P: {ms_to_time(best[2]['TotalTime'])}, 3P: {ms_to_time(best[3]['TotalTime'])} - Params[Circuit: {self.circuit}, Pop:{self.population}, Iter:{self.iterations}, Mut:{self.sigma}, Cross:{self.mu}]")
                 bar.refresh()
                 string = f"[EA] Generation {gen+1} - ({best[0]['NumPitStop']})P: {ms_to_time(best[0]['TotalTime'])}, 1P: {ms_to_time(best[1]['TotalTime'])} 2P: {ms_to_time(best[2]['TotalTime'])} 3P: {ms_to_time(best[3]['TotalTime'])} - valid strategies: {valid_strategies}% | threshold is {threshold_quantile}"
                 self.log.write(string+"\n")
@@ -209,7 +249,7 @@ class GeneticSolver:
                 f.write(string)
                 for individual in population:
                     self.checkValidity(individual)
-                    if individual['Valid'] and individual['NumPitStop'] == pit and individual != best[pit]:
+                    if individual['Valid'] and individual['NumPitStop'] == pit and individual != best[pit] and individual['TotalTime'] <= best[pit]['TotalTime']:
                         f.write(f"\nStrategy for {self.circuit} with {pit} pit stops\n")
                         f.write(f"Total time: {ms_to_time(best[pit]['TotalTime'])}\n")
                         for lap in range(self.numLaps):
@@ -231,16 +271,35 @@ class GeneticSolver:
             print(string)
             string += "\n"
             f.write(string)
+        
+        with open(os.path.join(self.path, "Strategy_CSV.csv"), 'w') as f:
+            f.write("Generation,key,Pits,Tyres,Pits\n")
+            for key, value in best.items():
+                if key > 0:
+                    tyre, pit = self.get_compressed_version(value)
+                    f.write(f"{value['Generation']},{key},{value['NumPitStop']},{tyre},{pit}\n")
+                    parent_ID = value['Parent']
+                    while parent_ID is not None:
+                        f.write(f"{self.mapStrategies[parent_ID]['Generation']},{key},{self.mapStrategies[parent_ID]['NumPitStop']},{self.mapStrategies[parent_ID]['Strategy_Tyre']},{self.mapStrategies[parent_ID]['Strategy_Pit']}\n")
+                        parent_ID = self.mapStrategies[parent_ID]['Parent']
 
-        with open(os.path.join(self.path, "Strategy_Log.txt"), 'w') as f:
-            for key, values in best.items():
-                string = f"Strategy for {self.circuit} with {key} pit stops\n\n"
-                for val in self.mapStrategies[str(values['ID'])]:
-                    string += f"ID: {val['ID']} - Total time: {ms_to_time(val['TotalTime'])}\n"
-                    for lap in range(self.numLaps):
-                        string += f"Lap {lap+1}: {val['TyreCompound'][lap]}, TyresAge {val['TyreAge'][lap]}, Wear {round(val['TyreWear'][lap],1)}%, Fuel {round(val['FuelLoad'][lap],2)} Kg, PitStop {'Yes' if val['PitStop'][lap] else 'No'}, TimeLost {ms_to_time(val['LapTime'][lap])}\n"
-                    string += "\n"
-                f.write(string)
+
+        # with open(os.path.join(self.path, "Strategy_Log.csv"), 'w') as f:
+        #     f.write("Generation, ID, nPit, Strategy,\n")
+        #     for key, values in best.items():
+        #         #f.write(f"Strategy for {self.circuit} with {key} pit stops\n")
+        #         for val in self.mapStrategies[str(values['ID'])]:
+        #             f.write(f"{val['Generation']}, {val['ID']}, {key}, {self.get_compressed_version(val)},\n")
+        #     f.close()
+
+        #     for key, values in best.items():
+        #         string = f"Strategy for {self.circuit} with {key} pit stops\n\n"
+        #         for val in self.mapStrategies[str(values['ID'])]:
+        #             string += f"ID: {val['ID']} - Total time: {ms_to_time(val['TotalTime'])}\n"
+        #             for lap in range(self.numLaps):
+        #                 string += f"Lap {lap+1}: {val['TyreCompound'][lap]}, TyresAge {val['TyreAge'][lap]}, Wear {round(val['TyreWear'][lap],1)}%, Fuel {round(val['FuelLoad'][lap],2)} Kg, PitStop {'Yes' if val['PitStop'][lap] else 'No'}, TimeLost {ms_to_time(val['LapTime'][lap])}\n"
+        #             string += "\n"
+        #         f.write(string)
 
         boxplot_df = pd.DataFrame(index=range(len(boxplot_list)))
         for i in range(max([len(x) for x in boxplot_list])):
@@ -261,10 +320,10 @@ class GeneticSolver:
 
         return strategies
 
-    def randomChild(self, gen:int=0):
-        self.numStrategies += 1
-        strategy = {'ID': self.numStrategies, 'Generation':gen, 'TyreCompound': [], 'TyreAge':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'Valid':False, 'TotalTime': np.inf}
-        
+    def randomChild(self, gen:int=0, ID:int=0):
+
+        strategy = {'ID': self.availableID,'Parent': None, 'Generation':gen, 'TyreCompound': [], 'TyreAge':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'Valid':False, 'TotalTime': np.inf}
+        self.availableID += 1
         ### Get a random compound and verify that we can use it, if so we update the used compounds list and add the compound to the strategy
         compound = self.randomCompound()#(weather[0])
         strategy['TyreCompound'].append(compound)
@@ -313,7 +372,7 @@ class GeneticSolver:
         #self.checkValidity(strategy)    
         strategy['TotalTime'] = sum(strategy['LapTime'])
 
-        self.mapStrategies[str(strategy['ID'])] = [strategy]
+        self.mapStrategies[ID] = {'Strategy':self.get_compressed_version(strategy), 'Generation':gen, 'Parent':None}
         #self.mapStrategies[str(strategy['ID'])].append(strategy)
 
         return strategy
@@ -337,12 +396,21 @@ class GeneticSolver:
                     p *= alpha
                     if p == 0.0:
                         p = np.exp(alpha)
-                last_lap_fuel_load = self.getFuelLoad(lap=self.numLaps)
-                if last_lap_fuel_load < 0:
-                    last_lap_fuel_load = abs(last_lap_fuel_load)
-                    p *= np.exp(last_lap_fuel_load)
+                highest_wear = max(pop['TyreWear'])
+                if highest_wear > 100:
+                    p *= np.exp(highest_wear/100)
                     if p == 0.0:
-                        p = np.exp(last_lap_fuel_load)
+                        p = np.exp(highest_wear/100)
+
+                #
+                # NOT ACTIVE SINCE FUEL DATA NOT INCLUDED
+                #
+                # last_lap_fuel_load = self.getFuelLoad(lap=self.numLaps)
+                # if last_lap_fuel_load < 0:
+                #     last_lap_fuel_load = abs(last_lap_fuel_load)
+                #     p *= np.exp(last_lap_fuel_load)
+                #     if p == 0.0:
+                #         p = np.exp(last_lap_fuel_load)
                 
         
         for idx, x in enumerate(population):
@@ -372,7 +440,6 @@ class GeneticSolver:
     #     return child
 
     def mutation_compound(self, child:dict, ):
-        child['Generation'] += 1
         usedTyres = dict()
         usedTyres[0] = child['TyreCompound'][0]
         for lap in range(1, self.numLaps):
@@ -398,10 +465,12 @@ class GeneticSolver:
             else:
                 return self.correct_strategy(child)
         
+        child['ID'] = self.availableID
+        self.availableID += 1        
+        
         return self.correct_strategy(child)
 
     def mutation_pitstop(self,child:dict):
-        child['Generation'] += 1
         childPitNum = child['NumPitStop'] 
 
         ### Check if we cannot make different pitStops number
@@ -422,11 +491,13 @@ class GeneticSolver:
                     child['PitStop'][lap] = False
                     child['NumPitStop'] -= 1
                     index = lap
+        
+        child['ID'] = self.availableID
+        self.availableID += 1
 
         return self.correct_strategy(child, index)
     
     def mutation_pitstop_add(self, child:dict):
-        child['Generation'] += 1
         random_lap = random.randint(1, self.numLaps-1)
 
         while child['PitStop'][random_lap] == True:
@@ -451,6 +522,9 @@ class GeneticSolver:
             remaining += 1
             tyre_age += 1
         child['TotalTime'] = sum(child['LapTime'])
+        
+        child['ID'] = self.availableID
+        self.availableID += 1
         
         return child
             
