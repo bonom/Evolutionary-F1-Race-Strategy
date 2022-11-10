@@ -12,7 +12,7 @@ import warnings
 warnings.filterwarnings('ignore')
 ###
 
-MAX_RUNS = 10
+MAX_RUNS = 30
 
 parser = argparse.ArgumentParser(description='Process F1 Data.')
 parser.add_argument('--c', type=str, default=None, help='Circuit path')
@@ -138,7 +138,7 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         
     
     #print(f"\n----------------------END-----------------------\n")
-    return best, timer, save_path, 
+    return best, timer, save_path
 
 if __name__ == "__main__":  
     os.system('cls' if os.name == 'nt' else 'clear')
