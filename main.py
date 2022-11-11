@@ -160,7 +160,7 @@ if __name__ == "__main__":
             f.write("Run,Population,Iterations,Mutation,Crossover,EA_Fitness_1Pit,EA_Fitness_2Pit,EA_Fitness_3Pit,EA_Timing_1Pit,EA_Timing_2Pit,EA_Timing_3Pit,Timer,Save_Path\n")
 
     if args.d:
-        for i in range(MAX_RUNS):
+        for i in range(20,MAX_RUNS):
             print(f"\t---\t{circuit}\tRUN {i+1}/{MAX_RUNS}\t---")
             strategy, timer, log_path = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
            
@@ -169,7 +169,7 @@ if __name__ == "__main__":
             with open(os.path.join(output_path, f"{circuit}.csv"), "a") as f:
                 f.write(f"{i+1},{population},{iterations},{mutation_pr},{crossover_pr},{strategy[1]['TotalTime']},{strategy[2]['TotalTime']},{strategy[3]['TotalTime']},{ms_to_time(strategy[1]['TotalTime'])},{ms_to_time(strategy[2]['TotalTime'])},{ms_to_time(strategy[3]['TotalTime'])},{ms_to_time(timer)},{log_path}\n")
             
-            print(f"\t---\t{circuit}\tEND {i}/{MAX_RUNS}\t---")
+            print(f"\t---\t{circuit}\tEND {i+1}/{MAX_RUNS}\t---")
 
     else:
         print(f"\t---\t{circuit}\tSingle RUN\t---")

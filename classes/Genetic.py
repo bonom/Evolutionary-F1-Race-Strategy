@@ -177,16 +177,6 @@ class GeneticSolver:
                 # Select parents
                 parents = self.selection_dynamic_penalty(step=gen+1,population=copy.deepcopy(population),threshold_quantile=1/5)#(len(population)//5)/len(population))
                 
-                ### Check if there is one with one pit and one with two
-                found = False
-                for p in parents:
-                    if p['NumPitStop'] == 1 and p['Valid']:
-                        found = True
-                        break
-                
-                if not found and not math.isinf(best[1]['TotalTime']):
-                    print("No one with one pit stop found")
-                
                 for parent in parents:
                     #sel['Generation'] = gen
                     if parent['ID'] not in self.mapStrategies.keys():
@@ -255,23 +245,24 @@ class GeneticSolver:
         self.log.write("\n\n"+string)
 
         for pit in range(1,4):
-            with open(os.path.join(self.path, f"Strategy_{pit}_pit.txt"), "w") as f:
-                string = f"Fastest strategy for {self.circuit} with {pit} pit stops\n\n"
-                string += f"Total time: {ms_to_time(best[pit]['TotalTime'])}\n"
-                
-                for lap in range(self.numLaps):
-                    string += f"Lap {lap+1}: {best[pit]['TyreCompound'][lap]}, TyresAge {best[pit]['TyreAge'][lap]}, Wear {round(best[pit]['TyreWear'][lap],1)}%, Fuel {round(best[pit]['FuelLoad'][lap],2)} Kg, PitStop {'Yes' if best[pit]['PitStop'][lap] else 'No'}, TimeLost {ms_to_time(best[pit]['LapTime'][lap])}\n"
-                #print(string)
-                string += "\n"
-                f.write(string)
-                for individual in population:
-                    self.checkValidity(individual)
-                    if individual['Valid'] and individual['NumPitStop'] == pit and individual != best[pit] and individual['TotalTime'] <= best[pit]['TotalTime']:
-                        f.write(f"\nStrategy for {self.circuit} with {pit} pit stops\n")
-                        f.write(f"Total time: {ms_to_time(best[pit]['TotalTime'])}\n")
-                        for lap in range(self.numLaps):
-                            f.write(f"Lap {lap+1}: {individual['TyreCompound'][lap]}, TyresAge {individual['TyreAge'][lap]}, Wear {round(individual['TyreWear'][lap],1)}%, Fuel {round(individual['FuelLoad'][lap],2)} Kg, PitStop {'Yes' if individual['PitStop'][lap] else 'No'}, TimeLost {ms_to_time(individual['LapTime'][lap])}\n")
-                f.close()
+            if not math.isinf(best[pit]['TotalTime']):
+                with open(os.path.join(self.path, f"Strategy_{pit}_pit.txt"), "w") as f:
+                    string = f"Fastest strategy for {self.circuit} with {pit} pit stops\n\n"
+                    string += f"Total time: {ms_to_time(best[pit]['TotalTime'])}\n"
+                    
+                    for lap in range(self.numLaps):
+                        string += f"Lap {lap+1}: {best[pit]['TyreCompound'][lap]}, TyresAge {best[pit]['TyreAge'][lap]}, Wear {round(best[pit]['TyreWear'][lap],1)}%, Fuel {round(best[pit]['FuelLoad'][lap],2)} Kg, PitStop {'Yes' if best[pit]['PitStop'][lap] else 'No'}, TimeLost {ms_to_time(best[pit]['LapTime'][lap])}\n"
+                    #print(string)
+                    string += "\n"
+                    f.write(string)
+                    for individual in population:
+                        self.checkValidity(individual)
+                        if individual['Valid'] and individual['NumPitStop'] == pit and individual != best[pit] and individual['TotalTime'] <= best[pit]['TotalTime']:
+                            f.write(f"\nStrategy for {self.circuit} with {pit} pit stops\n")
+                            f.write(f"Total time: {ms_to_time(best[pit]['TotalTime'])}\n")
+                            for lap in range(self.numLaps):
+                                f.write(f"Lap {lap+1}: {individual['TyreCompound'][lap]}, TyresAge {individual['TyreAge'][lap]}, Wear {round(individual['TyreWear'][lap],1)}%, Fuel {round(individual['FuelLoad'][lap],2)} Kg, PitStop {'Yes' if individual['PitStop'][lap] else 'No'}, TimeLost {ms_to_time(individual['LapTime'][lap])}\n")
+                    f.close()
         
         best_idx = 0
         best_fit_temp = np.inf
@@ -292,13 +283,15 @@ class GeneticSolver:
         with open(os.path.join(self.path, "Strategy_CSV.csv"), 'w') as f:
             f.write("Generation,key,Pits,Tyres,Pits\n")
             for key, value in best.items():
-                if key > 0:
+                if key > 0 and not math.isinf(value['TotalTime']):
                     tyre, pit = self.get_compressed_version(value)
                     f.write(f"{value['Generation']},{key},{value['NumPitStop']},{tyre},{pit}\n")
                     parent_ID = value['Parent']
                     while parent_ID is not None:
                         f.write(f"{self.mapStrategies[parent_ID]['Generation']},{key},{self.mapStrategies[parent_ID]['NumPitStop']},{self.mapStrategies[parent_ID]['Strategy_Tyre']},{self.mapStrategies[parent_ID]['Strategy_Pit']}\n")
                         parent_ID = self.mapStrategies[parent_ID]['Parent']
+                elif math.isinf(value['TotalTime']):
+                    f.write(f",{key},,Inf,\n")
             f.close()
 
         with open(os.path.join(self.path, "LastPopulation.csv"), 'w') as f:
@@ -446,8 +439,8 @@ class GeneticSolver:
         for x in selected:
             x.pop('Penalty')
         
-        if BEST_ID > 0 and BEST_ID not in [x['ID'] for x in selected]:
-            print(f'\nBest not in selected\n{self.mapStrategies[BEST_ID]}\n\n')
+        #if BEST_ID > 0 and BEST_ID not in [x['ID'] for x in selected]:
+        #    print(f'\nBest not in selected\n{self.mapStrategies[BEST_ID]}\n\n')
 
         return selected
 

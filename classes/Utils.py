@@ -78,6 +78,9 @@ def ms_to_time(ms):
     if ms < 0:
         return "- " + ms_to_time(-ms)
 
+    if isinstance(ms, float):
+        ms = int(ms)
+
     milliseconds = str(ms)[-3:]
 
     while len(milliseconds) < 3:
