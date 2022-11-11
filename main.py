@@ -161,7 +161,7 @@ if __name__ == "__main__":
 
     if args.d:
         for i in range(MAX_RUNS):
-            print(f"\t---\t{circuit}\tRUN {i}/{MAX_RUNS}\t---")
+            print(f"\t---\t{circuit}\tRUN {i+1}/{MAX_RUNS}\t---")
             strategy, timer, log_path = main(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, base_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Outputs'))
            
             log_path = log_path.replace("\\", "/").split("/")[-1]

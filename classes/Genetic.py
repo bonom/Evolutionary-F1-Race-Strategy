@@ -38,6 +38,7 @@ class GeneticSolver:
         self.numLaps = CIRCUIT[circuit]['Laps']
         self.iterations = iterations
         self.car:Car = car
+
         self.availableID = 0
         self.mapStrategies = dict()
 
@@ -71,7 +72,7 @@ class GeneticSolver:
 
         return round(time)     
 
-    def getBest(self, population:list, bests={0: {'TotalTime':np.inf}, 1:{'TotalTime':np.inf}, 2:{'TotalTime':np.inf}, 3:{'TotalTime':np.inf}}):
+    def getBest(self, population:list, bests:dict):
         
         for strategy in population:
             self.checkValidity(strategy)
@@ -79,7 +80,7 @@ class GeneticSolver:
             if strategy['Valid']:
                 idx = strategy['NumPitStop'] if strategy['NumPitStop'] < 4 else 0
                 if strategy['TotalTime'] < bests[idx]['TotalTime']:
-                    bests[idx] = strategy
+                    bests[idx] = copy.deepcopy(strategy)
                 
         return bests#, bests['TotalTime']
 
@@ -94,7 +95,6 @@ class GeneticSolver:
         strategy['Valid'] = False 
         return False
 
-    
     def get_compressed_version(self, strategy:dict) -> list:
         tyre_compressed_version = list()
         pit_compressed_version = list()
@@ -136,17 +136,14 @@ class GeneticSolver:
 
         # initial population of random bitstring
         population = self.initSolver()
-
-        if 'best' in globals() or 'best' in locals():
-            del best
+        best = {0: {'TotalTime':np.inf}, 1:{'TotalTime':np.inf}, 2:{'TotalTime':np.inf}, 3:{'TotalTime':np.inf}}
 
         #print(f"\n-------------------------------------------------------------\nData for '{self.circuit}':\n\nPopulation = {self.population}\nIterations = {self.iterations}\nMutation = {self.sigma}\nCrossover = {self.mu}\n-------------------------------------------------------------\n")
         
         # enumerate generations
         try:
             bar = tqdm(range(self.iterations))
-            for gen in bar:
-                
+            for gen in bar:   
                 # Checking if there are duplicates, if so, we remove them
                 to_pop = []
                 for i in range(0, len(population)-1):
@@ -160,28 +157,32 @@ class GeneticSolver:
                     population.pop(i)
                 
                 # Gathering the first solution from population at gen^th generation
-                if gen == 0:
-                    best = self.getBest(population)
-                else:
-                    best = self.getBest(population, best)
-
+                best = self.getBest(population, best)
                 #_, temp_best_eval = self.getBest(population)
 
                 # Storing data for boxplot
                 boxplot_list = boxplot_insert(boxplot_list, population)
 
                 # Select parents
-                selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=1/5)#(len(population)//5)/len(population))
-                for sel in selected:
-                    #sel['Generation'] = gen
-                    if sel['ID'] not in self.mapStrategies.keys():
-                        tyres, pits = self.get_compressed_version(sel)
-                        self.mapStrategies[sel['ID']] = {'Strategy_Tyre': tyres, 'Strategy_Pit':pits, 'Generation':gen, 'Parent':sel['Parent'], 'NumPitStop':sel['NumPitStop']}
-                    
-                parents = copy.deepcopy(selected)
+                parents = self.selection_dynamic_penalty(step=gen+1,population=copy.deepcopy(population),threshold_quantile=1/5)#(len(population)//5)/len(population))
                 
-                ### Stable population
-
+                ### Check if there is one with one pit and one with two
+                # found = False
+                # for p in parents:
+                #     if p['NumPitStop'] == 1 and p['Valid']:
+                #         found = True
+                #         break
+                # if not not math.isinf(best[1]['TotalTime']):
+                #     print()
+                # if not found and not math.isinf(best[1]['TotalTime']):
+                #     print("No one with one pit stop found")
+                
+                for parent in parents:
+                    #sel['Generation'] = gen
+                    if parent['ID'] not in self.mapStrategies.keys():
+                        tyres, pits = self.get_compressed_version(copy.deepcopy(parent))
+                        self.mapStrategies[parent['ID']] = {'Strategy_Tyre': tyres, 'Strategy_Pit':pits, 'Generation':gen, 'Parent':parent['Parent'], 'NumPitStop':parent['NumPitStop']}
+                    
                 children = copy.deepcopy(parents)
 
                 for i in range(0, len(parents)-1, 2): 
@@ -193,33 +194,24 @@ class GeneticSolver:
                     for l in self.mutation(parents[i]):
                         l['Generation'] = gen
                         l['Parent'] = parents[i]['ID']
-                        if l['Parent'] not in self.mapStrategies.keys():
-                            print(f"ERROR: {l['Parent']} not in mapStrategies")
-                            break
                         children.append(l)
                         #self.mapStrategies[l['ID']] = self.get_compressed_version(l)
                     
                     for l in self.mutation(parents[i+1]):
                         l['Generation'] = gen
                         l['Parent'] = parents[i+1]['ID']
-                        if l['Parent'] not in self.mapStrategies.keys():
-                            print(f"ERROR: {l['Parent']} not in mapStrategies")
-                            break
                         children.append(l)
                         #self.mapStrategies[l['ID']] = self.get_compressed_version(l)
                 
                 # Add random children to the population if the population is not full
                 for _ in range(self.population-len(children)):
                     children.append(self.randomChild(gen=gen))
-                
+
                 # Replace population
                 population = copy.deepcopy(children)
 
-                #for p in population:
-                #    self.mapStrategies[str(p['ID'])].append(p)
-
                 if stuck_counter == 0:
-                    threshold_quantile = 0.3
+                    threshold_quantile = 0.2
 
                 if stuck_counter >= (self.iterations)//100:
                     stuck_counter = 0
@@ -233,7 +225,11 @@ class GeneticSolver:
                 if threshold_quantile <= 0.01 or threshold_quantile >= 0.99:
                     threshold_quantile = round(random.uniform(0.3,0.99),2)
 
-                valid_strategies = round(((sum([1 for x in children if x['Valid'] == True]))/len(children))*100,2)
+                for key, val in best.items():
+                    if not math.isinf(val['TotalTime']) and key > 0 and key < 3 and val['ID'] not in [x['ID'] for x in population] and not any([x['TotalTime'] < val['TotalTime'] for x in population]):
+                        print(f"Best {key} not in population!")
+
+                valid_strategies = round(((sum([1 for x in population if x['Valid'] == True]))/len(population))*100,2)
                 bar.set_description(f"Circuit:{self.circuit}, Pop:{self.population}, Iter:{self.iterations}, Mut:{self.sigma}, Cross:{self.mu} | ({best[0]['NumPitStop']})P: {ms_to_time(best[0]['TotalTime'])}, 1P: {ms_to_time(best[1]['TotalTime'])}, 2P: {ms_to_time(best[2]['TotalTime'])}, 3P: {ms_to_time(best[3]['TotalTime'])}")
                 bar.refresh()
                 string = f"[EA] Generation {gen+1} - ({best[0]['NumPitStop']})P: {ms_to_time(best[0]['TotalTime'])}, 1P: {ms_to_time(best[1]['TotalTime'])} 2P: {ms_to_time(best[2]['TotalTime'])} 3P: {ms_to_time(best[3]['TotalTime'])} - valid strategies: {valid_strategies}% | threshold is {threshold_quantile}"
@@ -246,7 +242,6 @@ class GeneticSolver:
         end_timer = time.time() - start_timer
         string = f"Time elapsed: {ms_to_time(round(end_timer*1000))}\n"
         
-        print(string)
         self.log.write("\n\n"+string)
 
         for pit in range(1,4):
@@ -408,7 +403,7 @@ class GeneticSolver:
         alpha = np.exp(1+(1/self.iterations)*step)
         penalty = [(delta/max_delta)*alpha for delta in deltas]
 
-        quantile = np.quantile(penalty, threshold_quantile)
+        #quantile = np.percentile(penalty, threshold_quantile*100)
 
         for p, pop in zip(penalty, population):
             if not pop['Valid']:
@@ -416,6 +411,7 @@ class GeneticSolver:
                     p *= alpha
                     if p == 0.0:
                         p = np.exp(alpha)
+
                 highest_wear = max(pop['TyreWear'])
                 if highest_wear > 100:
                     p *= np.exp(highest_wear/100)
@@ -436,11 +432,14 @@ class GeneticSolver:
         for idx, x in enumerate(population):
             x['Penalty'] = penalty[idx]
         sortedPopulation = sorted(population, key=lambda x: x['Penalty'])
-        selected = [x for idx, x in enumerate(sortedPopulation) if x['Penalty'] < quantile]
+        #selected = [x for idx, x in enumerate(sortedPopulation) if x['Penalty'] <= quantile]
+        selected = sortedPopulation[:int(threshold_quantile*self.population)]
         
         for x in selected:
             x.pop('Penalty')
         
+        # if len(selected) == 0:
+        #     print()
         return selected
 
     # def mutation_fuel_load(self, child:dict, ):
