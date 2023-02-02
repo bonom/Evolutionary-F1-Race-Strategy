@@ -23,7 +23,7 @@ parser.add_argument('--c', type=str, default=None, help='Circuit path')
 parser.add_argument('--pop', type=int, default=250, help='Population')
 parser.add_argument('--mut', type=float, default=0.9, help='Mutation probability value')
 parser.add_argument('--cross', type=float, default=0.6, help='Crossover probability value')
-parser.add_argument('--i', type=int, default=500, help='Iterations')
+parser.add_argument('--i', type=int, default=1000, help='Iterations')
 parser.add_argument('--w', type=str, default=None, help='Weather file')
 parser.add_argument('--d', action='store_true', default=False, help='Data Collection mode')
 args = parser.parse_args()
@@ -59,147 +59,7 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         race_data:RaceData = RaceData(circuit)
         # race_data.plot(path=circuit)
         
-        ### For printing the tyre wear plot in main.py
-        # import pandas as pd
-        # from classes.Utils import CIRCUIT
-
-        # tot_laps = 41
-
-        # if not os.path.isdir("images"):
-        #     os.mkdir("images")
-
-        # data = {"Soft":[0], "Medium":[0], "Hard":[0], "Inter":[0], "Wet":[0]}
-        # for lap in range(1, tot_laps):
-        #     temp_data = car.predict_tyre_wear('Soft',lap)
-        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
-        #     if temp_average > 100:
-        #         temp_average = np.nan
-        #     data["Soft"].append(temp_average)
-        #     temp_data = car.predict_tyre_wear('Medium',lap)
-        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
-        #     if temp_average > 100:
-        #         temp_average = np.nan
-        #     data["Medium"].append(temp_average)
-        #     temp_data = car.predict_tyre_wear('Hard',lap)
-        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
-        #     if temp_average > 100:
-        #         temp_average = np.nan
-        #     data["Hard"].append(temp_average)
-        #     temp_data = car.predict_tyre_wear('Inter',lap)
-        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
-        #     if temp_average > 100:
-        #         temp_average = np.nan
-        #     data["Inter"].append(temp_average)
-        #     temp_data = car.predict_tyre_wear('Wet',lap)
-        #     temp_average = sum([val for val in temp_data.values()])/len(temp_data)
-        #     if temp_average > 100:
-        #         temp_average = np.nan
-        #     data["Wet"].append(temp_average)
-        # df = pd.DataFrame(data, index=[i for i in range(0, tot_laps)])
-        # fig = px.line(
-        #     df, 
-        #     labels={
-        #         "index": "Lap",
-        #         "value": "Tyre Wear (%)",
-        #         "variable": "Tyre"
-        #     },
-        #     range_x=[-1, tot_laps],
-        #     color_discrete_map={"Soft": "red", "Medium": "yellow", "Hard": "black", "Inter": "green", "Wet": "blue"},
-        #     #title="Tyre Wear"
-        # )
-        # fig.update_layout(
-        #     # margin = {'l':50,'r':50,'t':50,'b':50},
-        #     height = 720,
-        #     width = 1280,
-        # )
-        # fig.write_image("images/Tyre_wear.png")
-
-        # fig.update_layout(
-        #     autosize=False,
-        # )
-        # fig.write_image("images/Tyre_wear.eps")
-
-        # data = {"Soft":[0], "Medium":[0], "Hard":[0], "Inter":[0], "Wet":[0]}
-        # for lap in range(1, tot_laps):
-        #     data["Soft"].append(car.predict_tyre_time_lose('Soft',lap).get("Total"))
-        #     data["Medium"].append(car.predict_tyre_time_lose('Medium',lap).get("Total"))
-        #     data["Hard"].append(car.predict_tyre_time_lose('Hard',lap).get("Total"))
-        #     data["Inter"].append(car.predict_tyre_time_lose('Inter',lap).get("Total"))
-        #     data["Wet"].append(car.predict_tyre_time_lose('Wet',lap).get("Total"))
-
-        # df = pd.DataFrame(data, index=[i for i in range(0, tot_laps)])
-        # fig = px.line(
-        #     df,
-        #     labels={
-        #         "index": "Lap",
-        #         "value": "Time Lose (ms)",
-        #         "variable": "Tyre"
-        #     },
-        #     range_x=[-1, tot_laps],
-        #     color_discrete_map={"Soft": "red", "Medium": "yellow", "Hard": "black", "Inter": "green", "Wet": "blue"},
-        #     #title="Tyre Long Run Performance"
-        # )
-        # fig.update_layout(
-        #     # margin = {'l':50,'r':50,'t':50,'b':50},
-        #     height = 720,
-        #     width = 1280,
-        # )
-        # fig.write_image("images/Tyre_wear_time_loss.png")
-
-        # fig.update_layout(
-        #     autosize=False,
-        # )
-        # fig.write_image("images/Tyre_wear_time_loss.eps")
-        
-
-        # data = {"Soft":[0], "Medium":[0], "Hard":[0], "Inter":[0], "Wet":[0]}
-        # for lap in range(1, tot_laps):
-        #     temp_time = car.predict_tyre_time_lose('Soft',lap).get("Total") 
-        #     data["Soft"].append(temp_time)
-        #     temp_time = car.predict_tyre_time_lose('Medium',lap).get("Total") + car.time_diff.get("Medium")
-        #     data["Medium"].append(temp_time)
-        #     temp_time = car.predict_tyre_time_lose('Hard',lap).get("Total") + car.time_diff.get("Hard")
-        #     data["Hard"].append(temp_time)
-        #     temp_time = car.predict_tyre_time_lose('Inter',lap).get("Total") + car.time_diff.get("Inter")
-        #     data["Inter"].append(temp_time)
-        #     temp_time = car.predict_tyre_time_lose('Wet',lap).get("Total") + car.time_diff.get("Wet")
-        #     data["Wet"].append(temp_time)
-
-        # df = pd.DataFrame(data, index=[i for i in range(0, tot_laps)])
-        # fig = px.line(
-        #     df,
-        #     labels={
-        #         "index": "Lap",
-        #         "value": "Time Lose (ms)",
-        #         "variable": "Tyre"
-        #     },
-        #     range_x=[-1, tot_laps],
-        #     color_discrete_map={"Soft": "red", "Medium": "yellow", "Hard": "black", "Inter": "green", "Wet": "blue"},
-        #     #title="Tyre Time Lose with Time Difference between compounds"
-        # )
-        # fig.update_layout(
-        #     # margin = {'l':50,'r':50,'t':50,'b':50},
-        #     height = 720,
-        #     width = 1280,
-        # )
-        # fig.write_image("images/Tyres_time_loss.png")
-
-        # fig.update_layout(
-        #     autosize=False,
-        # )
-        # fig.write_image("images/Tyres_time_loss.eps")
-
-
-        # sys.exit(0)
-
-        ######
-
-        #race_data:RaceData = RaceData(circuit)
-        #race_data.plot(path=circuit)
-
         genetic = GeneticSolver(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, car=car, circuit=_circuit, save_path=save_path, weather=weather)
-        #genetic.fixed_strategy(['Medium','Wet'], [41])
-        #sys.exit(0)
 
         bruteforce_save_path = os.path.join(circuit, "Bruteforce_strategy.log")
         if not os.path.isfile(bruteforce_save_path):
