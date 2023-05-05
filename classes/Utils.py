@@ -1,13 +1,20 @@
-import sys, os, math
+import os
+import sys
+import math
+import logging
+
 from datetime import datetime
 
+# This dictionary contains the information about the different circuits, you can freely add data of your own to this dictionary
 CIRCUIT: dict = {
-    'Monza': {'Laps': 53, 'PitStopTime':25000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+    'Monza': {'Laps': 53, 'PitStopTime':24000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
     'Spielberg' : {'Laps': 71, 'PitStopTime':21000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
     'Montreal' : {'Laps': 70, 'PitStopTime':24000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
-    'Portimao' : {'Laps': 66, 'PitStopTime':22000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
-    'Bahrein' : {'Laps': 55, 'PitStopTime':25000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
-    'Zandvoort' : {'Laps': 72, 'PitStopTime':20000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+    'Portimao' : {'Laps': 66, 'PitStopTime':25000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+    'Bahrain' : {'Laps': 55, 'PitStopTime':23000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+    'Zandvoort' : {'Laps': 72, 'PitStopTime':21500, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+    'Silverstone' : {'Laps': 52, 'PitStopTime':20000, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
+    'Barcelona' : {'Laps': 66, 'PitStopTime':22500, 'Tyres':{'SoftNew': 0, 'SoftUsed': 2, 'MediumNew': 1, 'MediumUsed':1, 'HardNew': 1, 'HardUsed': 1}},
 }
 
 VISUAL_COMPOUNDS: dict = {
@@ -33,6 +40,51 @@ VISUAL_COMPOUNDS: dict = {
     19:"C2",
     20:"C1",
 }
+
+def get_basic_logger(name, level=logging.DEBUG, log_path:str=None) -> logging.Logger:
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    formatter = CustomFormatter()
+    ch = logging.StreamHandler()
+    ch.setLevel(level)
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+
+    if log_path:
+        par_dir = os.path.dirname(log_path)
+        if not os.path.exists(par_dir):
+            os.makedirs(par_dir)
+
+        formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(name)s | %(filename)s:%(lineno)d | %(message)s')
+        fh = logging.FileHandler(log_path)
+        fh.setLevel(level)
+        fh.setFormatter(formatter)
+        logger.addHandler(fh)
+
+    return logger
+
+class CustomFormatter(logging.Formatter):
+    grey = "\x1b[38;20m"
+    yellow = "\x1b[33;20m"
+    red = "\x1b[31;20m"
+    bold = "\x1b[1m"
+    bold_red = "\x1b[31;1m"
+    reset = "\x1b[0m"
+    format = '%(asctime)s | %(levelname)s | %(name)s --> %(message)s'
+    debug_format = '%(asctime)s | %(levelname)s | %(filename)s:%(lineno)d --> %(message)s'#'%(asctime)s | %(name)s | %(filename)s:%(lineno)d  | %(message)s'
+
+    FORMATS = {
+        logging.DEBUG: bold + debug_format + reset,
+        logging.INFO: grey + format + reset,
+        logging.WARNING: yellow + debug_format + reset,
+        logging.ERROR: red + debug_format + reset,
+        logging.CRITICAL: bold_red + debug_format + reset
+    }
+
+    def format(self, record):
+        log_fmt = self.FORMATS.get(record.levelno)
+        formatter = logging.Formatter(log_fmt, datefmt='%Y/%m/%d %H:%M:%S')
+        return formatter.format(record)
 
 
 class Log():

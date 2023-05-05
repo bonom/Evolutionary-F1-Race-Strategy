@@ -1,14 +1,20 @@
-import math, time, copy, os
+import os
+import copy
+import math 
+import time
+import logging
 import numpy as np
 import pandas as pd
-from random import SystemRandom
+
 from tqdm import tqdm
+from random import SystemRandom
 
 from classes.Car import Car
 from classes.Weather import Weather
-random = SystemRandom()
+from classes.Utils import CIRCUIT, Log, ms_to_time, get_basic_logger
 
-from classes.Utils import CIRCUIT, Log, ms_to_time
+random = SystemRandom()
+logger = get_basic_logger('Genetic', logging.INFO)
 
 TYRE_WEAR_THRESHOLD = 0.3
 BEST_TIME = np.inf
@@ -424,7 +430,7 @@ class GeneticSolver:
         for idx, x in enumerate(population):
             x['Penalty'] = penalty[idx]
         sortedPopulation = sorted(population, key=lambda x: x['Penalty'])
-        selected = [x for idx, x in enumerate(sortedPopulation) if x['Penalty'] < quantile]
+        selected = [x for _, x in enumerate(sortedPopulation) if x['Penalty'] < quantile]
         
         for x in selected:
             x.pop('Penalty')
@@ -517,7 +523,7 @@ class GeneticSolver:
         remaining = random_lap + 1
         tyre_age += 1
         while remaining < self.numLaps and child['PitStop'][remaining] == False:
-            child['TyreWear'][remaining] = self.getTyreWear(compound=compound, lap=tyre_age)#, conditions=child['Weather'][:remaining])
+            child['TyreWear'][remaining] = self.getTyreWear(compound=compound, lap=tyre_age)
             child['TyreCompound'][remaining] = compound
             child['TyreAge'][remaining] = tyre_age
             child['LapTime'][remaining] = self.getLapTime(compound=compound, compoundAge=tyre_age, lap=remaining, fuel_load=child['FuelLoad'][remaining], conditions=child['Weather'][:remaining+1], drs=False, pitStop=child['PitStop'][remaining])

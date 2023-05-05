@@ -1,22 +1,18 @@
+import os
+import sys
 import math
-import sys, os
-from turtle import width
+import logging
+import argparse
 import numpy as np
+import plotly.express as px
+
 from datetime import datetime
+
 from classes.Genetic import GeneticSolver
 from classes.Car import get_car_data, Car
-from classes.Race import RaceData, plot_best
-from classes.Utils import CIRCUIT, ms_to_time, time_to_ms
 from classes.LocalSearch import LocalSearch
-import plotly.express as px
-import argparse
-
 from classes.Weather import weather_summary
-
-### To suppress plotly warnings
-import warnings
-warnings.filterwarnings('ignore')
-###
+from classes.Utils import CIRCUIT, ms_to_time, time_to_ms, get_basic_logger
 
 parser = argparse.ArgumentParser(description='Process F1 Data.')
 parser.add_argument('--c', type=str, default=None, help='Circuit path')
@@ -27,6 +23,8 @@ parser.add_argument('--i', type=int, default=1000, help='Iterations')
 parser.add_argument('--w', type=str, default=None, help='Weather file')
 parser.add_argument('--d', action='store_true', default=False, help='Data Collection mode')
 args = parser.parse_args()
+
+logger = get_basic_logger('main', logging.INFO)
     
 def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, weather:str, base_path:str):
     print(f"\n---------------------START----------------------\n")
@@ -56,7 +54,7 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
 
         car:Car = get_car_data(circuit)
 
-        race_data:RaceData = RaceData(circuit)
+        # race_data:RaceData = RaceData(circuit)
         # race_data.plot(path=circuit)
         
         genetic = GeneticSolver(population=population, mutation_pr=mutation_pr, crossover_pr=crossover_pr, iterations=iterations, car=car, circuit=_circuit, save_path=save_path, weather=weather)

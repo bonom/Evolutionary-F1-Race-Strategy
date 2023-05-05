@@ -1,7 +1,13 @@
-import os, sys
-from classes.Utils import CIRCUIT
+import os
+import sys
+import logging
+
 from random import SystemRandom
+
+from classes.Utils import CIRCUIT, get_basic_logger
+
 random = SystemRandom()
+logger = get_basic_logger(name='Weather', level=logging.INFO)
 
 def weather_summary(circuit:str, weather_file:str):
     """
@@ -20,13 +26,16 @@ def weather_summary(circuit:str, weather_file:str):
 
 class Weather:
     def __init__(self, circuit:str, filename:str=None) -> None:
+        
+        handler = logging.StreamHandler()
+        handler.terminator = ''
+        logger.addHandler(handler)
 
         if filename is None:
             path = os.path.join('Data',circuit,'Weather')
 
             if not os.path.exists(path):
-                print(f"Path '{path}' does not exists.")
-                sys.exit(1)
+                raise FileExistsError(f"Path '{path}' does not exist.")
 
             files = os.listdir(path)
 
@@ -34,14 +43,13 @@ class Weather:
                 files.remove('.DS_Store')
 
             if len(files) == 0:
-                print(f"There are no available weathers for circuit '{circuit}'. Insert them and run again")
-                sys.exit(1)
+                raise FileExistsError(f"No available weathers files in '{path}' for circuit '{circuit}'")
 
-            print(f"Available weathers for circuit '{circuit}': ")
+            logger.info(f"Available weathers for circuit '{circuit}': \n")
             for idx, w in enumerate(files):
-                print(f"{idx+1}. {w}")
+                logger.info(f"{idx+1}. {w}\n")
             
-            index = int(input(f"\nSelect weather by number: "))
+            index = int(logger.info(f"\nSelect weather by number: "))
             file = os.path.join(path, files[index-1])
 
             self.filename = files[index-1]
@@ -49,8 +57,7 @@ class Weather:
         else:
             file = os.path.join('Data',circuit,'Weather',filename)
             if not os.path.exists(file):
-                print(f"Path '{file}' does not exists.")
-                sys.exit(1)
+                raise ValueError(f"Path '{file}' does not exists.")
             self.filename = filename[:-4]
             
         self.weather = []
@@ -60,7 +67,8 @@ class Weather:
                 self.weather.append(int(line.strip()))
 
         if len(self.weather)-1 != CIRCUIT[circuit]['Laps']:
-            print(f"Weather file '{self.filename}' has {len(self.weather)} laps but circuit '{circuit}' has {CIRCUIT[circuit]['Laps']} laps.")
+            raise ValueError(f"Weather file '{self.filename}' has {len(self.weather)} laps but circuit '{circuit}' has {CIRCUIT[circuit]['Laps']} laps!")
+
 
     def get_weather_string(self, w):
         if w < 20:

@@ -1,13 +1,17 @@
-from genericpath import isfile
-from random import SystemRandom
-import pandas as pd
+import os
+import math
+import pickle
+import logging
 import numpy as np
-import os, pickle, math
+import pandas as pd
 import plotly.express as px
 
-random = SystemRandom()
+from random import SystemRandom
 
-from classes.Utils import VISUAL_COMPOUNDS, ms_to_time
+from classes.Utils import VISUAL_COMPOUNDS, ms_to_time, get_basic_logger
+
+random = SystemRandom()
+logger = get_basic_logger('Car', logging.INFO)
 
 def linear_fun(x, a):
     if isinstance(x, np.ndarray):
@@ -83,7 +87,7 @@ class Car:
                             fuel_diff = [fi_data[x] - fj_data[x] for x in range(min(len(fi_data), len(fj_data)))]
                 
                             if self.fuel_lose == 0:
-                                self.fuel_lose = np.mean(time_diff)/np.mean(fuel_diff) #Check formula
+                                self.fuel_lose = np.mean(time_diff)/np.mean(fuel_diff)
                             else:
                                 old_fuel_lose = self.fuel_lose
                                 self.fuel_lose = round((old_fuel_lose+(np.mean(time_diff)/np.mean(fuel_diff)))/2)
@@ -380,10 +384,10 @@ def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[], race
         else:
             laps = lap['CurrentLapNum']
             duplicated_laps = lap[laps.isin(laps[laps.duplicated()])].sort_values("FrameIdentifier")
-            print(f"Lap DataFrame is the following:")
+            logger.info(f"Lap DataFrame is the following:")
             for idx, row in lap.iterrows():
-                print(f"{idx}, {row['CurrentLapNum']} -> {ms_to_time(row['LastLapTimeInMS'])}")
-            print(f"\nDuplicated ones are:\n{duplicated_laps}")
+                logger.info(f"{idx}, {row['CurrentLapNum']} -> {ms_to_time(row['LastLapTimeInMS'])}")
+            logger.info(f"\nDuplicated ones are: {duplicated_laps}")
             to_drop = input("If there are some wrong frames, insert now separated by comma or press ENTER if None: ")
             if to_drop:
                 to_drop = np.array(to_drop.split(','), dtype=int)
@@ -462,7 +466,6 @@ def get_data(folder:str, add_data:pd.DataFrame=None, ignore_frames:list=[], race
 
         ret[tyre].append(data)
 
-    #print(ret)
     return ret
 
 
@@ -500,7 +503,6 @@ def get_car_data(path:str):
                         else:
                             concatenated = pd.concat([concatenated, i])
                 
-                print(concatenated)
                 concatenated.to_csv(os.path.join(path, 'FullData.csv'), index=False)
 
                 with open(os.path.join(path, 'Data.json'), 'wb') as f:
