@@ -28,6 +28,8 @@ Or you can use the requirements file (inside the environment):
 pip install -r requirements.txt
 ```
 
+There should not be any problems with the packages versions, in case you have some troubles please use the `requirements.txt` file for the versions we used.
+
 -----------------------------------------------------------------------------------------------------------------------
 
 # Classes
