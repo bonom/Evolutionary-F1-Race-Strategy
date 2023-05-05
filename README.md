@@ -14,17 +14,17 @@ Needed packages to run the project:
 - tqdm
 
 To create the environment use conda (better):
-```python
+```bash
 conda create -n <environment_name> python=3.11 pandas numpy tqdm plotly
 ```
 or pip:
-```python
+```bash
 python -m venv <environment_name> 
 pip install -U pandas numpy tqdm plotly
 ```
 
 Or you can use the requirements file (inside the environment):
-```python
+```bash
 pip install -r requirements.txt
 ```
 
@@ -51,41 +51,41 @@ A class where the weather is managed in order to pass it to the *Genetic* one.
 # Usage
 
 The script can be used with several flags in different ways, it starts with the default one:
-```python
+```bash
 python main.py
 ```
 
 Then flags are:
 - `--d`: is a modality for retrieving more runs of the simulation
-```python
+```bash
 python main.py --d
 ```
 - `--c <circuit>`: better if specified, otherwise the script will run the script for all the circuits available. The circuits available are in the folders in the Data folder
-```python
+```bash
 python main.py --c Monza
 ```
 - `--pop <int>`: is the population size of the genetic algorithm
-```python
+```bash
 python main.py --pop 100
 ```
 - `--mut <float>`: is the mutation rate of the genetic algorithm
-```python
+```bash
 python main.py --mut 0.1
 ```
 - `--cross <float>`: is the crossover rate of the genetic algorithm
-```python
+```bash
 python main.py --cross 0.1
 ```
 - `--i <int>`: is the number of iterations of the genetic algorithm
-```python
+```bash
 python main.py --i 100
 ```
 - `--w <weather file>`: is the weather file to use in the simulation, if not specified the script will ask for the weather file to use. Notice that only the weather *txt*s in every circuit data folder are considered
-```python
+```bash
 python main.py --w Sunny.txt
 ```
 
 It is possible to use more than one flag, for example:
-```python
+```bash
 python main.py --c Monza --pop 100 --mut 0.1 --cross 0.1 --i 100 --w Sunny.txt --d
 ```
