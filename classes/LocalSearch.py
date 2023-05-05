@@ -1,16 +1,10 @@
-from cgi import print_form
-import math, time, copy, os
-from threading import local
+import copy
 import numpy as np
-import pandas as pd
 from random import SystemRandom
-from tqdm import tqdm
 
-from classes.Car import Car
 from classes.Genetic import GeneticSolver
-random = SystemRandom()
 
-from classes.Utils import CIRCUIT, Log, ms_to_time
+random = SystemRandom()
 
 TYRE_WEAR_THRESHOLD = 0.3
 BEST_TIME = np.inf
