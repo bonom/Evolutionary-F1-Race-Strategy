@@ -60,7 +60,7 @@ Then flags are:
 ```bash
 python main.py --d
 ```
-- `--c <circuit>`: better if specified, otherwise the script will run the script for all the circuits available. The circuits available are in the folders in the Data folder
+- `--c <circuit>`: better if specified, otherwise the script will run the script for all the circuits available. The circuits available are the folders names in the Data folder
 ```bash
 python main.py --c Monza
 ```
