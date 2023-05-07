@@ -59,7 +59,7 @@ There should not be any problems with the packages versions, in case you have so
 
 -----------------------------------------------------------------------------------------------------------------------
 
-# Classes
+<!-- # Classes
 ## Car
 A class where there is the elaboration of all the data regarding a car and store them in a *json* file.
 
@@ -75,7 +75,7 @@ A class that contains the most general functions used in all the other scripts.
 ## Weather
 A class where the weather is managed in order to pass it to the *Genetic* one.
 
------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------- -->
 
 # Usage
 
