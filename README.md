@@ -1,6 +1,33 @@
-# Evolutionary F1 Race Strategy
->Formula 1 is a race competition that in the past years has been evolving year after year, becoming more and more complicated than ever. We develop an evolutionary algorithm that can simulate a race given the free practices data and find an optimal strategy for the race in a specific circuit. We are going to consider the weather and all the possible time lose from different aspects (different tyres, pit-stop, fuel weight, tyre wear, etc.) given by the simulations in F1 2021.
+<div id="top"></div>
 
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <h1 align="center">Evolutionary F1 Race Strategy [GECCO 2023]</h1>
+
+  <p align="center">
+    Official implementation of GECCO 2023 paper "Evolutionary F1 Race Strategy", presented at the 8th Workshop on Industrial Applications of Metaheuristic (IAM 2023).
+  </p>
+</div>
+
+
+-----------------------------------------------------------------------------------------------------------------------
+# Introduction
+  >Formula 1 is a highly competitive and ever-evolving sport, with teams constantly searching for ways to gain an edge over the competition. In order to meet this challenge, we propose a custom Genetic Algorithm that can simulate a race strategy given data from free practices and compute an optimal strategy for a specific circuit. The algorithm takes into account a variety of factors that can affect race performance, including weather conditions as well as tire choice, pit-stops, fuel weight, and tire wear. By simulating and computing multiple race strategies, the algorithm provides valuable insights and can help make informed strategic decisions, in order to optimize the performance on the track. The algorithm has been evaluated on both a video-game simulation and with real data on tire consumption provided by the tire manufacturer Pirelli. With the help of the race strategy engineers from Pirelli, we have been able to prove the real applicability of the proposed algorithm.
+
+
+<!-- # Evolutionary F1 Race Strategy [GECCO 2023]
+Official implementation of GECCO 2023 paper "Evolutionary F1 Race Strategy", presented at the 8th Workshop on Industrial Applications of Metaheuristic (IAM 2023). -->
+
+<!-- # Introduction
+>Formula 1 is a highly competitive and ever-evolving sport, with teams constantly searching for ways to gain an edge over the competition. In order to meet this challenge, we propose a custom Genetic Algorithm that can simulate a race strategy given data from free practices and compute an optimal strategy for a specific circuit. The algorithm takes into account a variety of factors that can affect race performance, including weather conditions as well as tire choice, pit-stops, fuel weight, and tire wear. By simulating and computing multiple race strategies, the algorithm provides valuable insights and can help make informed strategic decisions, in order to optimize the performance on the track. The algorithm has been evaluated on both a video-game simulation and with real data on tire consumption provided by the tire manufacturer Pirelli. With the help of the race strategy engineers from Pirelli, we have been able to prove the real applicability of the proposed algorithm. -->
+
+:fire: For more information have a look at our [PAPER](https://arxiv.org/pdf/2303.11610)! :fire:
+
+Authors: 
+        [Andrea Bonomi](),
+        [Evelyn Turri](),
+        [Giovanni Iacca](https://scholar.google.it/citations?user=qSw6YfcAAAAJ&hl=en)
 
 -----------------------------------------------------------------------------------------------------------------------
 
@@ -91,3 +118,17 @@ It is possible to use more than one flag, for example:
 ```bash
 python main.py --c Monza --pop 100 --mut 0.1 --cross 0.1 --i 100 --w Sunny.txt --d
 ```
+-----------------------------------------------------------------------------------------------------------------------
+# Citing our work
+Please cite the following paper if you use our code:
+```latex
+@inproceedings{EAF1Strategy,
+  title = {Evolutionary F1 Race Strategy},
+  author = {Bonomi, Andrea and Turri, Evelyn and Iacca, Giovanni},
+  booktitle = {Genetic and Evolutionary Computation Conference Companion (GECCO ’23 Companion)},
+  year = {July 2023}
+}
+```
+-----------------------------------------------------------------------------------------------------------------------
+# Acknowledgements
+We would like to thank Simone Berra and Fernando Osuna from Pirelli for providing us the real data and giving us feedback on the numerical results.
