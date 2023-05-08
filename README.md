@@ -25,7 +25,7 @@ Official implementation of GECCO 2023 paper "Evolutionary F1 Race Strategy", pre
 :fire: For more information have a look at our [PAPER]()! :fire:
 
 Authors: 
-        [Andrea Bonomi](),
+        [Andrea Bonomi](https://scholar.google.com/citations?user=gnlDPxUAAAAJ),
         [Evelyn Turri](),
         [Giovanni Iacca](https://scholar.google.it/citations?user=qSw6YfcAAAAJ&hl=en)
 
@@ -58,24 +58,6 @@ pip install -r requirements.txt
 There should not be any problems with the packages versions, in case you have some troubles please use the `requirements.txt` file for the versions we used.
 
 -----------------------------------------------------------------------------------------------------------------------
-
-<!-- # Classes
-## Car
-A class where there is the elaboration of all the data regarding a car and store them in a *json* file.
-
-## Genetic
-This class is where the Evolutionary Algorithm and the Bruteforce are implemented.
-
-## Race - To be removed
-This class checks if there are Race data to view in order to understand how the race has performed in the simulation.
-
-## Utils
-A class that contains the most general functions used in all the other scripts.
-
-## Weather
-A class where the weather is managed in order to pass it to the *Genetic* one.
-
------------------------------------------------------------------------------------------------------------------------ -->
 
 # Usage
 
