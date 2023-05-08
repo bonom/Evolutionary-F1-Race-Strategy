@@ -68,6 +68,7 @@ def changeTyre(tyresWear:dict):
     return False
 
 class GeneticSolver:
+
     def __init__(self, population:int=2, mutation_pr:float=0.75, crossover_pr:float=0.5, iterations:int=1, car:Car=None, circuit:str='', weather:str='', save_path:str='') -> None:
         self.circuit = circuit
         self.pitStopTime = CIRCUIT[circuit]['PitStopTime']
@@ -87,6 +88,7 @@ class GeneticSolver:
         self.mu_decay = 0.99
         self.sigma_decay = 0.99
     
+    # Function to get the TyreWear given the compound and the lap
     def getTyreWear(self, compound:str, lap:int):
         if lap == 0:
             return {'FL':0.0, 'FR':0.0, 'RL':0.0, 'RR':0.0}
@@ -98,20 +100,25 @@ class GeneticSolver:
         
         return wear
     
+    # Function to get the the bast LapTime
     def getBestLapTime(self,):
         return self.car.time_diff['Soft']
 
+    # Function to get the fuel load
     def getFuelLoad(self, initial_fuel:float, conditions:list) :
         weather = [self.weather.get_weather_string(c) for c in conditions[:-1]]
         return round(self.car.predict_fuel_weight(initial_fuel, weather), 2)
     
+    # Function to get the initial fuel load 
     def getInitialFuelLoad(self, conditions:list):
         weather = [self.weather.get_weather_string(c) for c in conditions[:-1]]
         return round(self.car.predict_starting_fuel(weather), 2)
 
+    # Function to get the time lost given the compound 
     def getWearTimeLose(self, compound:str, lap:int):
         return self.car.predict_tyre_time_lose(compound, lap)
         
+    # Function to get the time lost given the fuel
     def getFuelTimeLose(self, lap:int=0, fuel_load:float=0, initial_fuel:float=0, conditions:list=None):
         conditions = [self.weather.get_weather_string(c) for c in conditions]
         if fuel_load == 0:
@@ -119,6 +126,7 @@ class GeneticSolver:
         
         return self.car.predict_fuel_time_lose(fuel_load)
     
+    # function for computing the lap time 
     def getLapTime(self, compound:str, compoundAge:int, lap:int, fuel_load:float, conditions:list, drs:bool, pitStop:bool) -> int:
         conditions_int = conditions[-1]
         conditions_str = [self.weather.get_weather_string(c) for c in conditions[:-1]]
@@ -133,6 +141,7 @@ class GeneticSolver:
 
         return round(time)     
 
+    # function to get the best individual/strategy in the population
     def getBest(self, population:list, best={'TotalTime':np.inf}):
         
         for strategy in population:
@@ -144,6 +153,7 @@ class GeneticSolver:
                 
         return best, best['TotalTime']
 
+    # function for checking the validity of a strategy
     def checkValidity(self, strategy:dict):
         all_compounds = set(strategy['TyreCompound'])
         last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
@@ -162,6 +172,7 @@ class GeneticSolver:
         strategy['Valid'] = False 
         return False
 
+    # selection process
     def selection(self,population):
         sortedPopulation = sorted(population, key=lambda x: x['TotalTime'])
         
@@ -169,6 +180,7 @@ class GeneticSolver:
         
         return selected
 
+    # function to launch the algorithm
     def run(self,bf_time:int=0):
         start_timer = time.time()
 
@@ -213,43 +225,11 @@ class GeneticSolver:
                 # Select parents
                 selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=2/13, best = best_eval)
                 parents = copy.deepcopy(selected)
-
-                """
-                ######################################################################################
-                ### INITIAL ONE
-
-                # Create the next generation
-                children = [parent for parent in selected]
-
-                if len(selected) > self.population:
-                    selected = selected[:self.population]
-
-                if len(selected) > 1:
-                    for i in range(0, len(selected)-2, 2): 
-                        # Get selected parents in pairs
-                        p1, p2 = copy.deepcopy(selected[i]), copy.deepcopy(selected[i+1])
-
-                        # Crossover 
-                        for c in self.crossover(p1, p2):
-                            children.append(c)
-
-                        # Mutation
-                        for l in self.mutation(selected[i]):
-                            children.append(l)
-
-                        for l in self.mutation(selected[i+1]):
-                            children.append(l)
-
-                ######################################################################################
-                """
-                ######################################################################################
-
-                #parents = self.selection(population=population)
                 
-                ### Stable population
-
+                # Make a copy of the children
                 children = copy.deepcopy(parents)
 
+                # Crossover and mutation steps
                 for i in range(0, len(parents)-1, 2): 
                     p1, p2 = copy.deepcopy(parents[i]), copy.deepcopy(parents[i+1])
 
@@ -262,13 +242,11 @@ class GeneticSolver:
                     for l in self.mutation(parents[i+1]):
                         children.append(l)
 
-                ######################################################################################
-                
                 # Add random children to the population if the population is not full
                 for _ in range(self.population-len(children)):
                     children.append(self.randomChild())
                 
-                # Replace population
+                # Replace old population
                 population = copy.deepcopy(children)
 
                 if prev == best_eval:
@@ -281,6 +259,7 @@ class GeneticSolver:
                 
                 prev = best_eval
 
+                # Check if the solution is stucked
                 if stuck_counter == 0:
                     threshold_quantile = 0.3
 
@@ -343,13 +322,14 @@ class GeneticSolver:
 
         return strategies
 
+    # Function to build a random strategy
     def randomChild(self):
         strategy = {'TyreCompound': [], 'TyreAge':[], 'TyreWear':[] , 'FuelLoad':[] , 'PitStop': [], 'LapTime':[], 'NumPitStop': 0, 'Weather':self.weather.get_weather_percentage_list(), 'Valid':False, 'TotalTime': np.inf}
 
         weather = strategy['Weather'][:1]
 
         ### Get a random compound and verify that we can use it, if so we update the used compounds list and add the compound to the strategy
-        compound = self.randomCompound()#(weather[0])
+        compound = self.randomCompound()
         strategy['TyreCompound'].append(compound)
 
         ### If the compound is used we put a tyre wear of 2 laps (if it is used but available the compound has been used for 2/3 laps.
@@ -395,14 +375,15 @@ class GeneticSolver:
             strategy['TyreWear'].append(self.getTyreWear(compound, tyresAge))
             strategy['PitStop'].append(pitStop)
             strategy['LapTime'].append(self.getLapTime(compound=compound, compoundAge=tyresAge, lap=lap, fuel_load=fuelLoad, conditions=weather, drs=False, pitStop=pitStop))
-        
-        #self.checkValidity(strategy)    
+           
         strategy['TotalTime'] = sum(strategy['LapTime'])
         return strategy
 
+    # Function to get a random compound
     def randomCompound(self,):
         return random.choice(['Soft', 'Medium', 'Hard','Inter','Wet'])
 
+    # Selection step with dynamic penalty
     def selection_dynamic_penalty(self, step:int, population:list, threshold_quantile:float, best:int):
         deltas = [abs(x['TotalTime'] - best) for x in population]
         max_delta = max(1,max(deltas))
@@ -437,6 +418,7 @@ class GeneticSolver:
         
         return selected
 
+    # Mutation step on the fuel
     def mutation_fuel_load(self, child:dict, ):
         new_fuel = child['FuelLoad'][0]+random.uniform(-10,10)
 
@@ -453,6 +435,7 @@ class GeneticSolver:
         child['TotalTime'] = sum(child['LapTime'])
         return child
 
+    # Mutation step on the compound
     def mutation_compound(self, child:dict, ):
         usedTyres = dict()
         usedTyres[0] = child['TyreCompound'][0]
@@ -481,6 +464,7 @@ class GeneticSolver:
         
         return self.correct_strategy(child)
 
+    # Mutation step on the pitstop
     def mutation_pitstop(self,child:dict):
         childPitNum = child['NumPitStop'] 
 
