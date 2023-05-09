@@ -17,6 +17,12 @@ TYRE_WEAR_THRESHOLD = 0.3
 BEST_TIME = np.inf
 STRATEGY = None
 
+"""
+LocalSearch is a python script which aims in improve the solution obtained from the Genetic.
+The LocalSearch has been tried many times, but it did not improved the solution.
+We keep the file in the code for completeness.
+"""
+
 class LocalSearch:
     def __init__(self, strategy:dict, genetic:GeneticSolver):
         self.strategy = strategy
@@ -43,11 +49,7 @@ class LocalSearch:
         Shake is working on the compounds, so it changes randomly only one compound
         """
         shakeStrategy = copy.deepcopy(self.strategy)
-        #shakeRandom = random.randint(0, self.strategy['NumPitStop'])
-        #indexRandom = self.find_interval(shakeRandom)
-        #nextIndexRandom = self.find_interval(shakeRandom+1)
-        #randomCompound = self.genetic.randomCompound()
-#
+        
         if randomCompound == self.strategy['TyreCompound'][indexRandom]:
             return shakeStrategy
 
@@ -88,15 +90,7 @@ class LocalSearch:
                         localBest = copy.deepcopy(localStrategy_1)
                     else:
                         localStrategy_1['PitStop'][i] = False
-                    # if i < index:
-                    #     localStrategy_1['PitStop'][i] = True
-                    #     localStrategy_1['TyreCompound'][i] = localStrategy_1['TyreCompound'][index]
-                    #     self.genetic.correct_strategy(localStrategy_1)
 
-                    #     if localStrategy_1['TotalTime'] < localBest['TotalTime'] and self.genetic.checkValidity(localStrategy_1):
-                    #         localBest = copy.deepcopy(localStrategy_1)
-                    #     else:
-                    #         localStrategy_1['PitStop'][i] = False
             for i in range(index + 1, index + 6):
                 if i > 0 and i < self.genetic.numLaps and i != index:
                     localStrategy_1['PitStop'][i] = True

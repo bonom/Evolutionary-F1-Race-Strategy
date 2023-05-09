@@ -97,6 +97,11 @@ def main(population:int, mutation_pr:float, crossover_pr:float, iterations:int, 
         finalStrategy, finalStrategy_eval, ls_timer = localSearch.run()
         
         ### Print the final strategy of local search
+        """
+        LocalSearch is a python script which aims in improve the solution obtained from the Genetic.
+        The LocalSearch has been tried many times, but it did not improved the solution.
+        We keep the file in the code for completeness.
+        """
         print("\n------------------------------------------------\n")
         string = "Local Search Strategy:\n"
         for lap in range(genetic.numLaps):

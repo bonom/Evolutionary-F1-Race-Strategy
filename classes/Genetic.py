@@ -81,7 +81,7 @@ class GeneticSolver:
         self.car:Car = car
         self.weather = Weather(circuit) if weather == '' else Weather(circuit, weather)
 
-        # For the log file
+        ### For the log file
         self.path = save_path
         self.log = Log(save_path, values={'Circuit':circuit, 'Weather': self.weather.filename, 'PitStopTime':self.pitStopTime, 'Mutation': mutation_pr, 'Crossover': crossover_pr, 'Population': population, 'Iterations':iterations})
         
@@ -126,7 +126,7 @@ class GeneticSolver:
         
         return self.car.predict_fuel_time_lose(fuel_load)
     
-    # function for computing the lap time 
+    # Function for computing the lap time 
     def getLapTime(self, compound:str, compoundAge:int, lap:int, fuel_load:float, conditions:list, drs:bool, pitStop:bool) -> int:
         conditions_int = conditions[-1]
         conditions_str = [self.weather.get_weather_string(c) for c in conditions[:-1]]
@@ -141,7 +141,7 @@ class GeneticSolver:
 
         return round(time)     
 
-    # function to get the best individual/strategy in the population
+    # Function to get the best individual/strategy in the population
     def getBest(self, population:list, best={'TotalTime':np.inf}):
         
         for strategy in population:
@@ -153,7 +153,7 @@ class GeneticSolver:
                 
         return best, best['TotalTime']
 
-    # function for checking the validity of a strategy
+    # Function for checking the validity of a strategy
     def checkValidity(self, strategy:dict):
         all_compounds = set(strategy['TyreCompound'])
         last_lap_fuel_load = self.getFuelLoad(strategy['FuelLoad'][0], strategy['Weather'])
@@ -172,7 +172,7 @@ class GeneticSolver:
         strategy['Valid'] = False 
         return False
 
-    # selection process
+    # Selection process
     def selection(self,population):
         sortedPopulation = sorted(population, key=lambda x: x['TotalTime'])
         
@@ -180,7 +180,7 @@ class GeneticSolver:
         
         return selected
 
-    # function to launch the algorithm
+    # Function to run the algorithm
     def run(self,bf_time:int=0):
         start_timer = time.time()
 
@@ -189,47 +189,45 @@ class GeneticSolver:
         boxplot_list = list()
         prev = {}
 
-        # initial population of random bitstring
+        ### Initial population of random bitstring
         population = self.initSolver()
 
         print(f"\n-------------------------------------------------------------\nData for '{self.circuit}':\n\nPopulation = {self.population}\nIterations = {self.iterations}\nMutation = {self.sigma}\nCrossover = {self.mu}\nWeather = {self.weather.filename}\n-------------------------------------------------------------\n")
         
-        # enumerate generations
+        ### Enumerate generations
         try:
             bar = tqdm(range(self.iterations))
             for gen in bar:
                 
-                # Checking if there are duplicates, if so, we remove them
+                ### Checking if there are duplicates, if so, we remove them
                 to_pop = []
                 for i in range(0, len(population)-1):
                     for j in range(i+1, len(population)):
                         if population[i] == population[j] and j not in to_pop:
                             to_pop.append(j)
 
-                # Removing duplicates by sorted indexes would return an error (we are changing length of the list) so we remove them in reversed order
+                ### Removing duplicates by sorted indexes would return an error (we are changing length of the list) so we remove them in reversed order
                 to_pop = sorted(to_pop, reverse=True)
                 for i in to_pop:
                     population.pop(i)
                 
-                # Gathering the first solution from population at gen^th generation
+                ### Gathering the first solution from population at gen^th generation
                 if gen == 0:
                     best, best_eval = self.getBest(population)
                 else:
                     best, best_eval = self.getBest(population, best)
 
-                #_, temp_best_eval = self.getBest(population)
-
-                # Storing data for boxplot
+                ### Storing data for boxplot
                 boxplot_list = boxplot_insert(boxplot_list, population)
 
-                # Select parents
+                ### Select parents
                 selected = self.selection_dynamic_penalty(step=gen+1,population=population,threshold_quantile=2/13, best = best_eval)
                 parents = copy.deepcopy(selected)
                 
-                # Make a copy of the children
+                ### Make a copy of the children
                 children = copy.deepcopy(parents)
 
-                # Crossover and mutation steps
+                ### Crossover and mutation steps
                 for i in range(0, len(parents)-1, 2): 
                     p1, p2 = copy.deepcopy(parents[i]), copy.deepcopy(parents[i+1])
 
@@ -242,24 +240,24 @@ class GeneticSolver:
                     for l in self.mutation(parents[i+1]):
                         children.append(l)
 
-                # Add random children to the population if the population is not full
+                ### Add random children to the population if the population is not full
                 for _ in range(self.population-len(children)):
                     children.append(self.randomChild())
                 
-                # Replace old population
+                ### Replace old population
                 population = copy.deepcopy(children)
 
                 if prev == best_eval:
                     stuck_counter += 1
                 else:
-                    # Check for new best solution
+                    ### Check for new best solution
                     if not math.isinf(best_eval):
                         fitness_values[gen] = best_eval
                     stuck_counter = 0
                 
                 prev = best_eval
 
-                # Check if the solution is stucked
+                ### Check if the solution is stucked
                 if stuck_counter == 0:
                     threshold_quantile = 0.3
 
@@ -315,6 +313,7 @@ class GeneticSolver:
 
         return best, best_eval, boxplot_df, fit_dict, end_timer
 
+    # Function to initialize the population
     def initSolver(self,):
         strategies = []
         for _ in range(self.population):
@@ -328,13 +327,9 @@ class GeneticSolver:
 
         weather = strategy['Weather'][:1]
 
-        ### Get a random compound and verify that we can use it, if so we update the used compounds list and add the compound to the strategy
+        ### Get a random compound
         compound = self.randomCompound()
         strategy['TyreCompound'].append(compound)
-
-        ### If the compound is used we put a tyre wear of 2 laps (if it is used but available the compound has been used for 2/3 laps.
-        ### However, 2 laps out of 3 are done very slowly and the wear is not as the same of 3 laps)
-        ### If the compound is new tyre wear = 0
         tyresAge = 0 
         strategy['TyreAge'].append(tyresAge)
         strategy['TyreWear'].append(self.getTyreWear(compound, tyresAge))
@@ -472,7 +467,7 @@ class GeneticSolver:
         if childPitNum < 1:
             return self.randomChild()
         
-        #There should be at least 1 pitstop
+        ### There should be at least 1 pitstop
         if childPitNum == 1: 
             return child
         
@@ -489,6 +484,7 @@ class GeneticSolver:
 
         return self.correct_strategy(child, index)
     
+    # Mutation step for adding a pitstop
     def mutation_pitstop_add(self, child:dict):
         random_lap = random.randint(1, self.numLaps-1)
 
@@ -516,7 +512,8 @@ class GeneticSolver:
         child['TotalTime'] = sum(child['LapTime'])
         
         return child
-            
+    
+    # Total function for the mutation step
     def mutation(self,child:dict) -> list:
         childAllMutated = copy.deepcopy(child)
         children = []
@@ -540,6 +537,7 @@ class GeneticSolver:
         
         return children
 
+    # Crossover step on the fuel
     def crossover_fuel(self, p1:dict, p2:dict):
         fuelLoad_p1 = p1['FuelLoad'][0]
         fuelLoad_p2 = p2['FuelLoad'][0]
@@ -556,7 +554,7 @@ class GeneticSolver:
         
         return self.correct_strategy(p1), self.correct_strategy(p2)
         
-
+    # Total crossover step
     def crossover(self, p1:dict, p2:dict,):
         # children are copies of parents by default
         c1, c2 = copy.deepcopy(p1), copy.deepcopy(p2)
@@ -566,6 +564,7 @@ class GeneticSolver:
         
         return [c1,c2]
 
+    # Function to correct a strategy
     def correct_strategy(self, strategy:dict, index:int=0):
         initialFuelLoad = round(strategy['FuelLoad'][0],2)
         strategy['FuelLoad'][0] = initialFuelLoad
@@ -591,6 +590,7 @@ class GeneticSolver:
 
         for lap in range(1, self.numLaps):
             weather = strategy['Weather'][:lap+1]
+
             ### FuelLoad keeps the same, it just needs to be corrected if changed
             fuelLoad = self.getFuelLoad(initial_fuel=initialFuelLoad, conditions=weather)
             strategy['FuelLoad'][lap] = fuelLoad
@@ -618,10 +618,10 @@ class GeneticSolver:
 
         strategy['NumPitStop'] = pitStopCounter
         strategy['TotalTime'] = sum(strategy['LapTime'])
-        #self.checkValidity(strategy)
 
         return strategy
 
+    # Function to fill the population of individuals
     def fillRemainings(self, lap:int, strategy:dict):
         compound = strategy['TyreCompound'][lap-1]
         for _ in range(lap, self.numLaps):
@@ -634,6 +634,11 @@ class GeneticSolver:
 
         return strategy
 
+
+    """
+    Bruteforce algorithm
+    """
+    # Function to build the tree of the bruteforce algorithm
     def build_tree(self, temp_tree:list, tyres_age:int, lap:int):
         global BEST_TIME
         global STRATEGY
@@ -747,6 +752,7 @@ class GeneticSolver:
 
         return {'Strategy':copy.deepcopy(values[best_strategy]['Strategy']), 'TotalTime':values[best_strategy]['TotalTime']}
 
+    # Function to get the result of the bruteforce algorithm
     def lower_bound(self,):
         ### Build the solution space as a tree
         temp_tree = []
@@ -767,8 +773,6 @@ class GeneticSolver:
             temp_tree.pop()
             soft_timer = ms_to_time(round(1000*(time.time() - soft_timer)))
             print(f"\033[A\033[K[BruteForce] {compound} computed in {soft_timer}")
-
-            #return values[1]['Strategy'], values[1]['TotalTime']
 
             ### Medium
             medium_timer = time.time()
@@ -802,6 +806,7 @@ class GeneticSolver:
             print(f"\033[A\033[K[BruteForce] {compound} computed in {inter_timer}")
         elif w > 80:
             values = {1:None}
+
             ### Wet
             wet_timer = time.time()
             compound = 'Wet'
@@ -866,41 +871,7 @@ class GeneticSolver:
             print(f"Lap {lap+1} -> Compound '{strategy['Compound']}', TyresAge {strategy['TyreAge']}, Wear '{round(strategy['TyreWear']['FL']*100,1)}'% | '{round(strategy['TyreWear']['FR']*100,1)}'% | '{round(strategy['TyreWear']['RL']*100,1)}'% | '{round(strategy['TyreWear']['RR']*100,1)}'%, Fuel '{round(strategy['FuelLoad'],2)}' Kg, PitStop '{'Yes' if strategy['PitStop'] else 'No'}', Time '{ms_to_time(strategy['LapTime'])}' ms")
         print(f"Computed in time {ms_to_time(round(1000*(time.time()-timer_start)))}")
         print(f"Total time {ms_to_time(best_laptime)}")
+
         ### Find the best solution
         return best_strategy, best_laptime
-
-    def fixed_strategy(self, compund_list:list, stop_lap:list=[]):
-        if len(stop_lap) != len(compund_list)-1:
-            print(f"Either the compound list or the pit stop list are wrong!")
-            exit(-1)
-        stop_lap.append(self.numLaps)
-        strategy = []
-        weather = self.weather.get_weather_percentage_list()
-        start_fuel = self.getInitialFuelLoad(weather)
-        idx_stop = 0
-        idx_tyre = 0
-        tyre_lap = 0
-        for lap in range(self.numLaps):
-            if lap != 0:
-                fuel_load = self.getFuelLoad(start_fuel,weather[:lap+1])
-            else:
-                fuel_load = start_fuel
-
-            if lap < stop_lap[idx_stop]:
-                strategy.append({'Compound':compund_list[idx_tyre], 'TyresWear': self.getTyreWear(compund_list[idx_tyre], tyre_lap), 'TyresAge':tyre_lap, 'FuelLoad':fuel_load, 'PitStop':False, 'LapTime': self.getLapTime(compound=compund_list[idx_tyre], compoundAge=tyre_lap, lap=lap, fuel_load=fuel_load, conditions=weather[:lap+1] if lap > 0 else [weather[0]], drs=False, pitStop=False)})
-            elif lap == stop_lap[idx_stop]:
-                idx_tyre += 1
-                strategy.append({'Compound':compund_list[idx_tyre], 'TyresWear': self.getTyreWear(compund_list[idx_tyre], 0), 'TyresAge':0, 'FuelLoad':fuel_load, 'PitStop':False, 'LapTime': self.getLapTime(compound=compund_list[idx_tyre], compoundAge=0, lap=lap, fuel_load=fuel_load, conditions=weather[:lap+1] if lap > 0 else [weather[0]], drs=False, pitStop=True)})
-                idx_stop += 1
-                tyre_lap = 0
-
-            tyre_lap += 1
-            
-        total = 0
-        for lap, strategy in enumerate(strategy):
-            print(f"Lap {lap+1}/{self.numLaps} - Rain {weather[lap]} -> Compound: '{strategy['Compound']}', TyresAge: {strategy['TyresAge']} Laps, TyresWear: {strategy['TyresWear']}, FuelLoad: {strategy['FuelLoad']} Kg, PitStop: {'Yes' if strategy['PitStop'] else 'No'}, LapTime: {ms_to_time(strategy['LapTime'])} (hh:)mm:ss.ms")
-            total += strategy['LapTime']
-
-        print(f"With a total time of {ms_to_time(total)} -> {total}")
-
-        return
+    
