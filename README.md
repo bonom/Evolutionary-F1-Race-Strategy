@@ -5,29 +5,21 @@
 <div align="center">
   <h1 align="center">Evolutionary F1 Race Strategy [GECCO 2023]</h1>
 
-  <p align="center">
-    Official implementation of GECCO 2023 paper "Evolutionary F1 Race Strategy", presented at the 8th Workshop on Industrial Applications of Metaheuristic (IAM 2023).
+  <h3 align="center">
+    Official implementation of GECCO 2023 paper "Evolutionary F1 Race Strategy", it will be presented at the 8th Workshop on Industrial Applications of Metaheuristic (IAM 2023).
+  </h3>
+
+  ---
+  <p align="center"> :fire: Follow the git to be notified when the paper will be available :fire:
   </p>
 </div>
 
 
+
 -----------------------------------------------------------------------------------------------------------------------
 # Introduction
-  >Formula 1 is a highly competitive and ever-evolving sport, with teams constantly searching for ways to gain an edge over the competition. In order to meet this challenge, we propose a custom Genetic Algorithm that can simulate a race strategy given data from free practices and compute an optimal strategy for a specific circuit. The algorithm takes into account a variety of factors that can affect race performance, including weather conditions as well as tire choice, pit-stops, fuel weight, and tire wear. By simulating and computing multiple race strategies, the algorithm provides valuable insights and can help make informed strategic decisions, in order to optimize the performance on the track. The algorithm has been evaluated on both a video-game simulation and with real data on tire consumption provided by the tire manufacturer Pirelli. With the help of the race strategy engineers from Pirelli, we have been able to prove the real applicability of the proposed algorithm.
+  Formula 1 is a highly competitive and ever-evolving sport, with teams constantly searching for ways to gain an edge over the competition. In order to meet this challenge, we propose a custom Genetic Algorithm that can simulate a race strategy given data from free practices and compute an optimal strategy for a specific circuit. The algorithm takes into account a variety of factors that can affect race performance, including weather conditions as well as tire choice, pit-stops, fuel weight, and tire wear. By simulating and computing multiple race strategies, the algorithm provides valuable insights and can help make informed strategic decisions, in order to optimize the performance on the track. The algorithm has been evaluated on both a video-game simulation and with real data on tire consumption provided by the tire manufacturer Pirelli. With the help of the race strategy engineers from Pirelli, we have been able to prove the real applicability of the proposed algorithm.
 
-
-<!-- # Evolutionary F1 Race Strategy [GECCO 2023]
-Official implementation of GECCO 2023 paper "Evolutionary F1 Race Strategy", presented at the 8th Workshop on Industrial Applications of Metaheuristic (IAM 2023). -->
-
-<!-- # Introduction
->Formula 1 is a highly competitive and ever-evolving sport, with teams constantly searching for ways to gain an edge over the competition. In order to meet this challenge, we propose a custom Genetic Algorithm that can simulate a race strategy given data from free practices and compute an optimal strategy for a specific circuit. The algorithm takes into account a variety of factors that can affect race performance, including weather conditions as well as tire choice, pit-stops, fuel weight, and tire wear. By simulating and computing multiple race strategies, the algorithm provides valuable insights and can help make informed strategic decisions, in order to optimize the performance on the track. The algorithm has been evaluated on both a video-game simulation and with real data on tire consumption provided by the tire manufacturer Pirelli. With the help of the race strategy engineers from Pirelli, we have been able to prove the real applicability of the proposed algorithm. -->
-
-:fire: For more information have a look at our [PAPER]()! :fire:
-
-Authors: 
-        [Andrea Bonomi](https://scholar.google.com/citations?user=gnlDPxUAAAAJ),
-        [Evelyn Turri](),
-        [Giovanni Iacca](https://scholar.google.it/citations?user=qSw6YfcAAAAJ&hl=en)
 
 -----------------------------------------------------------------------------------------------------------------------
 
@@ -111,6 +103,13 @@ Please cite the following paper if you use our code:
   year = {July 2023}
 }
 ``` -->
+-----------------------------------------------------------------------------------------------------------------------
+# Authors
+Authors: 
+        [Andrea Bonomi](https://scholar.google.com/citations?user=gnlDPxUAAAAJ),
+        [Evelyn Turri](),
+        [Giovanni Iacca](https://scholar.google.it/citations?user=qSw6YfcAAAAJ&hl=en)
+
 -----------------------------------------------------------------------------------------------------------------------
 # Acknowledgements
 We would like to thank Simone Berra and Fernando Osuna from Pirelli for providing us the real data and giving us feedback on the numerical results.
