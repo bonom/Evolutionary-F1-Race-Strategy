@@ -14,12 +14,26 @@
   </p>
 </div>
 
------------------------------------------------------------------------------------------------------------------------
+<!-- ----------------------------------------------------------------------------------------------------------------------- -->
+<div align="center">
+  <a href="https://scholar.google.com/citations?user=gnlDPxUAAAAJ">Andrea Bonomi</a>
+  •
+  <a href="https://www.w3schools.com/">Evelyn Turri</a>
+  •
+  <a href="https://scholar.google.it/citations?user=qSw6YfcAAAAJ&hl=en">Giovanni Iacca</a>
+</div>
+<!-- [Andrea Bonomi](#Introduction)
+•
+[Overview](#Overview)
+•
+[Project](#Project)
+•
+[Code](#Code)
 # Authors
 Authors: 
         [Andrea Bonomi](https://scholar.google.com/citations?user=gnlDPxUAAAAJ),
         [Evelyn Turri](),
-        [Giovanni Iacca](https://scholar.google.it/citations?user=qSw6YfcAAAAJ&hl=en)
+        [Giovanni Iacca](https://scholar.google.it/citations?user=qSw6YfcAAAAJ&hl=en) -->
 
 -----------------------------------------------------------------------------------------------------------------------
 # Introduction
