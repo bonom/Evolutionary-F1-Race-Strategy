@@ -14,7 +14,12 @@
   </p>
 </div>
 
-
+-----------------------------------------------------------------------------------------------------------------------
+# Authors
+Authors: 
+        [Andrea Bonomi](https://scholar.google.com/citations?user=gnlDPxUAAAAJ),
+        [Evelyn Turri](),
+        [Giovanni Iacca](https://scholar.google.it/citations?user=qSw6YfcAAAAJ&hl=en)
 
 -----------------------------------------------------------------------------------------------------------------------
 # Introduction
@@ -103,12 +108,6 @@ Please cite the following paper if you use our code:
   year = {July 2023}
 }
 ``` -->
------------------------------------------------------------------------------------------------------------------------
-# Authors
-Authors: 
-        [Andrea Bonomi](https://scholar.google.com/citations?user=gnlDPxUAAAAJ),
-        [Evelyn Turri](),
-        [Giovanni Iacca](https://scholar.google.it/citations?user=qSw6YfcAAAAJ&hl=en)
 
 -----------------------------------------------------------------------------------------------------------------------
 # Acknowledgements
