@@ -609,48 +609,6 @@ class GeneticSolver:
 
         child['TotalTime'] = sum(child['LapTime'])
         return child
-    
-
-    # Selection process
-    def selection(self,population):
-        sortedPopulation = sorted(population, key=lambda x: x['TotalTime'])
-        
-        selected = [x for x in sortedPopulation if x['Valid']]
-        
-        return selected
-    
-
-    # Function to fill the population of individuals
-    def fillRemainings(self, lap:int, strategy:dict):
-        compound = strategy['TyreCompound'][lap-1]
-        for _ in range(lap, self.numLaps):
-            strategy['TyreAge'].append(0)
-            strategy['TyreCompound'].append(compound)
-            strategy['TyreWear'].append({'FL':0, 'FR':0, 'RL':0, 'RR':0})
-            strategy['FuelLoad'].append(0)
-            strategy['PitStop'].append(True)
-            strategy['LapTime'].append(np.inf)
-
-        return strategy
-    
-
-    # Function to get the the bast LapTime
-    def getBestLapTime(self,):
-        return self.car.time_diff['Soft']
-
-
-    # Function to get the time lost given the compound 
-    def getWearTimeLose(self, compound:str, lap:int):
-        return self.car.predict_tyre_time_lose(compound, lap)
-        
-        
-    # Function to get the time lost given the fuel
-    def getFuelTimeLose(self, lap:int=0, fuel_load:float=0, initial_fuel:float=0, conditions:list=None):
-        conditions = [self.weather.get_weather_string(c) for c in conditions]
-        if fuel_load == 0:
-            fuel_load = self.getFuelLoad(lap, initial_fuel, conditions)
-        
-        return self.car.predict_fuel_time_lose(fuel_load)
 
 
     """
