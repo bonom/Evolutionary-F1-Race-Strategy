@@ -10,7 +10,7 @@
   </h3>
 
   ---
-  <p align="center"> :fire: <a href="https://dl.acm.org/doi/10.1145/3583133.3596349">Paper</a> :fire:
+  <p align="center"> :page_facing_up: <a href="https://dl.acm.org/doi/10.1145/3583133.3596349">Paper</a>
   </p>
 </div>
 
