@@ -6,11 +6,11 @@
   <h1 align="center">Evolutionary F1 Race Strategy [GECCO 2023]</h1>
 
   <h3 align="center">
-    Official implementation of GECCO 2023 paper "Evolutionary F1 Race Strategy", it will be presented at the 8th Workshop on Industrial Applications of Metaheuristic (IAM 2023).
+    Official implementation of GECCO 2023 paper "Evolutionary F1 Race Strategy", it has been presented at the 8th Workshop on Industrial Applications of Metaheuristic (IAM 2023).
   </h3>
 
   ---
-  <p align="center"> :fire: Follow the git to be notified when the paper will be available :fire:
+  <p align="center"> :fire: <a href="https://dl.acm.org/doi/10.1145/3583133.3596349">Paper</a> :fire:
   </p>
 </div>
 
