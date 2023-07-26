@@ -98,17 +98,28 @@ It is possible to use more than one flag, for example:
 ```bash
 python main.py --c Monza --pop 100 --mut 0.1 --cross 0.1 --i 100 --w Sunny.txt --d
 ```
-<!-- -----------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 # Citing our work
 Please cite the following paper if you use our code:
 ```latex
-@inproceedings{EAF1Strategy,
-  title = {Evolutionary F1 Race Strategy},
-  author = {Bonomi, Andrea and Turri, Evelyn and Iacca, Giovanni},
-  booktitle = {Genetic and Evolutionary Computation Conference Companion (GECCO ’23 Companion)},
-  year = {July 2023}
+@inproceedings{10.1145/3583133.3596349,
+author = {Bonomi, Andrea and Turri, Evelyn and Iacca, Giovanni},
+title = {Evolutionary F1 Race Strategy},
+year = {2023},
+isbn = {9798400701207},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3583133.3596349},
+doi = {10.1145/3583133.3596349},
+abstract = {Formula 1 is a highly competitive and ever-evolving sport, with teams constantly searching for ways to gain an edge over the competition. In order to meet this challenge, we propose a custom Genetic Algorithm that can simulate a race strategy given data from free practices and compute an optimal strategy for a specific circuit. The algorithm takes into account a variety of factors that can affect race performance, including weather conditions as well as tire choice, pit-stops, fuel weight, and tire wear. By simulating and computing multiple race strategies, the algorithm provides valuable insights and can help make informed strategic decisions, in order to optimize the performance on the track. The algorithm has been evaluated on both a video-game simulation and with real data on tire consumption provided by the tire manufacturer Pirelli. With the help of the race strategy engineers from Pirelli, we have been able to prove the real applicability of the proposed algorithm.},
+booktitle = {Proceedings of the Companion Conference on Genetic and Evolutionary Computation},
+pages = {1925–1932},
+numpages = {8},
+keywords = {race strategy, evolutionary computation, formula 1},
+location = {Lisbon, Portugal},
+series = {GECCO '23 Companion}
 }
-``` -->
+```
 
 -----------------------------------------------------------------------------------------------------------------------
 # Acknowledgements
