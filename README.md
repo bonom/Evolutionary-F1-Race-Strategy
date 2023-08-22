@@ -17,7 +17,7 @@
 <div align="center">
   <a href="https://scholar.google.com/citations?user=gnlDPxUAAAAJ">Andrea Bonomi</a>
   •
-  <a href="https://www.w3schools.com/">Evelyn Turri</a>
+  <a href="https://scholar.google.com/citations?user=JKw6RqwAAAAJ&hl=it">Evelyn Turri</a>
   •
   <a href="https://scholar.google.it/citations?user=qSw6YfcAAAAJ&hl=en">Giovanni Iacca</a>
 </div>
